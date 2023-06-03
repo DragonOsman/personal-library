@@ -21,6 +21,7 @@
     ],
     "space-before-function-paren": "off",
     "yoda": "error",
-    "semi": "error"
+    "semi": "error",
+    "no-var": "error"
   }
 }
