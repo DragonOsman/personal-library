@@ -6,10 +6,13 @@ const cors = require("cors");
 connectDB();
 
 const books = require("./routes/api/books");
+const users = require("./routes/users");
 
 app.use(cors({ origin: true, credentials: true }));
 
 app.use(express.json({ extended: false }));
+
+app.use("/users/", users);
 
 app.use("/api/books", books);
 
