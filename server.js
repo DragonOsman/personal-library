@@ -1,5 +1,6 @@
 const express = require("express");
 const connectDB = require("./config/db");
+const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
 
@@ -10,7 +11,8 @@ const users = require("./routes/users");
 
 app.use(cors({ origin: true, credentials: true }));
 
-app.use(express.json({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use("/users/", users);
 
