@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { BookSchema } = require("./Book");
+const bcrypt = require("bcrypt");
 
 const Schema = mongoose.Schema;
 
@@ -21,8 +22,8 @@ const AccountSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
-    default: "dummy"
+    required: false,
+    default: "dUmMy-p@$$word123"
   }
 });
 
@@ -47,11 +48,21 @@ const UserSchema = new Schema({
     required: true,
     default: []
   },
-  accounts: {
-    type: [AccountSchema],
+  account: {
+    type: AccountSchema,
     required: true
   }
 });
+
+let salt;
+(async () => {
+  try {
+    salt = await bcrypt.genSalt(10);
+    AccountSchema.password = await bcrypt.hash(AccountSchema.password, salt);
+  } catch (err) {
+    console.log(err);
+  }
+})();
 
 const User = mongoose.model("User", UserSchema);
 
