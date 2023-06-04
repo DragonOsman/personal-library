@@ -13,5 +13,28 @@
   },
   "devDependencies": {
     "eslint": "^8.42.0"
-  }
+  },
+  "scripts": {
+    "start": "node server.js",
+    "nodemon": "nodemon server.js"
+  },
+  "name": "personal-library-app",
+  "description": "This is a MERN stack app that implements an app where users can login and manage a list of books they have read.",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DragonOsman/personal-library.git"
+  },
+  "keywords": [
+    "mern",
+    "mern-app",
+    "library"
+  ],
+  "author": "Osman Zakir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DragonOsman/personal-library/issues"
+  },
+  "homepage": "https://github.com/DragonOsman/personal-library#readme"
 }
