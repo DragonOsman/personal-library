@@ -7,7 +7,7 @@ const cors = require("cors");
 connectDB();
 
 const books = require("./routes/api/books");
-const users = require("./routes/users");
+const users = require("./routes/api/users");
 
 app.use(cors({ origin: true, credentials: true }));
 
