@@ -58,7 +58,7 @@ userRouter.post("/register", async (req, res) => {
     );
   } catch (err) {
     console.log(err.message);
-    res.status(500).send("Line 60: Server error");
+    res.status(500).send("Server error");
   }
 });
 
