@@ -6,7 +6,8 @@ const connectDB = async () => {
   mongoose.set("strictQuery", true);
   try {
     const db = await mongoose.connect(dbURI);
-    db.connection.on("connected", () => console.log("connected to database"))
+    console.log("connected to database");
+     db.connection
      .on("error", () => console.log("error occurred while trying to connect to database"))
      .on("disconnected", () => console.log("disconnected from database!"))
     ;
