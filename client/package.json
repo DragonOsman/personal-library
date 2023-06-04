@@ -29,7 +29,24 @@
       "react-app/jest"
     ],
     "plugins": ["html"],
-    "proxy": "http://localhost:5000/"
+    "proxy": "http://localhost:5000/",
+    "rules": {
+      "quotes": [
+        "error",
+        "double",
+        {
+          "allowTemplateLiterals": true
+        }
+      ],
+      "eqeqeq": "error",
+      "yoda": "error",
+      "prefer-const": "error",
+      "space-before-function-paren": "off",
+      "no-var": "error",
+      "semi": "error",
+      "no-undef": "warn",
+      "no-unused-vars": "warn"
+    }
   },
   "browserslist": {
     "production": [
