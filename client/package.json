@@ -10,6 +10,7 @@
     "@types/node": "^16.18.34",
     "@types/react": "^18.2.8",
     "@types/react-dom": "^18.2.4",
+    "eslint-plugin-html": "^7.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -26,7 +27,9 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "plugins": ["html"],
+    "proxy": "http://localhost:5000/"
   },
   "browserslist": {
     "production": [
