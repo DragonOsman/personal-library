@@ -4,29 +4,6 @@ const bcrypt = require("bcrypt");
 
 const Schema = mongoose.Schema;
 
-const AccountSchema = new Schema({
-  kind: {
-    type: String,
-    required: true,
-    default: "internal"
-  },
-  uid: {
-    type: String,
-    required: false,
-    default: ""
-  },
-  username: {
-    type: String,
-    required: false,
-    default: ""
-  },
-  password: {
-    type: String,
-    required: false,
-    default: "dUmMy-p@$$word123"
-  }
-});
-
 const UserSchema = new Schema({
   firstname: {
     type: String,
@@ -43,26 +20,27 @@ const UserSchema = new Schema({
     required: true,
     default: ""
   },
+  password: {
+    type: String,
+    required: true,
+    default: "dUmMy-p@$$wOrD123"
+  },
+  kind: {
+    type: String,
+    required: true,
+    default: "internal"
+  },
   books: {
     type: [BookSchema],
     required: true,
     default: []
   },
-  account: {
-    type: AccountSchema,
-    required: true
-  }
 });
 
-let salt;
-(async () => {
-  try {
-    salt = await bcrypt.genSalt(10);
-    AccountSchema.password = await bcrypt.hash(AccountSchema.password, salt);
-  } catch (err) {
-    console.log(err);
-  }
-})();
+UserSchema.pre("save", async () => {
+  const salt = await bcrypt.genSalt(12);
+  this.password = await bcrypt.hash(this.password, salt);
+});
 
 const User = mongoose.model("User", UserSchema);
 
