@@ -1,15 +1,17 @@
 const mongoose = require("mongoose");
 const config = require("config");
-const db = config.get("mongoURI");
+const dbURI = config.get("mongoURI");
 
 const connectDB = async () => {
+  mongoose.set("strictQuery", true);
   try {
-    mongoose.set("strictQuery", true);
-    await mongoose.connect(db);
-
-    console.log("MongoDB is connected...");
+    const db = await mongoose.connect(dbURI);
+    db.connection.on("connected", () => console.log("connected to database"))
+     .on("error", () => console.log("error occurred while trying to connect to database"))
+     .on("disconnected", () => console.log("disconnected from database!"))
+    ;
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
     process.exit(1);
   }
 };
