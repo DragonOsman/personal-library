@@ -29,7 +29,7 @@
       "react-app/jest"
     ],
     "plugins": ["html"],
-    "proxy": ["http://localhost:5000/", "http://localhot:5000/api"],
+    "proxy": "http://localhost:5000/",
     "rules": {
       "quotes": [
         "error",
