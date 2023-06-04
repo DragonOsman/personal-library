@@ -9,7 +9,11 @@ connectDB();
 const books = require("./routes/api/books");
 const users = require("./routes/api/users");
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({
+  origin: true,
+  methods: ["GET", "PUT", "POST", "DELETE"],
+  credentials: true }
+));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
