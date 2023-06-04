@@ -10,7 +10,7 @@ const books = require("./routes/api/books");
 const users = require("./routes/api/users");
 
 app.use(cors({
-  origin: true,
+  origin: ["http://localhost:5000/", "http://localhost:3000/"],
   methods: ["GET", "PUT", "POST", "DELETE"],
   credentials: true }
 ));
