@@ -3,9 +3,11 @@ const connectDB = require("./config/db");
 const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
-const cookieParser = require("cookie-parser");
 
 connectDB();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 const books = require("./routes/api/books");
 const users = require("./routes/api/users");
@@ -15,11 +17,6 @@ app.use(cors({
   methods: ["GET", "PUT", "POST", "DELETE"],
   credentials: true }
 ));
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.use(cookieParser());
 
 app.use("/api/users/", users);
 
