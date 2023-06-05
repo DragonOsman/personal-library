@@ -21,6 +21,8 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-, "context", "hook"  ]
+    "src",
+    "src/context",
+    "src/hook"
+  ]
 }
