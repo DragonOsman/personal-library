@@ -91,7 +91,6 @@ userRouter.post("/login", async (req, res) => {
       jwt.sign(
         payload,
         jwtSecret,
-        { ExpiresIn: 3 * 24 * 60 * 60 },
         (err, token) => {
           if (err) {
             throw err;
