@@ -75,9 +75,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   useEffect(() => {
-    if (!state.user) {
-      getUserInfo();
-    }
+    const getInfo = async () => {
+      if (!state.user) {
+        await getUserInfo();
+      }
+    };
+    getInfo();
   }, [state]);
 
   const logIn = async (email:string, password:string) => {
