@@ -35,8 +35,14 @@ userRouter.post("/register", async (req, res) => {
       kind: "internal"
     });
 
-    const salt = await bcrypt.genSalt(12);
-    user.password = await bcrypt.hash(password, salt);
+    await bcrypt.genSalt(12, function (err, salt) {
+      bcrypt.hash(password, salt, function (err, hash) {
+        if (err) {
+          console.error(err);
+        }
+        user.password = hash;
+      });
+    });
     await user.save();
 
     const payload = {
