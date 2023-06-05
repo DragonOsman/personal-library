@@ -1,6 +1,5 @@
-import React, { createContext, useEffect, useReducer, ReactNode } from "react";
+import { createContext, useEffect, useReducer, ReactNode } from "react";
 import axios from "axios";
-import { get } from "http";
 
 type StateType = {
   isAuthenticated: boolean,
