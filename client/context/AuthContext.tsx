@@ -4,19 +4,10 @@ import { get } from "http";
 
 type StateType = {
   isAuthenticated: boolean,
-  user: {
-    _id: string,
-    id: string,
-    firstname: string,
-    lastname: string,
-    email: string,
-    password: string,
-    kind: string,
-    books: []
-  } | null
+  user: {} | null
 };
 
-const initialState = {
+const initialState: StateType = {
   isAuthenticated: false,
   user: null
 };
@@ -24,9 +15,7 @@ const initialState = {
 interface AuthAction {
   type: string,
   payload: {
-    user: {
-      id: string
-    } | null
+    user: {} | null
   }
 };
 
@@ -51,9 +40,9 @@ const authReducer = (state: StateType, { type, payload }: AuthAction): StateType
 
 const AuthContext = createContext({
   ...initialState,
-  logIn: () => Promise.resolve(),
-  register: () => Promise.resolve(),
-  logOut: () => Promise.resolve()
+  logIn: (email:string, password:string) => Promise.resolve(),
+  register: (firstname:string, lastname:string, email:string, password:string) => Promise.resolve(),
+  logOut: (firstname:string, lastname:string, email:string, password:string) => Promise.resolve()
 });
 
 interface AuthProviderProps {
@@ -126,7 +115,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       localStorage.removeItem("token");
       dispatch({
-        type: "LOGOUT"
+        type: "LOGOUT",
+        payload: {
+          user: null
+        }
       });
     } catch (err) {
       console.error(err);
@@ -139,3 +131,5 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext;
