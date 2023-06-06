@@ -1,13 +1,13 @@
 const express = require("express");
-const connectDB = require("./config/db");
 const bodyParser = require("body-parser");
 const app = express();
+const connectDB = require("./config/db");
 const cors = require("cors");
-
-connectDB();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+connectDB();
 
 const books = require("./routes/api/books");
 const users = require("./routes/api/users");
