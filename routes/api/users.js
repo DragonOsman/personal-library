@@ -54,7 +54,40 @@ userRouter.post("/login", async (req, res) => {
     return res.status(400).json(errors);
   }
 
+  const email = req.body.email;
+  const password = req.body.password;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(404).json({ error: "Email not found" });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) {
+      const payload = {
+        id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname
+      };
 
+      jwt.sign(
+        payload,
+        keys.secretOrKey,
+        {
+          expiresIn: 31556926
+        },
+        (err, token) => {
+          res.json({
+            success: true,
+            token: `Bearer ${token}`
+          });
+        }
+      );
+    } else {
+      return res.status(400).json({ error: "Incorrect password" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 module.exports = userRouter;
