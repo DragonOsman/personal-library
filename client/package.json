@@ -35,7 +35,9 @@
     "plugins": [
       "html"
     ],
-    "proxy": "http://localhost:5000/",
+    "options": {
+      "proxy": "http://localhost:5000/"
+    },
     "rules": {
       "quotes": [
         "error",
