@@ -19,8 +19,11 @@
     "eslint": "^8.42.0"
   },
   "scripts": {
+    "client-install": "npm install --prefix client",
     "start": "node server.js",
-    "nodemon": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "name": "personal-library-app",
   "description": "This is a MERN stack app that implements an app where users can login and manage a list of books they have read.",
