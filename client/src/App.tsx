@@ -3,9 +3,7 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
-      <App />
-    </Router>
+    <h1>Hello</h1>
   );
 }
 
