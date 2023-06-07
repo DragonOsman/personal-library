@@ -1,9 +1,8 @@
 const express = require("express");
 const bookRouter = express.Router();
 const { Book } = require("../../models/Book");
-const auth = require("../../middleware/auth");
 
-bookRouter.post("/add-book", auth, async (req, res) => {
+bookRouter.post("/add-book", async (req, res) => {
   try {
     await Book.create(req.body);
     res.json({ message: "book added successfully" });
@@ -12,7 +11,7 @@ bookRouter.post("/add-book", auth, async (req, res) => {
   }
 });
 
-bookRouter.get("/list-books", auth, async (req, res) => {
+bookRouter.get("/list-books", async (req, res) => {
   try {
     const books = await Book.find();
     res.json(books);
@@ -21,7 +20,7 @@ bookRouter.get("/list-books", auth, async (req, res) => {
   }
 });
 
-bookRouter.get("/show-book/:id", auth, async (req, res) => {
+bookRouter.get("/show-book/:id", async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     res.json(book);
@@ -30,7 +29,7 @@ bookRouter.get("/show-book/:id", auth, async (req, res) => {
   }
 });
 
-bookRouter.put("/update-book/:id", auth, async (req, res) => {
+bookRouter.put("/update-book/:id", async (req, res) => {
   try {
     await Book.findByIdAndUpdate(req.params.id, req.body);
     res.json({ message: "Book updated successfully" });
@@ -39,7 +38,7 @@ bookRouter.put("/update-book/:id", auth, async (req, res) => {
   }
 });
 
-bookRouter.delete("/:id", auth, async (req, res) => {
+bookRouter.delete("/:id", async (req, res) => {
   try {
     await Book.findByIdAndRemove(req.params.id, req.body);
     res.json({ message: "Book entry deleted successfully" });
