@@ -3,111 +3,58 @@ const userRouter = express.Router();
 const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const config = require("config");
-const jwtSecret = config.get("jwtSecret");
-const { body } = require("express-validator");
-const auth = require("../../middleware/auth");
+const keys = require("../../config/keys");
+const validateLoginInput = require("../../user-validation/login");
+const validateRegisterInput = require("../../user-validation/register");
 
+// @route POST api/users/register
+// @desc Register user
+// @access Public
 userRouter.post("/register", async (req, res) => {
-  const { firstname, lastname, email, password, password2 } = req.body;
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   let user;
-
   try {
-    user = await User.findOne({ email });
+    user = await User.findOne({ email: req.body.email });
     if (user) {
-      res.status(400).json({ msg: "User already exists" });
-    }
-
-    if (!body("email").isEmail({ email: email })) {
-      res.status(400).json({ msg: "Email is invalid" });
-    }
-
-    if (!body("password").equals(password, password2)) {
-      res.status(400).json({ msg: "Passwords must match" });
-    }
-
-    user = new User({
-      firstname,
-      lastname,
-      email,
-      password,
-      books: [],
-      kind: "internal"
-    });
-
-    const salt = await bcrypt.genSalt(12);
-    user.password = await bcrypt.hash(password, salt);
-    await user.save();
-
-    const payload = {
-      user: {
-        id: user.id
-      }
-    };
-
-    jwt.sign(
-      payload,
-      jwtSecret,
-      { expiresIn: 3 * 24 * 60 * 60 },
-      (err, token) => {
-        if (err) {
-          throw err;
-        }
-        res.json({ token });
-      }
-    );
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server error");
-  }
-});
-
-userRouter.post("/login", async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      res.status(400).json({ msg: "Email doesn't exist in database" });
-    }
-
-    if (user.kind === "internal") {
-      const password = req.body.password;
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return res.status(400).json({ msg: "Incorrect password" });
-      }
-
-      const payload = {
-        user: {
-          id: user.id
-        }
-      };
-
-      jwt.sign(
-        payload,
-        jwtSecret,
-        (err, token) => {
-          if (err) {
-            throw err;
-          }
-          res.json({ token });
-        }
-      );
+      return res.status(400).json("A user by that email already exists");
     } else {
-      res.json({ msg: "Log in with third-party auth provider" });
+      const newUser = new User({
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        password: req.body.password
+      });
+
+      // The user registered for an account, so it's an 'internal' user
+      newUser.kind = "internal";
+
+      const salt = await bcrypt.genSalt(12);
+      const hash = await bcrypt.hash(newUser.password, salt);
+      newUser.password = hash;
+      user = await newUser.save();
+      res.json(user);
     }
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ msg: "Server error" });
+  } catch (error) {
+    console.log(`Error trying to register user: ${error}`);
   }
 });
 
-userRouter.get("/info", auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select("-password");
-    res.status(200).json({ user });
-  } catch (err) {
-    res.status(500).json(err);
+// @route POST api/users/login
+// @desc Login user and return JWT token
+// @access Public
+userRouter.post("/login", async (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
   }
+
+
 });
 
 module.exports = userRouter;
