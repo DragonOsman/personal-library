@@ -1,5 +1,5 @@
 header {
-  background-color: #37383c;
+  background-color: #1f1f21;
   width: 100%;
   position: fixed;
   top: 0;
@@ -11,7 +11,7 @@ header .logo {
 }
 
 nav {
-  background-color: #37383c;
+  background-color: #1f1f21;
   height: 100%;
   width: 100%;
 }
@@ -28,4 +28,5 @@ nav {
   font-size: 1.6rem;
   cursor: pointer;
   margin-top: 18px;
+  margin-right: 5px;
 }
