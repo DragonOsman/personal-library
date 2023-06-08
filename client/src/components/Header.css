@@ -30,3 +30,8 @@ nav {
   margin-top: 10px;
   margin-right: 5px;
 }
+
+.navbar-list-item:hover {
+  text-decoration: underline;
+  color: #287098;
+}

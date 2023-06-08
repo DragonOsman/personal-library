@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <header>
-      <nav className="navbar navbar-dark navbar-brand">
+      <nav className="navbar navbar-brand">
         <img
           src={logo}
           alt="dragon logo"
