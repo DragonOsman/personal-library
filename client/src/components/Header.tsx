@@ -1,3 +1,4 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../public/images/logo.png";
 
 const Header = () => {
