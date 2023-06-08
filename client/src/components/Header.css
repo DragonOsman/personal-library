@@ -1,9 +1,6 @@
 header {
   background-color: #37383c;
-  display: flex;
   width: 100%;
-  align-items: center;
-  justify-content: flex-end;
   position: fixed;
   top: 0;
   left: 0;
