@@ -1,12 +1,14 @@
 header {
   background-color: #1f1f21;
   width: 100%;
+  height: 60px;
   position: fixed;
   top: 0;
   left: 0;
 }
 
 header .logo {
+  margin-top: -9px;
   margin-left: 7px;
 }
 
@@ -26,8 +28,7 @@ nav {
 .navbar-list-item {
   color: #dcdcdc;
   font-size: 1.6rem;
-  cursor: pointer;
-  margin-top: 10px;
+  margin-top: -2px;
   margin-right: 5px;
 }
 

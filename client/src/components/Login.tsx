@@ -10,7 +10,6 @@ const Login = () => {
       <form>
         <fieldset className="mb-3 col-10 col-sm-8 col-md-5 mx-auto mt-5">
           <legend>Email</legend>
-          <label htmlFor="email">Email Address</label>
           <input
             type="email"
             name="email"
@@ -20,7 +19,6 @@ const Login = () => {
         </fieldset>
         <fieldset className="mb-3 col-10 col-sm-8 col-md-5 mx-auto mt-5">
           <legend>Password</legend>
-          <label htmlFor="password">Password</label>
           <input
             type="password"
             name="passord"

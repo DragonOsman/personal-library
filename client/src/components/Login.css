@@ -1,3 +1,17 @@
 .login-form-container {
-  margin: 0 100px;
+  margin-top: 5rem;
+  background-color: #fff;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 50px;
+}
+
+.register-cta, .password-forgot {
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.register:hover {
+  text-decoration: none;
 }
