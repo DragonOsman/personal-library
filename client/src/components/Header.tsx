@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../public/images/logo.png";
+import logo from "../logo.png";
 
 const Header = () => {
   return (
