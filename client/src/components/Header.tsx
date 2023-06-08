@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Header.css";
 import logo from "../logo.png";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -12,7 +13,9 @@ const Header = () => {
           className="logo"
         />
         <ul className="navbar-list">
-          <li className="navbar-list-item">Register/Login</li>
+          <Link to="/login" className="navbar-list-item">
+            <li className="navbar-list-item">Register/Login</li>
+          </Link>
         </ul>
       </nav>
     </header>
