@@ -1,4 +1,29 @@
 header {
   background-color: #37383c;
   filter: brightness(35%);
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+nav {
+  height: 100%;
+  margin-right: 3rem;
+}
+
+.navbar-list {
+  list-style: none;
+  position: relative;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.navbar-list-item {
+  color: #dcdcdc;
+  font-size: 1.6rem;
+  cursor: pointer;
 }
