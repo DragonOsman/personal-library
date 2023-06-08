@@ -9,7 +9,7 @@ const Header = () => {
         <img
           src={logo}
           alt="dragon logo"
-          className="logo float-left"
+          className="logo"
         />
         <ul className="navbar-list">
           <li className="navbar-list-item">Register/Login</li>

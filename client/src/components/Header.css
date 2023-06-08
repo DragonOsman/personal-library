@@ -10,10 +10,6 @@ header .logo {
   margin-left: 7px;
 }
 
-header .logo::after {
-  clear: both;
-}
-
 nav {
   background-color: #37383c;
   height: 100%;
