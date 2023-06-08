@@ -32,6 +32,5 @@ nav {
 }
 
 .navbar-list-item:hover {
-  text-decoration: underline;
   color: #287098;
 }
