@@ -48,12 +48,9 @@ const Register = () => {
           <legend>First Name</legend>
           <input
             type="text"
-            name="firstName"
             id="firstName"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.firstName}
             required
+            {...formik.getFieldProps("firstName")}
           />
           {formik.touched.firstName && formik.errors.firstName ? (
             <small className="form-text text-danger">
@@ -65,12 +62,9 @@ const Register = () => {
         <legend>Last Name</legend>
           <input
             type="text"
-            name="lastName"
             id="lastName"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.lastName}
             required
+            {...formik.getFieldProps("lastName")}
           />
           {formik.touched.lastName && formik.errors.lastName ? (
             <small className="form-text text-danger">
@@ -82,12 +76,9 @@ const Register = () => {
         <legend>Email</legend>
           <input
             type="email"
-            name="email"
             id="email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
             required
+            {...formik.getFieldProps("email")}
           />
           {formik.touched.email && formik.errors.email ? (
             <small className="form-text text-danger">
@@ -99,12 +90,9 @@ const Register = () => {
         <legend>Password</legend>
           <input
             type="password"
-            name="password"
             id="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
             required
+            {...formik.getFieldProps("password")}
           />
           {formik.touched.password && formik.errors.password ? (
             <small className="form-text text-danger">
@@ -116,12 +104,9 @@ const Register = () => {
         <legend>Confirm Password</legend>
           <input
             type="password"
-            name="confirm-password"
             id="confirm-password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.confirmPassword}
             required
+            {...formik.getFieldProps("confirm-password")}
           />
           {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
             <small className="form-text text-danger">
