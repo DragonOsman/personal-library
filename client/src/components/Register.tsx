@@ -51,10 +51,11 @@ const Register = () => {
             name="firstName"
             id="firstName"
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             value={formik.values.firstName}
             required
           />
-          {formik.errors.firstName ? (
+          {formik.touched.firstName && formik.errors.firstName ? (
             <small className="form-text text-danger">
               {formik.errors.firstName}
             </small>
@@ -67,10 +68,11 @@ const Register = () => {
             name="lastName"
             id="lastName"
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             value={formik.values.lastName}
             required
           />
-          {formik.errors.lastName ? (
+          {formik.touched.lastName && formik.errors.lastName ? (
             <small className="form-text text-danger">
               {formik.errors.lastName}
             </small>
@@ -83,10 +85,11 @@ const Register = () => {
             name="email"
             id="email"
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             value={formik.values.email}
             required
           />
-          {formik.errors.email ? (
+          {formik.touched.email && formik.errors.email ? (
             <small className="form-text text-danger">
               {formik.errors.email}
             </small>
@@ -99,10 +102,11 @@ const Register = () => {
             name="password"
             id="password"
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             value={formik.values.password}
             required
           />
-          {formik.errors.password ? (
+          {formik.touched.password && formik.errors.password ? (
             <small className="form-text text-danger">
               {formik.errors.password}
             </small>
@@ -115,10 +119,11 @@ const Register = () => {
             name="confirm-password"
             id="confirm-password"
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             value={formik.values.confirmPassword}
             required
           />
-          {formik.errors.confirmPassword ? (
+          {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
             <small className="form-text text-danger">
               {formik.errors.confirmPassword}
             </small>
