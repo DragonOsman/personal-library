@@ -16,8 +16,12 @@ body {
 
 .login-form-container, .register-form-container {
   padding: 10px 0;
-  width: 50%;
+  width: 70%;
   margin: 0 auto;
   background-color: #fff;
   margin-top: 5rem;
+}
+
+input {
+  width: 100%;
 }
