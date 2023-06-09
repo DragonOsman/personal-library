@@ -14,7 +14,6 @@ const Login = () => {
             type="email"
             name="email"
             id="email"
-            className="form-control form-control-lg"
             required
           />
         </fieldset>
@@ -24,7 +23,6 @@ const Login = () => {
             type="password"
             name="passord"
             id="password"
-            className="form-control form-control-lg"
             required
           />
         </fieldset>

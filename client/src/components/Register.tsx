@@ -1,5 +1,3 @@
-import "./Register.css";
-
 const Register = () => {
   return (
     <div className="register-form-container">
@@ -14,7 +12,6 @@ const Register = () => {
             type="text"
             name="firstName"
             id="firstName"
-            className="form-control form-control-lg"
             required
           />
         </fieldset>
@@ -24,7 +21,6 @@ const Register = () => {
             type="text"
             name="lastName"
             id="lastName"
-            className="form-control form-control-lg"
             required
           />
         </fieldset>
@@ -34,7 +30,6 @@ const Register = () => {
             type="email"
             name="email"
             id="email"
-            className="form-control form-control-lg"
             required
           />
         </fieldset>
@@ -44,7 +39,6 @@ const Register = () => {
             type="password"
             name="password"
             id="password"
-            className="form-control form-control-lg"
             required
           />
         </fieldset>
@@ -54,7 +48,6 @@ const Register = () => {
             type="password"
             name="confirm-password"
             id="confirm-password"
-            className="form-control form-control-lg"
             required
           />
         </fieldset>

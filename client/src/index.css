@@ -13,3 +13,11 @@ body {
   margin-top: 60px;
   background-color: #287098;
 }
+
+.login-form-container, .register-form-container {
+  padding: 10px 0;
+  width: 50%;
+  margin: 0 auto;
+  background-color: #fff;
+  margin-top: 5rem;
+}
