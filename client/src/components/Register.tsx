@@ -11,7 +11,7 @@ const Register = () => {
       password: "",
       confirmPassword: ""
     },
-    onSubmit: async (values) => {
+    onSubmit: async values => {
       console.log(values);
 
 
