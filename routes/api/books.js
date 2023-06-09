@@ -38,7 +38,7 @@ bookRouter.put("/update-book/:id", async (req, res) => {
   }
 });
 
-bookRouter.delete("/:id", async (req, res) => {
+bookRouter.delete("/delete-book/:id", async (req, res) => {
   try {
     await Book.findByIdAndRemove(req.params.id, req.body);
     res.json({ message: "Book entry deleted successfully" });
