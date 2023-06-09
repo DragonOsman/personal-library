@@ -33,6 +33,7 @@ const Register = () => {
         .test("passwords-match", "Passwords must match", function(value: string | undefined): boolean {
           return this.parent.password === value;
         })
+        .required("Please retype the password")
     })
   });
 
