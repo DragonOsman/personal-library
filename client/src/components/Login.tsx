@@ -15,6 +15,7 @@ const Login = () => {
             name="email"
             id="email"
             className="form-control form-control-lg"
+            required
           />
         </fieldset>
         <fieldset className="mb-3 col-10 col-sm-8 col-md-5 mx-auto mt-5">
@@ -24,6 +25,7 @@ const Login = () => {
             name="passord"
             id="password"
             className="form-control form-control-lg"
+            required
           />
         </fieldset>
 

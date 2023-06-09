@@ -3,7 +3,7 @@
   background-color: #fff;
   width: 50%;
   margin: 0 auto;
-  border-radius: 50px;
+  padding: 10px 0;
 }
 
 .register-cta, .password-forgot {
