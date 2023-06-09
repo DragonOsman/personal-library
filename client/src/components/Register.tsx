@@ -1,3 +1,5 @@
+import "./Register.css";
+
 const Register = () => {
   return (
     <div className="register-form-container">
@@ -60,7 +62,7 @@ const Register = () => {
           <input
             type="submit"
             value="Register"
-            className="btn-btn-lg btn-primary btn-block register-button"
+            className="btn btn-lg btn-primary btn-block register-button"
           />
         </div>
       </form>
