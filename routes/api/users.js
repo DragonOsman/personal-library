@@ -111,24 +111,8 @@ userRouter.get("/user-info/:id", verifyJWT, async (req, res) => {
 // @route GET api/users/get-email
 // @desc Send user's email address (for GET route below)
 // @access Public
-userRouter.get("/get-email", verifyJWT, async (req, res) => {
-  res.json({ isLoggedIn: true, email: req.user.email });
-});
-
-// @route GET api/users/user-info/:email
-// @desc Send user details by user's email address
-// @access Public
-userRouter.get("/user-info/:email", verifyJWT, async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.params.email });
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(400).json({ success: false, error: "User not found" });
-    }
-  } catch (err) {
-    console.log(err);
-  }
+userRouter.get("/is-user-auth", verifyJWT, async (req, res) => {
+  res.json({ isLoggedIn: true, email: req.user.email, id: req.user._id });
 });
 
 module.exports = userRouter;
