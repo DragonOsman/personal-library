@@ -11,10 +11,23 @@ const Register = () => {
       password: "",
       confirmPassword: ""
     },
-    onSubmit: async values => {
-      console.log(values);
-
-
+    onSubmit: async (values): Promise<JSON | undefined> => {
+      try {
+        const response = await fetch("/api/users/register", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify(values)
+        });
+        if (response.status >= 200 && response.status < 400) {
+          return JSON.parse("You are successfully registered!");
+        } else {
+          JSON.parse("Something went wrong!");
+        }
+      } catch (err) {
+        console.log(err);
+      }
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
