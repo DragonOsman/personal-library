@@ -92,12 +92,28 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
-// @route POST api/users/user-info/:id
-// @desc Send user details
+// @route GET api/users/user-info/:id
+// @desc Send user details by id
 // @access Public
 userRouter.get("/user-info/:id", verifyJWT, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(400).json({ success: false, error: "User not found" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+// @route GET api/users/user-info/:email
+// @desc Send user details by user's email address
+// @access Public
+userRouter.get("/user-info/:email", verifyJWT, async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.params.email });
     if (user) {
       res.json(user);
     } else {
