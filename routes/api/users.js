@@ -108,6 +108,13 @@ userRouter.get("/user-info/:id", verifyJWT, async (req, res) => {
   }
 });
 
+// @route GET api/users/get-email
+// @desc Send user's email address (for GET route below)
+// @access Public
+userRouter.get("/get-email", verifyJWT, async (req, res) => {
+  res.json({ isLoggedIn: true, email: req.user.email });
+});
+
 // @route GET api/users/user-info/:email
 // @desc Send user details by user's email address
 // @access Public
