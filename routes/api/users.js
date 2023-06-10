@@ -64,7 +64,8 @@ userRouter.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
       const payload = {
-        id: user.id,
+        id: user._id,
+        email: user.email,
         firstname: user.firstname,
         lastname: user.lastname
       };
@@ -73,7 +74,7 @@ userRouter.post("/login", async (req, res) => {
         payload,
         keys.secretOrKey,
         {
-          expiresIn: 31556926
+          expiresIn: 86400
         },
         (err, token) => {
           res.json({
