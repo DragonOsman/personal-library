@@ -1,23 +1,50 @@
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState, FormEvent } from "react";
+import { useEffect } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+interface FormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 const Register = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const navigate = useNavigate();
-
-  const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
+    },
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .max(20, "Must be at most 20 characters")
+        .required("This is a required field"),
+      lastName: Yup.string()
+        .max(20, "Must be at most 20 characters")
+        .required("This is a required field"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("This is a required field"),
+      password: Yup.string()
+        .max(6, "Must be at least 6 characters")
+        .required("This is a required field"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password")], "Passwords must match")
+        .required("This is a required field")
+    }),
+    onSubmit: async (values: FormValues): Promise<void> => {
     const user = {
-      firstName,
-      lastName,
-      email,
-      password
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.email,
+      confirmPassword: values.confirmPassword
     };
 
     await fetch("/api/users/register", {
@@ -27,7 +54,9 @@ const Register = () => {
       },
       body: JSON.stringify(user)
     });
-  };
+  }
+  });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const verifyAuth = async () => {
@@ -46,49 +75,56 @@ const Register = () => {
   }, [navigate]);
 
   return (
-    <form onSubmit={event => handleRegister(event)}>
-      <input
-        type="text"
-        name="firstname"
-        className="first-name"
-        value={firstName}
-        required
-        onChange={event => setFirstName(event.target.value)}
-      />
-      <input
-        type="text"
-        name="lastname"
-        className="last-name"
-        value={lastName}
-        required
-        onChange={event => setLastName(event.target.value)}
-      />
-      <input
-        type="email"
-        name="email"
-        className="email"
-        value={email}
-        required
-        onChange={event => setEmail(event.target.value)}
-      />
-      <input
-        type="password"
-        name="password"
-        className="password"
-        value={password}
-        required
-        onChange={event => setPassword(event.target.value)}
-      />
-      <input
-        type="password"
-        name="confirm-password"
-        className="password"
-        value={confirmPassword}
-        required
-        onChange={event => setConfirmPassword(event.target.value)}
-      />
-      <input type="submit" value="Register" />
-    </form>
+    <div className="register-form-container">
+      <form onSubmit={formik.handleSubmit}>
+        <input
+          type="text"
+          className="first-name"
+          required
+          {...formik.getFieldProps("firstName")}
+        />
+        {formik.touched.firstName && formik.errors.firstName ? (
+          <small className="text-danger">{formik.errors.firstName}</small>
+        ) : null}
+        <input
+          type="text"
+          className="last-name"
+          required
+          {...formik.getFieldProps("lastName")}
+        />
+        {formik.touched.lastName && formik.errors.lastName ? (
+          <small className="text-danger">{formik.errors.lastName}</small>
+        ) : null}
+        <input
+          type="email"
+          className="email"
+          required
+          {...formik.getFieldProps("email")}
+        />
+        {formik.touched.email && formik.errors.email ? (
+          <small className="text-danger">{formik.errors.email}</small>
+        ) : null}
+        <input
+          type="password"
+          className="password"
+          required
+          {...formik.getFieldProps("password")}
+        />
+        {formik.touched.password && formik.errors.password ? (
+          <small className="text-danger">{formik.errors.password}</small>
+        ) : null}
+        <input
+          type="password"
+          className="password"
+          required
+          {...formik.getFieldProps("confirmPassword")}
+        />
+        {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+          <small className="text-danger">{formik.errors.confirmPassword}</small>
+        ) : null}
+        <input type="submit" value="Register" />
+      </form>
+    </div>
   );
 };
 
