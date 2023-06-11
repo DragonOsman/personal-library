@@ -112,7 +112,7 @@ userRouter.get("/user-info/:id", verifyJWT, async (req, res) => {
 // @desc Send user's email address (for GET route below)
 // @access Public
 userRouter.get("/is-user-auth", verifyJWT, (req, res) => {
-  res.json({ isLoggedIn: true, email: req.user.email, id: req.user._id });
+  res.json({ isLoggedIn: true, email: req.user.email });
 });
 
 module.exports = userRouter;
