@@ -40,8 +40,6 @@ const Register = () => {
         .required("This is a required field")
     }),
     onSubmit: async (values: FormValues): Promise<void> => {
-      values.event?.preventDefault();
-
       const user = {
         firstName: values.firstName,
         lastName: values.lastName,
@@ -79,7 +77,7 @@ const Register = () => {
 
   return (
     <div className="register-form-container">
-      <form onSubmit={formik.handleSubmit} method="post">
+      <form onSubmit={(event) => {event.preventDefault(); formik.handleSubmit(event);}} method="post">
         <fieldset>
           <legend>User registration form</legend>
           <label htmlFor="firstName">First name:</label>

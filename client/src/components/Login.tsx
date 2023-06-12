@@ -1,12 +1,11 @@
 import { useNavigate, Link } from "react-router-dom";
-import { useEffect, FormEvent } from "react";
+import { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 interface FormValues {
   email: string;
   password: string;
-  event?: FormEvent<HTMLFormElement>;
 }
 
 const Login = () => {
@@ -24,8 +23,6 @@ const Login = () => {
         .required("This is a required field")
     }),
     onSubmit: async (values:FormValues) => {
-      values.event?.preventDefault();
-
       const user = {
         email: values.email,
         password: values.password
@@ -63,7 +60,7 @@ const Login = () => {
 
   return (
     <div className="login-form-container">
-      <form onSubmit={formik.handleSubmit} method="post">
+      <form onSubmit={(event) => {event.preventDefault(); formik.handleSubmit(event);}} method="post">
         <fieldset>
           <legend>User login form</legend>
           <label htmlFor="email">Email:</label>
