@@ -1,11 +1,12 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, FormEvent } from "react";
-import { useFormik, FormikHelpers } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 interface FormValues {
   email: string;
   password: string;
+  event?: FormEvent<HTMLFormElement>;
 }
 
 const Login = () => {
@@ -22,12 +23,9 @@ const Login = () => {
         .min(6, "Must be at least 6 characters")
         .required("This is a required field")
     }),
-    onSubmit: async (
-      values: FormValues,
-      helpers: FormikHelpers<FormValues>,
-      event: FormEvent<HTMLFormElement>
-    ) => {
-      event.preventDefault();
+    onSubmit: async (values:FormValues) => {
+      values.event?.preventDefault();
+
       const user = {
         email: values.email,
         password: values.password

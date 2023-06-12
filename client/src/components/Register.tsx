@@ -1,6 +1,6 @@
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, FormEvent } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -10,6 +10,7 @@ interface FormValues {
   email: string;
   password: string;
   confirmPassword: string;
+  event?: FormEvent<HTMLFormElement>;
 }
 
 const Register = () => {
@@ -39,22 +40,24 @@ const Register = () => {
         .required("This is a required field")
     }),
     onSubmit: async (values: FormValues): Promise<void> => {
-    const user = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      password: values.email,
-      confirmPassword: values.confirmPassword
-    };
+      values.event?.preventDefault();
 
-    await fetch("/api/users/register", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify(user)
-    });
-  }
+      const user = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.email,
+        confirmPassword: values.confirmPassword
+      };
+
+      await fetch("/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(user)
+      });
+    }
   });
   const navigate = useNavigate();
 
