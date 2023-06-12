@@ -15,9 +15,9 @@ userRouter.post("/register", async (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
-    console.log(`Line 18: first name error: ${errors.firstname},
-                 last name error: ${errors.lastname},
-                 password2 error: ${errors.password2}`);
+    for (let i = 0; i < Array(errors); i++) {
+      console.log(`line 19: errors object: ${Array(errors)[i]}`);
+    }
     return res.status(400).json(errors);
   }
 
@@ -25,12 +25,12 @@ userRouter.post("/register", async (req, res) => {
   try {
     user = await User.findOne({ email: req.body.email });
     if (user) {
-      console.log("Line 26 console.log");
+      console.log("Line 28 console.log");
       return res.status(400).json("A user by that email already exists");
     } else {
       const newUser = new User({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         email: req.body.email,
         password: req.body.password
       });
@@ -56,7 +56,9 @@ userRouter.post("/login", async (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
-    console.log(`Line 57 errors object: ${errors}`);
+    for (let i = 0; i < Array(errors); i++) {
+      console.log(`line 60: errors object: ${Array(errors)[i]}`);
+    }
     return res.status(400).json(errors);
   }
 
@@ -72,8 +74,8 @@ userRouter.post("/login", async (req, res) => {
       const payload = {
         id: user._id,
         email: user.email,
-        firstname: user.firstname,
-        lastname: user.lastname
+        firstName: user.firstName,
+        lastName: user.lastName
       };
 
       jwt.sign(
@@ -90,7 +92,7 @@ userRouter.post("/login", async (req, res) => {
         }
       );
     } else {
-      console.log("Line 91 console log");
+      console.log("Line 95 console log");
       return res.status(400).json({ error: "Incorrect password" });
     }
   } catch (err) {
@@ -120,8 +122,8 @@ userRouter.get("/user-info/:id", verifyJWT, async (req, res) => {
 userRouter.get("/is-user-auth", verifyJWT, (req, res) => {
   res.json({ isLoggedIn: true,
              email: req.user.email,
-             firstname: req.user.firstname,
-             lastname: req.user.lastname
+             firstName: req.user.firstName,
+             lastName: req.user.lastName
            });
 });
 
