@@ -4,18 +4,22 @@ const isEmpty = require("is-empty");
 const validateRegisterInput = data => {
   const errors = {};
 
-  data.firstname = !isEmpty(data.firstname) ? data.firstname : "";
-  data.lastname = !isEmpty(data.lastname) ? data.lastname : "";
+  for (let i = 0; i < Array(data).length; i++) {
+    console.log(Array(data)[i]);
+  }
+
+  data.firstName = !isEmpty(data.firstName) ? data.firstName : "";
+  data.lastName = !isEmpty(data.lastName) ? data.lastName : "";
   data.email = !isEmpty(data.email) ? data.email : "";
   data.password = !isEmpty(data.password) ? data.password : "";
-  data.password2 = !isEmpty(data.password2) ? data.password2 : "";
+  data.confirmPassword = !isEmpty(data.confirmPassword) ? data.confirmPassword : "";
 
   if (Validator.isEmpty(data.firstname)) {
-    errors.firstname = "First name field is required";
+    errors.firstName = "First name field is required";
   }
 
   if (Validator.isEmpty(data.lastname)) {
-    errors.lastname = "Last name field is required";
+    errors.lastName = "Last name field is required";
   }
 
   if (Validator.isEmpty(data.email)) {
@@ -29,7 +33,7 @@ const validateRegisterInput = data => {
   }
 
   if (Validator.isEmpty(data.password2)) {
-    errors.password2 = "Confirm password field is required";
+    errors.confirmPassword = "Confirm password field is required";
   }
 
   if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
@@ -37,7 +41,7 @@ const validateRegisterInput = data => {
   }
 
   if (!Validator.equals(data.password, data.password2)) {
-    errors.password2 = "Passwords must match";
+    errors.confirmPassword = "Passwords must match";
   }
 
   return {

@@ -15,6 +15,9 @@ userRouter.post("/register", async (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
+    console.log(`Line 18: first name error: ${errors.firstname},
+                 last name error: ${errors.lastname},
+                 password2 error: ${errors.password2}`);
     return res.status(400).json(errors);
   }
 
@@ -22,6 +25,7 @@ userRouter.post("/register", async (req, res) => {
   try {
     user = await User.findOne({ email: req.body.email });
     if (user) {
+      console.log("Line 26 console.log");
       return res.status(400).json("A user by that email already exists");
     } else {
       const newUser = new User({
@@ -52,6 +56,7 @@ userRouter.post("/login", async (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
+    console.log(`Line 57 errors object: ${errors}`);
     return res.status(400).json(errors);
   }
 
@@ -85,6 +90,7 @@ userRouter.post("/login", async (req, res) => {
         }
       );
     } else {
+      console.log("Line 91 console log");
       return res.status(400).json({ error: "Incorrect password" });
     }
   } catch (err) {
