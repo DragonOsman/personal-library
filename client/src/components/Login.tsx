@@ -1,6 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
-import { useEffect } from "react";
-import { useFormik } from "formik";
+import { useEffect, FormEvent } from "react";
+import { useFormik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 
 interface FormValues {
@@ -19,10 +19,15 @@ const Login = () => {
         .email("Invalid email address")
         .required("This is a required field"),
       password: Yup.string()
-        .max(6, "Must be at least 6 characters")
+        .min(6, "Must be at least 6 characters")
         .required("This is a required field")
     }),
-    onSubmit: async (values: FormValues): Promise<void> => {
+    onSubmit: async (
+      values: FormValues,
+      helpers: FormikHelpers<FormValues>,
+      event: FormEvent<HTMLFormElement>
+    ) => {
+      event.preventDefault();
       const user = {
         email: values.email,
         password: values.password
@@ -60,7 +65,7 @@ const Login = () => {
 
   return (
     <div className="login-form-container">
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} method="post">
         <fieldset>
           <legend>User login form</legend>
           <label htmlFor="email">Email:</label>
@@ -84,7 +89,7 @@ const Login = () => {
             <small className="text-danger">{formik.errors.password}</small>
           ) : null}
         </fieldset>
-        <input type="submit" value="Login" />
+        <input type="submit" value="Login" className="btn btn-primary btn-lg" />
         <p className="register-cta">Don't have an account yet? <Link to="/register">Register</Link></p>
       </form>
     </div>

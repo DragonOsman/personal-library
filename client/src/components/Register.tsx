@@ -32,7 +32,7 @@ const Register = () => {
         .email("Invalid email address")
         .required("This is a required field"),
       password: Yup.string()
-        .max(6, "Must be at least 6 characters")
+        .min(6, "Must be at least 6 characters")
         .required("This is a required field"),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password")], "Passwords must match")
@@ -76,9 +76,9 @@ const Register = () => {
 
   return (
     <div className="register-form-container">
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} method="post">
         <fieldset>
-          <legend>User information</legend>
+          <legend>User registration form</legend>
           <label htmlFor="firstName">First name:</label>
           <input
             type="text"
@@ -130,7 +130,7 @@ const Register = () => {
             <small className="text-danger">{formik.errors.confirmPassword}</small>
           ) : null}
         </fieldset>
-        <input type="submit" value="Register" />
+        <input type="submit" value="Register" className="btn btn-primary btn-lg" />
       </form>
     </div>
   );
