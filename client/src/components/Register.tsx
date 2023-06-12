@@ -1,6 +1,6 @@
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, FormEvent } from "react";
+import { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -10,7 +10,6 @@ interface FormValues {
   email: string;
   password: string;
   confirmPassword: string;
-  event?: FormEvent<HTMLFormElement>;
 }
 
 const Register = () => {
