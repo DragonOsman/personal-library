@@ -77,51 +77,59 @@ const Register = () => {
   return (
     <div className="register-form-container">
       <form onSubmit={formik.handleSubmit}>
-        <input
-          type="text"
-          className="first-name"
-          required
-          {...formik.getFieldProps("firstName")}
-        />
-        {formik.touched.firstName && formik.errors.firstName ? (
-          <small className="text-danger">{formik.errors.firstName}</small>
-        ) : null}
-        <input
-          type="text"
-          className="last-name"
-          required
-          {...formik.getFieldProps("lastName")}
-        />
-        {formik.touched.lastName && formik.errors.lastName ? (
-          <small className="text-danger">{formik.errors.lastName}</small>
-        ) : null}
-        <input
-          type="email"
-          className="email"
-          required
-          {...formik.getFieldProps("email")}
-        />
-        {formik.touched.email && formik.errors.email ? (
-          <small className="text-danger">{formik.errors.email}</small>
-        ) : null}
-        <input
-          type="password"
-          className="password"
-          required
-          {...formik.getFieldProps("password")}
-        />
-        {formik.touched.password && formik.errors.password ? (
-          <small className="text-danger">{formik.errors.password}</small>
-        ) : null}
-        <input
-          type="password"
-          className="password"
-          required
-          {...formik.getFieldProps("confirmPassword")}
-        />
-        {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-          <small className="text-danger">{formik.errors.confirmPassword}</small>
-        ) : null}
+        <fieldset>
+          <legend>User information</legend>
+          <label htmlFor="firstName">First name:</label>
+          <input
+            type="text"
+            className="first-name"
+            required
+            {...formik.getFieldProps("firstName")}
+          />
+          {formik.touched.firstName && formik.errors.firstName ? (
+            <small className="text-danger">{formik.errors.firstName}</small>
+          ) : null}
+          <label htmlFor="lastName">Last name:</label>
+          <input
+            type="text"
+            className="last-name"
+            required
+            {...formik.getFieldProps("lastName")}
+          />
+          {formik.touched.lastName && formik.errors.lastName ? (
+            <small className="text-danger">{formik.errors.lastName}</small>
+          ) : null}
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            className="email"
+            required
+            {...formik.getFieldProps("email")}
+          />
+          {formik.touched.email && formik.errors.email ? (
+            <small className="text-danger">{formik.errors.email}</small>
+          ) : null}
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            className="password"
+            required
+            {...formik.getFieldProps("password")}
+          />
+          {formik.touched.password && formik.errors.password ? (
+            <small className="text-danger">{formik.errors.password}</small>
+          ) : null}
+          <label htmlFor="confirmPassword">Confirm password:</label>
+          <input
+            type="password"
+            className="password"
+            required
+            {...formik.getFieldProps("confirmPassword")}
+          />
+          {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+            <small className="text-danger">{formik.errors.confirmPassword}</small>
+          ) : null}
+        </fieldset>
         <input type="submit" value="Register" />
       </form>
     </div>

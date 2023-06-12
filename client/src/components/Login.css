@@ -1,9 +1,4 @@
-.register-cta, .password-forgot {
-  text-decoration: none;
-  font-size: 1.5rem;
+.register-cta {
+  font-size: 12px;
   font-weight: 600;
-}
-
-.register:hover {
-  text-decoration: none;
 }

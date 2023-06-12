@@ -8,8 +8,8 @@ header {
 }
 
 header .logo {
-  margin-top: -9px;
   margin-left: 7px;
+  margin-top: -3px;
 }
 
 nav {
@@ -25,13 +25,15 @@ nav {
   transform: translate(0, -50%);
 }
 
-.navbar-list-item {
+.nav-link {
   color: #dcdcdc;
-  font-size: 1.6rem;
-  margin-top: -2px;
+  font-size: 1.4rem;
+  margin-top: -1px;
   margin-right: 5px;
+  margin-left: 25px;
 }
 
-.navbar-list-item:hover {
+.nav-link:hover {
   color: #287098;
+  padding-bottom: .1px;
 }

@@ -1,30 +1,46 @@
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState, FormEvent } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+interface FormValues {
+  email: string;
+  password: string;
+}
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: ""
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("This is a required field"),
+      password: Yup.string()
+        .max(6, "Must be at least 6 characters")
+        .required("This is a required field")
+    }),
+    onSubmit: async (values: FormValues): Promise<void> => {
+      const user = {
+        email: values.email,
+        password: values.password
+      };
+
+      const response = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(user)
+      });
+
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
+    }
+  });
   const navigate = useNavigate();
-
-  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const user = {
-      email,
-      password
-    };
-
-    const response = await fetch("/api/users/login", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify(user)
-    });
-
-    const data = await response.json();
-    localStorage.setItem("token", data.token);
-  };
 
   useEffect(() => {
     const verifyAuth = async () => {
@@ -43,25 +59,35 @@ const Login = () => {
   }, [navigate]);
 
   return (
-    <form onSubmit={event => handleLogin(event)}>
-      <input
-        required
-        type="email"
-        name="email"
-        className="email"
-        value={email}
-        onChange={event => setEmail(event.target.value)}
-      />
-      <input
-        required
-        type="password"
-        name="password"
-        className="password"
-        value={password}
-        onChange={event => setPassword(event.target.value)}
-      />
-      <input type="submit" value="Login" />
-    </form>
+    <div className="login-form-container">
+      <form onSubmit={formik.handleSubmit}>
+        <fieldset>
+          <legend>User login form</legend>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            className="email"
+            required
+            {...formik.getFieldProps("email")}
+          />
+          {formik.touched.email && formik.values.email ? (
+            <small className="text-danger">{formik.errors.email}</small>
+          ) : null}
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            className="password"
+            required
+            {...formik.getFieldProps("password")}
+          />
+          {formik.touched.password && formik.values.password ? (
+            <small className="text-danger">{formik.errors.password}</small>
+          ) : null}
+        </fieldset>
+        <input type="submit" value="Login" />
+        <p className="register-cta">Don't have an account yet? <Link to="/register">Register</Link></p>
+      </form>
+    </div>
   );
 };
 
