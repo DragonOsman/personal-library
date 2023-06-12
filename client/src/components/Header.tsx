@@ -39,17 +39,21 @@ const Header = () => {
         className="navbar navbar-brand navbar-expand-sm
                   navbar-expand-md navbar-expand-lg
                   navbar-expand-xl navbar-expand-xxl"
-        role="navigation"
       >
         <img
           src={logo}
           alt="dragon logo"
           className="logo navbar-brand"
         />
-        <button className="navbar-toggler" type="button">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse">
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav">
             <li className="nav-item">
               <Link to="/" className="nav-link">

@@ -28,30 +28,38 @@ const Login = () => {
         password: values.password
       };
 
-      const response = await fetch("/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify(user)
-      });
+      try {
+        const response:Response = await fetch("/api/users/login", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify(user)
+        });
 
-      const data = await response.json();
-      localStorage.setItem("token", data.token);
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+      } catch (error) {
+        console.log(`Line 43: ${error}`);
+      }
     }
   });
   const navigate = useNavigate();
 
   useEffect(() => {
     const verifyAuth = async () => {
-      const response = await fetch(`/api/users/is-user-auth`, {
-        headers: {
-          "x-access-token": String(localStorage.getItem("token"))
+      try {
+        const response:Response = await fetch(`/api/users/is-user-auth`, {
+          headers: {
+            "x-access-token": String(localStorage.getItem("token"))
+          }
+        });
+        const data = await response.json();
+        if (data.isLoggedIn) {
+          navigate("/dashboard");
         }
-      });
-      const data = await response.json();
-      if (data.isLoggedIn) {
-        navigate("/dashboard");
+      } catch (error) {
+        console.log(`Line 62: ${error}`);
       }
     };
 

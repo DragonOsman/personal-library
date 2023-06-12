@@ -48,27 +48,35 @@ const Register = () => {
         confirmPassword: values.confirmPassword
       };
 
-      await fetch("/api/users/register", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify(user)
-      });
+      try {
+        await fetch("/api/users/register", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify(user)
+        });
+      } catch (error) {
+        console.log(`Line 60: ${error}`);
+      }
     }
   });
   const navigate = useNavigate();
 
   useEffect(() => {
     const verifyAuth = async () => {
-      const response = await fetch("/api/users/is-user-auth", {
-        headers: {
-          "x-access-token": String(localStorage.getItem("token"))
+      try {
+        const response:Response = await fetch("/api/users/is-user-auth", {
+          headers: {
+            "x-access-token": String(localStorage.getItem("token"))
+          }
+        });
+        const data = await response.json();
+        if (data.isLoggedIn) {
+          navigate("/dashboard");
         }
-      });
-      const data = await response.json();
-      if (data.isLoggedIn) {
-        navigate("/dashboard");
+      } catch (error) {
+        console.log(`Line 79: ${error}`);
       }
     };
 
