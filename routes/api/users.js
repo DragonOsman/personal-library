@@ -42,7 +42,7 @@ userRouter.post("/register", async (req, res) => {
       const hash = await bcrypt.hash(newUser.password, salt);
       newUser.password = hash;
       user = await newUser.save();
-      res.json(user);
+      res.json({ success: true, user, message: "You are registered!" });
     }
   } catch (error) {
     console.log(`Error trying to register user: ${error}`);
