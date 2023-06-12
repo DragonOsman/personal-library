@@ -14,11 +14,11 @@ const validateRegisterInput = data => {
   data.password = !isEmpty(data.password) ? data.password : "";
   data.confirmPassword = !isEmpty(data.confirmPassword) ? data.confirmPassword : "";
 
-  if (Validator.isEmpty(data.firstname)) {
+  if (Validator.isEmpty(data.firstName)) {
     errors.firstName = "First name field is required";
   }
 
-  if (Validator.isEmpty(data.lastname)) {
+  if (Validator.isEmpty(data.lastName)) {
     errors.lastName = "Last name field is required";
   }
 
