@@ -32,8 +32,8 @@ userRouter.post("/register", async (req, res) => {
       return res.status(400).json("A user by that email already exists");
     } else {
       const newUser = new User({
-        firstName: req.body.firstname,
-        lastName: req.body.lastname,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         email: req.body.email,
         password: req.body.password
       });
@@ -74,8 +74,8 @@ userRouter.post("/login", async (req, res) => {
       const payload = {
         id: user._id,
         email: user.email,
-        firstName: user.firstname,
-        lastName: user.lastname
+        firstName: user.firstName,
+        lastName: user.lastName
       };
 
       jwt.sign(
@@ -122,8 +122,8 @@ userRouter.get("/user-info/:id", verifyJWT, async (req, res) => {
 userRouter.get("/is-user-auth", verifyJWT, (req, res) => {
   res.json({ isLoggedIn: true,
              email: req.user.email,
-             firstName: req.user.firstname,
-             lastName: req.user.lastname
+             firstName: req.user.firstName,
+             lastName: req.user.lastName
            });
 });
 
