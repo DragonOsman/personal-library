@@ -5,8 +5,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 interface FormValues {
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -15,17 +15,17 @@ interface FormValues {
 const Register = () => {
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
       confirmPassword: ""
     },
     validationSchema: Yup.object({
-      firstName: Yup.string()
+      firstname: Yup.string()
         .max(20, "Must be at most 20 characters")
         .required("This is a required field"),
-      lastName: Yup.string()
+      lastname: Yup.string()
         .max(20, "Must be at most 20 characters")
         .required("This is a required field"),
       email: Yup.string()
@@ -40,8 +40,8 @@ const Register = () => {
     }),
     onSubmit: async (values: FormValues): Promise<void> => {
       const user = {
-        firstName: values.firstName,
-        lastName: values.lastName,
+        firstname: values.firstname,
+        lastname: values.lastname,
         email: values.email,
         password: values.password,
         confirmPassword: values.confirmPassword
@@ -92,10 +92,10 @@ const Register = () => {
             type="text"
             className="first-name"
             required
-            {...formik.getFieldProps("firstName")}
+            {...formik.getFieldProps("firstname")}
           />
-          {formik.touched.firstName && formik.errors.firstName ? (
-            <small className="text-danger">{formik.errors.firstName}</small>
+          {formik.touched.firstname && formik.errors.firstname ? (
+            <small className="text-danger">{formik.errors.firstname}</small>
           ) : null}
           <label htmlFor="lastName">Last name:</label>
           <input
@@ -104,8 +104,8 @@ const Register = () => {
             required
             {...formik.getFieldProps("lastName")}
           />
-          {formik.touched.lastName && formik.errors.lastName ? (
-            <small className="text-danger">{formik.errors.lastName}</small>
+          {formik.touched.lastname && formik.errors.lastname ? (
+            <small className="text-danger">{formik.errors.lastname}</small>
           ) : null}
           <label htmlFor="email">Email:</label>
           <input
