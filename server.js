@@ -4,7 +4,6 @@ const connectDB = require("./config/db");
 const cors = require("cors");
 const books = require("./routes/api/books");
 const users = require("./routes/api/users");
-const passport = require("passport");
 
 const app = express();
 
@@ -18,9 +17,6 @@ app.use(cors({
   methods: ["GET", "PUT", "POST", "DELETE"],
   credentials: true }
 ));
-
-app.use(passport.initialize());
-require("./config/passport")(passport);
 
 app.use("/api/users/", users);
 
