@@ -4,10 +4,6 @@ const isEmpty = require("is-empty");
 const validateRegisterInput = data => {
   const errors = {};
 
-  for (let i = 0; i < Array(data).length; i++) {
-    console.log(Array(data)[i]);
-  }
-
   data.firstName = !isEmpty(data.firstName) ? data.firstName : "";
   data.lastName = !isEmpty(data.lastName) ? data.lastName : "";
   data.email = !isEmpty(data.email) ? data.email : "";
