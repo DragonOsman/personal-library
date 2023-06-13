@@ -15,13 +15,20 @@ userRouter.post("/register", async (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
+    console.log("Line 18, errors object:");
+    for (let i = 0; i < Array(errors).length; i++) {
+      console.log(Array(errors)[i]);
+    }
     return res.status(400).json(errors);
   }
 
-  let user;
   try {
-    user = await User.findOne({ email: req.body.email });
+    let user = await User.findOne({ email: req.body.email });
     if (user) {
+      console.log("Line 28; user object:");
+      for (let i = 0; i < Array(user).length; i++) {
+        console.log(Array(user)[i]);
+      }
       return res.status(400).json("A user by that email already exists");
     } else {
       const newUser = new User({
