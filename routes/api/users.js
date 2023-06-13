@@ -42,10 +42,13 @@ userRouter.post("/register", async (req, res) => {
       newUser.kind = "internal";
 
       const salt = await bcrypt.genSalt(12);
+      console.log(`users.js line 45, salt: ${salt}`);
       const hash = await bcrypt.hash(newUser.password, salt);
       newUser.password = hash;
       user = await newUser.save();
       res.json({ success: true, user, message: "You are registered!" });
+      console.log(`users.js line 50, newUser's hash: ${newUser.password}`);
+      console.log(`users.js line 51, user's hash: ${user.password}`);
     }
   } catch (error) {
     console.log(`Error trying to register user: ${error}`);
@@ -69,6 +72,7 @@ userRouter.post("/login", async (req, res) => {
     if (!user) {
       res.status(404).json({ error: "Email not found" });
     }
+    console.log(`users.js line 75, user's hash: ${user.password}`);
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
       const payload = {
@@ -92,7 +96,7 @@ userRouter.post("/login", async (req, res) => {
         }
       );
     } else {
-      console.log("Line 98 console log");
+      console.log("Line 99 console log");
       return res.status(400).json({ error: "Incorrect password" });
     }
   } catch (err) {
