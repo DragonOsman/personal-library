@@ -15,9 +15,6 @@ userRouter.post("/register", async (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
-    for (let i = 0; i < Array(errors); i++) {
-      console.log(`line 19: errors object: ${Array(errors)[i]}`);
-    }
     return res.status(400).json(errors);
   }
 
@@ -25,7 +22,6 @@ userRouter.post("/register", async (req, res) => {
   try {
     user = await User.findOne({ email: req.body.email });
     if (user) {
-      console.log("Line 28 console.log");
       return res.status(400).json("A user by that email already exists");
     } else {
       const newUser = new User({
@@ -56,9 +52,6 @@ userRouter.post("/login", async (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
-    for (let i = 0; i < Array(errors); i++) {
-      console.log(`line 60: errors object: ${Array(errors)[i]}`);
-    }
     return res.status(400).json(errors);
   }
 
