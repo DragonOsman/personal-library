@@ -92,7 +92,7 @@ const Register = () => {
             type="text"
             className="first-name"
             required
-            {...formik.getFieldProps("firstname")}
+            {...formik.getFieldProps("firstName")}
           />
           {formik.touched.firstName && formik.errors.firstName ? (
             <small className="text-danger">{formik.errors.firstName}</small>
