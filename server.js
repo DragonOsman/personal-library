@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const passport = require("passport");
+
 const cors = require("cors");
 
 if (process.env.NODE_ENV !== "production") {
@@ -9,7 +11,9 @@ if (process.env.NODE_ENV !== "production") {
 const connectDB = require("./config/db");
 connectDB();
 
-//const passport = require("passport");
+require("./strategies/JwtStrategy");
+require("./strategies/LocalStrategy");
+require("./authenticate");
 
 const books = require("./routes/api/books");
 const users = require("./routes/api/users");
@@ -25,7 +29,7 @@ app.use(cors({
   methods: ["GET", "PUT", "POST", "DELETE"],
   credentials: true }
 ));
-
+app.use(passport.initialize());
 app.use("/api/users/", users);
 
 app.use("/api/books", books);
