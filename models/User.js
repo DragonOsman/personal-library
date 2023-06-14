@@ -47,10 +47,20 @@ const UserSchema = new Schema({
   }
 });
 
+// Remove refreshToken from the response
+UserSchema.set("toJSON", {
+  transform: (doc, ret, options) => {
+    delete ret.refreshToken;
+    return ret;
+  }
+});
+
 UserSchema.pre("save", async function() {
   const salt = await bcrypt.genSalt(12);
   this.password = await bcrypt.hash(this.password, salt);
 });
+
+UserSchema.plugin(passportLocalMongoose());
 
 const User = mongoose.model("User", UserSchema);
 
