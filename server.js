@@ -1,8 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const passport = require("passport");
-const connectDB = require("./config/db");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
+
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+const connectDB = require("./config/db");
+connectDB();
+
+//const passport = require("passport");
+
 const books = require("./routes/api/books");
 const users = require("./routes/api/users");
 
@@ -10,8 +18,7 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-connectDB();
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use(cors({
   origin: "http://localhost:3000/",
