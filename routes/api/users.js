@@ -123,8 +123,8 @@ userRouter.post("/refreshToken", async (req, res, next) => {
   }
 });
 
-// @route GET api/users/user-info/:id
-// @desc Send user details by id
+// @route GET api/users/user-info
+// @desc Send user details
 // @access Public
 userRouter.get("/user-info/", verifyUser, async (req, res, next) => {
   res.send(req.user);
