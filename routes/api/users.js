@@ -126,7 +126,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 // @route GET api/users/user-info
 // @desc Send user details
 // @access Public
-userRouter.get("/user-info/", verifyUser, async (req, res, next) => {
+userRouter.get("/user-info/", verifyUser, (req, res, next) => {
   res.send(req.user);
 });
 
