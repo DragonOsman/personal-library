@@ -48,7 +48,7 @@ userRouter.post("/register", async (req, res, next) => {
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-userRouter.post("/login", async (req, res, next) => {
+userRouter.post("/login", passport.authenticate("local"), async (req, res, next) => {
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
   try {
@@ -81,17 +81,6 @@ userRouter.get("/user-info/:id", async (req, res, next) => {
   } catch (err) {
     console.log(err);
   }
-});
-
-// @route GET api/users/get-email
-// @desc Send user's email address (for GET route below)
-// @access Public
-userRouter.get("/is-user-auth", (req, res) => {
-  res.json({ isLoggedIn: true,
-             email: req.user.email,
-             firstName: req.user.firstName,
-             lastName: req.user.lastName
-           });
 });
 
 module.exports = userRouter;
