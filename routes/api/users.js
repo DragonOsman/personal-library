@@ -130,4 +130,37 @@ userRouter.get("/user-info/", verifyUser, (req, res, next) => {
   res.send(req.user);
 });
 
+// @route GET api/users/logout
+// @desc Log user out
+// @access Public
+userRouter.get("/logout", verifyUser, async (req, res, next) => {
+  console.log(`/logout route, req.cookies: ${req.cookies}`);
+  const { signedCookies = {} } = req;
+  const { refreshToken } = signedCookies;
+  try {
+    const user = await User.findById(req.user._id);
+    const tokenIndex = user.refreshToken.findIndex(
+      item => item.refreshToken === refreshToken
+    );
+
+    if (tokenIndex !== -1) {
+      user.refreshToken.id(user.refreshToken[tokenIndex]._id).remove();
+    }
+
+    try {
+      await User.save();
+      res.clearCookie("refreshToken", COOKIE_OPTIONS);
+      res.send({ success: true });
+    } catch (err) {
+      res.statusCode = 500;
+      res.send(err);
+      return next(err);
+    }
+
+  } catch (err) {
+    res.statusCode = 404;
+    res.send(err);
+  }
+});
+
 module.exports = userRouter;
