@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const { BookSchema } = require("./Book");
 const passportLocalMongoose = require("passport-local-mongoose");
-const bcrypt = require("bcrypt");
 
 const Schema = mongoose.Schema;
 
@@ -53,11 +52,6 @@ UserSchema.set("toJSON", {
     delete ret.refreshToken;
     return ret;
   }
-});
-
-UserSchema.pre("save", async function() {
-  const salt = await bcrypt.genSalt(12);
-  this.password = await bcrypt.hash(this.password, salt);
 });
 
 UserSchema.plugin(passportLocalMongoose());
