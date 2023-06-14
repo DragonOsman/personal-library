@@ -9,7 +9,7 @@ const {
   COOKIE_OPTIONS,
   getRefreshToken,
   verifyUser
- } = require("../authenticate");
+ } = require("../../authenticate");
 
 // @route POST api/users/register
 // @desc Register user
