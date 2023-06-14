@@ -4,7 +4,12 @@ const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
-const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../authenticate");
+const {
+  getToken,
+  COOKIE_OPTIONS,
+  getRefreshToken,
+  verifyUser
+ } = require("../authenticate");
 
 // @route POST api/users/register
 // @desc Register user
@@ -121,17 +126,8 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 // @route GET api/users/user-info/:id
 // @desc Send user details by id
 // @access Public
-userRouter.get("/user-info/:id", async (req, res, next) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(400).json({ success: false, error: "User not found" });
-    }
-  } catch (err) {
-    console.log(err);
-  }
+userRouter.get("/user-info/", verifyUser, async (req, res, next) => {
+  res.send(req.user);
 });
 
 module.exports = userRouter;
