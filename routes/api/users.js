@@ -67,6 +67,57 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
   }
 });
 
+// @route POST api/users/refreshToken
+// @desc Refresh JWT and allow user to access protected routes
+// @access Public
+userRouter.post("/refreshToken", async (req, res, next) => {
+  console.log(`/refreshToken route, req.cookies: ${req.cookies}`);
+  const { signedCookies = {} } = req;
+  const { refreshToken } = signedCookies;
+  if (refreshToken) {
+    try {
+      const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+      const userId = payload._id;
+      const user = await User.findOne({ _id: userId });
+      if (user) {
+        // Find the refresh token against the user record in database
+        const tokenIndex = user.refreshToken.findIndex(
+          item => item.refreshToken === refreshToken
+        );
+
+        if (tokenIndex === -1) {
+          res.statusCode = 401;
+          res.send("Unauthorized");
+        } else {
+          const token = getToken({ _id: userId });
+
+          // If the refresh token exists, then create new one and replace it.
+          const newRefreshToken = getRefreshToken({ _id: userId });
+          user.refreshToken[tokenIndex] = { refreshToken: newRefreshToken };
+          try {
+            await user.save();
+            res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+            res.send({ success: true, token });
+          } catch (err) {
+            res.statusCode = 500;
+            res.send(err);
+          }
+        }
+      } else {
+        res.statusCode = 401;
+        res.send("Unauthorized");
+      }
+    } catch (err) {
+      res.statusCode = 401;
+      res.send("Unauthorized");
+      return next(err);
+    }
+  } else {
+    res.statusCode = 401;
+    res.send("Unauthorized");
+  }
+});
+
 // @route GET api/users/user-info/:id
 // @desc Send user details by id
 // @access Public
