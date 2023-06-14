@@ -2,14 +2,46 @@ const express = require("express");
 const userRouter = express.Router();
 const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
-// eslint-disable-next-line no-unused-vars
-const keys = require("../../config/keys");
+
+const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../authenticate");
 
 // @route POST api/users/register
 // @desc Register user
 // @access Public
-userRouter.post("/register", async (req, res) => {
-
+userRouter.post("/register", async (req, res, next) => {
+  // Verify that first name is not empty
+  if (!req.body.firstName) {
+    res.statusCode = 500;
+    res.send({
+      name: "FirstNameError",
+      message: "The first name is required"
+    });
+  } else {
+    User.register(
+      new User({ username: req.body.username }),
+      req.body.password,
+      async (err, user) => {
+        try {
+          if (err) {
+            res.statusCode = 500;
+            res.send(err);
+          } else {
+            user.firstName = req.body.firstName;
+            user.lastName = req.body.lastName;
+            const token = getToken({ _id: user._id });
+            const refreshToken = getRefreshToken({ _id: user._id });
+            user.refreshToken.push({ refreshToken });
+            await user.save();
+            res.cookie("refrehToken", refreshToken, COOKIE_OPTIONS);
+            res.send({ success: true, token });
+          }
+        } catch (err) {
+          res.statusCode = 500;
+          res.send(err);
+        }
+      }
+    );
+  }
 });
 
 // @route POST api/users/login
