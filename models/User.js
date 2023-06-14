@@ -1,8 +1,16 @@
 const mongoose = require("mongoose");
 const { BookSchema } = require("./Book");
+const passportLocalMongoose = require("passport-local-mongoose");
 const bcrypt = require("bcrypt");
 
 const Schema = mongoose.Schema;
+
+const SessionSchema = new Schema({
+  refreshToken: {
+    type: String,
+    default: ""
+  }
+});
 
 const UserSchema = new Schema({
   firstName: {
@@ -20,20 +28,18 @@ const UserSchema = new Schema({
     required: true,
     default: ""
   },
-  password: {
+  authStrategy: {
     type: String,
     required: true,
-    default: "dUmMy-p@$$wOrD123"
-  },
-  kind: {
-    type: String,
-    required: true,
-    default: "internal"
+    default: "local"
   },
   books: {
     type: [BookSchema],
     required: true,
     default: []
+  },
+  refreshToken: {
+    type: [SessionSchema]
   },
   date: {
     type: Date,
