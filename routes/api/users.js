@@ -18,7 +18,7 @@ userRouter.post("/register", async (req, res, next) => {
     });
   } else {
     User.register(
-      new User({ username: req.body.username }),
+      new User({ username: req.body.email }),
       req.body.password,
       async (err, user) => {
         try {
