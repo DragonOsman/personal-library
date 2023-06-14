@@ -2,6 +2,7 @@ const express = require("express");
 const userRouter = express.Router();
 const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
 
 const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../authenticate");
 
@@ -47,14 +48,29 @@ userRouter.post("/register", async (req, res, next) => {
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-userRouter.post("/login", async (req, res) => {
-
+userRouter.post("/login", async (req, res, next) => {
+  const token = getToken({ _id: req.user._id });
+  const refreshToken = getRefreshToken({ _id: req.user._id });
+  try {
+    const user = await User.findById(req.user_id);
+    user.refreshToken.push({ refreshToken });
+    try {
+      await user.save();
+      res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+      res.send({ success: true, token });
+    } catch (err) {
+      res.statusCode = 500;
+      res.send(err);
+    }
+  } catch (err) {
+    return next(err);
+  }
 });
 
 // @route GET api/users/user-info/:id
 // @desc Send user details by id
 // @access Public
-userRouter.get("/user-info/:id", async (req, res) => {
+userRouter.get("/user-info/:id", async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
     if (user) {
