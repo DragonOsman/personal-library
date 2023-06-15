@@ -31,7 +31,6 @@ userRouter.post("/register", async (req, res, next) => {
     User.register(
       new User({
         username: req.body.email,
-        email: req.body.email,
         firstName: req.body.firstName,
         lastName: req.body.lastName
       }),
