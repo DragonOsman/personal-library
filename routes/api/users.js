@@ -4,6 +4,9 @@ const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
+const validateRegisterInput = require("../../user-validation/register");
+const validateLoginInput = require("../../user-validation/login");
+
 const {
   getToken,
   COOKIE_OPTIONS,
@@ -15,12 +18,14 @@ const {
 // @desc Register user
 // @access Public
 userRouter.post("/register", async (req, res, next) => {
-  // Verify that first name is not empty
-  if (!req.body.firstName) {
-    res.statusCode = 500;
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  if (!isValid) {
+    res.statusCode = 400;
     res.send({
-      name: "FirstNameError",
-      message: "The first name is required"
+      name: "Errors",
+      message: "There are errors",
+      errors
     });
   } else {
     User.register(
@@ -54,6 +59,11 @@ userRouter.post("/register", async (req, res, next) => {
 // @desc Login user and return JWT token
 // @access Public
 userRouter.post("/login", passport.authenticate("local"), async (req, res, next) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+  if (!isValid) {
+    res.status(400).json(errors);
+  }
+
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
   try {
