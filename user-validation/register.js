@@ -21,9 +21,9 @@ const validateRegisterInput = data => {
   }
 
   // Email checks
-  if (Validator.isEmpty(data.emal)) {
+  if (Validator.isEmpty(data.email)) {
     errors.email = "Email field is required";
-  } else if (Validator.isEmail(data.email)) {
+  } else if (!Validator.isEmail(data.email)) {
     errors.email = "Email is invalid";
   }
 
