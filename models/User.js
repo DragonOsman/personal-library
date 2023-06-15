@@ -22,6 +22,11 @@ const UserSchema = new Schema({
     required: true,
     default: ""
   },
+  email: {
+    type: String,
+    required: true,
+    default: ""
+  },
   authStrategy: {
     type: String,
     required: true,
