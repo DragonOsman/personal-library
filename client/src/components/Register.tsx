@@ -1,6 +1,4 @@
 import "./Register.css";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -60,27 +58,6 @@ const Register = () => {
       }
     }
   });
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const verifyAuth = async () => {
-      try {
-        const response:Response = await fetch("/api/users/user-info", {
-          headers: {
-            "x-access-token": String(localStorage.getItem("token"))
-          }
-        });
-        const data = await response.json();
-        if (data.isLoggedIn) {
-          navigate("/dashboard");
-        }
-      } catch (error) {
-        console.log(`Line 79: ${error}`);
-      }
-    };
-
-    verifyAuth();
-  }, [navigate]);
 
   return (
     <div className="register-form-container">

@@ -1,6 +1,7 @@
-import { useNavigate, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
+import { useState, useContext } from "react";
+import { UserContext, User } from "../context/UserContext";
 import * as Yup from "yup";
 
 interface FormValues {
@@ -9,6 +10,9 @@ interface FormValues {
 }
 
 const Login = () => {
+  const [error, setError] = useState("");
+  const { userContext, setUserContext } = useContext(UserContext);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -24,10 +28,11 @@ const Login = () => {
     }),
     onSubmit: async (values:FormValues) => {
       const user = {
-        username: values.email,
         email: values.email,
         password: values.password
       };
+
+      const genericErrorMessage = "Something went wrong! Please try again later.";
 
       try {
         const response:Response = await fetch("/api/users/login", {
@@ -35,37 +40,27 @@ const Login = () => {
           headers: {
             "Content-type": "application/json"
           },
+          credentials: "include",
           body: JSON.stringify(user)
         });
 
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
+        if (!response.ok) {
+          if (response.status === 400) {
+            setError("Please fill all the fields correctly!");
+          } else if (response.status === 401) {
+            setError("Invalid email and password combination.");
+          } else {
+            setError(genericErrorMessage);
+          }
+        } else {
+          const data = await response.json();
+          setUserContext({ ...User, token: data.token });
+        }
       } catch (error) {
         console.log(`Line 44: ${error}`);
       }
     }
   });
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const verifyAuth = async () => {
-      try {
-        const response:Response = await fetch(`/api/users/user-info`, {
-          headers: {
-            "x-access-token": String(localStorage.getItem("token"))
-          }
-        });
-        const data = await response.json();
-        if (data.isLoggedIn) {
-          navigate("/dashboard");
-        }
-      } catch (error) {
-        console.log(`Line 63: ${error}`);
-      }
-    };
-
-    verifyAuth();
-  }, [navigate]);
 
   return (
     <div className="login-form-container">
