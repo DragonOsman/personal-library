@@ -29,7 +29,12 @@ userRouter.post("/register", async (req, res, next) => {
     });
   } else {
     User.register(
-      new User({ username: req.body.username }),
+      new User({
+        username: req.body.email,
+        email: req.body.email,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName
+      }),
       req.body.password,
       async (err, user) => {
         try {
@@ -37,8 +42,6 @@ userRouter.post("/register", async (req, res, next) => {
             res.statusCode = 500;
             res.send(err);
           } else {
-            user.firstName = req.body.firstName;
-            user.lastName = req.body.lastName;
             const token = getToken({ _id: user._id });
             const refreshToken = getRefreshToken({ _id: user._id });
             user.refreshToken.push({ refreshToken });
