@@ -64,12 +64,15 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
   const { errors, isValid } = validateLoginInput(req.body);
   if (!isValid) {
     res.status(400).json(errors);
+    for (const error in errors) {
+      console.log(error);
+    }
   }
 
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
   try {
-    const user = await User.findById(req.user_id);
+    const user = await User.findById(req.user._id);
     user.refreshToken.push({ refreshToken });
     try {
       await user.save();

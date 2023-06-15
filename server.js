@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
+const session = require("express-session");
+const math = require("mathjs");
 
 const cors = require("cors");
 
@@ -15,10 +17,20 @@ require("./strategies/JwtStrategy");
 require("./strategies/LocalStrategy");
 require("./authenticate");
 
-const books = require("./routes/api/books");
-const users = require("./routes/api/users");
-
 const app = express();
+
+const { COOKIE_OPTIONS } = require("./authenticate");
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  saveUninitialized: true,
+  resave: false,
+  cookie: COOKIE_OPTIONS,
+  maxAge: math.evaluate(process.env.SESSION_EXPIRY)
+ }));
+
+const users = require("./routes/api/users");
+const books = require("./routes/api/books");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

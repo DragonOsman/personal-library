@@ -24,6 +24,7 @@ const Login = () => {
     }),
     onSubmit: async (values:FormValues) => {
       const user = {
+        username: values.email,
         email: values.email,
         password: values.password
       };
@@ -40,7 +41,7 @@ const Login = () => {
         const data = await response.json();
         localStorage.setItem("token", data.token);
       } catch (error) {
-        console.log(`Line 43: ${error}`);
+        console.log(`Line 44: ${error}`);
       }
     }
   });
@@ -59,7 +60,7 @@ const Login = () => {
           navigate("/dashboard");
         }
       } catch (error) {
-        console.log(`Line 62: ${error}`);
+        console.log(`Line 63: ${error}`);
       }
     };
 
