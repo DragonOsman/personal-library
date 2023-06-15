@@ -29,7 +29,7 @@ userRouter.post("/register", async (req, res, next) => {
     });
   } else {
     User.register(
-      new User({ username: req.body.email }),
+      new User({ username: req.body.username }),
       req.body.password,
       async (err, user) => {
         try {
@@ -137,7 +137,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 // @desc Send user details
 // @access Public
 userRouter.get("/user-info/", verifyUser, (req, res, next) => {
-  res.send(req.user);
+  res.send({ user: req.user, isLoggedIn: true });
 });
 
 // @route GET api/users/logout
