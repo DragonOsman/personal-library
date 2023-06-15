@@ -65,7 +65,7 @@ const Register = () => {
   useEffect(() => {
     const verifyAuth = async () => {
       try {
-        const response:Response = await fetch("/api/users/is-user-auth", {
+        const response:Response = await fetch("/api/users/user-info", {
           headers: {
             "x-access-token": String(localStorage.getItem("token"))
           }
