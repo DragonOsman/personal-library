@@ -16,7 +16,7 @@ const validateRegisterInput = data => {
     errors.firstName = "First name field is required";
   }
 
-  if (Validator.iEmpty(data.lastName)) {
+  if (Validator.isEmpty(data.lastName)) {
     errors.lastName = "Last name field is required";
   }
 
