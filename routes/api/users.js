@@ -62,6 +62,12 @@ userRouter.post("/register", async (req, res, next) => {
 // @access Public
 userRouter.post("/login", passport.authenticate("local"), async (req, res, next) => {
   const { errors, isValid } = validateLoginInput(req.body);
+
+  console.log(`Inside login route on backend, req.body: ${req.body}`);
+  for (const value of Object.keys(req.body)) {
+    console.log(value);
+  }
+
   if (!isValid) {
     res.status(400).json(errors);
     for (const error in errors) {
