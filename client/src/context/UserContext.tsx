@@ -1,5 +1,15 @@
 import { useState, createContext, ReactNode } from "react";
 
+interface IBook {
+  title: string;
+  isbn: string;
+  author: string;
+  description?: string;
+  published_date?: string;
+  publisher?: string;
+  updated_date?: Date
+}
+
 interface IUser {
   firstName?: string;
   lastName?: string;
@@ -11,6 +21,7 @@ interface IUser {
       id: string;
     }
   };
+  books?: IBook[]
 }
 
 const User: IUser = {
