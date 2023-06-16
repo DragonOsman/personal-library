@@ -1,21 +1,21 @@
 import Header from "./components/Header";
 import Login from "./components/Login";
-import Register from "./components/Register";
 import Home from "./components/Home";
 import { Route, Routes } from "react-router-dom";
-import { UserProvider } from "./context/UserContext";
+import { UserContext } from "./context/UserContext";
+import { useContext } from "react";
 import "./App.css";
 
 function App() {
+  const { user, setUser } = useContext(UserContext);
+
   return (
-    <UserProvider>
+    <>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={user.token ? <Home /> : <Login />} />
       </Routes>
-    </UserProvider>
+    </>
   );
 }
 
