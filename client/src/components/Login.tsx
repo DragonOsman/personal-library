@@ -29,7 +29,8 @@ const Login = () => {
     onSubmit: async (values:FormValues) => {
       formik.setSubmitting(true);
 
-      const newUser: typeof user = {
+      const newUser = {
+        username: values.email,
         email: values.email,
         password: values.password
       };
@@ -48,7 +49,7 @@ const Login = () => {
         const data = await response.json();
         setUser({ ...newUser, token: data.token });
       } catch (error) {
-        console.log(`Line 64: ${error}`);
+        console.log(`Line 51: ${error}`);
       }
     }
   });
