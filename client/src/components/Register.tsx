@@ -14,7 +14,7 @@ interface FormValues {
 
 const Register = () => {
   const [error, setError] = useState("");
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const genericErrorMessage = "Something went wrong! Please try again later.";
 
