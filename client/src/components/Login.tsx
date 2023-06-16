@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { useState, useContext } from "react";
-import { UserContext, User } from "../context/UserContext";
+import { UserContext } from "../context/UserContext";
 import * as Yup from "yup";
 
 interface FormValues {
@@ -11,7 +11,7 @@ interface FormValues {
 
 const Login = () => {
   const [error, setError] = useState("");
-  const { userContext, setUserContext } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const formik = useFormik({
     initialValues: {
@@ -27,7 +27,10 @@ const Login = () => {
         .required("This is a required field")
     }),
     onSubmit: async (values:FormValues) => {
-      const user = {
+      formik.setSubmitting(true);
+      setError("");
+
+      const newUser: typeof user = {
         email: values.email,
         password: values.password
       };
@@ -41,9 +44,10 @@ const Login = () => {
             "Content-type": "application/json"
           },
           credentials: "include",
-          body: JSON.stringify(user)
+          body: JSON.stringify(newUser)
         });
 
+        formik.setSubmitting(false);
         if (!response.ok) {
           if (response.status === 400) {
             setError("Please fill all the fields correctly!");
@@ -54,16 +58,17 @@ const Login = () => {
           }
         } else {
           const data = await response.json();
-          setUserContext({ ...User, token: data.token });
+          setUser({ ...newUser, token: data.token });
         }
       } catch (error) {
-        console.log(`Line 44: ${error}`);
+        console.log(`Line 64: ${error}`);
       }
     }
   });
 
   return (
     <div className="login-form-container">
+      {error && <p className="text-danger">{error}</p>}
       <form onSubmit={(event) => {event.preventDefault(); formik.handleSubmit(event);}} method="post">
         <fieldset>
           <legend>User login form</legend>
@@ -71,6 +76,7 @@ const Login = () => {
           <input
             type="email"
             className="email"
+            placeholder="Email"
             required
             {...formik.getFieldProps("email")}
           />
@@ -81,6 +87,7 @@ const Login = () => {
           <input
             type="password"
             className="password"
+            placeholder="Password"
             required
             {...formik.getFieldProps("password")}
           />

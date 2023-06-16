@@ -1,8 +1,11 @@
-import { createContext, ReactNode } from "react";
+import { useState, createContext, ReactNode } from "react";
 
-interface UserInterface {
+interface IUser {
+  firstName?: string;
+  lastName?: string;
   email: string;
   password: string;
+  confirmPassword?: string;
   token?: {
     payload: {
       id: string;
@@ -10,33 +13,31 @@ interface UserInterface {
   };
 }
 
-const User: UserInterface = {
+const User: IUser = {
   email: "",
   password: "",
-  token: {
-    payload: {
-      id: ""
-    }
-  }
 };
 
 interface UserProviderProps {
   children: ReactNode;
 }
 
-const dispatchUser = (User: UserInterface) => User;
+interface IUserContext {
+  user: IUser;
+  setUser: (user: IUser) => void;
+}
 
-const UserContext = createContext({userContext: User, setUserContext: dispatchUser});
+export const UserContext = createContext<IUserContext>({
+  user: User,
+  setUser: () => {}
+});
 
-const UserProvider = ({ children }: UserProviderProps) => {
-  const userContext = User;
-  const setUserContext = dispatchUser;
+export const UserProvider = ({ children }: UserProviderProps) => {
+  const [state, setState] = useState(User);
 
   return (
-    <UserContext.Provider value={{ userContext, setUserContext }}>
+    <UserContext.Provider value={ { user: state, setUser: setState } }>
       {children}
     </UserContext.Provider>
   );
 };
-
-export { UserContext, UserProvider, User };
