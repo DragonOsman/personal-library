@@ -1,7 +1,7 @@
 import "./Register.css";
 import { useFormik } from "formik";
 import { UserContext } from "../context/UserContext";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import * as Yup from "yup";
 
 interface FormValues {
@@ -13,10 +13,7 @@ interface FormValues {
 }
 
 const Register = () => {
-  const [error, setError] = useState("");
   const { user, setUser } = useContext(UserContext);
-
-  const genericErrorMessage = "Something went wrong! Please try again later.";
 
   const formik = useFormik({
     initialValues: {
@@ -45,7 +42,6 @@ const Register = () => {
     }),
     onSubmit: async (values: FormValues): Promise<void> => {
       formik.setSubmitting(true);
-      setError("");
 
       const newUser: typeof user = {
         firstName: values.firstName,
@@ -62,22 +58,12 @@ const Register = () => {
             "Content-type": "application/json"
           },
           credentials: "include",
-          body: JSON.stringify(user)
+          body: JSON.stringify(newUser)
         });
 
         formik.setSubmitting(false);
-        if (!response.ok) {
-          if (response.status === 400) {
-            setError("Please fill all the fields correctly!");
-          } else if (response.status === 401) {
-            setError("Invalid email and password combination.");
-          } else {
-            setError(genericErrorMessage);
-          }
-        } else {
-          const data = await response.json();
-          setUser({ ...newUser, token: data.token });
-        }
+        const data = await response.json();
+        setUser({ ...newUser, token: data.token });
       } catch (error) {
         console.log(`Line 82: ${error}`);
       }
@@ -86,7 +72,6 @@ const Register = () => {
 
   return (
     <div className="register-form-container">
-      {error && <p className="text-danger">{error}</p>}
       <form onSubmit={(event) => {event.preventDefault(); formik.handleSubmit(event);}} method="post">
         <fieldset>
           <legend>User registration form</legend>

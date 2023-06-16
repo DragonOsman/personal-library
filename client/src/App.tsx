@@ -1,5 +1,6 @@
 import Header from "./components/Header";
 import Login from "./components/Login";
+import Register from "./components/Register";
 import Home from "./components/Home";
 import { Route, Routes } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
@@ -14,6 +15,8 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={user.token ? <Home /> : <Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </>
   );

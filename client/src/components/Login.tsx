@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import * as Yup from "yup";
+import "./Login.css";
 
 interface FormValues {
   email: string;
@@ -10,7 +11,6 @@ interface FormValues {
 }
 
 const Login = () => {
-  const [error, setError] = useState("");
   const { user, setUser } = useContext(UserContext);
 
   const formik = useFormik({
@@ -28,14 +28,11 @@ const Login = () => {
     }),
     onSubmit: async (values:FormValues) => {
       formik.setSubmitting(true);
-      setError("");
 
       const newUser: typeof user = {
         email: values.email,
         password: values.password
       };
-
-      const genericErrorMessage = "Something went wrong! Please try again later.";
 
       try {
         const response:Response = await fetch("/api/users/login", {
@@ -48,18 +45,8 @@ const Login = () => {
         });
 
         formik.setSubmitting(false);
-        if (!response.ok) {
-          if (response.status === 400) {
-            setError("Please fill all the fields correctly!");
-          } else if (response.status === 401) {
-            setError("Invalid email and password combination.");
-          } else {
-            setError(genericErrorMessage);
-          }
-        } else {
-          const data = await response.json();
-          setUser({ ...newUser, token: data.token });
-        }
+        const data = await response.json();
+        setUser({ ...newUser, token: data.token });
       } catch (error) {
         console.log(`Line 64: ${error}`);
       }
@@ -68,7 +55,6 @@ const Login = () => {
 
   return (
     <div className="login-form-container">
-      {error && <p className="text-danger">{error}</p>}
       <form onSubmit={(event) => {event.preventDefault(); formik.handleSubmit(event);}} method="post">
         <fieldset>
           <legend>User login form</legend>
