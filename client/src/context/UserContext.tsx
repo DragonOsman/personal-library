@@ -39,20 +39,20 @@ interface UserProviderProps {
 }
 
 interface IUserContext {
-  user: IUser;
-  setUser: (user: IUser) => void;
+  userContext: IUser;
+  setUserContext: (user: IUser) => void;
 }
 
 export const UserContext = createContext<IUserContext>({
-  user: User,
-  setUser: () => {}
+  userContext: User,
+  setUserContext: () => {}
 });
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [state, setState] = useState(User);
 
   return (
-    <UserContext.Provider value={ { user: state, setUser: setState } }>
+    <UserContext.Provider value={ { userContext: state, setUserContext: setState } }>
       {children}
     </UserContext.Provider>
   );
