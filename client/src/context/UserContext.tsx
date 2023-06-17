@@ -20,7 +20,7 @@ interface IUser {
     payload: {
       id: string;
     }
-  };
+  } | null;
   books?: IBook[]
 }
 

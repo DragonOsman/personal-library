@@ -1,8 +1,12 @@
 import "./Header.css";
 import logo from "../logo.png";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import { useContext } from "react";
 
 const Header = () => {
+  const { user, setUser } = useContext(UserContext);
+
   return (
     <header>
       <nav
@@ -30,11 +34,45 @@ const Header = () => {
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/login" className="nav-link">
-                Login/Register
-              </Link>
-            </li>
+            {!user.token ?
+              (
+                <>
+                  <li className="nav-item">
+                    <Link to="/login" className="nav-link">
+                      Login
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/register" className="nav-link">
+                      Register
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    Profile {/* Todo: create user profile page and add link here */}
+                  </li>
+                  <li className="nav-link">
+                    <button type="button" onClick={async e => {
+                      try {
+                        await fetch("/api/users/logout", {
+                          method: "POST",
+                          credentials: "include",
+                          headers: {
+                            "Content-Type": "application/json"
+                          }
+                        });
+                        const newUser = user;
+                        setUser({ ...newUser, token: null });
+                      } catch (err) {
+                        console.log(`Header component, logout button code error: ${err}`);
+                      }
+                    }}></button>
+                  </li>
+                </>
+              )}
+
           </ul>
         </div>
       </nav>
