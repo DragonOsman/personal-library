@@ -43,7 +43,7 @@ const Register = () => {
     onSubmit: async (values: FormValues): Promise<void> => {
       formik.setSubmitting(true);
 
-      const newUser: typeof user = {
+      const currentUser = {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
@@ -58,12 +58,12 @@ const Register = () => {
             "Content-type": "application/json"
           },
           credentials: "include",
-          body: JSON.stringify(newUser)
+          body: JSON.stringify(currentUser)
         });
 
         formik.setSubmitting(false);
         const data = await response.json();
-        setUser({ ...newUser, token: data.token });
+        setUser({ ...currentUser, token: data.token });
       } catch (error) {
         console.log(`Line 82: ${error}`);
       }

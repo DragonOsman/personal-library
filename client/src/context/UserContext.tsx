@@ -11,22 +11,27 @@ interface IBook {
 }
 
 interface IUser {
-  firstName?: string;
-  lastName?: string;
-  email: string;
-  password: string;
-  confirmPassword?: string;
+  details?: {
+    firstName?: string;
+    lastName?: string;
+    email: string;
+    password: string;
+    confirmPassword?: string;
+    books?: IBook[]
+  } | null;
   token?: {
     payload: {
       id: string;
     }
   } | null;
-  books?: IBook[]
 }
 
 const User: IUser = {
-  email: "",
-  password: "",
+  details: {
+    email: "",
+    password: "",
+    books: []
+  }
 };
 
 interface UserProviderProps {
