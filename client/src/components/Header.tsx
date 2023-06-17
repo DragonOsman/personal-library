@@ -5,7 +5,7 @@ import { UserContext } from "../context/UserContext";
 import { useContext } from "react";
 
 const Header = () => {
-  const { userContext: user, setUserContext: setUser } = useContext(UserContext);
+  const { userContext, setUserContext } = useContext(UserContext);
 
   return (
     <header>
@@ -34,7 +34,7 @@ const Header = () => {
                 Home
               </Link>
             </li>
-            {!user.token ?
+            {!userContext.token ?
               (
                 <>
                   <li className="nav-item">
@@ -63,8 +63,8 @@ const Header = () => {
                             "Content-Type": "application/json"
                           }
                         });
-                        const newUser = user;
-                        setUser({ ...newUser, token: null });
+                        const previousUserContext = userContext;
+                        setUserContext({ ...previousUserContext, token: null });
                       } catch (err) {
                         console.log(`Header component, logout button code error: ${err}`);
                       }
