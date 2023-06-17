@@ -5,7 +5,7 @@ import { UserContext } from "../context/UserContext";
 import { useContext } from "react";
 
 const Header = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { userContext: user, setUserContext: setUser } = useContext(UserContext);
 
   return (
     <header>

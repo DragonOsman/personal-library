@@ -9,9 +9,9 @@ import { useContext, useCallback, useEffect } from "react";
 import "./App.css";
 
 function App() {
-  const { user, setUser } = useContext(UserContext);
+  const { userContext, setUserContext } = useContext(UserContext);
 
-  const newUser = user;
+  const previousUserContext = userContext;
 
   const verifyUser = useCallback(async () => {
     try {
@@ -25,9 +25,9 @@ function App() {
 
       if (response.ok) {
         const data = await response.json();
-        setUser({ ...newUser, token: data.token });
+        setUserContext({ ...previousUserContext, token: data.token });
       } else {
-        setUser({ ...newUser, token: null });
+        setUserContext({ ...previousUserContext, token: null });
       }
 
       // call refreshToken every 5 minutes to renew the authentication token.
@@ -35,7 +35,7 @@ function App() {
     } catch (error) {
       console.log(`in verifyUser, App component: ${error}`);
     }
-  }, [setUser, newUser]);
+  }, [setUserContext, previousUserContext]);
 
   useEffect(() => {
     verifyUser();
@@ -45,9 +45,9 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={user.token === null ? (
+        <Route path="/" element={userContext.token === null ? (
           <Login />
-         ) : user.token ? (
+         ) : userContext.token ? (
           <Home />
          ) : <Loader />} />
         <Route path="/login" element={<Login />} />
