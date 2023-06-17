@@ -42,8 +42,8 @@ app.use(cors({
   credentials: true }
 ));
 app.use(passport.initialize());
-app.use("/api/users/", users);
 
+app.use("/api/users/", users);
 app.use("/api/books", books);
 
 const port = process.env.PORT || 5000;
