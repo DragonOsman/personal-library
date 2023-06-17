@@ -11,7 +11,7 @@ interface FormValues {
 }
 
 const Login = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { userContext, setUserContext } = useContext(UserContext);
 
   const formik = useFormik({
     initialValues: {
@@ -29,11 +29,13 @@ const Login = () => {
     onSubmit: async (values:FormValues) => {
       formik.setSubmitting(true);
 
-      const currentUser = {
+      const user = {
         username: values.email,
         email: values.email,
         password: values.password
       };
+
+      const previousUserContext = userContext;
 
       try {
         const response:Response = await fetch("/api/users/login", {
@@ -42,14 +44,14 @@ const Login = () => {
             "Content-type": "application/json"
           },
           credentials: "include",
-          body: JSON.stringify(currentUser)
+          body: JSON.stringify(user)
         });
 
         formik.setSubmitting(false);
         const data = await response.json();
-        setUser({ ...currentUser, token: data.token });
+        setUserContext({ ...previousUserContext, token: data.token });
       } catch (error) {
-        console.log(`Line 52: ${error}`);
+        console.log(`Line 54: ${error}`);
       }
     }
   });
