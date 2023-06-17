@@ -143,7 +143,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 // @desc Send user details
 // @access Public
 userRouter.get("/user-info/", verifyUser, (req, res, next) => {
-  res.send({ user: req.user, isLoggedIn: true });
+  res.send(req.user);
 });
 
 // @route GET api/users/logout
