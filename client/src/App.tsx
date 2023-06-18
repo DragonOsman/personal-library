@@ -38,8 +38,12 @@ function App() {
   }, [setUserContext, previousUserContext]);
 
   useEffect(() => {
-    verifyUser();
-  }, [verifyUser]);
+    // call function to get refresh token jwt only if
+    // user is logged in (or at least that's the intention)
+    if (userContext.token) {
+      verifyUser();
+    }
+  }, [verifyUser, userContext.token]);
 
   return (
     <>
@@ -49,7 +53,8 @@ function App() {
           <Login />
          ) : userContext.token ? (
           <Home />
-         ) : <Loader />} />
+         ) : <Loader />}
+      />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

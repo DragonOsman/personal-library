@@ -81,6 +81,7 @@ const Register = () => {
           <input
             type="text"
             className="first-name"
+            placeholder="Please your first name"
             required
             {...formik.getFieldProps("firstName")}
           />
@@ -91,6 +92,7 @@ const Register = () => {
           <input
             type="text"
             className="last-name"
+            placeholder="Please enter your last name"
             required
             {...formik.getFieldProps("lastName")}
           />
@@ -101,6 +103,7 @@ const Register = () => {
           <input
             type="email"
             className="email"
+            placeholder="Please enter your email address"
             required
             {...formik.getFieldProps("email")}
           />
@@ -111,6 +114,7 @@ const Register = () => {
           <input
             type="password"
             className="password"
+            placeholder="Please choose a (strong) password"
             required
             {...formik.getFieldProps("password")}
           />
@@ -121,6 +125,7 @@ const Register = () => {
           <input
             type="password"
             className="password"
+            placeholder="Please re-enter the password"
             required
             {...formik.getFieldProps("confirmPassword")}
           />

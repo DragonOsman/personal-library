@@ -11,13 +11,13 @@ interface IBook {
 }
 
 interface IUser {
-  details?: {
+  details: {
     firstName?: string;
     lastName?: string;
     email: string;
     password: string;
     confirmPassword?: string;
-    books?: IBook[]
+    books: IBook[]
   } | null;
   token?: {
     payload: {

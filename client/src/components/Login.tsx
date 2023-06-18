@@ -65,7 +65,7 @@ const Login = () => {
           <input
             type="email"
             className="email"
-            placeholder="Email"
+            placeholder="Please enter your email"
             required
             {...formik.getFieldProps("email")}
           />
@@ -76,7 +76,7 @@ const Login = () => {
           <input
             type="password"
             className="password"
-            placeholder="Password"
+            placeholder="Please enter your password"
             required
             {...formik.getFieldProps("password")}
           />
