@@ -16,9 +16,7 @@ const Home = () => {
     ) : !userContext.details ? (
       <Loader />
     ) : (
-      <div className="user-details">
-        <UserInfo />
-      </div>
+      <UserInfo />
     )
   );
 };
