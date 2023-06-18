@@ -92,9 +92,7 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
 // @desc Refresh JWT and allow user to access protected routes
 // @access Public
 userRouter.post("/refreshToken", async (req, res, next) => {
-  console.log(`/refreshToken route, req.cookies: ${req.cookies}`);
-  const { signedCookies = {} } = req;
-  const { refreshToken } = signedCookies;
+  const refreshToken = req.cookies?.refreshToken;
   if (refreshToken) {
     try {
       const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);

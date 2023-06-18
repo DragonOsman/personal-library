@@ -15,11 +15,12 @@ function App() {
 
   const verifyUser = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/users/refreshToken", {
+      const response = await fetch("http://localhost:3000/api/users/refreshToken", {
         method: "POST",
         credentials: "include",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${userContext.token}`
         }
       });
 
@@ -35,31 +36,37 @@ function App() {
     } catch (error) {
       console.log(`in verifyUser, App component: ${error}`);
     }
-  }, [setUserContext, previousUserContext]);
+  }, [setUserContext, previousUserContext, userContext.token]);
 
   useEffect(() => {
-    // call function to get refresh token jwt only if
-    // user is logged in (or at least that's the intention)
     if (userContext.token) {
       verifyUser();
     }
   }, [verifyUser, userContext.token]);
 
-  return (
-    <>
-      <Header />
-      <Routes>
-        <Route path="/" element={userContext.token === null ? (
-          <Login />
-         ) : userContext.token ? (
-          <Home />
-         ) : <Loader />}
-      />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </>
-  );
+  if (userContext.token) {
+    return (
+      <>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </>
+    );
+  }
 }
 
 export default App;

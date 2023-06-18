@@ -28,9 +28,6 @@ const UserInfo = () => {
         // This could happen if the refreshToken calls have failed due to network error or
         // User has had the tab open from previous day and tries to fetch data
         navigate("/");
-      } else if (response.status === 404) {
-        <p className="text-danger">404 Not Found!</p>;
-        navigate("/");
       }
     }
   }, [previousUserContext, setUserContext, userContext.token, navigate]);
