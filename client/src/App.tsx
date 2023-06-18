@@ -15,7 +15,7 @@ function App() {
 
   const verifyUser = useCallback(async () => {
     try {
-      const response = await fetch("/api/users/refreshToken", {
+      const response = await fetch("http://localhost:5000/api/users/refreshToken", {
         method: "POST",
         credentials: "include",
         headers: {
