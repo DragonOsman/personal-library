@@ -18,8 +18,7 @@ function App() {
         method: "POST",
         credentials: "include",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `jwt ${userContext.token}`
+          "Content-Type": "application/json"
         }
       });
 
@@ -35,7 +34,7 @@ function App() {
     } catch (error) {
       console.log(`in verifyUser, App component: ${error}`);
     }
-  }, [setUserContext, previousUserContext, userContext.token]);
+  }, [setUserContext, previousUserContext]);
 
   useEffect(() => {
     if (userContext.token) {
