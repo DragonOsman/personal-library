@@ -4,7 +4,6 @@ import Register from "./components/Register";
 import Home from "./components/Home";
 import { Route, Routes } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
-import Loader from "./components/Loader";
 import { useContext, useCallback, useEffect } from "react";
 import "./App.css";
 
