@@ -38,11 +38,10 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use(cors({
   origin: "http://localhost:3000/",
-  methods: ["GET", "PUT", "POST", "DELETE"],
+  methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
   credentials: true }
 ));
 app.use(passport.initialize());
-app.use(passport.authenticate("session"));
 
 app.use("/api/users/", users);
 app.use("/api/books", books);
