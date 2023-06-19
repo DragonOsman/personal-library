@@ -15,7 +15,7 @@ const UserInfo = () => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${userContext.token}`
+        "Authorization": `jwt ${userContext.token}`
       }
     });
 
