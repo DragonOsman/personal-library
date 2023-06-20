@@ -54,8 +54,7 @@ const Register = () => {
       const previousUserContext = userContext;
 
       try {
-        const response = await fetch(
-          "https://personal-library-rvi3.onrender.com/api/users/register", {
+        const response = await fetch("/api/users/register", {
           method: "POST",
           headers: {
             "Content-type": "application/json"
@@ -68,7 +67,7 @@ const Register = () => {
         const data = await response.json();
         setUserContext({ ...previousUserContext, token: data.token });
       } catch (error) {
-        console.log(`Line 71: ${error}`);
+        console.log(`Line 70: ${error}`);
       }
     }
   });

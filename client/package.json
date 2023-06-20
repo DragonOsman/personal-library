@@ -33,7 +33,7 @@
     "eject": "react-scripts eject"
   },
   "options": {
-    "proxy": "http://localhost:5000/"
+    "proxy": "https://personal-library-rvi3.onrender.com/"
   },
   "eslintConfig": {
     "extends": [

@@ -39,23 +39,27 @@ const Header = () => {
               (
                 <>
                   <li className="nav-item">
-                    <Link to={`${URL}/login`} className="nav-link">
+                    <Link to="/login" className="nav-link">
                       Login
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to={`${URL}/register`} className="nav-link">
+                    <Link to="/register" className="nav-link">
                       Register
                     </Link>
                   </li>
                 </>
               ) : (
                 <>
+                  <li className="nav-item">
+                    <Link to="/dashboard" className="nav-link">
+                      Dashboard/Profile
+                    </Link>
+                  </li>
                   <li className="nav-link">
-                    <button type="button" onClick={async e => {
+                    <button type="button" onClick={async () => {
                       try {
-                        await fetch(
-                          "https://personal-library-rvi3.onrender.com/api/users/logout", {
+                        await fetch("/api/users/logout", {
                           method: "POST",
                           credentials: "include",
                           headers: {

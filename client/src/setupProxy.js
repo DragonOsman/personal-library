@@ -6,7 +6,7 @@ module.exports = app => {
     "/api/books/show-book/:id", "api/books/update-book/:id", "/api/books/delete-book/:id",
     "/api/users/user-info", "/api/users/refreshToken"],
     createProxyMiddleware({
-      target: "http://localhost:5000/"
+      target: "https://personal-library-rvi3.onrender.com/"
     })
   );
 };
