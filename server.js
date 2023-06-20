@@ -37,8 +37,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
+const CLIENT_URL = "https://personal-library-client.onrender.com";
+
 app.use(cors({
-  origin: "https://personal-library-client.onrender.com",
+  origin: [`${CLIENT_URL}`, `${CLIENT_URL}/`],
   methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
   credentials: true }
 ));
