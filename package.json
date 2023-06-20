@@ -26,6 +26,7 @@
   },
   "scripts": {
     "client-install": "npm install --prefix client",
+    "client-build": "npm run build --prefix client",
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
