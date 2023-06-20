@@ -14,7 +14,8 @@ function App() {
 
   const verifyUser = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/users/refreshToken", {
+      const response = await fetch(
+        "https://personal-library-rvi3.onrender.com/api/users/refreshToken", {
         method: "POST",
         credentials: "include",
         headers: {
