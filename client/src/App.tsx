@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
+import UserInfo from "./components/UserInfo";
 import { Route, Routes } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
 import { useContext, useCallback, useEffect } from "react";
@@ -9,13 +10,15 @@ import "./App.css";
 
 function App() {
   const { userContext, setUserContext } = useContext(UserContext);
+  const CLIENT_URL = "https://personal-library-client.onrender.com";
+  const SERVER_URL = "https://personal-library-rvi3.onrender.com";
 
   const previousUserContext = userContext;
 
   const verifyUser = useCallback(async () => {
     try {
       const response = await fetch(
-        "https://personal-library-rvi3.onrender.com/api/users/refreshToken", {
+        `${SERVER_URL}/api/users/refreshToken`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -48,9 +51,10 @@ function App() {
       <>
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path={`${CLIENT_URL}/`} element={<Home />} />
+          <Route path={`${CLIENT_URL}/login`} element={<Login />} />
+          <Route path={`${CLIENT_URL}/register`} element={<Register />} />
+          <Route path={`${CLIENT_URL}/dashboard`} element={<UserInfo />} />
         </Routes>
       </>
     );
