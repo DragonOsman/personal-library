@@ -26,6 +26,7 @@ app.use(session({
   saveUninitialized: true,
   resave: false,
   cookie: COOKIE_OPTIONS,
+  name: "dragonosman-sessions",
   maxAge: math.evaluate(process.env.SESSION_EXPIRY)
  }));
 
