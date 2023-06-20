@@ -78,7 +78,7 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
     try {
       await user.save();
       res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-      res.json({ success: true, token: `jwt ${token}`, user });
+      res.send({ success: true, token: `jwt ${token}`, user });
     } catch (err) {
       res.statusCode = 500;
       res.send(err);
@@ -112,6 +112,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
         if (tokenIndex === -1) {
           res.statusCode = 401;
           res.send("Unauthorized");
+          console.log("error in finding tokenIndex");
         } else {
           const token = getToken({ _id: userId });
 
@@ -121,7 +122,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
           try {
             await user.save();
             res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-            res.send({ success: true, token });
+            res.send({ success: true, token: `jwt ${token}`, user });
           } catch (err) {
             res.statusCode = 500;
             res.send(err);
@@ -130,6 +131,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
       } else {
         res.statusCode = 401;
         res.send("Unauthorized");
+        console.log("Incorrect login credentials");
       }
     } catch (err) {
       res.statusCode = 401;
@@ -139,6 +141,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
   } else {
     res.statusCode = 401;
     res.send("Unauthorized");
+    console.log("No refresh token in cookies");
   }
 });
 
