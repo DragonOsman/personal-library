@@ -5,6 +5,8 @@ const passport = require("passport");
 const session = require("express-session");
 const math = require("mathjs");
 
+const cors = require("cors");
+
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
@@ -34,6 +36,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
+app.use(cors({
+  origin: "https://personal-library-client.onrender.com/",
+  methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
+  credentials: true }
+));
 app.use(passport.initialize());
 
 app.use("/api/users/", users);
