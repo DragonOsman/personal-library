@@ -4,8 +4,6 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const session = require("express-session");
 const math = require("mathjs");
-const https = require("https");
-const fs = require("fs");
 
 const cors = require("cors");
 
@@ -50,10 +48,4 @@ app.use("/api/books", books);
 
 const port = process.env.PORT || 5000;
 
-const httpsOptions = {
-  key: fs.readFileSync("./localhost.pem"),
-  cert: fs.readFileSync("./localhost.crt")
-};
-
-const server = https.createServer(httpsOptions, app);
-server.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => console.log(`Server running on port ${port}`));
