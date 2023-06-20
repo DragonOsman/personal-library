@@ -1,11 +1,10 @@
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
-const dev = process.env.NODE_ENV !== "production";
 const math = require("mathjs");
 
 exports.COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: !dev,
+  secure: true,
   signed: true,
   maxAge: math.evaluate(process.env.REFRESH_TOKEN_EXPIRY) * 1000,
   sameSite: "none"
