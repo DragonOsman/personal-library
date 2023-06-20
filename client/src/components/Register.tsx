@@ -68,7 +68,7 @@ const Register = () => {
         const data = await response.json();
         setUserContext({ ...previousUserContext, token: data.token });
       } catch (error) {
-        console.log(`Line 70: ${error}`);
+        console.log(`Line 71: ${error}`);
       }
     }
   });
