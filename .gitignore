@@ -1,5 +1,2 @@
 node_modules
 .env
-localhost.csr
-localhost.key
-localhost.crt
