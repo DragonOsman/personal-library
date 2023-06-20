@@ -6,6 +6,7 @@ import { useContext } from "react";
 
 const Header = () => {
   const { userContext, setUserContext } = useContext(UserContext);
+  const URL = "https://personal-library-client.onrender.com";
 
   return (
     <header>
@@ -38,25 +39,23 @@ const Header = () => {
               (
                 <>
                   <li className="nav-item">
-                    <Link to="/login" className="nav-link">
+                    <Link to={`${URL}/login`} className="nav-link">
                       Login
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to="/register" className="nav-link">
+                    <Link to={`${URL}/register`} className="nav-link">
                       Register
                     </Link>
                   </li>
                 </>
               ) : (
                 <>
-                  <li className="nav-item">
-                    Profile {/* Todo: create user profile page and add link here */}
-                  </li>
                   <li className="nav-link">
                     <button type="button" onClick={async e => {
                       try {
-                        await fetch("/api/users/logout", {
+                        await fetch(
+                          "https://personal-library-rvi3.onrender.com/api/users/logout", {
                           method: "POST",
                           credentials: "include",
                           headers: {
