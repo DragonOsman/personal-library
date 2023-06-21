@@ -4,6 +4,9 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const session = require("express-session");
 const math = require("mathjs");
+const MemoryStore = require("memorystore");
+
+const memoryStore = createMemoryStore(session());
 
 const cors = require("cors");
 
@@ -27,11 +30,13 @@ app.use(session({
   resave: false,
   cookie: COOKIE_OPTIONS,
   name: "dragonosman-sessions",
-  maxAge: math.evaluate(process.env.SESSION_EXPIRY)
+  maxAge: math.evaluate(process.env.SESSION_EXPIRY),
+  store: new MemoryStore()
  }));
 
 const users = require("./routes/api/users");
 const books = require("./routes/api/books");
+const createMemoryStore = require("memorystore");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
