@@ -37,6 +37,7 @@ const Login = () => {
 
       const previousUserContext = userContext;
 
+      debugger;
       try {
         const response:Response = await fetch("/api/users/login", {
           method: "POST",
