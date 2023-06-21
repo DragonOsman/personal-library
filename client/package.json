@@ -32,9 +32,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "options": {
-    "proxy": "https://personal-library-rvi3.onrender.com/"
-  },
   "eslintConfig": {
     "extends": [
       "react-app",

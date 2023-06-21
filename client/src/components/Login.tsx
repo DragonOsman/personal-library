@@ -37,9 +37,9 @@ const Login = () => {
 
       const previousUserContext = userContext;
 
-      debugger;
       try {
-        const response:Response = await fetch("/api/users/login", {
+        const response:Response = await fetch(
+          "https://personal-library-rvi3.onrender.com/api/users/login", {
           method: "POST",
           headers: {
             "Content-type": "application/json"
