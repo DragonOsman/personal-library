@@ -6,7 +6,6 @@ import { useContext } from "react";
 
 const Header = () => {
   const { userContext, setUserContext } = useContext(UserContext);
-  const URL = "https://personal-library-client.onrender.com";
 
   return (
     <header>
