@@ -76,12 +76,12 @@ const Register = () => {
   return (
     <div className="register-form-container">
       <form onSubmit={(event) => {event.preventDefault(); formik.handleSubmit(event);}} method="post">
-        <fieldset>
+        <fieldset className="mb-3">
           <legend>User registration form</legend>
-          <label htmlFor="firstName">First name:</label>
+          <label className="form-label" htmlFor="firstName">First name:</label>
           <input
             type="text"
-            className="first-name"
+            className="first-name form-control"
             placeholder="Please your first name"
             required
             {...formik.getFieldProps("firstName")}
@@ -89,10 +89,10 @@ const Register = () => {
           {formik.touched.firstName && formik.errors.firstName ? (
             <small className="text-danger">{formik.errors.firstName}</small>
           ) : null}
-          <label htmlFor="lastName">Last name:</label>
+          <label className="form-label" htmlFor="lastName">Last name:</label>
           <input
             type="text"
-            className="last-name"
+            className="last-name form-control"
             placeholder="Please enter your last name"
             required
             {...formik.getFieldProps("lastName")}
@@ -100,10 +100,10 @@ const Register = () => {
           {formik.touched.lastName && formik.errors.lastName ? (
             <small className="text-danger">{formik.errors.lastName}</small>
           ) : null}
-          <label htmlFor="email">Email:</label>
+          <label className="form-label" htmlFor="email">Email:</label>
           <input
             type="email"
-            className="email"
+            className="email form-control"
             placeholder="Please enter your email address"
             required
             {...formik.getFieldProps("email")}
@@ -111,10 +111,10 @@ const Register = () => {
           {formik.touched.email && formik.errors.email ? (
             <small className="text-danger">{formik.errors.email}</small>
           ) : null}
-          <label htmlFor="password">Password:</label>
+          <label className="form-label" htmlFor="password">Password:</label>
           <input
             type="password"
-            className="password"
+            className="password form-control"
             placeholder="Please choose a (strong) password"
             required
             {...formik.getFieldProps("password")}
@@ -122,10 +122,10 @@ const Register = () => {
           {formik.touched.password && formik.errors.password ? (
             <small className="text-danger">{formik.errors.password}</small>
           ) : null}
-          <label htmlFor="confirmPassword">Confirm password:</label>
+          <label className="form-label" htmlFor="confirmPassword">Confirm password:</label>
           <input
             type="password"
-            className="password"
+            className="confirm-password form-control"
             placeholder="Please re-enter the password"
             required
             {...formik.getFieldProps("confirmPassword")}

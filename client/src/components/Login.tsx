@@ -60,12 +60,12 @@ const Login = () => {
   return (
     <div className="login-form-container">
       <form onSubmit={(event) => {event.preventDefault(); formik.handleSubmit(event);}} method="post">
-        <fieldset>
+        <fieldset className="mb-3">
           <legend>User login form</legend>
-          <label htmlFor="email">Email:</label>
+          <label className="form-label" htmlFor="email">Email:</label>
           <input
             type="email"
-            className="email"
+            className="email form-control"
             placeholder="Please enter your email"
             required
             {...formik.getFieldProps("email")}
@@ -73,10 +73,10 @@ const Login = () => {
           {formik.touched.email && formik.values.email ? (
             <small className="text-danger">{formik.errors.email}</small>
           ) : null}
-          <label htmlFor="password">Password:</label>
+          <label className="form-label" htmlFor="password">Password:</label>
           <input
             type="password"
-            className="password"
+            className="password form-control"
             placeholder="Please enter your password"
             required
             {...formik.getFieldProps("password")}
