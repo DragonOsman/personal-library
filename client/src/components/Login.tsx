@@ -52,7 +52,7 @@ const Login = () => {
         const data = await response.json();
         setUserContext({ ...previousUserContext, token: data.token });
       } catch (error) {
-        console.log(`Line 54: ${error}`);
+        console.log(`Line 55: ${error}`);
       }
     }
   });
