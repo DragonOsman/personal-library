@@ -2,7 +2,6 @@
   "dependencies": {
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
-    "concurrently": "^8.1.0",
     "config": "^3.3.9",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -13,7 +12,6 @@
     "jsonwebtoken": "^9.0.0",
     "mathjs": "^11.8.1",
     "mongoose": "^7.2.2",
-    "nodemon": "^2.0.22",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
@@ -22,7 +20,9 @@
     "validator": "^13.9.0"
   },
   "devDependencies": {
-    "eslint": "^8.42.0"
+    "concurrently": "^8.2.0",
+    "eslint": "^8.42.0",
+    "nodemon": "^2.0.22"
   },
   "scripts": {
     "client-install": "npm install --prefix client",
