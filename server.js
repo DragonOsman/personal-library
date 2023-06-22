@@ -4,7 +4,6 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const session = require("express-session");
 const math = require("mathjs");
-const MongoStore = require("connect-mongo");
 
 const cors = require("cors");
 
@@ -12,8 +11,8 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 const connectDB = require("./config/db");
+const { sessionStore } = require("./config/db");
 connectDB();
-const mongoose = require("mongoose");
 
 require("./strategies/JwtStrategy");
 require("./strategies/LocalStrategy");
@@ -30,11 +29,7 @@ app.use(session({
   cookie: COOKIE_OPTIONS,
   name: "dragonosman-sessions",
   maxAge: math.evaluate(process.env.SESSION_EXPIRY),
-  store: MongoStore.create({
-    client: mongoose.connection.getClient(),
-    dbName: "Users",
-    collectionName: "user-sessions",
-  })
+  store: sessionStore
  }));
 
 const users = require("./routes/api/users");
