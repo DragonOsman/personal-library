@@ -6,7 +6,7 @@ const dbURI = process.env.MONGO_DB_CONNECTION_STRING;
 const connectDB = async () => {
   mongoose.set("strictQuery", true);
   try {
-    const db = await mongoose.connect(dbURI);
+    const db = await mongoose.connect(dbURI, { dbName: "personal-library" });
     console.log("connected to database");
      db.connection
      .on("error", () => console.log("error occurred while trying to connect to database"))
