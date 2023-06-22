@@ -44,8 +44,8 @@ const CLIENT_URL = "https://personal-library-client.onrender.com";
 app.use(cors({
   origin: [`${CLIENT_URL}`, `${CLIENT_URL}/`],
   methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
-  credentials: true }
-));
+  credentials: true
+}));
 app.use(passport.initialize());
 
 app.use("/api/users/", users);
