@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const session = require("express-session");
 const math = require("mathjs");
-const createMemoryStore = require("memorystore");
+const MongoStore = require("connect-mongo");
 
 const cors = require("cors");
 
@@ -13,6 +13,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 const connectDB = require("./config/db");
 connectDB();
+const mongoose = require("mongoose");
 
 require("./strategies/JwtStrategy");
 require("./strategies/LocalStrategy");
@@ -22,8 +23,6 @@ const app = express();
 
 const { COOKIE_OPTIONS } = require("./authenticate");
 
-const memoryStore = createMemoryStore(session());
-
 app.use(session({
   secret: process.env.SESSION_SECRET,
   saveUninitialized: true,
@@ -31,7 +30,11 @@ app.use(session({
   cookie: COOKIE_OPTIONS,
   name: "dragonosman-sessions",
   maxAge: math.evaluate(process.env.SESSION_EXPIRY),
-  store: memoryStore
+  store: MongoStore.create({
+    client: mongoose.connection.getClient(),
+    dbName: "Users",
+    collectionName: "user-sessions",
+  })
  }));
 
 const users = require("./routes/api/users");
