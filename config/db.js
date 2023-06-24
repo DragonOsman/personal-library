@@ -9,15 +9,14 @@ const connectDB = () => {
   try {
     const db = mongoose.connect(dbURI, { dbName: "personal-library" });
     console.log("connected to database");
-    const connection = db.connection;
-    connection
+    db.connection
       .on("error", () => console.log("error occurred while trying to connect to database"))
       .on("disconnected", () => console.log("disconnected from database!"))
     ;
 
     const sessionStore = new MongoStore({
-      mongooseConnection: connection,
-      client: connection.getClient(),
+      mongooseConnection: db.connection,
+      client: db.connection.getClient(),
       dbName: "Users",
       collectionName: "user-sessions"
     });
