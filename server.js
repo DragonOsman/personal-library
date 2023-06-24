@@ -47,7 +47,7 @@ app.use(cors({
   credentials: true
 }));
 app.use(passport.initialize());
-//app.use(require("./authenticate").verifyUser()); // for passport.authenticate(["jwt", "session"]) call
+app.use(require("./authenticate").verifyUser()); // for passport.authenticate(["jwt", "session"]) call
 
 app.use("/api/users/", users);
 app.use("/api/books", books);
