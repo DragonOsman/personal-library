@@ -39,7 +39,6 @@ userRouter.post("/register", async (req, res, next) => {
         try {
           if (err) {
             res.statusCode = 500;
-            console.log(err);
             res.send(err);
           } else {
             const token = getToken({ _id: user._id });
@@ -82,9 +81,11 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
       res.send({ success: true, token: `jwt ${token}`, user });
     } catch (err) {
       res.statusCode = 500;
+      console.log(`In login route, inner catch block: ${err}`);
       res.send(err);
     }
   } catch (err) {
+    console.log(`In login route, outer catch block: ${err}`);
     return next(err);
   }
 });
