@@ -7,16 +7,16 @@ const dbURI = process.env.MONGO_DB_CONNECTION_STRING;
 const connectDB = () => {
   mongoose.set("strictQuery", true);
   try {
-    const db = mongoose.connect(dbURI, { dbName: "personal-library" });
+    const dbConnection = mongoose.createConnection(dbURI, { dbName: "personal-library" });
     console.log("connected to database");
-    db.connection
+    dbConnection
       .on("error", () => console.log("error occurred while trying to connect to database"))
       .on("disconnected", () => console.log("disconnected from database!"))
     ;
 
     const sessionStore = new MongoStore({
-      mongooseConnection: db.connection,
-      client: db.connection.getClient(),
+      mongooseConnection: dbConnection,
+      client: dbConnection.getClient(),
       dbName: "Users",
       collectionName: "user-sessions"
     });
