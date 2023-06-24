@@ -74,6 +74,12 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
   const refreshToken = getRefreshToken({ _id: req.user._id });
   try {
     const user = await User.findById(req.user._id);
+    console.log("user object in login route:");
+    for (const key of Object.keys(user)) {
+      for (const value of Object.values(user)) {
+        console.log(`${key}:${value}`);
+      }
+    }
     user.refreshToken.push({ refreshToken });
     try {
       await user.save();
