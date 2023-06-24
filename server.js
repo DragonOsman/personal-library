@@ -47,7 +47,6 @@ app.use(cors({
   credentials: true
 }));
 app.use(passport.initialize());
-app.use(require("./authenticate").verifyUser());
 
 app.use("/api/users/", users);
 app.use("/api/books", books);
