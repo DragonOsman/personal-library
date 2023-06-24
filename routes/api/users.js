@@ -41,7 +41,7 @@ userRouter.post("/register", async (req, res, next) => {
             res.statusCode = 500;
             console.log(err);
             res.send(err);
-      ;    } else {
+          } else {
             const token = getToken({ _id: user._id });
             const refreshToken = getRefreshToken({ _id: user._id });
             user.refreshToken.push({ refreshToken });

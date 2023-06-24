@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
+const MongoStore = require("connect-mongo");
 require("dotenv").config();
 
 const dbURI = process.env.MONGO_DB_CONNECTION_STRING;
