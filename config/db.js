@@ -4,10 +4,10 @@ require("dotenv").config();
 
 const dbURI = process.env.MONGO_DB_CONNECTION_STRING;
 
-const connectDB = async () => {
+const connectDB = () => {
   mongoose.set("strictQuery", true);
   try {
-    const db = await mongoose.connect(dbURI, { dbName: "personal-library" });
+    const db = mongoose.connect(dbURI, { dbName: "personal-library" });
     console.log("connected to database");
     const connection = db.connection;
     connection
@@ -17,6 +17,7 @@ const connectDB = async () => {
 
     const sessionStore = new MongoStore({
       mongooseConnection: connection,
+      client: connection.getClient(),
       dbName: "Users",
       collectionName: "user-sessions"
     });
