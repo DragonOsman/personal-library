@@ -46,6 +46,7 @@ userRouter.post("/register", async (req, res, next) => {
             res.statusCode = 500;
             res.setHeader("Content-Type", "application/json");
             res.json({ success: false, err });
+            console.log(`In register route, if (err) condition in User.register callback: ${err}`);
           } else {
             const token = getToken({ _id: user._id });
             const refreshToken = getRefreshToken({ _id: user._id });
