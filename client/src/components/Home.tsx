@@ -29,7 +29,7 @@ const Home = () => {
         // Edge case: when the token has expired.
         // This could happen if the refreshToken calls have failed due to network error or
         // User has had the tab open from previous day and tries to fetch data
-        navigate("/");
+        navigate("/login");
       }
     }
   }, [previousUserContext, setUserContext, userContext.token, navigate]);
