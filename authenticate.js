@@ -5,18 +5,13 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 const LocalStrategy = require("passport-local").Strategy;
 const JwtStrategy = require("passport-jwt").Strategy;
 const User = require("./models/User");
-const {
-  REFRESH_TOKEN_EXPIRY,
-  SESSION_EXPIRY,
-  REFRESH_TOKEN_SECRET,
-  JWT_SECRET
-} = require("dotenv").config();
+require("dotenv").config();
 
 exports.COOKIE_OPTIONS = {
   httpOnly: true,
   secure: true,
   signed: true,
-  maxAge: math.evaluate(REFRESH_TOKEN_EXPIRY) * 1000,
+  maxAge: math.evaluate(process.env.REFRESH_TOKEN_EXPIRY) * 1000,
   sameSite: "none"
 };
 
@@ -26,21 +21,21 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 exports.getToken = user => {
-  return jwt.sign(user, JWT_SECRET, {
-    expiresIn: math.evaluate(SESSION_EXPIRY)
+  return jwt.sign(user, process.env.JWT_SECRET, {
+    expiresIn: math.evaluate(process.env.SESSION_EXPIRY)
   });
 };
 
 exports.getRefreshToken = user => {
-  const refreshToken = jwt.sign(user, REFRESH_TOKEN_SECRET, {
-    expiresIn: math.evaluate(REFRESH_TOKEN_EXPIRY)
+  const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: math.evaluate(process.env.REFRESH_TOKEN_EXPIRY)
   });
   return refreshToken;
 };
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
-opts.secretOrKey = JWT_SECRET;
+opts.secretOrKey = process.env.JWT_SECRET;
 
 exports.jwtPassport = passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
   try {
