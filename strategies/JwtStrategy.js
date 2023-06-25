@@ -22,7 +22,7 @@ passport.use(
       }
     } catch (err) {
       console.log(err);
-      done(err, false);
+      return done(err, false);
     }
   })
 );
