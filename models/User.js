@@ -4,13 +4,6 @@ const passportLocalMongoose = require("passport-local-mongoose");
 
 const Schema = mongoose.Schema;
 
-const SessionSchema = new Schema({
-  refreshToken: {
-    type: String,
-    default: ""
-  }
-});
-
 const UserSchema = new Schema({
   firstName: {
     type: String,
@@ -33,7 +26,8 @@ const UserSchema = new Schema({
     default: []
   },
   refreshToken: {
-    type: [SessionSchema]
+    type: String,
+    default: ""
   },
   date: {
     type: Date,
