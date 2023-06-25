@@ -50,7 +50,7 @@ userRouter.post("/register", async (req, res, next) => {
           } else {
             const token = getToken({ _id: user._id });
             const refreshToken = getRefreshToken({ _id: user._id });
-            user.refreshToken.push({ refreshToken });
+            user.refreshTokens.push({ refreshToken });
             try {
               await user.save();
               res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
@@ -86,7 +86,7 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
   const refreshToken = getRefreshToken({ _id: req.user._id });
   try {
     const user = await User.findById(req.user._id);
-    user.refreshToken.push({ refreshToken });
+    user.refreshTokens.push({ refreshToken });
     try {
       await user.save();
       res.setHeader("Content-Type", "application/json");
@@ -115,7 +115,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
       const userId = payload._id;
       const user = await User.findOne({ _id: userId });
       if (user) {
-        const tokenIndex = user.refreshToken.findIndex(
+        const tokenIndex = user.refreshTokens.findIndex(
           item => item.refreshToken === refreshToken
         );
 
@@ -125,7 +125,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
         } else {
           const token = getToken({ _id: userId });
           const newRefreshToken = getRefreshToken({ _id: userId });
-          user.refreshToken[tokenIndex] = { refreshToken: newRefreshToken };
+          user.refreshTokens[tokenIndex] = { refreshToken: newRefreshToken };
           try {
             await user.save();
             res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
@@ -163,12 +163,12 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   const refreshToken = signedCookies.refreshToken;
   try {
     const user = await User.findById({ _id: req.user._id });
-    const tokenIndex = user.refreshToken.findIndex(
+    const tokenIndex = user.refreshTokens.findIndex(
       item => item.refreshToken === refreshToken
     );
 
     if (tokenIndex !== -1) {
-      user.refeshToken.id(user.refreshToken[tokenIndex]._id).remove();
+      user.refeshTokens.id(user.refreshTokens[tokenIndex]._id).remove();
     }
 
     try {
