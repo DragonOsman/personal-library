@@ -47,22 +47,26 @@ userRouter.post("/register", async (req, res, next) => {
             res.setHeader("Content-Type", "application/json");
             res.json({ success: false, err });
             console.log(`In register route, if (err) condition in User.register callback: ${err}`);
+            return;
           } else {
             const token = getToken({ _id: user._id });
             const refreshToken = getRefreshToken({ _id: user._id });
             user.refreshTokens.push({ refreshToken });
             try {
               await user.save();
+              res.setHeader("Content-Type", "application/json");
               res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
               res.json({ success: true, token: `jwt ${token}` });
             } catch (err) {
               res.statusCode = 500;
               res.json({ err });
+              return;
             }
           }
         } catch (err) {
           res.statusCode = 500;
           res.send(err);
+          return;
         }
       }
     );
@@ -83,6 +87,7 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
         console.log(errorDetail);
       }
     }
+    return;
   }
 
   const token = getToken({ _id: req.user._id });
@@ -92,12 +97,14 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
     user.refreshTokens.push({ refreshToken });
     try {
       await user.save();
+      res.setHeader("Content-Type", "application/json");
       res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
       res.json({ success: true, token: `jwt ${token}`, user });
     } catch (err) {
       res.statusCode = 500;
       console.log(`In login route, inner catch block: ${err}`);
       res.send(err);
+      return;
     }
   } catch (err) {
     console.log(`In login route, outer catch block: ${err}`);
@@ -128,17 +135,20 @@ userRouter.post("/refreshToken", async (req, res, next) => {
         if (tokenIndex === -1) {
           res.statusCode = 401;
           res.json({ message: "Unauthorized" });
+          return;
         } else {
           const token = getToken({ _id: userId });
           const newRefreshToken = getRefreshToken({ _id: userId });
           user.refreshTokens[tokenIndex] = { refreshToken: newRefreshToken };
           try {
             await user.save();
+            res.setHeader("Content-Type", "application/json");
             res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
             res.json({ success: true, token: `jwt ${token}`, user });
           } catch (err) {
             res.statusCode = 500;
             res.json({ err });
+            return;
           }
         }
       }
@@ -151,6 +161,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
     res.statusCode = 401;
     res.send("Unauthorized");
     console.log("No refresh token in cookies");
+    return;
   }
 });
 
@@ -184,10 +195,12 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
     } catch (err) {
       res.statusCode = 500;
       res.json({ err });
+      return;
     }
   } catch (err) {
     res.statusCode = 404;
     res.send(err);
+    return;
   }
 });
 
