@@ -14,6 +14,7 @@ header .logo {
 
 nav {
   background-color: #1f1f21;
+  background-size: cover;
   height: 100%;
   width: 100%;
 }
