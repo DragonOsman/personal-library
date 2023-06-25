@@ -23,7 +23,7 @@ interface IUser {
     payload: {
       id: string;
     }
-  } | null;
+  }[] | null;
 }
 
 const User: IUser = {
