@@ -3,7 +3,6 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
 import Loader from "./components/Loader";
-import UserInfo from "./components/UserInfo";
 import { Route, Routes } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
 import { useContext, useCallback, useEffect } from "react";
@@ -40,10 +39,8 @@ function App() {
   }, [setUserContext, previousUserContext]);
 
   useEffect(() => {
-    if (userContext.token) {
-      verifyUser();
-    }
-  }, [verifyUser, userContext.token]);
+    verifyUser();
+  }, [verifyUser]);
 
   return (
     <>
@@ -52,7 +49,6 @@ function App() {
         <Route path="/" element={userContext.token === null ? <Login /> : (
           userContext.token ? <Home /> : <Loader />)} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<UserInfo />} />
       </Routes>
     </>
   );
