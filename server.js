@@ -16,6 +16,8 @@ connectDB();
 
 const app = express();
 
+require("./strategies/JwtStrategy");
+require("./strategies/LocalStrategy");
 require("./authenticate");
 
 const users = require("./routes/api/users");
