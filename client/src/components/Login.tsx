@@ -65,7 +65,7 @@ const Login = () => {
           <label className="form-label" htmlFor="email">Email:</label>
           <input
             type="email"
-            className="email form-control"
+            className="email form-control form-control-lg"
             placeholder="Please enter your email"
             required
             {...formik.getFieldProps("email")}
@@ -76,7 +76,7 @@ const Login = () => {
           <label className="form-label" htmlFor="password">Password:</label>
           <input
             type="password"
-            className="password form-control"
+            className="password form-control form-control-lg"
             placeholder="Please enter your password"
             required
             {...formik.getFieldProps("password")}
