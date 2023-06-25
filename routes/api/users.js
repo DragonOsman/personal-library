@@ -91,7 +91,6 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
     const user = await User.findById(req.user._id);
     user.refreshTokens.push({ refreshToken });
     try {
-      res.setHeader("Content-Type", "application/json");
       await user.save();
       res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
       res.json({ success: true, token: `jwt ${token}`, user });
