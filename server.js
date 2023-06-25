@@ -6,26 +6,13 @@ const passport = require("passport");
 const session = require("express-session");
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo");
+const connectDB = require("./config/db");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-const dbURI = process.env.MONGO_DB_CONNECTION_STRING;
-
-mongoose.set("strictQuery", true);
-let dbConnection;
-try {
-  dbConnection = mongoose.createConnection(dbURI, { dbName: "personal-library" });
-  console.log("connected to database");
-  dbConnection
-    .on("error", () => console.log("error occurred while trying to connect to database"))
-    .on("disconnected", () => console.log("disconnected from database!"))
-  ;
-} catch (err) {
-  console.log(err);
-  process.exit(1);
-}
+connectDB();
 
 const app = express();
 
@@ -54,10 +41,10 @@ app.use(session({
   cookie: COOKIE_OPTIONS,
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
-    mongooseConnection: dbConnection,
+    mongooseConnection: mongoose.connection,
     dbName: "personal-library",
-    collectionName: dbConnection.collection("users").name,
-    client: dbConnection.getClient()
+    collectionName: mongoose.connection.collection("users").name,
+    client: mongoose.connection.getClient()
   })
 }));
 
