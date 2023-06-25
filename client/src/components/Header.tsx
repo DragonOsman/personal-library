@@ -59,11 +59,6 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <li className="nav-item">
-                    <Link to="/dashboard" className="nav-link">
-                      Dashboard/Profile
-                    </Link>
-                  </li>
                   <li className="nav-link">
                     <button type="button" onClick={async () => {
                       try {
