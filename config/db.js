@@ -17,7 +17,7 @@ const connectDB = async () => {
     const sessionStore = new MongoStore({
       mongooseConnection: dbConnection,
       client: dbConnection.getClient(),
-      dbName: dbConnection.db.databaseName,
+      dbName: "personal-library",
       collectionName: "users"
     });
 
