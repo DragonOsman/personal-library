@@ -79,7 +79,7 @@ const Header = () => {
                       } catch (err) {
                         console.log(`Header component, logout button code error: ${err}`);
                       }
-                    }}></button>
+                    }}>Logout</button>
                   </li>
                 </>
               )}
