@@ -31,7 +31,7 @@ const Login = () => {
 
       const user = {
         username: values.email,
-        //email: values.email,
+        email: values.email,
         password: values.password
       };
 
