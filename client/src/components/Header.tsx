@@ -2,10 +2,13 @@ import "./Header.css";
 import logo from "../logo.png";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 const Header = () => {
   const { userContext, setUserContext } = useContext(UserContext);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const handleNavCollapse = () => setIsCollapsed(!isCollapsed);
 
   return (
     <header>
@@ -24,10 +27,16 @@ const Header = () => {
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded={!isCollapsed ? true : false}
+          aria-label="Toggle navigation"
+          onClick={handleNavCollapse}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="d-flex collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <div
+          className={`d-flex ${isCollapsed ? "collapse" : ""} navbar-collapse justify-content-end`}
+          id="navbarSupportedContent">
           <ul className="navbar-nav">
             <li className="nav-item">
               <Link to="/" className="nav-link">
