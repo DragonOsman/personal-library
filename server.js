@@ -9,7 +9,6 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 const connectDB = require("./config/db");
-const { sessionStore } = require("./config/db");
 connectDB();
 
 const app = express();
@@ -37,8 +36,7 @@ app.use(session({
   resave: true,
   saveUninitialized: false,
   cookie: COOKIE_OPTIONS,
-  secret: process.env.COOKIE_SECRET,
-  store: sessionStore
+  secret: process.env.COOKIE_SECRET
 }));
 
 passport.initialize();
