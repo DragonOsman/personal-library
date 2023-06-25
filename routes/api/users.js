@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const{ JWT_SECRET, SESSION_EXPIRY } = require("dotenv").config();
+const{ REFRESH_TOKEN_SECRET } = require("dotenv").config();
 
 const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
@@ -40,27 +40,24 @@ userRouter.post("/register", async (req, res, next) => {
         lastName: req.body.lastName
       }),
       req.body.password,
-      (err, user) => {
+      async (err, user) => {
         try {
           if (err) {
             res.statusCode = 500;
             res.setHeader("Content-Type", "application/json");
             res.json({ success: false, err });
           } else {
-            passport.authenticate("local")(req, res, next, async () => {
-              const token = getToken({ _id: user._id });
-              const refreshToken = getRefreshToken({ _id: user._id });
-              user.refreshToken.push({ refreshToken });
+            const token = getToken({ _id: user._id });
+            const refreshToken = getRefreshToken({ _id: user._id });
+            user.refreshToken.push({ refreshToken });
+            try {
               await user.save();
-              res.statusCode = 200;
-              res.setHeader("Content-Type", "application/json");
-              res.cookie("refrehToken", refreshToken, COOKIE_OPTIONS);
-              res.json({
-                success: true,
-                status: "Registration successfull!",
-                token
-              });
-            });
+              res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+              res.json({ success: true, token: `jwt ${token}` });
+            } catch (err) {
+              res.statusCode = 500;
+              res.json({ err });
+            }
           }
         } catch (err) {
           res.statusCode = 500;
@@ -88,7 +85,7 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
   const refreshToken = getRefreshToken({ _id: req.user._id });
   try {
     const user = await User.findById(req.user._id);
-    user.refreshToken = refreshToken;
+    user.refreshToken.push({ refreshToken });
     try {
       await user.save();
       res.setHeader("Content-Type", "application/json");
@@ -111,24 +108,33 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
 userRouter.post("/refreshToken", async (req, res, next) => {
   const signedCookies = req.signedCookies;
   const refreshToken = signedCookies.refreshToken;
-
-  console.log(req.cookies);
-  console.log(signedCookies);
-
   if (refreshToken) {
     try {
-      jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-        if (err) {
+      const payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+      const userId = payload._id;
+      const user = await User.findOne({ _id: userId });
+      if (user) {
+        const tokenIndex = user.refreshToken.findIndex(
+          item => item.refreshToken === refreshToken
+        );
+
+        if (tokenIndex === -1) {
           res.statusCode = 401;
           res.json({ message: "Unauthorized" });
         } else {
-          const token = jwt.sign(JWT_SECRET, {
-            expiresIn: SESSION_EXPIRY
-          });
-          res.json({ token });
+          const token = getToken({ _id: userId });
+          const newRefreshToken = getRefreshToken({ _id: userId });
+          user.refreshToken[tokenIndex] = { refreshToken: newRefreshToken };
+          try {
+            await user.save();
+            res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
+            res.json({ success: true, token: `jwt ${token}`, user });
+          } catch (err) {
+            res.statusCode = 500;
+            res.json({ err });
+          }
         }
-      });
-
+      }
     } catch (err) {
       res.statusCode = 401;
       res.send("Unauthorized");
@@ -152,29 +158,26 @@ userRouter.get("/user-info/", verifyUser, (req, res, next) => {
 // @desc Log user out
 // @access Public
 userRouter.get("/logout", verifyUser, async (req, res, next) => {
-  console.log(`/logout route, req.cookies: ${req.cookies}`);
-  const { signedCookies = {} } = req;
-  const { refreshToken } = signedCookies;
+  const signedCookies = req.signedCookies;
+  const refreshToken = signedCookies.refreshToken;
   try {
-    const user = await User.findById(req.user._id);
-    if (user.refreshToken === refreshToken) {
-      user.refreshToken = "";
+    const user = await User.findById({ _id: req.user._id });
+    const tokenIndex = user.refreshToken.findIndex(
+      item => item.refreshToken === refreshToken
+    );
+
+    if (tokenIndex !== -1) {
+      user.refeshToken.id(user.refreshToken[tokenIndex]._id).remove();
     }
 
     try {
-      await User.save();
-      res.clearCookie("refreshToken", COOKIE_OPTIONS);
-      if (req.session) {
-        res.clearCookie("session-id");
-        res.session.destroy();
-      }
+      await user.save();
+      res.clearCookie("refreshToken", refreshToken);
       res.json({ success: true });
     } catch (err) {
       res.statusCode = 500;
-      res.send(err);
-      return next(err);
+      res.json({ err });
     }
-
   } catch (err) {
     res.statusCode = 404;
     res.send(err);

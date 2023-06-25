@@ -1,16 +1,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-
 const cors = require("cors");
+const passport = require("passport");
+const session = require("express-session");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 const connectDB = require("./config/db");
+const { sessionStore } = require("./config/db");
 connectDB();
 
 const app = express();
+
+require("./authenticate");
 
 const users = require("./routes/api/users");
 const books = require("./routes/api/books");
@@ -26,6 +30,18 @@ app.use(cors({
   methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
   credentials: true
 }));
+
+const { COOKIE_OPTIONS } = require("./authenticate");
+
+app.use(session({
+  resave: true,
+  saveUninitialized: false,
+  cookie: COOKIE_OPTIONS,
+  secret: process.env.COOKIE_SECRET,
+  store: sessionStore
+}));
+
+passport.initialize();
 
 app.use("/api/users/", users);
 app.use("/api/books", books);

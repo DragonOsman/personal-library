@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-//const MongoStore = require("connect-mongo");
+const MongoStore = require("connect-mongo");
 require("dotenv").config();
 
 const dbURI = process.env.MONGO_DB_CONNECTION_STRING;
@@ -14,14 +14,14 @@ const connectDB = async () => {
       .on("disconnected", () => console.log("disconnected from database!"))
     ;
 
-    /*const sessionStore = new MongoStore({
+    const sessionStore = new MongoStore({
       mongooseConnection: dbConnection,
       client: dbConnection.getClient(),
-      dbName: "Users",
-      collectionName: "user-sessions"
+      dbName: dbConnection.db.databaseName,
+      collectionName: "users"
     });
 
-    exports.sessionStore = sessionStore;*/
+    exports.sessionStore = sessionStore;
   } catch (err) {
     console.log(err);
     process.exit(1);
