@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const{ REFRESH_TOKEN_SECRET } = require("dotenv").config();
+require("dotenv").config();
 
 const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
@@ -111,7 +111,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
   const refreshToken = signedCookies.refreshToken;
   if (refreshToken) {
     try {
-      const payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+      const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
       const userId = payload._id;
       const user = await User.findOne({ _id: userId });
       if (user) {
