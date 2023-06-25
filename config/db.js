@@ -18,7 +18,7 @@ const connectDB = () => {
       mongooseConnection: dbConnection,
       client: dbConnection.getClient(),
       dbName: "personal-library",
-      collectionName: "users"
+      collectionName: "user-sessions"
     });
 
     exports.sessionStore = sessionStore;
