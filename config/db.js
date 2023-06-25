@@ -4,10 +4,10 @@ require("dotenv").config();
 
 const dbURI = process.env.MONGO_DB_CONNECTION_STRING;
 
-const connectDB = async () => {
+const connectDB = () => {
   mongoose.set("strictQuery", true);
   try {
-    const dbConnection = await mongoose.createConnection(dbURI, { dbName: "personal-library" });
+    const dbConnection = mongoose.createConnection(dbURI, { dbName: "personal-library" });
     console.log("connected to database");
     dbConnection
       .on("error", () => console.log("error occurred while trying to connect to database"))
