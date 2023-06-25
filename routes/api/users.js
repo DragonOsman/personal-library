@@ -79,6 +79,9 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
     res.status(400).json(errors);
     for (const error in errors) {
       console.log(error);
+      for (const errorDetail in Object.values(errors)) {
+        console.log(errorDetail);
+      }
     }
   }
 
@@ -88,8 +91,8 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
     const user = await User.findById(req.user._id);
     user.refreshTokens.push({ refreshToken });
     try {
-      await user.save();
       res.setHeader("Content-Type", "application/json");
+      await user.save();
       res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
       res.json({ success: true, token: `jwt ${token}`, user });
     } catch (err) {
@@ -115,6 +118,10 @@ userRouter.post("/refreshToken", async (req, res, next) => {
       const userId = payload._id;
       const user = await User.findOne({ _id: userId });
       if (user) {
+        console.log(user.refreshTokens);
+        for (const token of user.refreshTokens) {
+          console.log(token);
+        }
         const tokenIndex = user.refreshTokens.findIndex(
           item => item.refreshToken === refreshToken
         );
