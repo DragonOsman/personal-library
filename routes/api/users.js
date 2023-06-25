@@ -124,10 +124,6 @@ userRouter.post("/refreshToken", async (req, res, next) => {
       const userId = payload._id;
       const user = await User.findOne({ _id: userId });
       if (user) {
-        console.log(user.refreshTokens);
-        for (const token of user.refreshTokens) {
-          console.log(token);
-        }
         const tokenIndex = user.refreshTokens.findIndex(
           item => item.refreshToken === refreshToken
         );
