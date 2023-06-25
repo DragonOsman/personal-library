@@ -5,7 +5,7 @@ const cors = require("cors");
 const passport = require("passport");
 const session = require("express-session");
 const mongoose = require("mongoose");
-const MongoStore = require("connect-mongo")(session);
+const MongoStore = require("connect-mongo");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -53,7 +53,12 @@ app.use(session({
   saveUninitialized: false,
   cookie: COOKIE_OPTIONS,
   secret: process.env.SESSION_SECRET,
-  store: new MongoStore({ mongooseConnection: dbConnection })
+  store: new MongoStore({
+    mongooseConnection: dbConnection,
+    dbName: "personal-library",
+    collectionName: "sessions",
+    client: dbConnection.getClient()
+  })
 }));
 
 passport.initialize();
