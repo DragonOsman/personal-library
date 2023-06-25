@@ -56,7 +56,7 @@ app.use(session({
   store: new MongoStore({
     mongooseConnection: dbConnection,
     dbName: "personal-library",
-    collectionName: "sessions",
+    collectionName: dbConnection.collection("users").name,
     client: dbConnection.getClient()
   })
 }));
