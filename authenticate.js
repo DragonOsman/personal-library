@@ -50,4 +50,4 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts, async (jwt_payload, don
   }
 }));
 
-exports.verifyUser = passport.authenticate(["jwt", "session"]);
+exports.verifyUser = passport.authenticate("jwt", { session: false });
