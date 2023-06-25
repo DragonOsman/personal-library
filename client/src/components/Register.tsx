@@ -81,7 +81,7 @@ const Register = () => {
           <label className="form-label" htmlFor="firstName">First name:</label>
           <input
             type="text"
-            className="first-name form-control"
+            className="first-name form-control form-control-lg"
             placeholder="Please your first name"
             required
             {...formik.getFieldProps("firstName")}
@@ -92,7 +92,7 @@ const Register = () => {
           <label className="form-label" htmlFor="lastName">Last name:</label>
           <input
             type="text"
-            className="last-name form-control"
+            className="last-name form-control form-control-lg"
             placeholder="Please enter your last name"
             required
             {...formik.getFieldProps("lastName")}
@@ -103,7 +103,7 @@ const Register = () => {
           <label className="form-label" htmlFor="email">Email:</label>
           <input
             type="email"
-            className="email form-control"
+            className="email form-control form-control-lg"
             placeholder="Please enter your email address"
             required
             {...formik.getFieldProps("email")}
@@ -114,7 +114,7 @@ const Register = () => {
           <label className="form-label" htmlFor="password">Password:</label>
           <input
             type="password"
-            className="password form-control"
+            className="password form-control form-control-lg"
             placeholder="Please choose a (strong) password"
             required
             {...formik.getFieldProps("password")}
@@ -125,7 +125,7 @@ const Register = () => {
           <label className="form-label" htmlFor="confirmPassword">Confirm password:</label>
           <input
             type="password"
-            className="confirm-password form-control"
+            className="confirm-password form-control form-control-lg"
             placeholder="Please re-enter the password"
             required
             {...formik.getFieldProps("confirmPassword")}
