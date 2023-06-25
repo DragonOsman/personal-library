@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
+import Loader from "./components/Loader";
 import UserInfo from "./components/UserInfo";
 import { Route, Routes } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
@@ -44,30 +45,17 @@ function App() {
     }
   }, [verifyUser, userContext.token]);
 
-  if (userContext.token) {
-    return (
-      <>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<UserInfo />} />
-        </Routes>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </>
-    );
-  }
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={userContext.token === null ? <Login /> : (
+          userContext.token ? <Home /> : <Loader />)} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<UserInfo />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
