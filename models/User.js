@@ -33,7 +33,8 @@ const UserSchema = new Schema({
     default: []
   },
   refreshTokens: {
-    type: [SessionSchema]
+    type: [SessionSchema],
+    default: []
   },
   date: {
     type: Date,
