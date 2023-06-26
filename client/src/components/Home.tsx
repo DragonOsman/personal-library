@@ -9,9 +9,11 @@ const Home = () => {
   const navigate = useNavigate();
 
   const previousUserContext = userContext;
-  console.log(`userContext.token: ${userContext.token?.forEach(
-    tokenItem => console.log(tokenItem)
-  )}`);
+  if (userContext.token) {
+    console.log(`userContext.token: ${userContext.token?.forEach(
+      tokenItem => console.log(tokenItem)
+    )}`);
+  }
 
   const fetchUserDetails = useCallback(async () => {
     const response = await fetch(
