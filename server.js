@@ -3,9 +3,6 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const passport = require("passport");
-const session = require("express-session");
-const mongoose = require("mongoose");
-const MongoStore = require("connect-mongo");
 const connectDB = require("./config/db");
 
 if (process.env.NODE_ENV !== "production") {
@@ -33,20 +30,6 @@ app.use(cors({
   origin: [`${CLIENT_URL}`, `${CLIENT_URL}/`],
   methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
   credentials: true
-}));
-
-const { SESSION_COOKIE_OPTIONS } = require("./authenticate");
-
-app.use(session({
-  resave: true,
-  saveUninitialized: false,
-  cookie: SESSION_COOKIE_OPTIONS,
-  secret: process.env.SESSION_SECRET,
-  store: new MongoStore({
-    mongooseConnection: mongoose.connection,
-    dbName: "personal-library",
-    client: mongoose.connection.getClient()
-  })
 }));
 
 passport.initialize();
