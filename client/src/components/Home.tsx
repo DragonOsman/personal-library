@@ -9,9 +9,6 @@ const Home = () => {
   const navigate = useNavigate();
 
   const previousUserContext = userContext;
-  if (userContext.token) {
-    console.log(`userContext.token: ${userContext.token}`);
-  }
 
   const fetchUserDetails = useCallback(async () => {
     const response = await fetch(
@@ -40,6 +37,7 @@ const Home = () => {
         // User has had the tab open from previous day and tries to fetch data
         navigate("/login");
       }
+      console.log("Inside else block for user details fetching request");
       setUserContext({ ...previousUserContext, details: null });
     }
   }, [previousUserContext, setUserContext, navigate, userContext]);
