@@ -19,11 +19,7 @@ interface IUser {
     confirmPassword?: string;
     books: IBook[]
   } | null;
-  token: {
-    payload: {
-      id: string;
-    }
-  }[] | null;
+  token: string | null;
 }
 
 const User: IUser = {

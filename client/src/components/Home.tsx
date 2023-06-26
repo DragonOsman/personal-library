@@ -27,9 +27,12 @@ const Home = () => {
     if (response.ok) {
       const data = await response.json();
       setUserContext({ ...previousUserContext, details: data });
-      console.log(`In Home component, user details fetching 'response.ok' condition:
-        ${data.forEach((dataItem: string) => console.log(dataItem))}`
-      );
+      console.log("In Home component, user details fetching 'ok' condition block:");
+      for (const key of Object.keys(data)) {
+        for (const value of Object.values(data)) {
+          console.log(`${key}:${value}`);
+        }
+      }
     } else {
       if (response.status === 401) {
         // Edge case: when the token has expired.
@@ -37,8 +40,9 @@ const Home = () => {
         // User has had the tab open from previous day and tries to fetch data
         navigate("/login");
       }
+      userContext.details = null;
     }
-  }, [previousUserContext, setUserContext, userContext.token, navigate]);
+  }, [previousUserContext, setUserContext, navigate, userContext]);
 
   useEffect(() => {
     // fetch only when user details are not present
