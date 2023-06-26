@@ -19,7 +19,7 @@ interface IUser {
     confirmPassword?: string;
     books: IBook[]
   } | null;
-  token?: {
+  token: {
     payload: {
       id: string;
     }
@@ -33,7 +33,8 @@ const User: IUser = {
     email: "",
     password: "",
     books: []
-  }
+  },
+  token: null
 };
 
 interface UserProviderProps {
