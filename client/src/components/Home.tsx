@@ -1,4 +1,4 @@
-import { useContext, useEffect, useCallback } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import BookList from "./BookList";
@@ -10,44 +10,44 @@ const Home = () => {
 
   const previousUserContext = userContext;
 
-  const fetchUserDetails = useCallback(async () => {
-    const response = await fetch(
-      "https://personal-library-rvi3.onrender.com/api/users/user-info", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `jwt ${userContext.token}`
-      }
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      setUserContext({ ...previousUserContext, details: data });
-      console.log("In Home component, user details fetching 'ok' condition block:");
-      for (const key of Object.keys(data)) {
-        for (const value of Object.values(data)) {
-          console.log(`${key}:${value}`);
-        }
-      }
-    } else {
-      if (response.status === 401) {
-        // Edge case: when the token has expired.
-        // This could happen if the refreshToken calls have failed due to network error or
-        // User has had the tab open from previous day and tries to fetch data
-        navigate("/login");
-      }
-      console.log("Inside else block for user details fetching request");
-      setUserContext({ ...previousUserContext, details: null });
-    }
-  }, [previousUserContext, setUserContext, navigate, userContext]);
-
   useEffect(() => {
+    const fetchUserDetails = async () => {
+      const response = await fetch(
+        "https://personal-library-rvi3.onrender.com/api/users/user-info", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `jwt ${userContext.token}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUserContext({ ...previousUserContext, details: data });
+        console.log("In Home component, user details fetching 'ok' condition block:");
+        for (const key of Object.keys(data)) {
+          for (const value of Object.values(data)) {
+            console.log(`${key}:${value}`);
+          }
+        }
+      } else {
+        if (response.status === 401) {
+          // Edge case: when the token has expired.
+          // This could happen if the refreshToken calls have failed due to network error or
+          // User has had the tab open from previous day and tries to fetch data
+          navigate("/login");
+        }
+        console.log("Inside else block for user details fetching request");
+        setUserContext({ ...previousUserContext, details: null });
+      }
+    };
+
     // fetch only when user details are not present
     if (!userContext.details) {
       fetchUserDetails();
     }
-  }, [fetchUserDetails, userContext.details]);
+  }, [navigate, previousUserContext, setUserContext, userContext.details, userContext.token]);
 
   if (userContext.details === null) {
     return (
