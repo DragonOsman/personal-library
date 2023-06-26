@@ -52,7 +52,7 @@ const Home = () => {
           Welcome&nbsp;
           <strong>
             {userContext.details.firstName}
-            {" " + userContext.details.lastName}
+            {` ${userContext.details.lastName}`}
           </strong>!
         </p>
         {userContext.details.books.length > 0 ? (
