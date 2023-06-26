@@ -11,7 +11,7 @@ interface IBook {
 }
 
 interface IUser {
-  details: {
+  details?: {
     firstName?: string;
     lastName?: string;
     email: string;
