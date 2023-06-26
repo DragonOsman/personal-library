@@ -10,6 +10,26 @@ const Header = () => {
 
   const handleNavCollapse = () => setIsCollapsed(!isCollapsed);
 
+  const previousUserContext = userContext;
+
+  const logoutHandler = async () => {
+    try {
+      await fetch(
+        "https://personal-library-rvi3.onrender.com/api/users/logout", {
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `jwt ${userContext.token}`
+          }
+        }
+      );
+      setUserContext({ ...previousUserContext, details: undefined, token: null });
+      window.localStorage.setItem("logout", Date.now().toString());
+    } catch (err) {
+      console.log(`Error in logoutHandler, catch block: ${err}`);
+    }
+  };
+
   return (
     <header>
       <nav
@@ -60,21 +80,13 @@ const Header = () => {
               ) : (
                 <>
                   <li className="nav-link">
-                    <button type="button" onClick={async () => {
-                      try {
-                        await fetch("/api/users/logout", {
-                          method: "POST",
-                          credentials: "include",
-                          headers: {
-                            "Content-Type": "application/json"
-                          }
-                        });
-                        const previousUserContext = userContext;
-                        setUserContext({ ...previousUserContext, token: null });
-                      } catch (err) {
-                        console.log(`Header component, logout button code error: ${err}`);
-                      }
-                    }} className="btn btn-primary btn-light">Logout</button>
+                    <button
+                      type="button"
+                      onClick={logoutHandler}
+                      className="btn btn-primary btn-light"
+                    >
+                      Logout
+                    </button>
                   </li>
                 </>
               )}
