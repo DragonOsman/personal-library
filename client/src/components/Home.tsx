@@ -9,6 +9,9 @@ const Home = () => {
   const navigate = useNavigate();
 
   const previousUserContext = userContext;
+  console.log(`userContext.token: ${userContext.token?.forEach(
+    tokenItem => console.log(tokenItem)
+  )}`);
 
   const fetchUserDetails = useCallback(async () => {
     const response = await fetch(
@@ -24,6 +27,9 @@ const Home = () => {
     if (response.ok) {
       const data = await response.json();
       setUserContext({ ...previousUserContext, details: data });
+      console.log(`In Home component, user details fetching 'response.ok' condition:
+        ${data.forEach((dataItem: string) => console.log(dataItem))}`
+      );
     } else {
       if (response.status === 401) {
         // Edge case: when the token has expired.
