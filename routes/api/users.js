@@ -121,13 +121,17 @@ userRouter.post("/refreshToken", async (req, res, next) => {
       const user = await User.findOne({ _id: userId });
       if (user) {
         const tokenIndex = user.refreshTokens.findIndex(
-          item => item.refreshToken === refreshToken
+          item => {
+            console.log(item.refreshToken);
+            console.log(item.refreshToken.refreshToken);
+            console.log(refreshToken);
+            return item.refreshToken.refreshToken === refreshToken;
+          }
         );
 
         if (tokenIndex === -1) {
           res.statusCode = 401;
           res.json({ message: "Unauthorized" });
-          console.log("In tokenIndex check condition");
           return;
         } else {
           const token = getToken({ _id: userId });
@@ -148,7 +152,6 @@ userRouter.post("/refreshToken", async (req, res, next) => {
     } catch (err) {
       res.statusCode = 401;
       res.send("Unauthorized");
-      console.log("In outer catch block for refreshToken route");
       return next(err);
     }
   } else {
