@@ -28,6 +28,8 @@ interface IUser {
 
 const User: IUser = {
   details: {
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     books: []
