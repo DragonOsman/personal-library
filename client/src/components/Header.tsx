@@ -16,6 +16,7 @@ const Header = () => {
     try {
       await fetch(
         "https://personal-library-rvi3.onrender.com/api/users/logout", {
+          method: "get",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
@@ -24,7 +25,6 @@ const Header = () => {
         }
       );
       setUserContext({ ...previousUserContext, details: undefined, token: null });
-      window.localStorage.setItem("logout", Date.now().toString());
     } catch (err) {
       console.log(`Error in logoutHandler, catch block: ${err}`);
     }
