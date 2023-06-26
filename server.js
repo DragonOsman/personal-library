@@ -35,12 +35,12 @@ app.use(cors({
   credentials: true
 }));
 
-const { COOKIE_OPTIONS } = require("./authenticate");
+const { SESSION_COOKIE_OPTIONS } = require("./authenticate");
 
 app.use(session({
   resave: true,
   saveUninitialized: false,
-  cookie: COOKIE_OPTIONS,
+  cookie: SESSION_COOKIE_OPTIONS,
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
