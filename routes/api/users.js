@@ -94,7 +94,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }), as
       await user.save();
       res.setHeader("Content-Type", "application/json");
       res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-      res.json({ success: true, token: `jwt ${token}`, user });
+      res.json({ success: true, token, user });
     } catch (err) {
       res.statusCode = 500;
       console.log(`In login route, inner catch block: ${err}`);
@@ -134,7 +134,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
             await user.save();
             res.setHeader("Content-Type", "application/json");
             res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
-            res.json({ success: true, token: `jwt ${token}`, user });
+            res.json({ success: true, token, user });
           } catch (err) {
             res.statusCode = 500;
             res.json({ err });
