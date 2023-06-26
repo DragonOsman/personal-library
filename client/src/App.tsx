@@ -47,6 +47,7 @@ function App() {
         <Route path="/" element={userContext.token === null ? <Login /> : (
           userContext.token ? <Home /> : <Loader />)} />
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </>
   );
