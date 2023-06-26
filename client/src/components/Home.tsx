@@ -40,7 +40,7 @@ const Home = () => {
         // User has had the tab open from previous day and tries to fetch data
         navigate("/login");
       }
-      userContext.details = null;
+      setUserContext({ ...previousUserContext, details: null });
     }
   }, [previousUserContext, setUserContext, navigate, userContext]);
 
