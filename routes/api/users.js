@@ -10,7 +10,7 @@ const validateLoginInput = require("../../user-validation/login");
 
 const {
   getToken,
-  COOKIE_OPTIONS,
+  REFRESH_COOKIE_OPTIONS,
   getRefreshToken,
   verifyUser
  } = require("../../authenticate");
@@ -55,7 +55,7 @@ userRouter.post("/register", async (req, res, next) => {
             try {
               await user.save();
               res.setHeader("Content-Type", "application/json");
-              res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+              res.cookie("refreshToken", refreshToken, REFRESH_COOKIE_OPTIONS);
               res.json({ success: true, token: `jwt ${token}` });
             } catch (err) {
               res.statusCode = 500;
@@ -98,7 +98,7 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
     try {
       await user.save();
       res.setHeader("Content-Type", "application/json");
-      res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+      res.cookie("refreshToken", refreshToken, REFRESH_COOKIE_OPTIONS);
       res.json({ success: true, token: `jwt ${token}`, user });
     } catch (err) {
       res.statusCode = 500;
@@ -139,7 +139,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
           try {
             await user.save();
             res.setHeader("Content-Type", "application/json");
-            res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
+            res.cookie("refreshToken", newRefreshToken, REFRESH_COOKIE_OPTIONS);
             res.json({ success: true, token: `jwt ${token}`, user });
           } catch (err) {
             res.statusCode = 500;
