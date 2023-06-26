@@ -127,7 +127,6 @@ userRouter.post("/refreshToken", async (req, res, next) => {
         if (tokenIndex === -1) {
           res.statusCode = 401;
           res.json({ message: "Unauthorized" });
-          return;
         } else {
           const token = getToken({ _id: userId });
           const newRefreshToken = getRefreshToken({ _id: userId });
