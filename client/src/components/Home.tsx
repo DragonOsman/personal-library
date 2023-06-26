@@ -49,12 +49,16 @@ const Home = () => {
     }
   }, [fetchUserDetails, userContext.details]);
 
-  return (
-    userContext.details === null ? (
+  if (userContext.details === null) {
+    return (
       <p className="text-danger">Error Loading User details</p>
-    ) : !userContext.details ? (
-      <Loader />
-    ) : (
+    );
+  }
+
+  if (!userContext.details) {
+    return <Loader />;
+  } else {
+    return (
       <div className="user-details">
         <p>
           Welcome&nbsp;
@@ -72,8 +76,8 @@ const Home = () => {
           <h3>Please add some books first!</h3>
         )}
       </div>
-    )
-  );
+    );
+  }
 };
 
 export default Home;

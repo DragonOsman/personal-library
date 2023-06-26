@@ -30,14 +30,16 @@ function App() {
       } else {
         setUserContext({ ...previousUserContext, token: null });
       }
+
+      // call refreshToken every 5 minutes to renew the authentication token.
+      setTimeout(verifyUser, 5 * 60 * 1000);
     } catch (error) {
       console.log(`in verifyUser, App component: ${error}`);
     }
   }, [setUserContext, previousUserContext]);
 
   useEffect(() => {
-    // call refreshToken every 5 minutes to renew the authentication token.
-    setTimeout(verifyUser, 5 * 60 * 1000);
+    verifyUser();
   }, [verifyUser]);
 
   return (
