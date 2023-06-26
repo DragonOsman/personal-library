@@ -10,7 +10,7 @@ const validateLoginInput = require("../../user-validation/login");
 
 const {
   getToken,
-  REFRESH_COOKIE_OPTIONS,
+  COOKIE_OPTIONS,
   getRefreshToken,
   verifyUser
  } = require("../../authenticate");
@@ -42,7 +42,6 @@ userRouter.post("/register", async (req, res, next) => {
             res.statusCode = 500;
             res.setHeader("Content-Type", "application/json");
             res.json({ success: false, err });
-            console.log(`In register route, if (err) condition in User.register callback: ${err}`);
             return;
           } else {
             const token = getToken({ _id: user._id });
@@ -51,7 +50,7 @@ userRouter.post("/register", async (req, res, next) => {
             try {
               await user.save();
               res.setHeader("Content-Type", "application/json");
-              res.cookie("refreshToken", refreshToken, REFRESH_COOKIE_OPTIONS);
+              res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
               res.json({ success: true, token: `jwt ${token}` });
             } catch (err) {
               res.statusCode = 500;
@@ -94,7 +93,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }), as
     try {
       await user.save();
       res.setHeader("Content-Type", "application/json");
-      res.cookie("refreshToken", refreshToken, REFRESH_COOKIE_OPTIONS);
+      res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
       res.json({ success: true, token: `jwt ${token}`, user });
     } catch (err) {
       res.statusCode = 500;
@@ -134,7 +133,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
           try {
             await user.save();
             res.setHeader("Content-Type", "application/json");
-            res.cookie("refreshToken", newRefreshToken, REFRESH_COOKIE_OPTIONS);
+            res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
             res.json({ success: true, token: `jwt ${token}`, user });
           } catch (err) {
             res.statusCode = 500;
