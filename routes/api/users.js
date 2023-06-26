@@ -15,10 +15,6 @@ const {
   verifyUser
  } = require("../../authenticate");
 
-const bodyParser = require("body-parser");
-userRouter.use(bodyParser.urlencoded({ extended: false }));
-userRouter.use(bodyParser.json());
-
 // @route POST api/users/register
 // @desc Register user
 // @access Public
@@ -76,7 +72,7 @@ userRouter.post("/register", async (req, res, next) => {
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-userRouter.post("/login", passport.authenticate("local"), async (req, res, next) => {
+userRouter.post("/login", passport.authenticate("local", { session: false }), async (req, res, next) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
