@@ -71,7 +71,8 @@ userRouter.post("/register", async (req, res, next) => {
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-userRouter.post("/login", passport.authenticate("local", { session: false }), async (req, res, next) => {
+userRouter.post("/login", passport.authenticate("local", { session: false }),
+  async (req, res, next) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
@@ -126,6 +127,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
         if (tokenIndex === -1) {
           res.statusCode = 401;
           res.json({ message: "Unauthorized" });
+          console.log("Error is inside tokenIndex check condition block");
         } else {
           const token = getToken({ _id: userId });
           const newRefreshToken = getRefreshToken({ _id: userId });
@@ -145,6 +147,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
     } catch (err) {
       res.statusCode = 401;
       res.send("Unauthorized");
+      console.log("Error is inside outer catch block");
       return next(err);
     }
   } else {
