@@ -17,6 +17,11 @@ exports.REFRESH_COOKIE_OPTIONS = {
   path: "https://personal-library-rvi3.onrender.com/api/users/refreshToken"
 };
 
+exports.SESSION_COOKIE_OPTIONS = {
+  ...this.COOKIE_OPTIONS,
+  maxAge: math.evaluate(process.env.SESSION_EXPIRY)
+};
+
 exports.getToken = user => {
   return jwt.sign(user, process.env.JWT_SECRET, {
     expiresIn: math.evaluate(process.env.SESSION_EXPIRY)
