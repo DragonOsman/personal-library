@@ -121,12 +121,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
       const user = await User.findOne({ _id: userId });
       if (user) {
         const tokenIndex = user.refreshTokens.findIndex(
-          item => {
-            console.log(item.refreshToken);
-            console.log(item.refreshToken.refreshToken);
-            console.log(refreshToken);
-            return item.refreshToken.refreshToken === refreshToken;
-          }
+          item => item.refreshToken === refreshToken
         );
 
         if (tokenIndex === -1) {
