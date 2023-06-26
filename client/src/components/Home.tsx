@@ -10,9 +10,7 @@ const Home = () => {
 
   const previousUserContext = userContext;
   if (userContext.token) {
-    console.log(`userContext.token: ${userContext.token?.forEach(
-      tokenItem => console.log(tokenItem)
-    )}`);
+    console.log(`userContext.token: ${userContext.token}`);
   }
 
   const fetchUserDetails = useCallback(async () => {
