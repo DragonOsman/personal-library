@@ -165,7 +165,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 // @desc Send user details
 // @access Public
 userRouter.get("/user-info", verifyUser, (req, res, next) => {
-  res.send(req.user);
+  res.json({ success: true, user: req.user });
 });
 
 // @route GET api/users/logout
