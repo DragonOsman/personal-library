@@ -127,6 +127,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
         if (tokenIndex === -1) {
           res.statusCode = 401;
           res.json({ message: "Unauthorized" });
+          console.log("In tokenIndex check condition");
           return;
         } else {
           const token = getToken({ _id: userId });
@@ -147,6 +148,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
     } catch (err) {
       res.statusCode = 401;
       res.send("Unauthorized");
+      console.log("In outer catch block for refreshToken route");
       return next(err);
     }
   } else {
