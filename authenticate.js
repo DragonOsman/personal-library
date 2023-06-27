@@ -9,7 +9,8 @@ exports.COOKIE_OPTIONS = {
   secure: true,
   signed: true,
   maxAge: math.evaluate(process.env.REFRESH_TOKEN_EXPIRY) * 1000,
-  sameSite: "none"
+  sameSite: "none",
+  path: "https://personal-library-rvi3.onrender.com/api/users/refreshToken"
 };
 
 exports.getToken = user => {
