@@ -55,7 +55,7 @@ const Home = () => {
       );
     } else {
     return (
-      <div className="user-details d-flex justify-content-center">
+      <div className="user-details justify-content-center">
         <p>
           Welcome&nbsp;
           <strong>
@@ -63,7 +63,6 @@ const Home = () => {
             {` ${userContext.details.lastName}`}
           </strong>!
         </p>
-        <br />
         {userContext.details.books.length > 0 ? (
           <>
             <h3>Below you can see your list of books:</h3>
