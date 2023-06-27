@@ -21,19 +21,12 @@ const Home = () => {
       }
     });
 
-    console.log("Below fetch call in fetchUserDetails function:");
-    for (const key of Object.keys(response)) {
-      for (const value of Object.values(response)) {
-        console.log(`${key}:${value}`);
-      }
-    }
-
     if (response.ok) {
       const data = await response.json();
-      setUserContext({ ...previousUserContext, details: data });
+      setUserContext({ ...previousUserContext, details: data.user });
       console.log("In Home component, user details fetching 'ok' condition block:");
-      for (const key of Object.keys(data)) {
-        for (const value of Object.values(data)) {
+      for (const key of Object.keys(data.user)) {
+        for (const value of Object.values(data.user)) {
           console.log(`${key}:${value}`);
         }
       }
