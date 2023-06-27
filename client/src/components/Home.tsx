@@ -27,33 +27,28 @@ const Home = () => {
       setUserContext({ ...previousUserContext, details: data.user });
     } else {
       if (response.status === 401) {
-        // Edge case: when the token has expired.
-        // This could happen if the refreshToken calls have failed due to network error or
-        // User has had the tab open from previous day and tries to fetch data
         navigate("/login");
       }
-      console.log("Inside else block for user details fetching request");
       setUserContext({ ...previousUserContext, details: null });
     }
   }, [navigate, previousUserContext, setUserContext, userContext.token]);
 
   useEffect(() => {
     // fetch only when user details are not present
-    // or if firstName and lastName are empty strings
-    if (!userContext.details ||
-      (userContext.details.firstName === "" && userContext.details.lastName === "")) {
+    if (!userContext.details) {
       fetchUserDetails();
     }
   }, [userContext.details, fetchUserDetails]);
 
   if (!userContext.details) {
     return (
-      <>
-        <Loader />
-        <p className="text-danger">Error Loading User details</p>
-      </>
+      <Loader />
     );
-  } else {
+  } else if (userContext.details === null) {
+      return (
+        <p className="text-danger">Error Loading User details</p>
+      );
+    } else {
     return (
       <div className="user-details">
         <p>
