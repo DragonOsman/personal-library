@@ -22,6 +22,13 @@ const Home = () => {
         }
       });
 
+      console.log("Below fetch call in fetchUserDetails function:");
+      for (const key of Object.keys(response)) {
+        for (const value of Object.values(response)) {
+          console.log(`${key}:${value}`);
+        }
+      }
+
       if (response.ok) {
         const data = await response.json();
         setUserContext({ ...previousUserContext, details: data });
