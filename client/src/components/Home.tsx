@@ -57,7 +57,7 @@ const Home = () => {
     return (
       <div className="user-details d-flex justify-content-center align-items-center flex-column">
         <p>
-          Welcome&nbsp;
+          Welcome,&nbsp;
           <strong>
             {userContext.details.firstName}
             {` ${userContext.details.lastName}`}
