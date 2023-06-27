@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import BookList from "./BookList";
 import Loader from "../components/Loader";
+import "./Home.css";
 
 const Home = () => {
   const { userContext, setUserContext } = useContext(UserContext);
@@ -24,12 +25,6 @@ const Home = () => {
     if (response.ok) {
       const data = await response.json();
       setUserContext({ ...previousUserContext, details: data.user });
-      console.log("In Home component, user details fetching 'ok' condition block:");
-      for (const key of Object.keys(data.user)) {
-        for (const value of Object.values(data.user)) {
-          console.log(`${key}:${value}`);
-        }
-      }
     } else {
       if (response.status === 401) {
         // Edge case: when the token has expired.
