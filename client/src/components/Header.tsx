@@ -83,7 +83,7 @@ const Header = () => {
                     <button
                       type="button"
                       onClick={logoutHandler}
-                      className="btn btn-danger nav-link"
+                      className="btn btn-danger"
                     >
                       Logout
                     </button>
