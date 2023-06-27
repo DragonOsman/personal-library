@@ -34,7 +34,6 @@ function App() {
       } catch (error) {
         console.log(`in verifyUser, App component: ${error}`);
       }
-      setTimeout(verifyUser, 5 * 60 * 1000);
     };
 
     verifyUser();
