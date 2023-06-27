@@ -35,7 +35,10 @@ const Home = () => {
 
   useEffect(() => {
     // fetch only when user details are not present
-    if (!userContext.details) {
+    // or when first and last name properties are
+    // empty strings
+    if (!userContext.details ||
+        (userContext.details.firstName === "" && userContext.details.lastName === "")) {
       fetchUserDetails();
     }
   }, [userContext.details, fetchUserDetails]);
@@ -44,7 +47,9 @@ const Home = () => {
     return (
       <Loader />
     );
-  } else if (userContext.details === null) {
+  } else if (userContext.details === null ||
+             userContext.details.firstName === "" ||
+             userContext.details.lastName === "") {
       return (
         <p className="text-danger">Error Loading User details</p>
       );
