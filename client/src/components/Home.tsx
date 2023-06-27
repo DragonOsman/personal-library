@@ -18,7 +18,7 @@ const Home = () => {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `jwt ${userContext.token}`
+          "Authorization": `Bearer ${userContext.token}`
         }
       });
 
@@ -49,14 +49,13 @@ const Home = () => {
     }
   }, [navigate, previousUserContext, setUserContext, userContext.details, userContext.token]);
 
-  if (userContext.details === null) {
-    return (
-      <p className="text-danger">Error Loading User details</p>
-    );
-  }
-
   if (!userContext.details) {
-    return <Loader />;
+    return (
+      <>
+        <Loader />
+        <p className="text-danger">Error Loading User details</p>
+      </>
+    );
   } else {
     return (
       <div className="user-details">
