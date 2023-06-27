@@ -183,7 +183,7 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
 
     try {
       await user.save();
-      res.clearCookie("refreshToken", refreshToken);
+      res.clearCookie("refreshToken", COOKIE_OPTIONS);
       res.json({ success: true });
     } catch (err) {
       res.statusCode = 500;
@@ -191,9 +191,8 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
       return;
     }
   } catch (err) {
-    res.statusCode = 404;
     res.send(err);
-    return;
+    return next(err);
   }
 });
 
