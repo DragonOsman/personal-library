@@ -58,11 +58,6 @@ const Header = () => {
           className={`d-flex ${isCollapsed ? "collapse" : ""} navbar-collapse justify-content-end`}
           id="navbarSupportedContent">
           <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link to="/" className="nav-link">
-                Home
-              </Link>
-            </li>
             {!userContext.token ?
               (
                 <>
@@ -80,6 +75,11 @@ const Header = () => {
               ) : (
                 <>
                   <li className="nav-item">
+                    <Link to="/" className="nav-link">
+                      Home
+                    </Link>
+                  </li>
+                  <li className="nav-item">
                     <button
                       type="button"
                       onClick={logoutHandler}
@@ -90,7 +90,6 @@ const Header = () => {
                   </li>
                 </>
               )}
-
           </ul>
         </div>
       </nav>
