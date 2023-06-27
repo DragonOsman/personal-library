@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 
 const Header = () => {
   const { userContext, setUserContext } = useContext(UserContext);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const handleNavCollapse = () => setIsCollapsed(!isCollapsed);
 
@@ -79,11 +79,11 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <li className="nav-link">
+                  <li className="nav-item">
                     <button
                       type="button"
                       onClick={logoutHandler}
-                      className="btn btn-primary btn-light"
+                      className="btn btn-danger nav-link"
                     >
                       Logout
                     </button>
