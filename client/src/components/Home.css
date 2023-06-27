@@ -1,4 +1,4 @@
-p.user-details {
+.user-details > p {
   font-size: 24px;
   font-weight: 200;
 }
