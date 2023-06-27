@@ -16,7 +16,7 @@ const Header = () => {
     try {
       await fetch(
         "https://personal-library-rvi3.onrender.com/api/users/logout", {
-          method: "get",
+          method: "GET",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
