@@ -55,7 +55,7 @@ const Home = () => {
       );
     } else {
     return (
-      <div className="user-details justify-content-center">
+      <div className="user-details d-flex justify-content-center align-items-center flex-column">
         <p>
           Welcome&nbsp;
           <strong>
