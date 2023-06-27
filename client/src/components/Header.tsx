@@ -20,7 +20,7 @@ const Header = () => {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `jwt ${userContext.token}`
+            "Authorization": `Bearer ${userContext.token}`
           }
         }
       );
