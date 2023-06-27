@@ -51,7 +51,7 @@ userRouter.post("/register", async (req, res, next) => {
               await user.save();
               res.setHeader("Content-Type", "application/json");
               res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-              res.json({ success: true, token: `jwt ${token}` });
+              res.json({ success: true, token: `Bearer ${token}` });
             } catch (err) {
               res.statusCode = 500;
               res.json({ err });
