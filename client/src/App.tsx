@@ -33,6 +33,10 @@ function App() {
     } catch (error) {
       console.log(`in verifyUser, App component: ${error}`);
     }
+
+    // run the function every 14 minutes,
+    // since access tokens expire in 15
+    setTimeout(verifyUser, 14 * 60 * 1000);
   }, [previousUserContext, setUserContext]);
 
   useEffect(() => {
