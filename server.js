@@ -27,7 +27,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 const CLIENT_URL = "https://personal-library-app.vercel.app";
 const CLIENT_URL_ALT = "http://personal-library-app-dragonosman.vercel.app";
-const CLIENT_URL_ALT2 = "https://personal-library-gbrb9cgx3-dragonosman.vercel.app";
+const CLIENT_URL_ALT2 = "https://personal-library-nds2lpmou-dragonosman.vercel.app";
 
 app.use(cors({
   origin: [
