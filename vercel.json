@@ -17,5 +17,5 @@
     }
   ],
   "cleanUrls": true,
-  "framework": "react"
+  "framework": "create-react-app"
 }
