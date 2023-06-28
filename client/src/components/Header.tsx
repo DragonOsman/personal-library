@@ -45,7 +45,7 @@ const Header = () => {
             type="button"
             data-bs-toggler="#responsive-navbar"
             aria-controls="responsive-navbar"
-            aria-expanded={!isCollapsed ? true : false}
+            aria-expanded="false"
             onClick={handleToggle}
             aria-label="Toggle navigation"
           >
