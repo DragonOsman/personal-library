@@ -13,7 +13,7 @@ const Home = () => {
 
   const fetchUserDetails = useCallback(async () => {
     const response = await fetch(
-      "https://personal-library-app.vercel.app/api/users/user-info", {
+      "https://personal-library-eczi8jhuj-dragonosman.vercel.app/api/users/user-info", {
       method: "GET",
       credentials: "include",
       headers: {
