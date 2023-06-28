@@ -55,7 +55,7 @@ const Register = () => {
 
       try {
         const response = await fetch(
-          "https://personal-library-eczi8jhuj-dragonosman.vercel.app/api/users/register", {
+          "https://personal-library-app.vercel.app/api/users/register", {
           method: "POST",
           headers: {
             "Content-type": "application/json"
