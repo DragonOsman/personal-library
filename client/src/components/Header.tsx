@@ -1,14 +1,17 @@
 import "./Header.css";
 import logo from "../logo.png";
 import { Link } from "react-router-dom";
+import { Navbar, NavLink, Nav } from "react-bootstrap";
+import NavbarToggle from "react-bootstrap/NavbarToggle";
+import NavbarCollapse from "react-bootstrap/NavbarCollapse";
+import NavbarBrand from "react-bootstrap/NavbarBrand";
+import NavItem from "react-bootstrap/NavItem";
+import Button from "react-bootstrap/Button";
+import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
-import { useContext, useState } from "react";
 
 const Header = () => {
   const { userContext, setUserContext } = useContext(UserContext);
-  const [isCollapsed, setIsCollapsed] = useState(true);
-
-  const handleNavCollapse = () => setIsCollapsed(!isCollapsed);
 
   const previousUserContext = userContext;
 
@@ -32,67 +35,46 @@ const Header = () => {
 
   return (
     <header>
-      <nav
-        className="navbar navbar-brand navbar-expand-sm
-                  navbar-expand-md navbar-expand-lg
-                  navbar-expand-xl navbar-expand-xxl"
-      >
-        <img
-          src={logo}
-          alt="dragon logo"
-          className="logo navbar-brand"
-        />
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded={!isCollapsed ? true : false}
-          aria-label="Toggle navigation"
-          onClick={handleNavCollapse}
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div
-          className={`d-flex ${isCollapsed ? "collapse" : ""} navbar-collapse justify-content-end`}
-          id="navbarSupportedContent">
-          <ul className="navbar-nav">
-            {!userContext.token ?
-              (
+      <Navbar collapseOnSelect expand="lg" data-bs-theme="dark" fixed="top">
+        <NavbarBrand href="/home">
+          <img
+            src={logo}
+            alt="dragon logo"
+            className="dragon-logo"
+          />
+        </NavbarBrand>
+        <NavbarToggle aria-controls="responsive-navbar-nav">
+          <NavbarCollapse id="responsive-navbar-nav">
+            <Nav as="ul">
+              {!userContext.token ? (
                 <>
-                  <li className="nav-item">
-                    <Link to="/login" className="nav-link">
-                      Login
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/register" className="nav-link">
-                      Register
-                    </Link>
-                  </li>
+                  <NavItem as="li">
+                    <NavLink as={Link} to="/login">Login</NavLink>
+                  </NavItem>
+                  <NavItem as="li">
+                    <NavLink as={Link} to="/register">Register</NavLink>
+                  </NavItem>
                 </>
               ) : (
                 <>
-                  <li className="nav-item">
-                    <Link to="/" className="nav-link">
-                      Home
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <button
+                  <NavItem as="li">
+                    <NavLink as={Link} to="/">Home</NavLink>
+                  </NavItem>
+                  <NavItem as="li">
+                    <Button
                       type="button"
+                      variant="danger"
                       onClick={logoutHandler}
-                      className="btn btn-danger"
                     >
                       Logout
-                    </button>
-                  </li>
+                    </Button>
+                  </NavItem>
                 </>
               )}
-          </ul>
-        </div>
-      </nav>
+            </Nav>
+          </NavbarCollapse>
+        </NavbarToggle>
+      </Navbar>
     </header>
   );
 };
