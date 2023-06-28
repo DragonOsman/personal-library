@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { Navbar, NavLink, Nav } from "react-bootstrap";
 import NavbarToggle from "react-bootstrap/NavbarToggle";
 import NavbarCollapse from "react-bootstrap/NavbarCollapse";
-import NavbarBrand from "react-bootstrap/NavbarBrand";
 import NavItem from "react-bootstrap/NavItem";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 
@@ -18,7 +18,7 @@ const Header = () => {
   const logoutHandler = async () => {
     try {
       await fetch(
-        "https://personal-library-rvi3.onrender.com/api/users/logout", {
+        "https://personal-library-app.vercel.app/api/users/logout", {
           method: "GET",
           credentials: "include",
           headers: {
@@ -36,14 +36,13 @@ const Header = () => {
   return (
     <header>
       <Navbar collapseOnSelect expand="lg" data-bs-theme="dark" fixed="top">
-        <NavbarBrand href="/home">
+        <Container>
           <img
             src={logo}
             alt="dragon logo"
             className="dragon-logo"
           />
-        </NavbarBrand>
-        <NavbarToggle aria-controls="responsive-navbar-nav">
+          <NavbarToggle aria-controls="responsive-navbar-nav" />
           <NavbarCollapse id="responsive-navbar-nav">
             <Nav as="ul">
               {!userContext.token ? (
@@ -73,7 +72,7 @@ const Header = () => {
               )}
             </Nav>
           </NavbarCollapse>
-        </NavbarToggle>
+        </Container>
       </Navbar>
     </header>
   );
