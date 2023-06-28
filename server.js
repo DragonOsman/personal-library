@@ -33,7 +33,7 @@ app.use(cors({
   credentials: true
 }));
 
-passport.initialize();
+app.use(passport.initialize());
 
 app.use("/api/users/", users);
 app.use("/api/books", books);
