@@ -33,13 +33,13 @@ const Header = () => {
 
   return (
     <header>
-      <nav className="navbar navbar-expand-lg">
+      <img
+        src={logo}
+        alt="dragon logo"
+        className="dragon-logo navbar-brand"
+      />
+      <nav className="navbar navbar-expand-lg d-flex align-items-end">
         <div className="container-fluid">
-          <img
-            src={logo}
-            alt="dragon logo"
-            className="dragon-logo navbar-brand"
-          />
           <button
             className="navbar-toggler"
             type="button"
@@ -51,7 +51,7 @@ const Header = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse d-flex align-items-end" id="responsive-navbar">
+          <div className="collapse navbar-collapse" id="responsive-navbar">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               {!userContext.token ? (
                 <>
