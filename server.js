@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const passport = require("passport");
 const connectDB = require("./config/db");
+const path = require("path");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -38,6 +39,11 @@ app.use("/api/users/", users);
 app.use("/api/books", books);
 
 const port = process.env.PORT || 5000;
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "./client", "build")));
+  app.get("/*", (req, res) => res.sendFile(path.join(__dirname, "./client", "build", "index.html")));
+}
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
