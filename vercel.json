@@ -3,7 +3,11 @@
   "builds": [
     {
       "src": "server.js",
-      "use": "serverless-http"
+      "use": "@vercel/node"
+    },
+    {
+      "src": "./client/build",
+      "use": "@vercel/static"
     }
   ]
 }
