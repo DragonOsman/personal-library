@@ -39,7 +39,7 @@ const Login = () => {
 
       try {
         const response:Response = await fetch(
-          "https://personal-library-rvi3.onrender.com/api/users/login", {
+          "https://personal-library-app.vercel.app/api/users/login", {
           method: "POST",
           headers: {
             "Content-type": "application/json"
