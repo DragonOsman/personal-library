@@ -16,7 +16,7 @@ const Header = () => {
   const logoutHandler = async () => {
     try {
       await fetch(
-        "https://personal-library-app.vercel.app/api/users/logout", {
+        "https://personal-library-eczi8jhuj-dragonosman.vercel.app/api/users/logout", {
           method: "GET",
           credentials: "include",
           headers: {
