@@ -15,5 +15,9 @@
       "source": "/(.*)",
       "destination": "server.js"
     }
+  ],
+  "cleanUrls": true,
+  "framework": [
+    "react", "express"
   ]
 }
