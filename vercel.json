@@ -17,7 +17,6 @@
     }
   ],
   "cleanUrls": true,
-  "framework": [
-    "react", "express"
-  ]
+  "framework": "react",
+  "runtime": "vercel@node"
 }
