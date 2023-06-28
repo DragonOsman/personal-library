@@ -1,19 +1,17 @@
 import "./Header.css";
 import logo from "../logo.png";
 import { Link } from "react-router-dom";
-import { Navbar, NavLink, Nav } from "react-bootstrap";
-import NavbarToggle from "react-bootstrap/NavbarToggle";
-import NavbarCollapse from "react-bootstrap/NavbarCollapse";
-import NavItem from "react-bootstrap/NavItem";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 
 const Header = () => {
   const { userContext, setUserContext } = useContext(UserContext);
 
   const previousUserContext = userContext;
+
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const handleToggle = () => setIsCollapsed(!isCollapsed);
 
   const logoutHandler = async () => {
     try {
@@ -35,45 +33,55 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar collapseOnSelect expand="lg" data-bs-theme="dark" fixed="top">
-        <Container>
+      <nav className="navbar navbar-expand-lg">
+        <div className="container-fluid">
           <img
             src={logo}
             alt="dragon logo"
-            className="dragon-logo"
+            className="dragon-logo navbar-brand"
           />
-          <NavbarToggle aria-controls="responsive-navbar-nav" />
-          <NavbarCollapse id="responsive-navbar-nav">
-            <Nav as="ul">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggler="#responsive-navbar"
+            aria-controls="responsive-navbar"
+            aria-expanded={!isCollapsed ? true : false}
+            onClick={handleToggle}
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="responsive-navbar">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-end">
               {!userContext.token ? (
                 <>
-                  <NavItem as="li">
-                    <NavLink as={Link} to="/login">Login</NavLink>
-                  </NavItem>
-                  <NavItem as="li">
-                    <NavLink as={Link} to="/register">Register</NavLink>
-                  </NavItem>
+                  <li className="nav-item">
+                    <Link to="/login" className="nav-link">Login</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/register" className="nav-link">Register</Link>
+                  </li>
                 </>
               ) : (
                 <>
-                  <NavItem as="li">
-                    <NavLink as={Link} to="/">Home</NavLink>
-                  </NavItem>
-                  <NavItem as="li">
-                    <Button
+                  <li className="nav-item">
+                    <Link to="/" className="nav-link">Home</Link>
+                  </li>
+                  <li className="nav-item">
+                    <button
                       type="button"
-                      variant="danger"
+                      className="btn btn-danger"
                       onClick={logoutHandler}
                     >
                       Logout
-                    </Button>
-                  </NavItem>
+                    </button>
+                  </li>
                 </>
               )}
-            </Nav>
-          </NavbarCollapse>
-        </Container>
-      </Navbar>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </header>
   );
 };
