@@ -31,7 +31,7 @@ app.use(cors({
   credentials: false
 }));
 
-app.use(passport.initialize());
+//app.use(passport.initialize());
 
 app.use("/api/users/", users);
 app.use("/api/books", books);
