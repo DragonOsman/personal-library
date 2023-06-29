@@ -26,9 +26,9 @@ app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use(cors({
-  origin: /^(https:\/\/){1}[a-z1-9-]+(vercel.app)$/,
+  origin: "*",
   methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
-  credentials: true
+  credentials: false
 }));
 
 app.use(passport.initialize());

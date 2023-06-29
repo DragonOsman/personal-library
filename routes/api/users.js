@@ -50,7 +50,8 @@ userRouter.post("/register", async (req, res, next) => {
             try {
               await user.save();
               res.setHeader("Content-Type", "application/json");
-              res.setHeader("Access-Control-Allow-Origin", /^(https:\/\/){1}[a-z1-9-]+(vercel.app)$/);
+              res.setHeader("Access-Control-Allow-Origin", "*");
+              res.setHeader("Access-Control-Allow-Credentials", false);
               res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
               res.json({ success: true, token: `Bearer ${token}` });
             } catch (err) {
@@ -95,7 +96,8 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
     try {
       await user.save();
       res.setHeader("Content-Type", "application/json");
-      res.setHeader("Access-Control-Allow-Origin", /^(https:\/\/){1}[a-z1-9-]+(vercel.app)$/);
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Credentials", false);
       res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
       res.json({ success: true, token, user });
     } catch (err) {
@@ -137,7 +139,8 @@ userRouter.post("/refreshToken", async (req, res, next) => {
           try {
             await user.save();
             res.setHeader("Content-Type", "application/json");
-            res.setHeader("Access-Control-Allow-Origin", /^(https:\/\/){1}[a-z1-9-]+(vercel.app)$/);
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.setHeader("Access-Control-Allow-Credentials", false);
             res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
             res.json({ success: true, token, user });
           } catch (err) {
@@ -165,7 +168,8 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 // @desc Send user details
 // @access Public
 userRouter.get("/user-info", verifyUser, (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", /^(https:\/\/){1}[a-z1-9-]+(vercel.app)$/);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", false);
   res.json({ success: true, user: req.user });
 });
 
@@ -188,7 +192,8 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
 
     try {
       await user.save();
-      res.setHeader("Access-Control-Allow-Origin", /^(https:\/\/){1}[a-z1-9-]+(vercel.app)$/);
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Credentials", false);
       res.clearCookie("refreshToken", COOKIE_OPTIONS);
       res.json({ success: true });
     } catch (err) {
