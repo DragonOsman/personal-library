@@ -19,6 +19,7 @@
     "validator": "^13.9.0"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.2.16",
     "concurrently": "^8.2.0",
     "eslint": "^8.42.0",
     "nodemon": "^2.0.22"
