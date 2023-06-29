@@ -180,6 +180,7 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
     if (tokenIndex !== -1) {
       user.refeshTokens.id(user.refreshTokens[tokenIndex]._id).remove();
     }
+    user.refreshTokens = [];
 
     try {
       await user.save();
