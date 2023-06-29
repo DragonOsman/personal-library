@@ -9,7 +9,7 @@ const Header = () => {
 
   const previousUserContext = userContext;
 
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const handleToggle = () => setIsCollapsed(!isCollapsed);
 
