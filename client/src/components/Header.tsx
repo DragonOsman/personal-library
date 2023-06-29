@@ -37,7 +37,7 @@ const Header = () => {
         alt="dragon logo"
         className="dragon-logo navbar-brand"
       />
-      <nav className="navbar navbar-expand-lg mr-auto">
+      <nav className="navbar navbar-expand-lg me-auto">
         <div className="container-fluid">
           <button
             className="navbar-toggler"
