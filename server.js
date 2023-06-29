@@ -3,16 +3,34 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const passport = require("passport");
-const connectDB = require("./config/db");
 const path = require("path");
+const mongoose = require("mongoose");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-connectDB();
+const dbURI = process.env.MONGO_DB_CONNECTION_STRING;
+
+const connectDB = async () => {
+  mongoose.set("strictQuery", true);
+  try {
+    await mongoose.connect(dbURI, { dbName: "personal-library" });
+    const connection = mongoose.connection;
+    connection.on("error", () => console.log("error occurred while trying to connect to database"))
+      .on("disconnected", () => console.log("disconnected from database!"))
+    ;
+  } catch (err) {
+    console.log(err);
+    process.exit(1);
+  }
+};
+
+const port = process.env.PORT || 5000;
 
 const app = express();
+
+
 
 require("./strategies/JwtStrategy");
 require("./strategies/LocalStrategy");
@@ -36,13 +54,11 @@ app.use(passport.initialize());
 app.use("/api/users/", users);
 app.use("/api/books", books);
 
-const port = process.env.PORT || 5000;
-
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "./client", "build")));
   app.get("/*", (req, res) => res.sendFile(path.join(__dirname, "./client", "build", "index.html")));
 }
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+connectDB().then(app.listen(port, () => console.log(`Server running on port ${port}`)));
 
 module.exports = app;
