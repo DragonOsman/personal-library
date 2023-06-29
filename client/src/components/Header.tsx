@@ -18,7 +18,6 @@ const Header = () => {
       await fetch(
         "https://personal-library-app.vercel.app/api/users/logout", {
           method: "GET",
-          credentials: "include",
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${userContext.token}`

@@ -18,7 +18,6 @@ function App() {
       const response = await fetch(
         "https://personal-library-app.vercel.app/api/users/refreshToken", {
         method: "POST",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json"
         }
