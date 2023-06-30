@@ -16,11 +16,12 @@ const Header = () => {
   const logoutHandler = async () => {
     try {
       await fetch(
-        "https://personal-library-app.vercel.app/api/users/logout", {
+        "https://personal-library-backend.vercel.app/api/users/logout", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${userContext.token}`
+            "Authorization": `Bearer ${userContext.token}`,
+            "credentials": "include"
           }
         }
       );
@@ -32,19 +33,21 @@ const Header = () => {
 
   return (
     <header>
-      <img
-        src={logo}
-        alt="dragon logo"
-        className="dragon-logo navbar-brand"
-      />
       <nav className="navbar navbar-expand-lg me-auto">
         <div className="container-fluid">
+          <a href="/" className="navbar-brand">
+            <img
+              src={logo}
+              alt="dragon logo"
+              className="dragon-logo"
+            />
+          </a>
           <button
             className="navbar-toggler"
             type="button"
             data-bs-toggler="#responsive-navbar"
             aria-controls="responsive-navbar"
-            aria-expanded={!isCollapsed ? "true" : "false"}
+            aria-expanded="false"
             onClick={handleToggle}
             aria-label="Toggle navigation"
           >
