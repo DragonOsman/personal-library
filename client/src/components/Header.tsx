@@ -15,8 +15,7 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
-      await fetch(
-        "https://personal-library-backend.vercel.app/api/users/logout", {
+      await fetch("/api/users/logout", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
