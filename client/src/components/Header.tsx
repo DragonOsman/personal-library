@@ -41,7 +41,7 @@ const Header = () => {
               alt="dragon logo"
               className="dragon-logo"
             />
-            Osman Zakir / DragonOsman
+            Osman Zakir/DragonOsman Personal Library
           </a>
           <button
             className="navbar-toggler"
@@ -56,7 +56,8 @@ const Header = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="responsive-navbar">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul className="navbar-nav me-auto d-flex align-items-end
+              justify-content-end mb-2 mb-lg-0">
               {!userContext.token ? (
                 <>
                   <li className="nav-item">
