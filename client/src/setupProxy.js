@@ -1,7 +1,11 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = app => {
-  app.use(createProxyMiddleware("/api/**", {
+  app.use(createProxyMiddleware([
+      "/api/users/login", "/api/users/register", "/api/books/add-book", "/api/books/list-books",
+      "/api/books/show-book/:id", "api/books/update-book/:id", "/api/books/delete-book/:id",
+      "/api/users/user-info", "/api/users/refreshToken"
+    ], {
     target: "https://personal-library-backend.vercel.app",
     changeOrigin: true
   }));
