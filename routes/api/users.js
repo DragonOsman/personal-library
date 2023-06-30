@@ -13,9 +13,9 @@ const {
   COOKIE_OPTIONS,
   getRefreshToken,
   verifyUser
- } = require("../../authenticate");
+} = require("../../authenticate");
 
- const CLIENT_URL = "htts://personal-library-client.vercel.app";
+//const CLIENT_URL = "htts://personal-library-client.vercel.app";
 
 // @route POST api/users/register
 // @desc Register user
