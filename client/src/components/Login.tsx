@@ -34,6 +34,11 @@ const Login = () => {
         email: values.email,
         password: values.password
       };
+      try {
+        JSON.parse(JSON.stringify(user));
+      } catch (error) {
+        console.log(`In try-block below user object: ${error}`);
+      }
 
       const previousUserContext = userContext;
 
