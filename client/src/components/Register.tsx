@@ -55,10 +55,11 @@ const Register = () => {
 
       try {
         const response = await fetch(
-          "https://personal-library-app.vercel.app/api/users/register", {
+          "https://personal-library-backend.vercel.app/api/users/register", {
           method: "POST",
           headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            "credentials": "include"
           },
           body: JSON.stringify(user)
         });

@@ -8,6 +8,11 @@ require("dotenv").config();
 const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
 
+const clientURLs = [
+  "https://personal-library-client.vercel.app",
+  "https://personal-library-client.vercel.app/"
+];
+
 const {
   getToken,
   COOKIE_OPTIONS,
@@ -50,7 +55,7 @@ userRouter.post("/register", async (req, res, next) => {
             try {
               await user.save();
               res.setHeader("Content-Type", "application/json");
-              res.setHeader("Access-Control-Allow-Origin", "https://personal-library-client.vercel.app/");
+              res.setHeader("Access-Control-Allow-Origin", clientURLs);
               res.setHeader("Access-Control-Allow-Credentials", true);
               res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
               res.json({ success: true, token: `Bearer ${token}` });
@@ -96,7 +101,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
     try {
       await user.save();
       res.setHeader("Content-Type", "application/json");
-      res.setHeader("Access-Control-Allow-Origin", "https://personal-library-client.vercel.app/");
+      res.setHeader("Access-Control-Allow-Origin", clientURLs);
       res.setHeader("Access-Control-Allow-Credentials", true);
       res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
       res.json({ success: true, token, user });
@@ -139,7 +144,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
           try {
             await user.save();
             res.setHeader("Content-Type", "application/json");
-            res.setHeader("Access-Control-Allow-Origin", "https://personal-library-client.vercel.app/");
+            res.setHeader("Access-Control-Allow-Origin", clientURLs);
             res.setHeader("Access-Control-Allow-Credentials", true);
             res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
             res.json({ success: true, token, user });
@@ -168,7 +173,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 // @desc Send user details
 // @access Public
 userRouter.get("/user-info", verifyUser, (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://personal-library-client.vercel.app/");
+  res.setHeader("Access-Control-Allow-Origin", clientURLs);
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.json({ success: true, user: req.user });
 });
@@ -192,7 +197,7 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
 
     try {
       await user.save();
-      res.setHeader("Access-Control-Allow-Origin", "https://personal-library-client.vercel.app/");
+      res.setHeader("Access-Control-Allow-Origin", clientURLs);
       res.setHeader("Access-Control-Allow-Credentials", true);
       res.clearCookie("refreshToken", COOKIE_OPTIONS);
       res.json({ success: true });

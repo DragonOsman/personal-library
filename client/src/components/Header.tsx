@@ -33,7 +33,7 @@ const Header = () => {
 
   return (
     <header>
-      <nav className="navbar navbar-expand-lg me-auto">
+      <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <a href="/" className="navbar-brand">
             <img
@@ -41,11 +41,13 @@ const Header = () => {
               alt="dragon logo"
               className="dragon-logo"
             />
+            Osman Zakir / DragonOsman
           </a>
           <button
             className="navbar-toggler"
             type="button"
-            data-bs-toggler="#responsive-navbar"
+            data-bs-toggle="collapse"
+            data-bs-target="#responsive-navbar"
             aria-controls="responsive-navbar"
             aria-expanded="false"
             onClick={handleToggle}

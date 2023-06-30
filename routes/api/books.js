@@ -2,10 +2,15 @@ const express = require("express");
 const bookRouter = express.Router();
 const { Book } = require("../../models/Book");
 
+const clientURLs = [
+  "https://personal-library-client.vercel.app",
+  "https://personal-library-client.vercel.app/"
+];
+
 bookRouter.post("/add-book", async (req, res) => {
   try {
     await Book.create(req.body);
-    res.setHeader("Access-Control-Allow-Origin", "https://personal-library-client.vercel.app/");
+    res.setHeader("Access-Control-Allow-Origin", clientURLs);
     res.setHeader("Access-Control-Allow-Credentials", true);
     res.json({ message: "book added successfully" });
   } catch (err) {
@@ -16,7 +21,7 @@ bookRouter.post("/add-book", async (req, res) => {
 bookRouter.get("/list-books", async (req, res) => {
   try {
     const books = await Book.find();
-    res.setHeader("Access-Control-Allow-Origin", "https://personal-library-client.vercel.app/");
+    res.setHeader("Access-Control-Allow-Origin", clientURLs);
     res.setHeader("Access-Control-Allow-Credentials", true);
     res.json(books);
   } catch (err) {
@@ -27,7 +32,7 @@ bookRouter.get("/list-books", async (req, res) => {
 bookRouter.get("/show-book/:id", async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
-    res.setHeader("Access-Control-Allow-Origin", "https://personal-library-client.vercel.app/");
+    res.setHeader("Access-Control-Allow-Origin", clientURLs);
     res.setHeader("Access-Control-Allow-Credentials", true);
     res.json(book);
   } catch (err) {
@@ -38,7 +43,7 @@ bookRouter.get("/show-book/:id", async (req, res) => {
 bookRouter.put("/update-book/:id", async (req, res) => {
   try {
     await Book.findByIdAndUpdate(req.params.id, req.body);
-    res.setHeader("Access-Control-Allow-Origin", "https://personal-library-client.vercel.app/");
+    res.setHeader("Access-Control-Allow-Origin", clientURLs);
     res.setHeader("Access-Control-Allow-Credentials", true);
     res.json({ message: "Book updated successfully" });
   } catch (err) {
@@ -49,7 +54,7 @@ bookRouter.put("/update-book/:id", async (req, res) => {
 bookRouter.delete("/delete-book/:id", async (req, res) => {
   try {
     await Book.findByIdAndRemove(req.params.id, req.body);
-    res.setHeader("Access-Control-Allow-Origin", "https://personal-library-client.vercel.app/");
+    res.setHeader("Access-Control-Allow-Origin", clientURLs);
     res.setHeader("Access-Control-Allow-Credentials", true);
     res.json({ message: "Book entry deleted successfully" });
   } catch (err) {

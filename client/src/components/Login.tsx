@@ -39,10 +39,11 @@ const Login = () => {
 
       try {
         const response:Response = await fetch(
-          "https://personal-library-app.vercel.app/api/users/login", {
+          "https://personal-library-backend.vercel.app/api/users/login", {
           method: "POST",
           headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
+            "credentials": "include"
           },
           body: JSON.stringify(user)
         });

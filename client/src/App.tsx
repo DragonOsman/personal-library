@@ -16,10 +16,11 @@ function App() {
   const verifyUser = useCallback(async () => {
     try {
       const response = await fetch(
-        "https://personal-library-app.vercel.app/api/users/refreshToken", {
+        "https://personal-library-backend.vercel.app/api/users/refreshToken", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "credentials": "include"
         }
       });
 
