@@ -27,10 +27,6 @@ nav.navbar {
   position: relative;
 }
 
-.navbar-nav {
-  text-align: right;
-}
-
 .nav-link {
   color: #dcdcdc;
   font-size: 1.4rem;
