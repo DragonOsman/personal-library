@@ -23,9 +23,6 @@ const {
 userRouter.post("/register", async (req, res, next) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
-  res.setHeader("Access-Control-Allow-Methods", "POST");
-  res.setHeader("Allow", "POST");
-
   if (!isValid) {
     res.statusCode = 400;
     res.send({
@@ -45,7 +42,6 @@ userRouter.post("/register", async (req, res, next) => {
         try {
           if (err) {
             res.statusCode = 500;
-            res.setHeader("Content-Type", "application/json");
             res.json({ success: false, err });
             return;
           } else {
@@ -54,7 +50,6 @@ userRouter.post("/register", async (req, res, next) => {
             user.refreshTokens.push({ refreshToken });
             try {
               await user.save();
-              res.setHeader("Content-Type", "application/json");
               res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
               res.json({ success: true, token: `Bearer ${token}` });
             } catch (err) {
@@ -80,9 +75,6 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
   async (req, res, next) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
-  res.setHeader("Access-Control-Allow-Methods", "POST");
-  res.setHeader("Allow", "POST");
-
   if (!isValid) {
     res.status(400).json(errors);
     for (const error in errors) {
@@ -101,7 +93,6 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
     user.refreshTokens.push({ refreshToken });
     try {
       await user.save();
-      res.setHeader("Content-Type", "application/json");
       res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
       res.json({ success: true, token, user });
     } catch (err) {
@@ -120,10 +111,6 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
 // @desc Refresh JWT and allow user to access protected routes
 // @access Public
 userRouter.post("/refreshToken", async (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Methods", "POST");
-  res.setHeader("Access-Control-Allow-Origin", [`${CLIENT_URL}`, `${CLIENT_URL}/`]);
-  res.setHeader("Allow", "POST");
-
   const signedCookies = req.signedCookies;
   const refreshToken = signedCookies.refreshToken;
   if (refreshToken) {
@@ -146,7 +133,6 @@ userRouter.post("/refreshToken", async (req, res, next) => {
           user.refreshTokens[tokenIndex] = { refreshToken: newRefreshToken };
           try {
             await user.save();
-            res.setHeader("Content-Type", "application/json");
             res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
             res.json({ success: true, token, user });
           } catch (err) {
@@ -174,8 +160,6 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 // @desc Send user details
 // @access Public
 userRouter.get("/user-info", verifyUser, (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Methods", "GET");
-  res.setHeader("Allow", "GET");
   res.json({ success: true, user: req.user });
 });
 
@@ -183,8 +167,6 @@ userRouter.get("/user-info", verifyUser, (req, res, next) => {
 // @desc Log user out
 // @access Public
 userRouter.get("/logout", verifyUser, async (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Methods", "GET");
-  res.setHeader("Allow", "GET");
   const signedCookies = req.signedCookies;
   const refreshToken = signedCookies.refreshToken;
   try {
