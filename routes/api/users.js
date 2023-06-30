@@ -22,6 +22,7 @@ userRouter.post("/register", async (req, res, next) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   res.setHeader("Access-Control-Allow-Methods", "POST");
+  res.setHeader("Allow", "POST");
 
   if (!isValid) {
     res.statusCode = 400;
@@ -78,6 +79,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
   const { errors, isValid } = validateLoginInput(req.body);
 
   res.setHeader("Access-Control-Allow-Methods", "POST");
+  res.setHeader("Allow", "POST");
 
   if (!isValid) {
     res.status(400).json(errors);
@@ -117,6 +119,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
 // @access Public
 userRouter.post("/refreshToken", async (req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "POST");
+  res.setHeader("Allow", "POST");
 
   const signedCookies = req.signedCookies;
   const refreshToken = signedCookies.refreshToken;
@@ -169,6 +172,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 // @access Public
 userRouter.get("/user-info", verifyUser, (req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET");
+  res.setHeader("Allow", "GET");
   res.json({ success: true, user: req.user });
 });
 
