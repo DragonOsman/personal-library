@@ -18,9 +18,6 @@ header .logo {
 
 div.navbar-collapse {
   background-color: #1f1f21;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
 }
 
 .navbar-brand:hover {
@@ -44,5 +41,4 @@ nav.navbar {
 
 .nav-link:hover {
   color: #287098;
-  padding-bottom: .1px;
 }
