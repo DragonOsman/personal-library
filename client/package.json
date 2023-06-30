@@ -1,6 +1,7 @@
 {
   "name": "client",
-  "homepage": "https://personal-library-eczi8jhuj-dragonosman.vercel.app",
+  "homepage": "https://personal-library-client.vercel.app",
+  "proxy": "https://personal-library-backend.vercel.app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
