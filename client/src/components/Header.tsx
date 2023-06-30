@@ -56,8 +56,7 @@ const Header = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="responsive-navbar">
-            <ul className="navbar-nav me-auto d-flex align-items-flex-end
-              justify-content-flex-end mb-2 mb-lg-0">
+            <ul className="navbar-nav mb-2 mb-lg-0">
               {!userContext.token ? (
                 <>
                   <li className="nav-item">
