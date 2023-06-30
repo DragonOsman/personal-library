@@ -7,7 +7,6 @@ module.exports = app => {
       "/api/books/show-book/:id", "api/books/update-book/:id", "/api/books/delete-book/:id",
       "/api/users/user-info", "/api/users/refreshToken"
     ], createProxyMiddleware({
-      target: "https://personal-library-backend.vercel.app",
-      changeOrigin: true
+      target: "https://personal-library-backend.vercel.app"
   }));
 };
