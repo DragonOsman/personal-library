@@ -16,6 +16,13 @@ header .logo {
   color: #dcdcdc;
 }
 
+div.navbar-collapse {
+  background-color: #1f1f21;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
 .navbar-brand:hover {
   color: #287098;
 }
