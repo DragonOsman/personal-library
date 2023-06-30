@@ -21,6 +21,9 @@ const {
 userRouter.post("/register", async (req, res, next) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
+  res.setHeader("Access-Control-Allow-Methods", "POST");
+  res.setHeader("Allow", "POST");
+
   if (!isValid) {
     res.statusCode = 400;
     res.send({
@@ -115,6 +118,9 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
 // @desc Refresh JWT and allow user to access protected routes
 // @access Public
 userRouter.post("/refreshToken", async (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Methods", "POST");
+  res.setHeader("Allow", "POST");
+
   const signedCookies = req.signedCookies;
   const refreshToken = signedCookies.refreshToken;
   if (refreshToken) {
@@ -165,6 +171,8 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 // @desc Send user details
 // @access Public
 userRouter.get("/user-info", verifyUser, (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET");
+  res.setHeader("Allow", "GET");
   res.json({ success: true, user: req.user });
 });
 
@@ -172,6 +180,8 @@ userRouter.get("/user-info", verifyUser, (req, res, next) => {
 // @desc Log user out
 // @access Public
 userRouter.get("/logout", verifyUser, async (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET");
+  res.setHeader("Allow", "GET");
   const signedCookies = req.signedCookies;
   const refreshToken = signedCookies.refreshToken;
   try {
