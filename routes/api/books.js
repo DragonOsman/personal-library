@@ -3,8 +3,6 @@ const bookRouter = express.Router();
 const { Book } = require("../../models/Book");
 
 bookRouter.post("/add-book", async (req, res) => {
-  res.setHeader("Access-Control-Allow-Methods", "POST");
-  res.setHeader("Allow", "POST");
   try {
     await Book.create(req.body);
     res.json({ message: "book added successfully" });
@@ -14,8 +12,6 @@ bookRouter.post("/add-book", async (req, res) => {
 });
 
 bookRouter.get("/list-books", async (req, res) => {
-  res.setHeader("Access-Control-Allow-Methods", "GET");
-  res.setHeader("Allow", "GET");
   try {
     const books = await Book.find();
     res.json(books);
@@ -25,8 +21,6 @@ bookRouter.get("/list-books", async (req, res) => {
 });
 
 bookRouter.get("/show-book/:id", async (req, res) => {
-  res.setHeader("Access-Control-Allow-Methods", "GET");
-  res.setHeader("Allow", "GET");
   try {
     const book = await Book.findById(req.params.id);
     res.json(book);
@@ -36,8 +30,6 @@ bookRouter.get("/show-book/:id", async (req, res) => {
 });
 
 bookRouter.put("/update-book/:id", async (req, res) => {
-  res.setHeader("Access-Control-Allow-Methods", "PUT");
-  res.setHeader("Allow", "PUT");
   try {
     await Book.findByIdAndUpdate(req.params.id, req.body);
     res.json({ message: "Book updated successfully" });
@@ -47,8 +39,6 @@ bookRouter.put("/update-book/:id", async (req, res) => {
 });
 
 bookRouter.delete("/delete-book/:id", async (req, res) => {
-  res.setHeader("Access-Control-Allow-Methods", "DELETE");
-  res.setHeader("Allow", "DELETE");
   try {
     await Book.findByIdAndRemove(req.params.id, req.body);
     res.json({ message: "Book entry deleted successfully" });
