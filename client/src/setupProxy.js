@@ -8,6 +8,6 @@ module.exports = app => {
       "/api/users/user-info", "/api/users/refreshToken"
     ], createProxyMiddleware({
       target: "https://personal-library-backend.vercel.app",
-      methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
+      methods: ["GET", "POST", "PUT", "DELETE"]
   }));
 };
