@@ -33,11 +33,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.options("*", cors({
-  statusCode: 200
-}));
-
-app.options("*", (_, res) => {
+app.options("/**", (_, res) => {
   res.sendStatus(200);
 });
 
