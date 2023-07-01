@@ -15,13 +15,11 @@ const {
   verifyUser
 } = require("../../authenticate");
 
-const CLIENT_URL = "htts://personal-library-client.vercel.app";
-
 // @route POST api/users/register
 // @desc Register user
 // @access Public
 userRouter.post("/register", async (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", [CLIENT_URL, `${CLIENT_URL}/`]);
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
   const { errors, isValid } = validateRegisterInput(req.body);
 
@@ -75,7 +73,7 @@ userRouter.post("/register", async (req, res, next) => {
 // @access Public
 userRouter.post("/login", passport.authenticate("local", { session: false }),
   async (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", [CLIENT_URL, `${CLIENT_URL}/`]);
+  res.setHeader("Access-Control-Allow-Origin", "*");
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
@@ -115,7 +113,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
 // @desc Refresh JWT and allow user to access protected routes
 // @access Public
 userRouter.post("/refreshToken", async (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", [CLIENT_URL, `${CLIENT_URL}/`]);
+  res.setHeader("Access-Control-Allow-Origin", "*");
   const signedCookies = req.signedCookies;
   const refreshToken = signedCookies.refreshToken;
   if (refreshToken) {
@@ -165,7 +163,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 // @desc Send user details
 // @access Public
 userRouter.get("/user-info", verifyUser, (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", [CLIENT_URL, `${CLIENT_URL}/`]);
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.json({ success: true, user: req.user });
 });
 
@@ -173,7 +171,7 @@ userRouter.get("/user-info", verifyUser, (req, res, next) => {
 // @desc Log user out
 // @access Public
 userRouter.get("/logout", verifyUser, async (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", [CLIENT_URL, `${CLIENT_URL}/`]);
+  res.setHeader("Access-Control-Allow-Origin", "*");
   const signedCookies = req.signedCookies;
   const refreshToken = signedCookies.refreshToken;
   try {
