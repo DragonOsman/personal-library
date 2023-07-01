@@ -37,6 +37,10 @@ app.options(CLIENT_URL, cors({
   statusCode: 200
 }));
 
+app.options("/api/users/login", cors({
+  statusCode: 200
+}));
+
 app.use(passport.initialize());
 
 app.use("/api/users/", users);
