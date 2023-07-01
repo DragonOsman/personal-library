@@ -37,43 +37,7 @@ app.options("*", cors({
   statusCode: 200
 }));
 
-app.options("api/users/login", (_, res) => {
-  res.sendStatus(200);
-});
-
-app.options("api/users/register", (_, res) => {
-  res.sendStatus(200);
-});
-
-app.options("api/users/user-info", (_, res) => {
-  res.sendStatus(200);
-});
-
-app.options("api/users/refreshToken", (_, res) => {
-  res.sendStatus(200);
-});
-
-app.options("api/users/logout", (_, res) => {
-  res.sendStatus(200);
-});
-
-app.options("api/books/add-book", (_, res) => {
-  res.sendStatus(200);
-});
-
-app.options("api/books/list-books", (_, res) => {
-  res.sendStatus(200);
-});
-
-app.options("api/books/show-book/:id", (_, res) => {
-  res.sendStatus(200);
-});
-
-app.options("api/books/updaate-book/:id", (_, res) => {
-  res.sendStatus(200);
-});
-
-app.options("api/books/delete-book/:id", (_, res) => {
+app.options("*", (_, res) => {
   res.sendStatus(200);
 });
 

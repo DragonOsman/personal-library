@@ -47,4 +47,24 @@ bookRouter.delete("/delete-book/:id", async (req, res) => {
   }
 });
 
+bookRouter.options("api/books/add-book", (_, res) => {
+  res.sendStatus(200);
+});
+
+bookRouter.options("api/books/list-books", (_, res) => {
+  res.sendStatus(200);
+});
+
+bookRouter.options("api/books/show-book/:id", (_, res) => {
+  res.sendStatus(200);
+});
+
+bookRouter.options("api/books/updaate-book/:id", (_, res) => {
+  res.sendStatus(200);
+});
+
+bookRouter.options("api/books/delete-book/:id", (_, res) => {
+  res.sendStatus(200);
+});
+
 module.exports = bookRouter;
