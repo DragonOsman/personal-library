@@ -26,9 +26,10 @@ app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 const CLIENT_URL = "https://personal-library-client.vercel.app";
+const SERVER_URL = "https://personal-library-backend.vercel.app";
 
 app.use(cors({
-  origin: CLIENT_URL,
+  origin: [CLIENT_URL, SERVER_URL],
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   credentials: true,
   optionsSuccessStatus: 200,
