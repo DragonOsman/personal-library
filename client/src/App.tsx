@@ -19,8 +19,7 @@ function App() {
         "https://personal-library-backend.vercel.app/api/users/refreshToken", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "credentials": "include"
+          "Content-Type": "application/json"
         }
       });
 

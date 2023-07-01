@@ -58,8 +58,7 @@ const Register = () => {
           "https://personal-library-backend.vercel.app/api/users/register", {
           method: "POST",
           headers: {
-            "Content-type": "application/json",
-            "credentials": "include"
+            "Content-type": "application/json"
           },
           body: JSON.stringify(user)
         });
