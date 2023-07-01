@@ -37,7 +37,11 @@ app.options(CLIENT_URL, cors({
   statusCode: 200
 }));
 
-app.options("/api/users/login", cors({
+app.options("/api/users/*", cors({
+  statusCode: 200
+}));
+
+app.options("/api/books/*", cors({
   statusCode: 200
 }));
 
