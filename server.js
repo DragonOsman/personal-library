@@ -36,11 +36,7 @@ app.use(cors({
   headers: "*"
 }));
 
-app.options("/api/books/*", (_, res) => {
-  res.sendStatus(200);
-});
-
-app.options("/api/users/*", (_, res) => {
+app.options("/api/**", (_, res) => {
   res.sendStatus(200);
 });
 
