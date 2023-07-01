@@ -20,7 +20,8 @@ const Header = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${userContext.token}`
+            "Authorization": `Bearer ${userContext.token}`,
+            "credenials": "include"
           }
         }
       );
