@@ -21,6 +21,10 @@
         {
           "key": "Access-Control-Allow-Headers",
           "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Language, Authorization, Accept-Version, Content-Length, Content-MD5, Cookie, Content-Type, Date, X-Api-Version"
+        },
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
         }
       ]
     }
