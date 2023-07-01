@@ -54,7 +54,8 @@ const Register = () => {
       const previousUserContext = userContext;
 
       try {
-        const response = await fetch("/api/users/register", {
+        const response = await fetch(
+          "https://personal-library-backend.vercel.app/api/users/register", {
           method: "POST",
           headers: {
             "Content-type": "application/json",

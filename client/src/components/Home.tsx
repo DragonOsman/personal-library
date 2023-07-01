@@ -12,7 +12,8 @@ const Home = () => {
   const previousUserContext = userContext;
 
   const fetchUserDetails = useCallback(async () => {
-    const response = await fetch("/api/users/user-info", {
+    const response = await fetch(
+      "https://personal-library-backend.vercel.app/api/users/user-info", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
