@@ -33,17 +33,13 @@ app.use(cors({
   credentials: true
 }));
 
-app.options(CLIENT_URL, cors({
+app.options("*", cors({
   statusCode: 200
 }));
 
-app.options("/api/users/*", cors({
-  statusCode: 200
-}));
-
-app.options("/api/books/*", cors({
-  statusCode: 200
-}));
+app.options("api/**", (_, res) => {
+  res.sendStatus(200);
+});
 
 app.use(passport.initialize());
 
