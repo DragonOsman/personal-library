@@ -18,7 +18,7 @@
       "headers": [
         {
           "key": "access-control-allow-origin",
-          "value": "https://personl-library-client.vercel.app"
+          "value": "*"
         }
       ]
     }
