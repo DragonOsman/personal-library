@@ -194,7 +194,7 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   }
 });
 
-userRouter.options("api/users/login", (_, res) => {
+/*userRouter.options("api/users/login", (_, res) => {
   res.sendStatus(200);
 });
 
@@ -212,6 +212,6 @@ userRouter.options("api/users/refreshToken", (_, res) => {
 
 userRouter.options("api/users/logout", (_, res) => {
   res.sendStatus(200);
-});
+});*/
 
 module.exports = userRouter;
