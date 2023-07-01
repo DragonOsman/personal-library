@@ -27,16 +27,17 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 const CLIENT_URL = "https://personal-library-client.vercel.app";
 
-app.options("*", (_, res) => {
-  res.sendStatus(200);
-});
-
 app.use(cors({
   origin: [CLIENT_URL, `${CLIENT_URL}/`],
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  headers: "*"
 }));
+
+app.options("*", (_, res) => {
+  res.sendStatus(200);
+});
 
 app.use(passport.initialize());
 
