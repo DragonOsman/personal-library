@@ -32,7 +32,9 @@ app.use(cors({
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   credentials: true,
   optionsSuccessStatus: 200,
-  headers: "*"
+  headers: ["X-CSRF-Token", "X-Requested-With", "Accept", "Accept-Language",
+  "Authorization", "Accept-Version", "Content-Length", "Content-MD5", "Cookie",
+  "Content-Type", "Date", "X-Api-Version", "Keep-Alive"]
 }));
 
 app.options("*", (_, res) => {
