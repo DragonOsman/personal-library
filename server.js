@@ -30,10 +30,11 @@ const CLIENT_URL = "https://personal-library-client.vercel.app";
 app.use(cors({
   origin: [CLIENT_URL, `${CLIENT_URL}/`],
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
-  credentials: true
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
 
-app.options("/**", (_, res) => {
+app.options("*", (_, res) => {
   res.sendStatus(200);
 });
 
