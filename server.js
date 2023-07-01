@@ -33,7 +33,9 @@ app.use(cors({
   credentials: true
 }));
 
-app.options("*", cors());
+app.options(CLIENT_URL, cors({
+  statusCode: 200
+}));
 
 app.use(passport.initialize());
 
