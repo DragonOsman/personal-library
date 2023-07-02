@@ -16,7 +16,6 @@ const Home = () => {
       "https://personal-library-backend.vercel.app/api/users/user-info", {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
         "Authorization": `Bearer ${userContext.token}`,
         "credentials": "include"
       }

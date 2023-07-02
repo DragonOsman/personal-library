@@ -42,7 +42,6 @@ const Login = () => {
           "https://personal-library-backend.vercel.app/api/users/login", {
           method: "POST",
           headers: {
-            "Content-type": "application/json",
             "credentials": "include"
           },
           body: JSON.stringify(user)

@@ -19,7 +19,6 @@ const Header = () => {
         "https://personal-library-backend.vercel.app/api/users/logout", {
           method: "GET",
           headers: {
-            "Content-Type": "application/json",
             "Authorization": `Bearer ${userContext.token}`,
             "credentials": "include"
           }
