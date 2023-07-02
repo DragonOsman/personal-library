@@ -51,23 +51,6 @@ if (process.env.NODE_ENV === "production") {
 
 const port = process.env.PORT || 5000;
 
-const allowCors = fn => async (req, res) => {
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
-  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "*");
-  if (req.method === "OPTION") {
-    res.status(200).end();
-    return;
-  }
-  return await fn(req, res);
-};
-
-const handler = (req, res) => {
-  const d = new Date();
-  res.send(d.toString());
-};
-
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
-module.exports = { app, allowCors: allowCors(handler) };
+module.exports = app;
