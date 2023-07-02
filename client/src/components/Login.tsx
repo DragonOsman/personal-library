@@ -44,7 +44,7 @@ const Login = () => {
           headers: {
             "credentials": "include"
           },
-          body: JSON.stringify(user)
+          body: user.toString()
         });
 
         formik.setSubmitting(false);
