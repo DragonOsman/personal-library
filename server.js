@@ -35,7 +35,7 @@ app.use(cors({
   headers: "*"
 }));
 
-app.options("/api/**", cors());
+app.options("*", cors());
 
 app.use(passport.initialize());
 

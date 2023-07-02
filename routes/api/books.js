@@ -3,14 +3,7 @@ const bookRouter = express.Router();
 const { Book } = require("../../models/Book");
 const cors = require("cors");
 
-const CLIENT_URL = "https://personal-library-client.vercel.app";
-
-bookRouter.post("/add-book", cors({
-  origin: CLIENT_URL,
-  methods: ["POST", "OPTIONS"],
-  headers: "*",
-  credentials: true
-}), async (req, res) => {
+bookRouter.post("/add-book", cors(), async (req, res) => {
   try {
     await Book.create(req.body);
     res.json({ message: "book added successfully" });
@@ -19,12 +12,7 @@ bookRouter.post("/add-book", cors({
   }
 });
 
-bookRouter.get("/list-books", cors({
-  origin: CLIENT_URL,
-  methods: ["GET", "OPTIONS"],
-  headers: "*",
-  credentials: true
-}), async (req, res) => {
+bookRouter.get("/list-books", cors(), async (req, res) => {
   try {
     const books = await Book.find();
     res.json(books);
@@ -33,12 +21,7 @@ bookRouter.get("/list-books", cors({
   }
 });
 
-bookRouter.get("/show-book/:id", cors({
-  origin: CLIENT_URL,
-  methods: ["GET", "OPTIONS"],
-  headers: "*",
-  credentials: true
-}), async (req, res) => {
+bookRouter.get("/show-book/:id", cors(), async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     res.json(book);
@@ -47,12 +30,7 @@ bookRouter.get("/show-book/:id", cors({
   }
 });
 
-bookRouter.put("/update-book/:id", cors({
-  origin: CLIENT_URL,
-  methods: ["PUT", "OPTIONS"],
-  headers: "*",
-  credentials: true
-}), async (req, res) => {
+bookRouter.put("/update-book/:id", cors(), async (req, res) => {
   try {
     await Book.findByIdAndUpdate(req.params.id, req.body);
     res.json({ message: "Book updated successfully" });
@@ -61,12 +39,7 @@ bookRouter.put("/update-book/:id", cors({
   }
 });
 
-bookRouter.delete("/delete-book/:id", cors({
-  origin: CLIENT_URL,
-  methods: ["DELETE", "OPTIONS"],
-  headers: "*",
-  credentials: true
-}), async (req, res) => {
+bookRouter.delete("/delete-book/:id", cors(), async (req, res) => {
   try {
     await Book.findByIdAndRemove(req.params.id, req.body);
     res.json({ message: "Book entry deleted successfully" });

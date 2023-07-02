@@ -16,17 +16,10 @@ const {
   verifyUser
 } = require("../../authenticate");
 
-const CLIENT_URL = "https://personal-library-client.vercel.app";
-
 // @route POST api/users/register
 // @desc Register user
 // @access Public
-userRouter.post("/register", cors({
-  origin: CLIENT_URL,
-  methods: ["POST", "OPTIONS"],
-  headers: "*",
-  credentials: true
-}), async (req, res, next) => {
+userRouter.post("/register", cors(), async (req, res, next) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
@@ -77,12 +70,7 @@ userRouter.post("/register", cors({
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-userRouter.post("/login", [passport.authenticate("local", { session: false }), cors({
-  origin: CLIENT_URL,
-  methods: ["POST", "OPTIONS"],
-  headers: "*",
-  credentials: true
-})],
+userRouter.post("/login", [passport.authenticate("local", { session: false }), cors()],
   async (req, res, next) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
@@ -122,12 +110,7 @@ userRouter.post("/login", [passport.authenticate("local", { session: false }), c
 // @route POST api/users/refreshToken
 // @desc Refresh JWT and allow user to access protected routes
 // @access Public
-userRouter.post("/refreshToken", cors({
-  origin: CLIENT_URL,
-  methods: ["POST", "OPTIONS"],
-  headers: "*",
-  credentials: true
-}), async (req, res, next) => {
+userRouter.post("/refreshToken", cors(), async (req, res, next) => {
   const signedCookies = req.signedCookies;
   const refreshToken = signedCookies.refreshToken;
   if (refreshToken) {
@@ -176,24 +159,14 @@ userRouter.post("/refreshToken", cors({
 // @route GET api/users/user-info
 // @desc Send user details
 // @access Public
-userRouter.get("/user-info", [verifyUser, cors({
-  origin: CLIENT_URL,
-  methods: ["GET", "OPTIONS"],
-  headers: "*",
-  credentials: true
-})], (req, res, next) => {
+userRouter.get("/user-info", [verifyUser, cors()], (req, res, next) => {
   res.json({ success: true, user: req.user });
 });
 
 // @route GET api/users/logout
 // @desc Log user out
 // @access Public
-userRouter.get("/logout", [verifyUser, cors({
-  origin: CLIENT_URL,
-  methods: ["GET", "OPTIONS"],
-  headers: "*",
-  credentials: true
-})], async (req, res, next) => {
+userRouter.get("/logout", [verifyUser, cors()], async (req, res, next) => {
   const signedCookies = req.signedCookies;
   const refreshToken = signedCookies.refreshToken;
   try {
