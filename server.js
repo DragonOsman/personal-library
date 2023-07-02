@@ -35,9 +35,7 @@ app.use(cors({
   headers: "*"
 }));
 
-app.options("*", (_, res) => {
-  return res.status(200).json({ body: "OK" });
-});
+app.options("/api/**", cors());
 
 app.use(passport.initialize());
 
