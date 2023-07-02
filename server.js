@@ -35,7 +35,7 @@ app.use(cors({
   headers: "*"
 }));
 
-app.options("/api/**", (_, res) => {
+app.options("*", (_, res) => {
   return res.status(200).json({ body: "OK" });
 });
 
@@ -53,7 +53,8 @@ const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
-module.exports = { app, cors: (req, res) => {
+module.exports = app;
+module.cors = (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.setHeader("Access-Control-Allow-Headers", "*");
   res.setHeader("Access-Control-Allow-Credetials", true);
@@ -64,4 +65,4 @@ module.exports = { app, cors: (req, res) => {
       body: "OK"
     });
   }
-} };
+};
