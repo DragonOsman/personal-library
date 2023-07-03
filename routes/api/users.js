@@ -118,18 +118,14 @@ userRouter.post("/refreshToken", async (req, res, next) => {
       const userId = payload._id;
       const user = await User.findOne({ _id: userId });
       if (user) {
-        const tokenIndex = user.refreshTokens.findIndex(
-          item => item.refreshToken === refreshToken
-        );
-
-        if (tokenIndex === -1) {
+        if (refreshToken !== user.refreshToken) {
           res.statusCode = 401;
           res.json({ message: "Unauthorized" });
           console.log("Error is inside tokenIndex check condition block");
         } else {
           const token = getToken({ _id: userId });
           const newRefreshToken = getRefreshToken({ _id: userId });
-          user.refreshTokens[tokenIndex] = { refreshToken: newRefreshToken };
+          user.refreshToken = { refreshToken: newRefreshToken };
           try {
             await user.save();
             res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
@@ -170,14 +166,10 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   const refreshToken = signedCookies.refreshToken;
   try {
     const user = await User.findById({ _id: req.user._id });
-    const tokenIndex = user.refreshTokens.findIndex(
-      item => item.refreshToken === refreshToken
-    );
-
-    if (tokenIndex !== -1) {
-      user.refeshTokens.id(user.refreshTokens[tokenIndex]._id).remove();
+    if (refreshToken === user.refreshToken) {
+      user.refeshTokens.id(user.refreshToken._id).remove();
     }
-    user.refreshTokens = [];
+    user.refreshToken = {};
 
     try {
       await user.save();
