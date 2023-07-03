@@ -19,7 +19,7 @@ const {
 // @route POST api/users/register
 // @desc Register user
 // @access Public
-userRouter.post("/register", cors(), async (req, res, next) => {
+userRouter.post("/register", async (req, res, next) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
@@ -70,7 +70,7 @@ userRouter.post("/register", cors(), async (req, res, next) => {
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-userRouter.post("/login", [passport.authenticate("local", { session: false }), cors()],
+userRouter.post("/login", passport.authenticate("local", { session: false }),
   async (req, res, next) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
@@ -110,7 +110,7 @@ userRouter.post("/login", [passport.authenticate("local", { session: false }), c
 // @route POST api/users/refreshToken
 // @desc Refresh JWT and allow user to access protected routes
 // @access Public
-userRouter.post("/refreshToken", cors(), async (req, res, next) => {
+userRouter.post("/refreshToken", async (req, res, next) => {
   const signedCookies = req.signedCookies;
   const refreshToken = signedCookies.refreshToken;
   if (refreshToken) {
@@ -159,14 +159,14 @@ userRouter.post("/refreshToken", cors(), async (req, res, next) => {
 // @route GET api/users/user-info
 // @desc Send user details
 // @access Public
-userRouter.get("/user-info", [verifyUser, cors()], (req, res, next) => {
+userRouter.get("/user-info", verifyUser, (req, res, next) => {
   res.json({ success: true, user: req.user });
 });
 
 // @route GET api/users/logout
 // @desc Log user out
 // @access Public
-userRouter.get("/logout", [verifyUser, cors()], async (req, res, next) => {
+userRouter.get("/logout", verifyUser, async (req, res, next) => {
   const signedCookies = req.signedCookies;
   const refreshToken = signedCookies.refreshToken;
   try {
@@ -193,6 +193,26 @@ userRouter.get("/logout", [verifyUser, cors()], async (req, res, next) => {
     res.send(err);
     return next(err);
   }
+});
+
+//const CLIENT_URL = "https://personal-library-client.vercel.app";
+
+userRouter.options("*", cors(/*{
+  origin: CLIENT_URL,
+  methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
+  credentials: true,
+  optionsSuccessStatus: 200,
+  preflightContinue: true,
+  allowedHeaders: [
+    "Authorization", "Accept", "Keep-Alive",
+    "Content-Type", "Content-Length", "Content-Language",
+    "Cookie", "Content-Encoding", "Cache-Control", "Origin"
+  ]
+}*/), (req, res) => {
+  res.status(200).json({
+    message: "OK"
+  });
+  return;
 });
 
 module.exports = userRouter;
