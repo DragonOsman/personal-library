@@ -20,7 +20,7 @@
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "Authorization, Accept, Keep-Alive, Content-Type, Content-Length, Content-Language"
+          "value": "Authorization, Accept, Keep-Alive, Cookie, Content-Type, Content-Length, Content-Language"
         },
         {
           "key": "Access-Control-Allow-Credentials",

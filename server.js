@@ -35,7 +35,8 @@ app.use(cors({
   preflightContinue: true,
   allowedHeaders: [
     "Authorization", "Accept", "Keep-Alive",
-    "Content-Type", "Content-Length", "Content-Language"
+    "Content-Type", "Content-Length", "Content-Language",
+    "Cookie"
   ]
 }));
 
