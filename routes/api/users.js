@@ -4,7 +4,6 @@ const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 require("dotenv").config();
-const cors = require("cors");
 
 const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
@@ -195,12 +194,8 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   }
 });
 
-userRouter.options("*", cors(), (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "OK"
-  });
-  return;
+userRouter.options("*", (req, res) => {
+  res.sendStatus(200);
 });
 
 module.exports = userRouter;

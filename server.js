@@ -18,8 +18,8 @@ require("./strategies/JwtStrategy");
 require("./strategies/LocalStrategy");
 require("./authenticate");
 
-const users = require("./routes/api/users");
-const books = require("./routes/api/books");
+const userRouter = require("./routes/api/users");
+const bookRouter = require("./routes/api/books");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -43,8 +43,8 @@ app.use(cors({
 
 app.use(passport.initialize());
 
-app.use("/api/users/", users);
-app.use("/api/books", books);
+app.use("/api/users/", userRouter);
+app.use("/api/books", bookRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "./client", "build")));

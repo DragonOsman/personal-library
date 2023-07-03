@@ -48,12 +48,8 @@ bookRouter.delete("/delete-book/:id", async (req, res) => {
   }
 });
 
-bookRouter.options("*", cors(), (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "OK"
-  });
-  return;
+bookRouter.options("*", (req, res) => {
+  res.sendStatus(200);
 });
 
 module.exports = bookRouter;
