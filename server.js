@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const passport = require("passport");
-const path = require("path");
 const connectDB = require("./config/db");
 
 if (process.env.NODE_ENV !== "production") {
@@ -30,25 +29,13 @@ const CLIENT_URL = "https://personal-library-client.vercel.app";
 app.use(cors({
   origin: CLIENT_URL,
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
-  credentials: true,
-  allowedHeaders: [
-    "Authorization", "Accept", "Connection",
-    "Content-Type", "Content-Length", "Content-Language",
-    "Cookie", "Content-Encoding", "Cache-Control",
-    "Origin", "Access-Control-Request-Method", "Access-Control-Max-Age",
-    "X-Requested-With"
-  ]
+  credentials: true
 }));
 
 app.use(passport.initialize());
 
 app.use("/api/users/", userRouter);
 app.use("/api/books", bookRouter);
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "./client", "build")));
-  app.get("/*", (req, res) => res.sendFile(path.join(__dirname, "./client", "build", "index.html")));
-}
 
 const port = process.env.PORT || 5000;
 
