@@ -34,10 +34,11 @@ app.use(cors({
   optionsSuccessStatus: 200,
   preflightContinue: true,
   allowedHeaders: [
-    "Authorization", "Accept", "Keep-Alive",
+    "Authorization", "Accept", "Connection",
     "Content-Type", "Content-Length", "Content-Language",
     "Cookie", "Content-Encoding", "Cache-Control",
-    "Origin", "Access-Control-Request-Method", "Access-Control-Max-Age"
+    "Origin", "Access-Control-Request-Method", "Access-Control-Max-Age",
+    "X-Requested-With"
   ]
 }));
 

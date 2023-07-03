@@ -195,21 +195,7 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   }
 });
 
-const CLIENT_URL = "https://personal-library-client.vercel.app";
-
-userRouter.options("*", cors({
-  origin: CLIENT_URL,
-  methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
-  credentials: true,
-  optionsSuccessStatus: 200,
-  preflightContinue: true,
-  allowedHeaders: [
-    "Authorization", "Accept", "Keep-Alive",
-    "Content-Type", "Content-Length", "Content-Language",
-    "Cookie", "Content-Encoding", "Cache-Control",
-    "Origin", "Access-Control-Request-Method", "Access-Control-Max-Age"
-  ]
-}), (req, res) => {
+userRouter.options("*", cors(), (req, res) => {
   res.status(200).json({
     success: true,
     message: "OK"
