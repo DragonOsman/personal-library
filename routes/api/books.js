@@ -1,7 +1,6 @@
 const express = require("express");
 const bookRouter = express.Router();
 const { Book } = require("../../models/Book");
-const cors = require("cors");
 
 bookRouter.post("/add-book", async (req, res) => {
   try {

@@ -31,7 +31,6 @@ app.use(cors({
   origin: CLIENT_URL,
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   credentials: true,
-  optionsSuccessStatus: 200,
   allowedHeaders: [
     "Authorization", "Accept", "Connection",
     "Content-Type", "Content-Length", "Content-Language",
@@ -54,5 +53,3 @@ if (process.env.NODE_ENV === "production") {
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
-
-module.exports = app;
