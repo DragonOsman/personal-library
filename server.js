@@ -32,10 +32,12 @@ app.use(cors({
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   credentials: true,
   optionsSuccessStatus: 200,
-  headers: ["Authorization", "Accept", "Keep-Alive", "Content-Type", "Content-Length", "Content-Language"]
+  preflightContinue: true,
+  allowedHeaders: [
+    "Authorization", "Accept", "Keep-Alive",
+    "Content-Type", "Content-Length", "Content-Language"
+  ]
 }));
-
-app.options("*", cors());
 
 app.use(passport.initialize());
 
