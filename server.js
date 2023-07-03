@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-const CLIENT_URL = "https://personal-library-ejl3.onrender.com/";
+const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
 
 app.use(cors({
   origin: CLIENT_URL,
