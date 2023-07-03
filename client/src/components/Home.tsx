@@ -13,7 +13,7 @@ const Home = () => {
 
   const fetchUserDetails = useCallback(async () => {
     const response:Response = await fetch(
-      "https://personal-library-backend.vercel.app/api/users/user-info", {
+      "https://personal-library-server.onrender.com/api/users/user-info", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
