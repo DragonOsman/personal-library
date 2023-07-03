@@ -54,14 +54,15 @@ const Register = () => {
       const previousUserContext = userContext;
 
       try {
-        const response = await fetch(
+        const response:Response = await fetch(
           "https://personal-library-backend.vercel.app/api/users/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "credentials": "include"
           },
-          body: JSON.stringify(user)
+          body: JSON.stringify(user),
+          mode: "cors"
         });
 
         formik.setSubmitting(false);

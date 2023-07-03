@@ -22,7 +22,8 @@ const Header = () => {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${userContext.token}`,
             "credentials": "include"
-          }
+          },
+          mode: "cors"
         }
       );
       setUserContext({ ...previousUserContext, details: undefined, token: null });

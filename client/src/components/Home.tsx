@@ -12,13 +12,14 @@ const Home = () => {
   const previousUserContext = userContext;
 
   const fetchUserDetails = useCallback(async () => {
-    const response = await fetch(
+    const response:Response = await fetch(
       "https://personal-library-backend.vercel.app/api/users/user-info", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${userContext.token}`,
-        "credentials": "include"
+        "credentials": "include",
+        mode: "cors"
       }
     });
 

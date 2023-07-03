@@ -15,13 +15,14 @@ function App() {
 
   const verifyUser = useCallback(async () => {
     try {
-      const response = await fetch(
+      const response:Response = await fetch(
         "https://personal-library-backend.vercel.app/api/users/refreshToken", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "credentials": "include"
-        }
+        },
+        mode: "cors"
       });
 
       if (response.ok) {

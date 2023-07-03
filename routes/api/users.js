@@ -206,7 +206,8 @@ userRouter.options("*", cors({
   allowedHeaders: [
     "Authorization", "Accept", "Keep-Alive",
     "Content-Type", "Content-Length", "Content-Language",
-    "Cookie", "Content-Encoding", "Cache-Control", "Origin"
+    "Cookie", "Content-Encoding", "Cache-Control",
+    "Origin", "Access-Control-Request-Method"
   ]
 }), (req, res) => {
   res.status(200).json({
