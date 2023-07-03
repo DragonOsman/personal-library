@@ -12,7 +12,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "*"
+          "value": "https://personal-library-client.vercel.app"
         },
         {
           "key": "Access-Control-Allow-Methods",
@@ -20,7 +20,7 @@
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "X-CSRF-Token, , Keep-Alive, X-Requested-With, Accept, Accept-Version, Authorization, Content-Language, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+          "value": "Authorization, Accept, Keep-Alive, Content-Type, Content-Length, Content-Language"
         },
         {
           "key": "Access-Control-Allow-Credentials",

@@ -32,7 +32,7 @@ app.use(cors({
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   credentials: true,
   optionsSuccessStatus: 200,
-  headers: ["Authorization", "Keep-Alive", "Content-Type", "Content-Length", "Content-Language"]
+  headers: ["Authorization", "Accept", "Keep-Alive", "Content-Type", "Content-Length", "Content-Language"]
 }));
 
 app.options("*", cors());
