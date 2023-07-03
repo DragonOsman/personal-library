@@ -16,7 +16,7 @@ function App() {
   const verifyUser = useCallback(async () => {
     try {
       const response:Response = await fetch(
-        "https://personal-library-backend.vercel.app/api/users/refreshToken", {
+        "https://personal-library-server.onrender.com/api/users/refreshToken", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,6 +41,20 @@ function App() {
     // since access tokens expire in 15
     setTimeout(verifyUser, 14 * 60 * 1000);
   }, [verifyUser]);
+
+  const preventBackendSpinDown = useCallback(async () => {
+    try {
+      await fetch("https://personal-library-server.onrender.com/");
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
+  useEffect(() => {
+    // To prevent free tier Web Service instance on Render from spinning down
+    // after 15 minutes of inactivity, make a request to backend every 15 minutes
+    setTimeout(preventBackendSpinDown, 15 * 60 * 1000);
+  }, [preventBackendSpinDown]);
 
   return (
     <>
