@@ -32,7 +32,7 @@ app.use(cors({
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   credentials: true,
   optionsSuccessStatus: 200,
-  headers: "*"
+  headers: ["Authorization", "Keep-Alive", "Content-Type", "Content-Length", "Content-Language"]
 }));
 
 app.options("*", cors());
@@ -52,15 +52,3 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
 module.exports = app;
-module.cors = (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
-  res.setHeader("Access-Control-Allow-Headers", "*");
-  res.setHeader("Access-Control-Allow-Credetials", true);
-  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-
-  if (req.method === "OPTIONS") {
-    return req.status(200).json({
-      body: "OK"
-    });
-  }
-};
