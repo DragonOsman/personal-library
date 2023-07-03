@@ -60,7 +60,7 @@ bookRouter.options("*", cors({
     "Authorization", "Accept", "Keep-Alive",
     "Content-Type", "Content-Length", "Content-Language",
     "Cookie", "Content-Encoding", "Cache-Control",
-    "Origin", "Access-Control-Request-Method"
+    "Origin", "Access-Control-Request-Method", "Access-Control-Max-Age"
   ]
 }), (req, res) => {
   res.status(200).json({
