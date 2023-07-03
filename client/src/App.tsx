@@ -42,20 +42,6 @@ function App() {
     setTimeout(verifyUser, 14 * 60 * 1000);
   }, [verifyUser]);
 
-  const preventBackendSpinDown = useCallback(async () => {
-    try {
-      await fetch("https://personal-library-server.onrender.com/");
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
-  useEffect(() => {
-    // To prevent free tier Web Service instance on Render from spinning down
-    // after 15 minutes of inactivity, make a request to backend every 15 minutes
-    setTimeout(preventBackendSpinDown, 15 * 60 * 1000);
-  }, [preventBackendSpinDown]);
-
   return (
     <>
       <Header />
