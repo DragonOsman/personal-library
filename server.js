@@ -36,7 +36,7 @@ app.use(cors({
 
 app.use(passport.initialize());
 
-app.use("/api/users/", userRouter);
+app.use("/users/", userRouter);
 app.use("/api/books", bookRouter);
 
 app.get("/", (req, res) => res.json({ status: "success" }));
