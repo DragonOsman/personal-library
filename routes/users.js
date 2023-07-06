@@ -1,11 +1,11 @@
 const express = require("express");
 const userRouter = express.Router();
-const User = require("../../models/User");
+const User = require("../models/User");
 const passport = require("passport");
 require("dotenv").config();
 
-const validateRegisterInput = require("../../user-validation/register");
-const validateLoginInput = require("../../user-validation/login");
+const validateRegisterInput = require("../user-validation/register");
+const validateLoginInput = require("../user-validation/login");
 
 userRouter.post("/register", (req, res) => {
   try {
