@@ -1,8 +1,9 @@
 {
   "name": "client",
-  "homepage": "https://personal-library-client.vercel.app",
+  "homepage": "https://personal-library-ejl3.onrender.com/",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://personal-library-server.onrender.com/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
