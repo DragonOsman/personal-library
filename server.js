@@ -11,11 +11,13 @@ if (process.env.NODE_ENV !== "production") {
 
 connectDB();
 
+require("./config/passport");
+
 const app = express();
 
 require("./strategies/LocalStrategy");
 
-const userRouter = require("./routes/api/users");
+const userRouter = require("./routes/users");
 const bookRouter = require("./routes/api/books");
 
 app.use(bodyParser.urlencoded({ extended: false }));
