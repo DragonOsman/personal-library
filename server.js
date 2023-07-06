@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-//const cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
 //const cors = require("cors");
 const passport = require("passport");
 const connectDB = require("./config/db");
@@ -24,7 +24,7 @@ const bookRouter = require("./routes/api/books");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-//app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 /*const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
 
