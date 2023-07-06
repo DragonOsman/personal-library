@@ -34,3 +34,5 @@ userRouter.post("/register", (req, res) => {
     res.json({ err });
   }
 });
+
+module.exports = userRouter;
