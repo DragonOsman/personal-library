@@ -14,7 +14,6 @@ connectDB();
 const app = express();
 
 require("./strategies/LocalStrategy");
-require("./authenticate");
 
 const userRouter = require("./routes/api/users");
 const bookRouter = require("./routes/api/books");
