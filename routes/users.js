@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const validateRegisterInput = require("../user-validation/register");
 const validateLoginInput = require("../user-validation/login");
-const { getToken } = require("../authenticate");
+const { getToken, COOKIE_OPTIONS } = require("../authenticate");
 
 userRouter.post("/register", (req, res) => {
   try {
@@ -39,6 +39,7 @@ userRouter.post("/register", (req, res) => {
           const token = getToken({ _id: user._id });
           try {
             await user.save();
+            res.cookie("accessToken", token, COOKIE_OPTIONS);
             res.json({ success: true, message: "Registered", token: `Bearer ${token}` });
           } catch (err) {
             res.statusCode = 500;
