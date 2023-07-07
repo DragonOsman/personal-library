@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const connectDB = require("./config/db");
 const csrf = require("csurf");
+const expressJwt = require("express-jwt").expressjwt;
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -26,6 +27,11 @@ const bookRouter = require("./routes/api/books");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
+
+app.use(expressJwt({
+  secret: process.env.JWT_SECRET,
+  getToken: req => req.signedCookies.accessToken
+}));
 
 /*const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
 
