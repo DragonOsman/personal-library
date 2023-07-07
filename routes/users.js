@@ -12,7 +12,7 @@ userRouter.post("/register", (req, res) => {
   try {
     const { isValid, errors } = validateRegisterInput(req.body);
     if (!isValid) {
-      res.status(400);
+      res.statusCode = 400;
       if (errors.password) {
         res.json({ error: errors.password });
       } else if (errors.confirmPassword) {
@@ -54,7 +54,25 @@ userRouter.post("/register", (req, res) => {
 
 userRouter.post("/login", passport.authenticate("local", { session: false }),
     async (req, res, next) => {
-
+  const token = getToken({ _id: req.user._id });
+  try {
+    const { isValid, errors } = validateLoginInput(req.body);
+    if (!isValid) {
+      res.statusCode = 400;
+      if (errors.email) {
+        res.json({ error: errors.email });
+      } else if (errors.password) {
+        res.json({ error: errors.password });
+      }
+    }
+    const user = await User.findById(req.user._id);
+    if (user) {
+      res.cookie("accessToken", token, COOKIE_OPTIONS);
+    }
+  } catch (err) {
+    res.statusCode = 500;
+    res.json({ error: err });
+  }
 });
 
 module.exports = userRouter;
