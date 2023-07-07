@@ -33,6 +33,11 @@ app.use(expressJwt({
   getToken: req => req.signedCookies.accessToken
 }));
 
+app.use(expressJwt({
+  secret: process.env.REFREH_TOKEN_SECRET,
+  getToken: req => req.signedCookies.refreshToken
+}));
+
 /*const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
 
 app.use(cors({
