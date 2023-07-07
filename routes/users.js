@@ -85,6 +85,23 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
 
 userRouter.get("/user-info", verifyUser, (req, res, next) => res.json({ user: req.user }));
 
+userRouter.get("/logout", verifyUser, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (user) {
+      try {
+        await user.save();
+        res.clearCookie("accessToken", COOKIE_OPTIONS);
+      } catch (err) {
+        res.statusCode = 500;
+        res.json({ error: err });
+      }
+    }
+  } catch (err) {
+    return next(err);
+  }
+});
+
 userRouter.get("/csrf-token", (req, res) => res.json({ csrfToken: req.csrfToken() }));
 
 module.exports = userRouter;
