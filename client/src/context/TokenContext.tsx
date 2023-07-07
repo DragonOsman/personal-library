@@ -1,11 +1,13 @@
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useState } from "react";
 
 interface AccessToken {
-  tokenData: string
+  tokenData: string,
+  setTokenData: (tokenData: AccessToken) => void
 };
 
 const accessToken:AccessToken = {
-  tokenData: ""
+  tokenData: "",
+  setTokenData: function(tokenData: AccessToken) { tokenData.tokenData = this.tokenData; }
 };
 
 interface TokenProviderProps {
@@ -15,8 +17,10 @@ interface TokenProviderProps {
 export const TokenContext = createContext<AccessToken>(accessToken);
 
 export const TokenContextProvider = ({ children }: TokenProviderProps) => {
+  const [state, setState] = useState(accessToken);
+
   return (
-    <TokenContext.Provider value={ { tokenData: accessToken.tokenData } }>
+    <TokenContext.Provider value={ { tokenData: state.tokenData, setTokenData: setState } }>
       {children}
     </TokenContext.Provider>);
 };
