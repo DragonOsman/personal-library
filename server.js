@@ -30,12 +30,14 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use(expressJwt({
   secret: process.env.JWT_SECRET,
-  getToken: req => req.signedCookies.accessToken
+  getToken: req => req.signedCookies.accessToken,
+  algorithms: ["HS256"]
 }));
 
 app.use(expressJwt({
   secret: process.env.REFREH_TOKEN_SECRET,
-  getToken: req => req.signedCookies.refreshToken
+  getToken: req => req.signedCookies.refreshToken,
+  algorithms: ["HS256"]
 }));
 
 /*const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
