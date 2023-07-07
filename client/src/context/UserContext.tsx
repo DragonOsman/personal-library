@@ -19,7 +19,6 @@ interface IUser {
     confirmPassword?: string;
     books: IBook[]
   } | null;
-  token: string | null;
 }
 
 const User: IUser = {
@@ -29,8 +28,7 @@ const User: IUser = {
     email: "",
     password: "",
     books: []
-  },
-  token: null
+  }
 };
 
 interface UserProviderProps {
