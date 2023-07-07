@@ -133,7 +133,7 @@ userRouter.get("/accessToken", verifyUser, async (req, res, next) => {
 
   if (accessToken) {
     try {
-      const payload = jwt.verify(accessToken, ACCESS_TOKEN_COOKIE_OPTIONS);
+      const payload = jwt.verify(accessToken, JWT_SECRET);
       const userId = payload._id;
       const user = await User.findOne({ _id: userId });
       if (user) {
