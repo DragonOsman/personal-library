@@ -35,6 +35,25 @@ function App() {
   }, [setTokenData]);
 
   useEffect(() => {
+    const getCsrfToken = async () => {
+      const response = await fetch("/users/csrf-token", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        response.headers.append("X-CSRF-Token", data.csrfToken);
+      }
+    };
+
+    getCsrfToken();
+  }, []);
+
+  useEffect(() => {
     const verifyUser = async () => {
       await fetch("/users/refreshToken", {
         method: "POST",
