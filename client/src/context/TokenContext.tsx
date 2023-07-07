@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useState } from "react";
 
 interface AccessToken {
-  tokenData: string,
+  tokenData: string | null,
   setTokenData: (tokenData: AccessToken) => void
 };
 
