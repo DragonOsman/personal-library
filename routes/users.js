@@ -85,4 +85,6 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
 
 userRouter.get("/user-info", verifyUser, (req, res, next) => res.json({ user: req.user }));
 
+userRouter.get("/csrf-token", (req, res) => res.json({ csrfToken: req.csrfToken() }));
+
 module.exports = userRouter;
