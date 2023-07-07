@@ -40,7 +40,6 @@ userRouter.post("/register", (req, res) => {
           try {
             await user.save();
             res.cookie("accessToken", token, COOKIE_OPTIONS);
-            res.json({ success: true, message: "Registered", token: `Bearer ${token}` });
           } catch (err) {
             res.statusCode = 500;
             res.json({ error: err });
