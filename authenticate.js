@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const math = require("mathjs");
 const { SESSION_EXPIRY, JWT_SECRET, REFRESH_TOKEN_EXPIRY, REFRESH_TOKEN_SECRET } = process.env;
 
-exports.COOKIE_OPTIONS = {
+const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: true,
   signed: true,
@@ -11,12 +11,12 @@ exports.COOKIE_OPTIONS = {
 };
 
 exports.ACCESS_TOKEN_COOKIE_OPTIONS = {
-  ...this.COOKIE_OPTIONS,
+  ...COOKIE_OPTIONS,
   maxAge: math.evaluate(SESSION_EXPIRY) * 1000
 };
 
 exports.REFRESH_TOKEN_COOKIE_OPTIONS = {
-  ...this.COOKIE_OPTIONS,
+  ...COOKIE_OPTIONS,
   maxAge: math.evaluate(REFRESH_TOKEN_EXPIRY) * 1000
 };
 
