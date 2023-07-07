@@ -34,12 +34,6 @@ app.use(expressJwt({
   algorithms: ["HS256"]
 }));
 
-app.use(expressJwt({
-  secret: process.env.REFREH_TOKEN_SECRET,
-  getToken: req => req.signedCookies.refreshToken,
-  algorithms: ["HS256"]
-}));
-
 /*const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
 
 app.use(cors({
