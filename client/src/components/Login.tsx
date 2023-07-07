@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
-import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
 import * as Yup from "yup";
 import "./Login.css";
 
@@ -11,8 +9,6 @@ interface FormValues {
 }
 
 const Login = () => {
-  const { userContext, setUserContext } = useContext(UserContext);
-
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -35,25 +31,19 @@ const Login = () => {
         password: values.password
       };
 
-      const previousUserContext = userContext;
-
       try {
-        const response:Response = await fetch(
-          "https://personal-library-server.onrender.com/api/users/login", {
+        await fetch("/users/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "credentials": "include"
           },
           body: JSON.stringify(user),
-          mode: "cors"
+          credentials: "include"
         });
 
         formik.setSubmitting(false);
-        const data = await response.json();
-        setUserContext({ ...previousUserContext, token: data.token });
       } catch (error) {
-        console.log(`Line 55: ${error}`);
+        console.log(`Line 46: ${error}`);
       }
     }
   });

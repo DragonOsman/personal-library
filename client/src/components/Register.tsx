@@ -1,6 +1,6 @@
 import "./Register.css";
 import { useFormik } from "formik";
-import { UserContext } from "../context/UserContext";
+import { TokenContext } from "../context/TokenContext";
 import { useContext } from "react";
 import * as Yup from "yup";
 
@@ -13,7 +13,7 @@ interface FormValues {
 }
 
 const Register = () => {
-  const { userContext, setUserContext } = useContext(UserContext);
+  const { tokenData, setTokenData } = useContext(TokenContext);
 
   const formik = useFormik({
     initialValues: {
@@ -51,25 +51,28 @@ const Register = () => {
         confirmPassword: values.confirmPassword
       };
 
-      const previousUserContext = userContext;
-
       try {
-        const response:Response = await fetch(
-          "https://personal-library-server.onrender.com/api/users/register", {
+        await fetch("users/register", {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: "include",
+          body: JSON.stringify(user)
+        });
+
+        const response = await fetch("/users/accessToken", {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             "credentials": "include"
-          },
-          body: JSON.stringify(user),
-          mode: "cors"
+          }
         });
-
-        formik.setSubmitting(false);
         const data = await response.json();
-        setUserContext({ ...previousUserContext, token: data.token });
+        setTokenData(data.accessToken);
+        formik.setSubmitting(false);
       } catch (error) {
-        console.log(`Line 71: ${error}`);
+        console.log(`Line 75: ${error}`);
       }
     }
   });

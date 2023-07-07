@@ -5,7 +5,7 @@ import Home from "./components/Home";
 import Loader from "./components/Loader";
 import { Route, Routes } from "react-router-dom";
 import { useEffect, useContext } from "react";
-import { TokenContext } from "./context/TokenContext";
+import { TokenContext, AccessToken } from "./context/TokenContext";
 import "./App.css";
 
 function App() {
@@ -21,14 +21,34 @@ function App() {
           "Content-Type": "application/json"
         }
       });
-      const data = await response.json();
-      if (data.success && data.accessToken) {
-        setTokenData(data.token);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.accessToken) {
+          setTokenData(data.token);
+        }
+      } else {
+        setTokenData(null as unknown as AccessToken);
       }
     };
 
     checkJwtToken();
   }, [setTokenData]);
+
+  useEffect(() => {
+    const verifyUser = async () => {
+      await fetch("/users/refreshToken", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+
+      setTimeout(verifyUser, 5 * 60 * 1000);
+    };
+
+    verifyUser();
+  }, []);
 
   return (
     <>

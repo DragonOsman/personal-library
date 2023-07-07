@@ -12,14 +12,11 @@ const Home = () => {
   const previousUserContext = userContext;
 
   const fetchUserDetails = useCallback(async () => {
-    const response:Response = await fetch(
-      "https://personal-library-server.onrender.com/api/users/user-info", {
+    const response:Response = await fetch("api/users/user-info", {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${userContext.token}`,
-        "credentials": "include",
-        mode: "cors"
       }
     });
 
@@ -32,7 +29,7 @@ const Home = () => {
       }
       setUserContext({ ...previousUserContext, details: null });
     }
-  }, [navigate, previousUserContext, setUserContext, userContext.token]);
+  }, [navigate, previousUserContext, setUserContext]);
 
   useEffect(() => {
     // fetch only when user details are not present

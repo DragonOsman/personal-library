@@ -1,32 +1,26 @@
 import "./Header.css";
 import logo from "../logo.png";
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import { useState, useContext } from "react";
+import { TokenContext, AccessToken } from "../context/TokenContext";
 
 const Header = () => {
-  const { userContext, setUserContext } = useContext(UserContext);
-
-  const previousUserContext = userContext;
-
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const { tokenData, setTokenData } = useContext(TokenContext);
 
   const handleToggle = () => setIsCollapsed(!isCollapsed);
 
   const logoutHandler = async () => {
     try {
-      await fetch(
-        "https://personal-library-server.onrender.com/api/users/logout", {
+      await fetch("api/users/logout", {
           method: "GET",
+          credentials: "include",
           headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${userContext.token}`,
-            "credentials": "include"
-          },
-          mode: "cors"
+            "Content-Type": "application/json"
+          }
         }
       );
-      setUserContext({ ...previousUserContext, details: undefined, token: null });
+      setTokenData(null as unknown as AccessToken);
     } catch (err) {
       console.log(`Error in logoutHandler, catch block: ${err}`);
     }
@@ -58,7 +52,7 @@ const Header = () => {
           </button>
           <div className="collapse navbar-collapse" id="responsive-navbar">
             <ul className="navbar-nav mb-2 mb-lg-0">
-              {!userContext.token ? (
+              {!tokenData ? (
                 <>
                   <li className="nav-item">
                     <Link to="/login" className="nav-link">Login</Link>
