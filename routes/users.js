@@ -102,6 +102,4 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   }
 });
 
-userRouter.get("/csrf-token", (req, res) => res.json({ csrfToken: req.csrfToken() }));
-
 module.exports = userRouter;
