@@ -12,7 +12,7 @@ interface TokenProviderProps {
   children: ReactNode
 };
 
-const TokenContext = createContext<AccessToken>(accessToken);
+export const TokenContext = createContext<AccessToken>(accessToken);
 
 export const TokenContextProvider = ({ children }: TokenProviderProps) => {
   return (
