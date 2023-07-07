@@ -42,7 +42,7 @@ const UserSchema = new Schema({
 });
 
 // Remove refresh token from the response:
-User.set("toJSON", {
+UserSchema.set("toJSON", {
   transform: (doc, ret, options) => {
     delete ret.refreshTokens;
     return ret;
