@@ -1,13 +1,17 @@
 import { createContext, ReactNode, useState } from "react";
 
-interface AccessToken {
+export interface AccessToken {
   tokenData: string | null,
   setTokenData: (tokenData: AccessToken) => void
 };
 
 const accessToken:AccessToken = {
   tokenData: "",
-  setTokenData: function(tokenData: AccessToken) { tokenData.tokenData = this.tokenData; }
+  setTokenData: function(tokenData: AccessToken | null) {
+    if (tokenData) {
+      tokenData.tokenData = this.tokenData;
+    }
+  }
 };
 
 interface TokenProviderProps {
