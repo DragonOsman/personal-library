@@ -7,7 +7,7 @@ exports.COOKIE_OPTIONS = {
   httpOnly: true,
   secure: true,
   signed: true,
-  sameSite: "strict"
+  sameSite: "lax"
 };
 
 exports.ACCESS_TOKEN_COOKIE_OPTIONS = {
