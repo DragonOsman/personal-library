@@ -12,12 +12,14 @@ const COOKIE_OPTIONS = {
 
 exports.ACCESS_TOKEN_COOKIE_OPTIONS = {
   ...COOKIE_OPTIONS,
-  maxAge: math.evaluate(SESSION_EXPIRY) * 1000
+  maxAge: math.evaluate(SESSION_EXPIRY) * 1000,
+  path: "/users/accessToken"
 };
 
 exports.REFRESH_TOKEN_COOKIE_OPTIONS = {
   ...COOKIE_OPTIONS,
-  maxAge: math.evaluate(REFRESH_TOKEN_EXPIRY) * 1000
+  maxAge: math.evaluate(REFRESH_TOKEN_EXPIRY) * 1000,
+  path: "/users/refreshToken"
 };
 
 exports.getToken = user => {
