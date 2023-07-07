@@ -43,6 +43,8 @@ const csrfProtection = csrf({
 
 app.use(csrfProtection);
 
+app.get("/csrf-token", (req, res) => res.json({ csrfToken: req.csrfToken() }));
+
 app.use("/users/", userRouter);
 app.use("/api/books", bookRouter);
 
