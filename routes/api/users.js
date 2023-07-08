@@ -120,10 +120,8 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
       );
 
       if (tokenIndex !== -1) {
+        user.refreshTokens.id(user.refreshTokens[tokenIndex]._id).remove();
         user.refreshTokens = [];
-      } else {
-        res.statusCode = 401;
-        res.json({ message: "Unauthorized" });
       }
 
       try {
