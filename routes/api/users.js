@@ -16,13 +16,13 @@ const {
  } = require("../../authenticate");
 
 userRouter.post("/register", (req, res) => {
-  console.log("Are we here? Line 19 register route");
   try {
     const { isValid, errors } = validateRegisterInput(req.body);
     if (!isValid) {
       res.statusCode = 400;
       if (errors.password) {
         res.json({ error: errors.password });
+        console.log("Are we here? Line 25 register route");
         return;
       } else if (errors.confirmPassword) {
         res.json({ error: errors.confirmPassword });
