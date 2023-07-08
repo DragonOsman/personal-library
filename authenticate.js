@@ -9,7 +9,7 @@ exports.COOKIE_OPTIONS = {
   signed: true,
   sameSite: "none",
   maxAge: math.evaluate(SESSION_EXPIRY) * 1000,
-  path: "/api/users/refreshToken"
+  path: "https://personal-library-server.onrender.com/api/users/refreshToken"
 };
 
 exports.getToken = user => {
