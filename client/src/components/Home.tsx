@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import BookList from "./BookList";
@@ -11,29 +11,29 @@ const Home = () => {
 
   const previousUserContext = userContext;
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      const response:Response = await fetch(
-        "https://personal-library-server.onrender.com/api/users/user-info", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${userContext.token}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUserContext({ ...previousUserContext, details: data.user });
-      } else {
-        if (response.status === 401) {
-          navigate("/login");
-        }
-        setUserContext({ ...previousUserContext, details: null });
+  const fetchUserDetails = useCallback(async () => {
+    const response:Response = await fetch(
+      "https://personal-library-server.onrender.com/api/users/user-info", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${userContext.token}`
       }
-    };
+    });
 
+    if (response.ok) {
+      const data = await response.json();
+      setUserContext({ ...previousUserContext, details: data.user });
+    } else {
+      if (response.status === 401) {
+        navigate("/login");
+      }
+      setUserContext({ ...previousUserContext, details: null });
+    }
+  }, [navigate, setUserContext, previousUserContext, userContext.token]);
+
+  useEffect(() => {
     // fetch only when user details are not present
     // or when first and last name properties are
     // empty strings
@@ -41,7 +41,7 @@ const Home = () => {
         (userContext.details.firstName === "" && userContext.details.lastName === "")) {
       fetchUserDetails();
     }
-  }, [userContext.details, navigate, userContext.token, previousUserContext, setUserContext]);
+  }, [fetchUserDetails, userContext.details]);
 
   if (!userContext.details) {
     return (
