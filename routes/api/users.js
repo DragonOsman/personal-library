@@ -9,10 +9,8 @@ const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
 const {
   getToken,
-  ACCESS_TOKEN_COOKIE_OPTIONS,
-  REFRESH_TOKEN_COOKIE_OPTIONS,
+  COOKIE_OPTIONS,
   verifyUser,
-  JWT_SECRET,
   REFRESH_TOKEN_SECRET,
   getRefreshToken
  } = require("../../authenticate");
@@ -54,8 +52,8 @@ userRouter.post("/register", (req, res) => {
           const refreshToken = getRefreshToken({ _id: user._id });
           try {
             await user.save();
-            res.cookie("accessToken", token, ACCESS_TOKEN_COOKIE_OPTIONS);
-            res.cookie("refreshToken", refreshToken, REFRESH_TOKEN_COOKIE_OPTIONS);
+            res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+            res.json({ success: true, token });
           } catch (err) {
             res.statusCode = 500;
             res.json({ error: err });
@@ -89,8 +87,8 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
       user.refreshTokens.push({ refreshToken });
       try {
         await user.save();
-        res.cookie("accessToken", token, ACCESS_TOKEN_COOKIE_OPTIONS);
-        res.cookie("refreshToken", refreshToken, REFRESH_TOKEN_COOKIE_OPTIONS);
+        res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+        res.json({ success: true, token });
       } catch (err) {
         res.statusCode = 500;
         res.json({ error: err });
@@ -112,10 +110,11 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
     if (user) {
+      user.refreshTokens = [];
       try {
         await user.save();
-        res.clearCookie("accessToken", ACCESS_TOKEN_COOKIE_OPTIONS);
-        res.clearCookie("refreshTOken", REFRESH_TOKEN_COOKIE_OPTIONS);
+        res.clearCookie("refreshToken", COOKIE_OPTIONS);
+        res.json({ success: true });
       } catch (err) {
         res.statusCode = 500;
         res.json({ error: err });
@@ -123,33 +122,6 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
     }
   } catch (err) {
     return next(err);
-  }
-});
-
-userRouter.get("/csrf-token", verifyUser, (req, res) => res.json({ csrfToken: req.csrfToken() }));
-
-userRouter.get("/accessToken", verifyUser, async (req, res, next) => {
-  const accessToken = req.signedCookies.accessToken;
-
-  if (accessToken) {
-    try {
-      const payload = jwt.verify(accessToken, JWT_SECRET);
-      const userId = payload._id;
-      const user = await User.findOne({ _id: userId });
-      if (user) {
-        res.json({ success: true, accessToken });
-      } else {
-        res.statusCode = 401;
-        res.json({ success: false, error: "user not found" });
-      }
-    } catch (err) {
-      res.statusCode = 401;
-      res.json({ message: "Unauthorized" });
-      return next(err);
-    }
-  } else {
-    res.statusCode = 401;
-    res.json({ message: "Unauthorized" });
   }
 });
 
@@ -175,9 +147,8 @@ userRouter.post("/refreshToken", async (req, res, next) => {
           user.refreshTokens[tokenIndex] = { refreshToken: newRefreshToken };
           try {
             await user.save();
-            res.cookie("refreshToken", newRefreshToken, REFRESH_TOKEN_COOKIE_OPTIONS);
-            res.cookie("accessToken", token, ACCESS_TOKEN_COOKIE_OPTIONS);
-            res.json({ success: true });
+            res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
+            res.json({ success: true, token });
           } catch (err) {
             res.statusCode = 500;
             res.json({ error: err });
