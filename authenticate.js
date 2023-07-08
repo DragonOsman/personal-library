@@ -7,7 +7,7 @@ const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: true,
   signed: true,
-  sameSite: "lax"
+  sameSite: "none"
 };
 
 exports.ACCESS_TOKEN_COOKIE_OPTIONS = {

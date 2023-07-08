@@ -3,8 +3,7 @@ const express = require("express");
 const app = express();
 
 app.use([
-  "/users/refreshToken", "/users/accessToken", "/users/user-info", "/users/csrf-token",
-  "/users/register", "/users/login", "/users/logout", "/api/books/*"
+  "/users/user-info", "/users/register", "/users/login", "/users/logout", "/api/books/*"
 ], createProxyMiddleware({
   target: "https://personal-library-server.onrender.com",
   changeOrigin: true
