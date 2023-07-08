@@ -51,7 +51,7 @@ userRouter.post("/register", (req, res) => {
         } else {
           const token = getToken({ _id: user._id });
           const refreshToken = getRefreshToken({ _id: user._id });
-          user.refreshToken = { refreshToken };
+          user.refreshTokens.push({ refreshToken });
           try {
             await user.save();
             res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
@@ -86,7 +86,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
     }
     const user = await User.findById(req.user._id);
     if (user) {
-      user.refreshToken = { refreshToken };
+      user.refreshTokens.push({ refreshToken });
       try {
         await user.save();
         res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
@@ -113,8 +113,13 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
     if (user) {
-      if (user.refreshToken === refreshToken) {
-        user.refreshToken = {};
+      const tokenIndex = user.refreshTokens.findIndex(
+        item => item.refreshToken === refreshToken
+      );
+
+      if (tokenIndex !== -1) {
+        user.refreshTokens.id(user.refreshTokens[tokenIndex]._id).remove();
+        user.refreshTokens = [];
       }
 
       try {
@@ -139,21 +144,27 @@ userRouter.post("/refreshToken", async (req, res, next) => {
       const payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
       const userId = payload._id;
       const user = await User.findOne({ _id: userId });
-      console.log(`refreshToken route, refreshToken looks like this: ${refreshToken}
-                   user.refreshToken looks like this: ${user.refreshToken}`);
       if (user) {
-        if (refreshToken === user.refreshToken) {
-          const token = getToken({ _id: userId });
-          const newRefreshToken = getRefreshToken({ _id: userId });
-          user.refreshToken = { refreshToken: newRefreshToken };
-          try {
-            await user.save();
-            res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
-            res.json({ success: true, token });
-          } catch (err) {
-            res.statusCode = 500;
-            res.json({ error: err });
-          }
+        const tokenIndex = user.refreshTokens.findIndex(
+          item => item.refreshToken === refreshToken
+        );
+
+        if (tokenIndex === -1) {
+          res.statusCode = 401;
+          res.json({ message: "Unauthorized" });
+        }
+
+        const token = getToken({ _id: userId });
+        const newRefreshToken = getRefreshToken({ _id: userId });
+        user.refreshTokens[tokenIndex] = { refreshToken: newRefreshToken };
+
+        try {
+          await user.save();
+          res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
+          res.json({ success: true, token });
+        } catch (err) {
+          res.statusCode = 500;
+          res.json({ error: err });
         }
       } else {
         res.statusCode = 401;
