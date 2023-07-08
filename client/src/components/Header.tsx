@@ -2,11 +2,13 @@ import "./Header.css";
 import logo from "../logo.png";
 import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
-import { TokenContext, AccessToken } from "../context/TokenContext";
+import { UserContext } from "../context/UserContext";
 
 const Header = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const { tokenData, setTokenData } = useContext(TokenContext);
+  const { userContext, setUserContext } = useContext(UserContext);
+
+  const previousUserContext = userContext;
 
   const handleToggle = () => setIsCollapsed(!isCollapsed);
 
@@ -16,11 +18,14 @@ const Header = () => {
           method: "GET",
           credentials: "include",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${userContext.token}`
           }
         }
       );
-      setTokenData(null as unknown as AccessToken);
+
+      setUserContext({ ...previousUserContext, details: undefined, token: null });
+
     } catch (err) {
       console.log(`Error in logoutHandler, catch block: ${err}`);
     }
@@ -52,7 +57,7 @@ const Header = () => {
           </button>
           <div className="collapse navbar-collapse" id="responsive-navbar">
             <ul className="navbar-nav mb-2 mb-lg-0">
-              {!tokenData ? (
+              {!userContext.token ? (
                 <>
                   <li className="nav-item">
                     <Link to="/login" className="nav-link">Login</Link>

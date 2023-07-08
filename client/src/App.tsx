@@ -5,59 +5,17 @@ import Home from "./components/Home";
 import Loader from "./components/Loader";
 import { Route, Routes } from "react-router-dom";
 import { useEffect, useContext } from "react";
-import { TokenContext, AccessToken } from "./context/TokenContext";
+import { UserContext } from "./context/UserContext";
 import "./App.css";
 
 function App() {
-  const { tokenData, setTokenData } = useContext(TokenContext);
+  const { userContext, setUserContext } = useContext(UserContext);
 
-  // To check if user is logged in
-  useEffect(() => {
-    const checkJwtToken = async () => {
-      const response:Response = await fetch(
-        "https://personal-library-server.onrender.com/api/users/accessToken", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      if (response.ok) {
-        const data = await response.json();
-        if (data.accessToken) {
-          setTokenData(data.token);
-        }
-      } else {
-        setTokenData(null as unknown as AccessToken);
-      }
-    };
-
-    checkJwtToken();
-  }, [setTokenData]);
-
-  useEffect(() => {
-    const getCsrfToken = async () => {
-      const response = await fetch(
-        "https://personal-library-server.onrender.com/api/users/csrf-token", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        response.headers.append("X-CSRF-Token", data.csrfToken);
-      }
-    };
-
-    getCsrfToken();
-  }, []);
+  const previousUserContext = userContext;
 
   useEffect(() => {
     const verifyUser = async () => {
-      await fetch(
+      const response = await fetch(
         "https://personal-library-server.onrender.com/api/users/refreshToken", {
         method: "POST",
         credentials: "include",
@@ -66,18 +24,25 @@ function App() {
         }
       });
 
+      if (response.ok) {
+        const data = await response.json();
+        setUserContext({ ...previousUserContext, token: data.token });
+      } else {
+        setUserContext({ ...previousUserContext, token: null });
+      }
+
       setTimeout(verifyUser, 5 * 60 * 1000);
     };
 
     verifyUser();
-  }, []);
+  }, [previousUserContext, setUserContext]);
 
   return (
     <>
       <Header />
       <Routes>
-        <Route path="/" element={!tokenData ? <Login /> : (
-          tokenData ? <Home /> : <Loader />)} />
+        <Route path="/" element={!userContext.token ? <Login /> : (
+          userContext.token ? <Home /> : <Loader />)} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
       </Routes>

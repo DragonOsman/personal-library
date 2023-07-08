@@ -1,6 +1,6 @@
 import "./Register.css";
 import { useFormik } from "formik";
-import { TokenContext } from "../context/TokenContext";
+import { UserContext } from "../context/UserContext";
 import { useContext } from "react";
 import * as Yup from "yup";
 
@@ -13,7 +13,9 @@ interface FormValues {
 }
 
 const Register = () => {
-  const { tokenData, setTokenData } = useContext(TokenContext);
+  const { userContext, setUserContext } = useContext(UserContext);
+
+  const previousUserContext = userContext;
 
   const formik = useFormik({
     initialValues: {
@@ -52,7 +54,7 @@ const Register = () => {
       };
 
       try {
-        await fetch("/api/users/register", {
+        const response = await fetch("/api/users/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -61,18 +63,13 @@ const Register = () => {
           body: JSON.stringify(user)
         });
 
-        const response = await fetch("/users/accessToken", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "credentials": "include"
-          }
-        });
-        const data = await response.json();
-        setTokenData(data.accessToken);
         formik.setSubmitting(false);
+        if (response.ok) {
+          const data = await response.json();
+          setUserContext({ ...previousUserContext, token: data.token });
+        }
       } catch (error) {
-        console.log(`Line 75: ${error}`);
+        console.log(`Line 72: ${error}`);
       }
     }
   });

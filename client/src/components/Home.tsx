@@ -17,6 +17,7 @@ const Home = () => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${userContext.token}`
       }
     });
 

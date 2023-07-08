@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
+import { UserContext } from "../context/UserContext";
+import { useContext } from "react";
 import * as Yup from "yup";
 import "./Login.css";
 
@@ -9,6 +11,10 @@ interface FormValues {
 }
 
 const Login = () => {
+  const { userContext, setUserContext } = useContext(UserContext);
+
+  const previousUserContext = userContext;
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -32,7 +38,7 @@ const Login = () => {
       };
 
       try {
-        await fetch("/api/users/login", {
+        const response = await fetch("/api/users/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -42,8 +48,12 @@ const Login = () => {
         });
 
         formik.setSubmitting(false);
+        if (response.ok) {
+          const data = await response.json();
+          setUserContext({ ...previousUserContext, token: data.token });
+        }
       } catch (error) {
-        console.log(`Line 46: ${error}`);
+        console.log(`Line 56: ${error}`);
       }
     }
   });
