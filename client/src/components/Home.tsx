@@ -12,7 +12,7 @@ const Home = () => {
   const previousUserContext = userContext;
 
   const fetchUserDetails = useCallback(async () => {
-    const response:Response = await fetch("api/users/user-info", {
+    const response:Response = await fetch("/api/users/user-info", {
       method: "GET",
       credentials: "include",
       headers: {

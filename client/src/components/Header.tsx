@@ -12,7 +12,7 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
-      await fetch("api/users/logout", {
+      await fetch("/api/users/logout", {
           method: "GET",
           credentials: "include",
           headers: {

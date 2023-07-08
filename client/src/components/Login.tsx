@@ -32,7 +32,7 @@ const Login = () => {
       };
 
       try {
-        await fetch("/users/login", {
+        await fetch("/api/users/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -14,8 +14,7 @@ function App() {
   // To check if user is logged in
   useEffect(() => {
     const checkJwtToken = async () => {
-      const response:Response = await fetch(
-        "https://personal-library-server.onrender.com/users/accessToken", {
+      const response:Response = await fetch("/api/users/accessToken", {
         method: "GET",
         credentials: "include",
         headers: {
@@ -37,8 +36,7 @@ function App() {
 
   useEffect(() => {
     const getCsrfToken = async () => {
-      const response = await fetch(
-        "https://personal-library-server.onrender.com/users/csrf-token", {
+      const response = await fetch("/api/users/csrf-token", {
         method: "GET",
         credentials: "include",
         headers: {
@@ -57,8 +55,7 @@ function App() {
 
   useEffect(() => {
     const verifyUser = async () => {
-      await fetch(
-        "https://personal-library-server.onrender.com/users/refreshToken", {
+      await fetch("/api/users/refreshToken", {
         method: "POST",
         credentials: "include",
         headers: {
