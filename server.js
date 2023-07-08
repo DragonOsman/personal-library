@@ -20,7 +20,7 @@ require("./strategies/JwtStrategy");
 require("./strategies/LocalStrategy");
 require("./authenticate");
 
-const userRouter = require("./routes/users");
+const userRouter = require("./routes/api/users");
 const bookRouter = require("./routes/api/books");
 
 app.use(bodyParser.urlencoded({ extended: false }));

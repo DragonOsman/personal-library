@@ -1,12 +1,12 @@
 const express = require("express");
 const userRouter = express.Router();
-const User = require("../models/User");
+const User = require("../../models/User");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const validateRegisterInput = require("../user-validation/register");
-const validateLoginInput = require("../user-validation/login");
+const validateRegisterInput = require("../../user-validation/register");
+const validateLoginInput = require("../../user-validation/login");
 const {
   getToken,
   ACCESS_TOKEN_COOKIE_OPTIONS,
@@ -15,7 +15,7 @@ const {
   JWT_SECRET,
   REFRESH_TOKEN_SECRET,
   getRefreshToken
- } = require("../authenticate");
+ } = require("../../authenticate");
 
 userRouter.post("/register", (req, res) => {
   try {
