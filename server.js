@@ -4,7 +4,6 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const passport = require("passport");
 const connectDB = require("./config/db");
-const csrf = require("csurf");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -36,12 +35,6 @@ app.use(cors({
 }));
 
 app.use(passport.initialize());
-
-const csrfProtection = csrf({
-  cookie: true
-});
-
-app.use(csrfProtection);
 
 app.use("/users", userRouter);
 app.use("/api/books", bookRouter);
