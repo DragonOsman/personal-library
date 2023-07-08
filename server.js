@@ -32,6 +32,8 @@ app.use(cors({
   credentials: true
 }));
 
+app.options("*", cors());
+
 app.use(passport.initialize());
 
 app.use("/api/users", userRouter);
