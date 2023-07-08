@@ -16,8 +16,6 @@ const {
 
 const { REFRESH_TOKEN_SECRET } = process.env;
 
-const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
-
 userRouter.post("/register", (req, res) => {
   try {
     const { isValid, errors } = validateRegisterInput(req.body);
