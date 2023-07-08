@@ -27,8 +27,8 @@ const UserSchema = new Schema({
     required: true,
     default: "local"
   },
-  refreshTokens: {
-    type: [SessionSchema]
+  refreshToken: {
+    type: SessionSchema
   },
   books: {
     type: [BookSchema],
