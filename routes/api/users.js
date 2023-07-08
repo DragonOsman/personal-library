@@ -14,9 +14,12 @@ const {
   getRefreshToken
  } = require("../../authenticate");
 
- const { REFRESH_TOKEN_SECRET } = process.env;
+const { REFRESH_TOKEN_SECRET } = process.env;
+
+const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
 
 userRouter.post("/register", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   try {
     const { isValid, errors } = validateRegisterInput(req.body);
     if (!isValid) {
@@ -70,6 +73,7 @@ userRouter.post("/register", (req, res) => {
 
 userRouter.post("/login", passport.authenticate("local", { session: false }),
     async (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
   try {
@@ -107,10 +111,12 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
 });
 
 userRouter.get("/user-info", verifyUser, (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.json({ user: req.user });
 });
 
 userRouter.get("/logout", verifyUser, async (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   const refreshToken = req.signedCookies.refreshToken;
   try {
     const user = await User.findById(req.user._id);
@@ -141,6 +147,7 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
 });
 
 userRouter.post("/refreshToken", async (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   const refreshToken = req.signedCookies.refreshToken;
 
   if (refreshToken) {

@@ -2,7 +2,10 @@ const express = require("express");
 const bookRouter = express.Router();
 const { Book } = require("../../models/Book");
 
+const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
+
 bookRouter.post("/add-book", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   try {
     await Book.create(req.body);
     res.json({ message: "book added successfully" });
@@ -12,6 +15,7 @@ bookRouter.post("/add-book", async (req, res) => {
 });
 
 bookRouter.get("/list-books", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   try {
     const books = await Book.find();
     res.json(books);
@@ -21,6 +25,7 @@ bookRouter.get("/list-books", async (req, res) => {
 });
 
 bookRouter.get("/show-book/:id", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   try {
     const book = await Book.findById(req.params.id);
     res.json(book);
@@ -30,6 +35,7 @@ bookRouter.get("/show-book/:id", async (req, res) => {
 });
 
 bookRouter.put("/update-book/:id", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   try {
     await Book.findByIdAndUpdate(req.params.id, req.body);
     res.json({ message: "Book updated successfully" });
@@ -39,16 +45,13 @@ bookRouter.put("/update-book/:id", async (req, res) => {
 });
 
 bookRouter.delete("/delete-book/:id", async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   try {
     await Book.findByIdAndRemove(req.params.id, req.body);
     res.json({ message: "Book entry deleted successfully" });
   } catch (err) {
     res.status(400).json({ error: "No such book exists" });
   }
-});
-
-bookRouter.options("*", (req, res) => {
-  res.sendStatus(200);
 });
 
 module.exports = bookRouter;
