@@ -11,9 +11,10 @@ const {
   getToken,
   COOKIE_OPTIONS,
   verifyUser,
-  REFRESH_TOKEN_SECRET,
   getRefreshToken
  } = require("../../authenticate");
+
+ const { REFRESH_TOKEN_SECRET } = process.env;
 
 userRouter.post("/register", (req, res) => {
   try {
@@ -130,7 +131,6 @@ userRouter.post("/refreshToken", async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
 
   if (refreshToken) {
-    console.log("In refreshToken route, inside refreshToken truthy check block");
     try {
       const payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
       const userId = payload._id;
