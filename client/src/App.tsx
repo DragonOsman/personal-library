@@ -14,20 +14,24 @@ function App() {
   const previousUserContext = userContext;
 
   const verifyUser = useCallback(async () => {
-    const response = await fetch(
-      "https://personal-library-server.onrender.com/api/users/refreshToken", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    });
+    try {
+      const response = await fetch(
+        "https://personal-library-server.onrender.com/api/users/refreshToken", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      setUserContext({ ...previousUserContext, token: data.token });
-    } else {
-      setUserContext({ ...previousUserContext, token: null });
+      if (response.ok) {
+        const data = await response.json();
+        setUserContext({ ...previousUserContext, token: data.token });
+      } else {
+        setUserContext({ ...previousUserContext, token: null });
+      }
+    } catch (err) {
+      console.log(`Error while making request to refreshToken route: ${err}`);
     }
 
     setTimeout(verifyUser, 5 * 60 * 1000);

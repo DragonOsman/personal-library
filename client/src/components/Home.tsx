@@ -12,24 +12,28 @@ const Home = () => {
   const previousUserContext = userContext;
 
   const fetchUserDetails = useCallback(async () => {
-    const response:Response = await fetch(
-      "https://personal-library-server.onrender.com/api/users/user-info", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${userContext.token}`
-      }
-    });
+    try {
+      const response:Response = await fetch(
+        "https://personal-library-server.onrender.com/api/users/user-info", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${userContext.token}`
+        }
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      setUserContext({ ...previousUserContext, details: data.user });
-    } else {
-      if (response.status === 401) {
-        navigate("/login");
+      if (response.ok) {
+        const data = await response.json();
+        setUserContext({ ...previousUserContext, details: data.user });
+      } else {
+        if (response.status === 401) {
+          navigate("/login");
+        }
+        setUserContext({ ...previousUserContext, details: null });
       }
-      setUserContext({ ...previousUserContext, details: null });
+    } catch (err) {
+      console.log(`Error fetching user details: ${err}`);
     }
   }, [navigate, setUserContext, previousUserContext, userContext.token]);
 
