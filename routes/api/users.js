@@ -42,7 +42,7 @@ userRouter.post("/register", (req, res) => {
         username: req.body.email,
         firstName: req.body.firstName,
         lastName: req.body.lastName
-      }, req.body.password,
+      }), req.body.password,
       async (err, user) => {
         if (err) {
           res.statusCode = 500;
@@ -61,7 +61,7 @@ userRouter.post("/register", (req, res) => {
             res.json({ error: err });
           }
         }
-      }));
+      });
     }
   } catch (err) {
     res.json({ err });
