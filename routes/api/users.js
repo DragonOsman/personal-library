@@ -22,7 +22,6 @@ userRouter.post("/register", (req, res) => {
       res.statusCode = 400;
       if (errors.password) {
         res.json({ error: errors.password });
-        console.log("Are we here? Line 25 register route");
         return;
       } else if (errors.confirmPassword) {
         res.json({ error: errors.confirmPassword });
@@ -131,6 +130,7 @@ userRouter.post("/refreshToken", async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
 
   if (refreshToken) {
+    console.log("In refreshToken route, inside refreshToken truthy check block");
     try {
       const payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
       const userId = payload._id;
