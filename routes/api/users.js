@@ -50,6 +50,7 @@ userRouter.post("/register", (req, res) => {
         } else {
           const token = getToken({ _id: user._id });
           const refreshToken = getRefreshToken({ _id: user._id });
+          user.refreshTokens.push({ refreshToken });
           try {
             await user.save();
             res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
