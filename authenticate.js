@@ -7,19 +7,9 @@ exports.COOKIE_OPTIONS = {
   httpOnly: true,
   secure: true,
   signed: true,
-  sameSite: "none"
-};
-
-exports.ACCESS_TOKEN_COOKIE_OPTIONS = {
-  ...this.COOKIE_OPTIONS,
+  sameSite: "none",
   maxAge: math.evaluate(SESSION_EXPIRY) * 1000,
-  path: "/users/accessToken"
-};
-
-exports.REFRESH_TOKEN_COOKIE_OPTIONS = {
-  ...this.COOKIE_OPTIONS,
-  maxAge: math.evaluate(REFRESH_TOKEN_EXPIRY) * 1000,
-  path: "/users/refreshToken"
+  path: "/api/users/refreshToken"
 };
 
 exports.getToken = user => {
