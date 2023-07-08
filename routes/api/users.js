@@ -16,6 +16,7 @@ const {
  } = require("../../authenticate");
 
 userRouter.post("/register", (req, res) => {
+  console.log("Are we here? Line 19 register route");
   try {
     const { isValid, errors } = validateRegisterInput(req.body);
     if (!isValid) {
