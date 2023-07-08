@@ -11,8 +11,6 @@ if (process.env.NODE_ENV !== "production") {
 
 connectDB();
 
-require("./config/passport");
-
 const app = express();
 
 require("./strategies/JwtStrategy");
