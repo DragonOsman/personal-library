@@ -37,7 +37,7 @@ interface UserProviderProps {
   children: ReactNode;
 }
 
-interface IUserContext {
+export interface IUserContext {
   userContext: IUser;
   setUserContext: (user: IUser) => void;
 }
