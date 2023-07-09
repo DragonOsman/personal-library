@@ -2,6 +2,7 @@ import { useContext, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import BookList from "./BookList";
+import AddBook from "./AddBook";
 import Loader from "../components/Loader";
 import "./Home.css";
 
@@ -55,7 +56,9 @@ const Home = () => {
              userContext.details.firstName === "" ||
              userContext.details.lastName === "") {
       return (
-        <p className="text-danger">Error Loading User details</p>
+        <p className="d-flex justify-content-center align-items center text-danger">
+          Error Loading User details
+        </p>
       );
     } else {
     return (
@@ -73,7 +76,10 @@ const Home = () => {
             <BookList />
           </>
         ) : (
-          <h3>Please add some books first!</h3>
+          <>
+            <h3>Add some books first!</h3>
+            <AddBook />
+          </>
         )}
       </div>
     );
