@@ -1,6 +1,6 @@
 import { useState, createContext, ReactNode } from "react";
 
-interface IBook {
+export interface IBook {
   title: string;
   isbn: string;
   author: string;
