@@ -70,7 +70,7 @@ const Register = () => {
           setUserContext({ ...previousUserContext, token: data.token });
         }
       } catch (error) {
-        console.log(`Line 72: ${error}`);
+        console.log(`Error when trying tor register user: ${error}`);
       }
     }
   });

@@ -54,7 +54,7 @@ const Login = () => {
           setUserContext({ ...previousUserContext, token: data.token });
         }
       } catch (error) {
-        console.log(`Line 56: ${error}`);
+        console.log(`Error when trying to log user in: ${error}`);
       }
     }
   });
