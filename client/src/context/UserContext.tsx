@@ -4,10 +4,9 @@ export interface IBook {
   title: string;
   isbn: string;
   author: string;
-  description?: string;
+  description: string;
   published_date?: string;
-  publisher?: string;
-  updated_date?: Date
+  publisher: string;
 }
 
 export interface IUser {
