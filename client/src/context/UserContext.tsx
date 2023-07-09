@@ -10,7 +10,7 @@ export interface IBook {
   updated_date?: Date
 }
 
-interface IUser {
+export interface IUser {
   details?: {
     firstName: string;
     lastName: string;
@@ -37,7 +37,7 @@ interface UserProviderProps {
   children: ReactNode;
 }
 
-export interface IUserContext {
+interface IUserContext {
   userContext: IUser;
   setUserContext: (user: IUser) => void;
 }
