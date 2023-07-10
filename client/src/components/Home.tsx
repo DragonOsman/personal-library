@@ -1,8 +1,7 @@
 import { useContext, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import BookList from "./BookList";
-import AddBook from "./AddBook";
 import Loader from "../components/Loader";
 import "./Home.css";
 
@@ -74,13 +73,13 @@ const Home = () => {
         </p>
         {userContext.details.books.length > 0 ? (
           <>
-            <h3>Below you can see your list of books:</h3>
+            <h1>Below you can see your list of books:</h1>
             <BookList />
           </>
         ) : (
           <>
-            <h3>Add some books first!</h3>
-            <AddBook />
+            <p>No books to show!</p>
+            <p>Please <Link to="/books/add-book">add some books</Link> first!</p>
           </>
         )}
       </div>

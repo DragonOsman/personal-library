@@ -7,12 +7,11 @@ import AddBook from "./components/AddBook";
 import ShowBookDetails from "./components/ShowBookDetails";
 import BookList from "./components/BookList";
 import DeleteBook from "./components/DeleteBook";
-import UpdatBook from "./components/UpdateBook";
+import UpdateBook from "./components/UpdateBook";
 import { Route, Routes } from "react-router-dom";
 import { useEffect, useContext, useCallback } from "react";
 import { UserContext } from "./context/UserContext";
 import "./App.css";
-import UpdateBookInfo from "./components/UpdateBook";
 
 function App() {
   const { userContext, setUserContext } = useContext(UserContext);
@@ -58,7 +57,7 @@ function App() {
         <Route path="/books/add-book" element={<AddBook />} />
         <Route path="/books/show-book/:id" element={<ShowBookDetails />} />
         <Route path="/books/list-books" element={<BookList />} />
-        <Route path="/books/update-book/:id" element={<UpdateBookInfo />} />
+        <Route path="/books/update-book/:id" element={<UpdateBook />} />
         <Route path="/books/delete-book/:id" element={<DeleteBook />} />
       </Routes>
     </>
