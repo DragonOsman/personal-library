@@ -7,6 +7,7 @@ export interface IBook {
   description: string;
   published_date?: string;
   publisher: string;
+  updated_date?: Date;
 }
 
 export interface IUser {
