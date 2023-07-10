@@ -118,7 +118,7 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
       );
 
       if (tokenIndex !== -1) {
-        user.refreshTokens.id(user.refreshTokens[tokenIndex]._id).remove();
+        user.refreshTokens.pull({ _id: user.refrehTokens[tokenIndex]._id });
         user.refreshTokens = [];
       }
 
