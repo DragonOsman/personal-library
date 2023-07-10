@@ -56,9 +56,11 @@ const Home = () => {
              userContext.details.firstName === "" ||
              userContext.details.lastName === "") {
       return (
-        <p className="d-flex justify-content-center align-items center text-danger">
-          Error Loading User details
-        </p>
+        <div className="user-details d-flex justify-content-center align-items-center flex-column">
+          <p className="text-danger">
+            Error Loading User details
+          </p>
+        </div>
       );
     } else {
     return (
