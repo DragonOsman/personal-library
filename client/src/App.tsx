@@ -3,10 +3,16 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
 import Loader from "./components/Loader";
+import AddBook from "./components/AddBook";
+import ShowBookDetails from "./components/ShowBookDetails";
+import BookList from "./components/BookList";
+import DeleteBook from "./components/DeleteBook";
+import UpdatBook from "./components/UpdateBook";
 import { Route, Routes } from "react-router-dom";
 import { useEffect, useContext, useCallback } from "react";
 import { UserContext } from "./context/UserContext";
 import "./App.css";
+import UpdateBookInfo from "./components/UpdateBook";
 
 function App() {
   const { userContext, setUserContext } = useContext(UserContext);
@@ -47,8 +53,13 @@ function App() {
       <Routes>
         <Route path="/" element={!userContext.token ? <Login /> : (
           userContext.token ? <Home /> : <Loader />)} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/users/register" element={<Register />} />
+        <Route path="/users/login" element={<Login />} />
+        <Route path="/books/add-book" element={<AddBook />} />
+        <Route path="/books/show-book/:id" element={<ShowBookDetails />} />
+        <Route path="/books/list-books" element={<BookList />} />
+        <Route path="/books/update-book/:id" element={<UpdateBookInfo />} />
+        <Route path="/books/delete-book/:id" element={<DeleteBook />} />
       </Routes>
     </>
   );
