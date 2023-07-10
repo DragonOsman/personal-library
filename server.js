@@ -28,10 +28,11 @@ const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
 
 app.use(cors({
   origin: CLIENT_URL,
+  headers: "*",
   credentials: true
 }));
 
-app.options("*", cors());
+app.options(["*", "/api/**"], cors());
 
 app.use(passport.initialize());
 
