@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { UserContext } from "../context/UserContext";
 import * as Yup from "yup";
+import "./AddBook.css";
 
 const AddBook = () => {
   const { userContext, setUserContext } = useContext(UserContext);
@@ -80,7 +81,10 @@ const AddBook = () => {
     <div className="add-book-form-container">
       <div className="row">
         <div className="col-md-8 m-auto">
-          <Link to="/books/list-books">
+          <Link
+            to="/books/list-books"
+            className="book-list-link link-item"
+          >
             Show Book List
           </Link>
         </div>
