@@ -117,8 +117,9 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
         item => item.refreshToken === refreshToken
       );
 
+      // If the refresh token being tested for is there, user is authorized
+      // So we do the work: which is to remove all their refresh tokens
       if (tokenIndex !== -1) {
-        user.refreshTokens.pull({ _id: user.refrehTokens[tokenIndex]._id });
         user.refreshTokens = [];
       }
 
