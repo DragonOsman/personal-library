@@ -80,7 +80,7 @@ const AddBook = () => {
     <div className="add-book-form-container">
       <div className="row">
         <div className="col-md-8 m-auto">
-          <Link to="/show-books">
+          <Link to="/books/list-books">
             Show Book List
           </Link>
         </div>
