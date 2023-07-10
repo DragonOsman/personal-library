@@ -26,7 +26,8 @@ function App() {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-        }
+        },
+        mode: "cors"
       });
 
       if (response.ok) {

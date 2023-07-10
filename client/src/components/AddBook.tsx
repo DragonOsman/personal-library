@@ -62,7 +62,8 @@ const AddBook = () => {
               "Authorization": `Bearer ${userContext.token}`,
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(book)
+            body: JSON.stringify(book),
+            mode: "cors"
           }
         );
 

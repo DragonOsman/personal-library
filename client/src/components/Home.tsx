@@ -51,9 +51,7 @@ const Home = () => {
     return (
       <Loader />
     );
-  } else if (userContext.details === null ||
-             userContext.details.firstName === "" ||
-             userContext.details.lastName === "") {
+  } else if (userContext.details === null) {
       return (
         <div className="user-details d-flex justify-content-center align-items-center flex-column">
           <p className="text-danger">

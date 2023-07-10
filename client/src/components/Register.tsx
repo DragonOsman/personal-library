@@ -61,7 +61,8 @@ const Register = () => {
             "Content-Type": "application/json"
           },
           credentials: "include",
-          body: JSON.stringify(user)
+          body: JSON.stringify(user),
+          mode: "cors"
         });
 
         formik.setSubmitting(false);
