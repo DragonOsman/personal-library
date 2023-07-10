@@ -78,75 +78,91 @@ const AddBook = () => {
 
   return (
     <div className="add-book-form-container">
-      <form onSubmit={(event) => {event.preventDefault(); formik.handleSubmit(event);}} method="post">
-        <fieldset className="mb-3">
-          <legend>Add Book</legend>
-          <label htmlFor="title" className="form-label">Book Title</label>:
-          <input
-            type="text"
-            className="title form-control form-control-lg"
-            placeholder="Please enter book's title"
-            required
-            {...formik.getFieldProps("title")}
-          />
-          {formik.touched.title && formik.errors.title ? (
-            <small className="text-danger">{formik.errors.title}</small>
-          ) : null}
-          <label htmlFor="author" className="form-label">Book Author</label>:
-          <input
-            type="text"
-            className="author form-control form-control-lg"
-            placeholder="Please enter name of book's author"
-            required
-            {...formik.getFieldProps("author")}
-          />
-          {formik.touched.author && formik.errors.author ? (
-            <small className="text-danger">{formik.errors.author}</small>
-          ) : null}
-          <label htmlFor="isbn" className="form-label">Book ISBN</label>:
-          <input
-            type="text"
-            className="isbn form-control form-control-lg"
-            placeholder="Please enter ISBN of book"
-            required
-            {...formik.getFieldProps("isbn")}
-          />
-          {formik.touched.isbn && formik.errors.isbn ? (
-            <small className="text-danger">{formik.errors.isbn}</small>
-          ) : null}
-          <label htmlFor="isbn" className="form-label">Book Description</label>:
-          <input
-            type="text"
-            className="description form-control form-control-lg"
-            placeholder="Please enter description for book"
-            required
-            {...formik.getFieldProps("description")}
-          />
-          {formik.touched.description && formik.errors.description ? (
-            <small className="text-danger">{formik.errors.description}</small>
-          ) : null}
-          <label htmlFor="isbn" className="form-label">Book Publisher</label>:
-          <input
-            type="text"
-            className="publisher form-control form-control-lg"
-            placeholder="Please enter book publisher's name"
-            required
-            {...formik.getFieldProps("publisher")}
-          />
-          {formik.touched.publisher && formik.errors.publisher ? (
-            <small className="text-danger">{formik.errors.publisher}</small>
-          ) : null}
-          <label htmlFor="isbn" className="form-label">Book Publishing Date</label>:
-          <input
-            type="text"
-            className="published-date form-control form-control-lg"
-            placeholder="Please enter book's publishing date"
-            required
-            {...formik.getFieldProps("published_date")}
-          />
-        </fieldset>
-        <input type="submit" value="Add Book" className="btn btn-primary btn-lg" />
-      </form>
+      <div className="row">
+        <div className="col-md-8 m-auto">
+          <Link to="/show-books">
+            Show Book List
+          </Link>
+        </div>
+        <div className="col-md-8 m-auto">
+          <h1 className="display-4 text-center">Add Book</h1>
+          <p className="lead text-center">Add new book</p>
+          <form onSubmit={
+            (event) => {
+              event.preventDefault();
+              formik.handleSubmit(event);
+            }}
+            method="post"
+          >
+            <fieldset className="mb-3">
+              <legend>Add Book</legend>
+              <label htmlFor="title" className="form-label">Book Title</label>:
+              <input
+                type="text"
+                className="title form-control form-control-lg"
+                placeholder="Please enter book's title"
+                required
+                {...formik.getFieldProps("title")}
+              />
+              {formik.touched.title && formik.errors.title ? (
+                <small className="text-danger">{formik.errors.title}</small>
+              ) : null}
+              <label htmlFor="author" className="form-label">Book Author</label>:
+              <input
+                type="text"
+                className="author form-control form-control-lg"
+                placeholder="Please enter name of book's author"
+                required
+                {...formik.getFieldProps("author")}
+              />
+              {formik.touched.author && formik.errors.author ? (
+                <small className="text-danger">{formik.errors.author}</small>
+              ) : null}
+              <label htmlFor="isbn" className="form-label">Book ISBN</label>:
+              <input
+                type="text"
+                className="isbn form-control form-control-lg"
+                placeholder="Please enter ISBN of book"
+                required
+                {...formik.getFieldProps("isbn")}
+            />
+              {formik.touched.isbn && formik.errors.isbn ? (
+                <small className="text-danger">{formik.errors.isbn}</small>
+              ) : null}
+              <label htmlFor="description" className="form-label">Book Description</label>:
+              <input
+                type="text"
+                className="description form-control form-control-lg"
+                placeholder="Please enter description for book"
+                required
+                {...formik.getFieldProps("description")}
+              />
+              {formik.touched.description && formik.errors.description ? (
+                <small className="text-danger">{formik.errors.description}</small>
+              ) : null}
+              <label htmlFor="publisher" className="form-label">Book Publisher</label>:
+              <input
+                type="text"
+                className="publisher form-control form-control-lg"
+                placeholder="Please enter book publisher's name"
+                required
+                {...formik.getFieldProps("publisher")}
+              />
+              {formik.touched.publisher && formik.errors.publisher ? (
+                <small className="text-danger">{formik.errors.publisher}</small>
+              ) : null}
+              <label htmlFor="publisher_date" className="form-label">Book Publishing Date</label>:
+              <input
+                type="text"
+                className="published-date form-control form-control-lg"
+                placeholder="Please enter book's publishing date"
+                {...formik.getFieldProps("published_date")}
+              />
+            </fieldset>
+            <input type="submit" value="Add Book" className="btn btn-primary btn-lg" />
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
