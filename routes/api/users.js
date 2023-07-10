@@ -129,6 +129,7 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
         res.json({ success: true });
       } catch (err) {
         res.statusCode = 500;
+        console.log(`Error inside inner catch block in logout route: ${err}`);
         res.json({ error: err });
       }
     }
