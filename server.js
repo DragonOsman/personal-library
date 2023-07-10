@@ -28,7 +28,7 @@ const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
 
 app.use(cors({
   origin: CLIENT_URL,
-  headers: "*",
+  headers: "Content-Type, X-Requested-With, Accept, Authorization, Connection",
   methods: "GET, HEAD, PUT, DELETE, POST, OPTIONS",
   credentials: true
 }));
