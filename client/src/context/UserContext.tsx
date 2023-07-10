@@ -1,6 +1,7 @@
 import { useState, createContext, ReactNode } from "react";
 
 export interface IBook {
+  _id: string;
   title: string;
   isbn: string;
   author: string;
