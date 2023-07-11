@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const BookSchema = new mongoose.Schema({
+const BookSchema = new Schema({
   title: {
     type: String,
     required: true
@@ -27,10 +28,6 @@ const BookSchema = new mongoose.Schema({
   updated_date: {
     type: Date,
     default: Date.now
-  },
-  user: {
-    type: mongoose.Schema.Type.ObjectId,
-    ref: "User"
   }
 });
 
