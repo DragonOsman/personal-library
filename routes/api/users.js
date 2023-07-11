@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const User = require("../../models/User");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
-const Book = require("../../models/Book");
+const { Book } = require("../../models/Book");
 require("dotenv").config();
 
 const validateRegisterInput = require("../../user-validation/register");
