@@ -109,11 +109,13 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
 
 userRouter.get("/user-info", verifyUser, async (req, res, next) => {
   try {
-    let user = req.user;
-    user = await user.populate("books", Book);
+    const books = await Book.find();
+    const user = req.user;
+    user.books = books;
     await user.save();
+    req.user = user;
   } catch (err) {
-    console.log(`Error populating books or saving user changes: ${err}`);
+    console.log(`Error querying books or saving user changes: ${err}`);
   }
   res.json({ user: req.user });
 });
