@@ -3,6 +3,7 @@ const userRouter = express.Router();
 const User = require("../../models/User");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const Book = require("../../models/Book");
 require("dotenv").config();
 
 const validateRegisterInput = require("../../user-validation/register");
@@ -106,7 +107,16 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
   }
 });
 
-userRouter.get("/user-info", verifyUser, (req, res, next) => res.json({ user: req.user }));
+userRouter.get("/user-info", verifyUser, async (req, res, next) => {
+  try {
+    let user = req.user;
+    user = await user.populate("books", Book);
+    await user.save();
+  } catch (err) {
+    console.log(`Error populating books or saving user changes: ${err}`);
+  }
+  res.json({ user: req.user });
+});
 
 userRouter.get("/logout", verifyUser, async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
