@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { BookSchema } = require("./Book");
 const passportLocalMongoose = require("passport-local-mongoose");
 
 const Schema = mongoose.Schema;
@@ -30,11 +29,12 @@ const UserSchema = new Schema({
   refreshTokens: {
     type: [SessionSchema]
   },
-  books: {
-    type: [BookSchema],
+  books: [{
+    type: Schema.Types.ObjectId,
     required: true,
+    ref: "Book",
     default: []
-  },
+  }],
   date: {
     type: Date,
     default: Date.now

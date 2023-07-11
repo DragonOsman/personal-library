@@ -27,6 +27,10 @@ const BookSchema = new mongoose.Schema({
   updated_date: {
     type: Date,
     default: Date.now
+  },
+  user: {
+    type: mongoose.Schema.Type.ObjectId,
+    ref: "User"
   }
 });
 
