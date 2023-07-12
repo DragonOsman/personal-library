@@ -1,19 +1,12 @@
 import { useContext, useEffect, useState } from "react";
+import { BookContext } from "../context/BookContext";
 import { UserContext } from "../context/UserContext";
-import { IBook } from "../context/BookContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ShowBookDetails = () => {
   const { userContext, setUserContext } = useContext(UserContext);
-  const [book, setBook] = useState<IBook>({
-    _id: "",
-    title: "",
-    author: "",
-    isbn: "",
-    publisher: "",
-    published_date: "",
-    description: ""
-  });
+  const { bookContext, setBookContext } = useContext(BookContext);
+  const [book, setBook] = useState(bookContext.book);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -36,6 +29,7 @@ const ShowBookDetails = () => {
           try {
             const data = await response.json();
             setBook(data.book);
+            setBookContext({ book: data.book });
           } catch (err) {
             console.log(`Error when running "const data = await response.json()": ${err}`);
           }
@@ -48,7 +42,7 @@ const ShowBookDetails = () => {
     };
 
     fetchBookDetails();
-  }, [id, userContext.token]);
+  }, [id, userContext.token, setBookContext]);
 
   const onDeleteClick = async (id: string) => {
     try {

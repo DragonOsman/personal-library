@@ -1,7 +1,10 @@
-import { IBook } from "../context/BookContext";
+import { BookContext } from "../context/BookContext";
+import { useContext } from "react";
 import "./BookInfo.css";
 
-const BookInfo = (book: IBook) => {
+const BookInfo = () => {
+  const { bookContext, setBookContext } = useContext(BookContext);
+  const book = bookContext.book;
   return (
     <div className="container container-fluid">
       <img

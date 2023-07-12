@@ -1,12 +1,15 @@
-import { useContext, useEffect } from "react";
-import { BookContext, IBook } from "../context/BookContext";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
 import BookInfo from "../components/BookInfo";
+import { BookContext, IBook } from "../context/BookContext";
 
 const BookList = () => {
-  const { booksContext, setBooksContext } = useContext(BookContext);
   const { userContext, setUserContext } = useContext(UserContext);
+  const { bookContext, setBookContext } = useContext(BookContext);
+  const book: IBook["book"] = bookContext.book;
+  const bookArray: IBook["book"][] = [book];
+  const [books, setBooks] = useState<IBook["book"][]>(bookArray);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -25,8 +28,8 @@ const BookList = () => {
 
         if (booksResponse.ok) {
           try {
-            const booksData: IBook[] = await booksResponse.json();
-            setBooksContext(booksData);
+            const booksData: IBook["book"][] = await booksResponse.json();
+            setBooks(booksData);
           } catch (err) {
             console.log(`Error getting books data from response: ${err}`);
           }
@@ -37,11 +40,11 @@ const BookList = () => {
     };
 
     fetchBooks();
-  }, [setBooksContext, userContext.token]);
+  }, [userContext.token]);
 
-  const bookList = booksContext.length === 0
+  const bookList = books.length === 0
     ? "There are no books!"
-    : booksContext.map((book: IBook, k: number) => <BookInfo book={book} key={k} />)
+    : books.map(() => <BookInfo />)
   ;
 
   return (
