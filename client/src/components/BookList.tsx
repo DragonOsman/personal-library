@@ -41,10 +41,16 @@ const BookList = () => {
     fetchBooks();
   }, [userContext.token]);
 
-  const bookList = books.length === 0
+  let bookList;
+  try {
+    bookList = books.length === 0
     ? "There are no books!"
     : books.map((book: IBook, index: number) => <BookInfo book={book.book} key={index} />)
   ;
+  } catch (err) {
+    console.log(`In BookList component, when creating bookList object: ${err}`);
+  }
+
 
   return (
     <div className="ShowBookList">
