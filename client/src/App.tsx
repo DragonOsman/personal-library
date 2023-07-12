@@ -6,7 +6,6 @@ import Loader from "./components/Loader";
 import AddBook from "./components/AddBook";
 import ShowBookDetails from "./components/ShowBookDetails";
 import BookList from "./components/BookList";
-import DeleteBook from "./components/DeleteBook";
 import UpdateBook from "./components/UpdateBook";
 import { Route, Routes } from "react-router-dom";
 import { useEffect, useContext, useCallback } from "react";
@@ -61,7 +60,6 @@ function App() {
           <Route path="/books/show-book/:id" element={<ShowBookDetails />} />
           <Route path="/books/list-books" element={<BookList />} />
           <Route path="/books/update-book/:id" element={<UpdateBook />} />
-          <Route path="/books/delete-book/:id" element={<DeleteBook />} />
         </BookContextProvider>
       </Routes>
     </>
