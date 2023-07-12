@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { UserContext, IBook } from "../context/UserContext";
+import { UserContext } from "../context/UserContext";
+import { IBook } from "../context/BookContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ShowBookDetails = () => {
