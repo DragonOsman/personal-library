@@ -7,9 +7,8 @@ import { BookContext, IBook } from "../context/BookContext";
 const BookList = () => {
   const { userContext, setUserContext } = useContext(UserContext);
   const { bookContext, setBookContext } = useContext(BookContext);
-  const book: IBook["book"] = bookContext.book;
-  const bookArray: IBook["book"][] = [book];
-  const [books, setBooks] = useState<IBook["book"][]>(bookArray);
+  const book: IBook = bookContext;
+  const [books, setBooks] = useState<IBook[]>([book]);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -28,7 +27,7 @@ const BookList = () => {
 
         if (booksResponse.ok) {
           try {
-            const booksData: IBook["book"][] = await booksResponse.json();
+            const booksData: IBook[] = await booksResponse.json();
             setBooks(booksData);
           } catch (err) {
             console.log(`Error getting books data from response: ${err}`);
@@ -44,7 +43,7 @@ const BookList = () => {
 
   const bookList = books.length === 0
     ? "There are no books!"
-    : books.map(() => <BookInfo />)
+    : books.map((book: IBook, index: number) => <BookInfo book={book.book} key={index} />)
   ;
 
   return (
