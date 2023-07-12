@@ -10,7 +10,6 @@ import UpdateBook from "./components/UpdateBook";
 import { Route, Routes } from "react-router-dom";
 import { useEffect, useContext, useCallback } from "react";
 import { UserContext } from "./context/UserContext";
-import { BookContextProvider } from "./context/BookContext";
 import "./App.css";
 
 function App() {
@@ -55,12 +54,11 @@ function App() {
           userContext.token ? <Home /> : <Loader />)} />
         <Route path="/users/register" element={<Register />} />
         <Route path="/users/login" element={<Login />} />
-        <BookContextProvider>
-          <Route path="/books/add-book" element={<AddBook />} />
-          <Route path="/books/show-book/:id" element={<ShowBookDetails />} />
-          <Route path="/books/list-books" element={<BookList />} />
-          <Route path="/books/update-book/:id" element={<UpdateBook />} />
-        </BookContextProvider>
+        <Route path="/books/add-book" element={<AddBook />} />
+        <Route path="/books/show-book/:id" element={<ShowBookDetails />} />
+        <Route path="/books/list-books" element={<BookList />} />
+        <Route path="/books/update-book/:id" element={<UpdateBook />} />
+
       </Routes>
     </>
   );
