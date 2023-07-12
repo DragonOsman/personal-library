@@ -1,5 +1,4 @@
 import { useContext, useEffect } from "react";
-import IntrinsicAttributes from "typescript";
 import { BookContext, IBook } from "../context/BookContext";
 import { UserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
