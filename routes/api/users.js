@@ -107,18 +107,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
   }
 });
 
-userRouter.get("/user-info", verifyUser, async (req, res, next) => {
-  try {
-    const books = await Book.find();
-    const user = req.user;
-    user.books = books;
-    await user.save();
-    req.user = user;
-  } catch (err) {
-    console.log(`Error querying books or saving user changes: ${err}`);
-  }
-  res.json({ user: req.user });
-});
+userRouter.get("/user-info", verifyUser, (req, res, next) => res.json({ user: req.user }));
 
 userRouter.get("/logout", verifyUser, async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
