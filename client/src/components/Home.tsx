@@ -1,12 +1,14 @@
 import { useContext, useEffect, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { BookContext, IBook } from "../context/BookContext";
 import BookList from "./BookList";
 import Loader from "../components/Loader";
 import "./Home.css";
 
 const Home = () => {
   const { userContext, setUserContext } = useContext(UserContext);
+  const { booksContext, setBooksContext } = useContext(BookContext);
   const navigate = useNavigate();
 
   const previousUserContext = userContext;
@@ -69,7 +71,7 @@ const Home = () => {
             {` ${userContext.details.lastName}`}
           </strong>!
         </p>
-        {userContext.details.books.length > 0 ? (
+        {booksContext.length > 0 ? (
           <>
             <h1>Below you can see your list of books:</h1>
             <BookList />

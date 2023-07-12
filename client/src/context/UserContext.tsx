@@ -1,16 +1,5 @@
 import { useState, createContext, ReactNode } from "react";
 
-export interface IBook {
-  _id: string;
-  title: string;
-  isbn: string;
-  author: string;
-  description: string;
-  published_date?: string;
-  publisher: string;
-  updated_date?: Date;
-}
-
 export interface IUser {
   details?: {
     firstName: string;
@@ -18,7 +7,6 @@ export interface IUser {
     email: string;
     password: string;
     confirmPassword?: string;
-    books: IBook[]
   } | null;
   token: string | null;
 }
@@ -28,8 +16,7 @@ const User: IUser = {
     firstName: "",
     lastName: "",
     email: "",
-    password: "",
-    books: []
+    password: ""
   },
   token: ""
 };
