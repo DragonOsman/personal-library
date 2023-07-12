@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
 import BookInfo from "../components/BookInfo";
@@ -7,8 +7,6 @@ import { BookContext, IBook } from "../context/BookContext";
 const BookList = () => {
   const { userContext, setUserContext } = useContext(UserContext);
   const { bookContext, setBookContext } = useContext(BookContext);
-  const book: IBook = bookContext;
-  const [books, setBooks] = useState<IBook[]>([book]);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -28,7 +26,7 @@ const BookList = () => {
         if (booksResponse.ok) {
           try {
             const booksData: IBook[] = await booksResponse.json();
-            setBooks(booksData);
+            setBookContext(booksData);
           } catch (err) {
             console.log(`Error getting books data from response: ${err}`);
           }
@@ -39,13 +37,13 @@ const BookList = () => {
     };
 
     fetchBooks();
-  }, [userContext.token]);
+  }, [userContext.token, setBookContext]);
 
   let bookList;
   try {
-    bookList = books.length === 0
+    bookList = bookContext.length === 0
     ? "There are no books!"
-    : books.map((book: IBook, index: number) => <BookInfo book={book.book} key={index} />)
+    : bookContext.map((book: IBook, index: number) => <BookInfo book={book.book} key={index} />)
   ;
   } catch (err) {
     console.log(`In BookList component, when creating bookList object: ${err}`);

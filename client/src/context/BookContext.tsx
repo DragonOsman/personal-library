@@ -29,18 +29,20 @@ const Book: IBook = {
   }
 };
 
+const books: IBook[] = [Book];
+
 interface IBookContext {
-  bookContext: IBook;
-  setBookContext: (book: IBook) => void;
+  bookContext: IBook[];
+  setBookContext: (books: IBook[]) => void;
 }
 
 export const BookContext = createContext<IBookContext>({
-  bookContext: Book,
+  bookContext: books,
   setBookContext: () => {}
 });
 
 export const BookContextProvider = ({ children }: BookProviderProps) => {
-  const [state, setState] = useState(Book);
+  const [state, setState] = useState(books);
 
   return (
     <BookContext.Provider value={{ bookContext: state, setBookContext: setState }}>
