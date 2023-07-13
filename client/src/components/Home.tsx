@@ -1,5 +1,5 @@
-import { useContext, useEffect, useCallback } from "react";
-import { BookContext } from "../context/BookContext";
+import { useContext, useEffect, useCallback, useState } from "react";
+import { IBook } from "../IBook";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import BookList from "./BookList";
@@ -8,8 +8,15 @@ import "./Home.css";
 
 const Home = () => {
   const { userContext, setUserContext } = useContext(UserContext);
-  const { bookContext, setBookContext } = useContext(BookContext);
-
+  const [books, setBooks] = useState<IBook[]>([{
+    _id: "",
+    title: "",
+    author: "",
+    isbn: "",
+    description: "",
+    publisher: "",
+    published_date: ""
+  }]);
   const navigate = useNavigate();
 
   const previousUserContext = userContext;
@@ -39,6 +46,33 @@ const Home = () => {
       console.log(`Error fetching user details: ${err}`);
     }
   }, [navigate, setUserContext, previousUserContext, userContext.token]);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const booksResponse = await fetch(
+          `https://personal-library-server.onrender.com/api/books/list-books`, {
+            method: "GET",
+            credentials: "include",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${userContext.token}`
+            }
+          }
+        );
+
+        if (booksResponse.ok) {
+          const booksData = await booksResponse.json();
+          setBooks(booksData);
+        }
+      } catch (err) {
+        console.log(`In Home.tsx, fetchBooks useEffect: ${err}`);
+      }
+    };
+
+    fetchBooks();
+  }, [userContext.token]);
 
   useEffect(() => {
     // fetch only when user details are not present
@@ -72,7 +106,7 @@ const Home = () => {
             {` ${userContext.details.lastName}`}
           </strong>!
         </p>
-        {bookContext.length > 0 ? (
+        {books.length > 0 ? (
           <>
             <h1>Below you can see your list of books:</h1>
             <BookList />
