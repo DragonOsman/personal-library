@@ -65,7 +65,7 @@ const BookList = () => {
             <br />
           </div>
         </div>
-        <div className="list row">{bookList}</div>
+        <div className="list row container-fluid">{bookList}</div>
       </div>
     </div>
   );
