@@ -1,4 +1,4 @@
-import { IBook } from "../IBook";
+import { IBook } from "../context/BookContext";
 import "./BookInfo.css";
 
 const BookInfo = (book: IBook) => {

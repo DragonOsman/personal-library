@@ -1,22 +1,14 @@
-import { useContext, useEffect, useCallback, useState, JSX } from "react";
-import { IBook } from "../IBook";
+import { useContext, useEffect, useCallback, JSX } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { BookContext } from "../context/BookContext";
 import BookList from "./BookList";
 import Loader from "../components/Loader";
 import "./Home.css";
 
 const Home = (): JSX.Element => {
   const { userContext, setUserContext } = useContext(UserContext);
-  const [books, setBooks] = useState<IBook[]>([{
-    _id: "",
-    title: "",
-    author: "",
-    isbn: "",
-    description: "",
-    publisher: "",
-    published_date: ""
-  }]);
+  const { bookContext, setBookContext } = useContext(BookContext);
   const navigate = useNavigate();
 
   const previousUserContext = userContext;
@@ -46,33 +38,6 @@ const Home = (): JSX.Element => {
       console.log(`Error fetching user details: ${err}`);
     }
   }, [navigate, setUserContext, previousUserContext, userContext.token]);
-
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const booksResponse = await fetch(
-          `https://personal-library-server.onrender.com/api/books/list-books`, {
-            method: "GET",
-            credentials: "include",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${userContext.token}`
-            }
-          }
-        );
-
-        if (booksResponse.ok) {
-          const booksData = await booksResponse.json();
-          setBooks(booksData);
-        }
-      } catch (err) {
-        console.log(`In Home.tsx, fetchBooks useEffect: ${err}`);
-      }
-    };
-
-    fetchBooks();
-  }, [userContext.token]);
 
   useEffect(() => {
     // fetch only when user details are not present
@@ -107,7 +72,7 @@ const Home = (): JSX.Element => {
             {` ${userContext.details.lastName}`}
           </strong>!
         </p>
-        {books.length > 0 ? (
+        {bookContext.length > 0 ? (
           <>
             <h1>Below you can see your list of books:</h1>
             <BookList />
