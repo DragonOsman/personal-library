@@ -35,6 +35,8 @@ const ShowBookDetails = () => {
         if (response.ok) {
           try {
             const data = await response.json();
+            console.log(`In ShowBookDetails component useEffect hook, response.ok check;
+                         data.book is ${data.book} and data is ${data}`);
             setBook(data.book);
           } catch (err) {
             console.log(`Error when running "const data = await response.json()": ${err}`);
