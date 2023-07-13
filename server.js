@@ -39,7 +39,7 @@ app.options("*", cors(corsOptions), (req, res, next) => {
   const url = req.baseUrl;
   const headers = req.headers;
   const method = req.method;
-  res.setHeader("Access-Control-Allow-Origin", [CLIENT_URL, url]);
+  res.setHeader("Access-Control-Allow-Origin", url);
   res.setHeader("Access-Control-Allow-Headers",
     "Content-Type, X-Requested-With, Accept, Authorization, Connection");
   res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, PUT, DELETE, POST, OPTIONS");
@@ -53,7 +53,7 @@ app.all("*", cors(corsOptions), (req, res, next) => {
   const url = req.baseUrl;
   const headers = req.headers;
   const method = req.method;
-  res.setHeader("Access-Control-Allow-Origin", [CLIENT_URL, url]);
+  res.setHeader("Access-Control-Allow-Origin", url);
   res.setHeader("Access-Control-Allow-Headers",
     "Content-Type, X-Requested-With, Accept, Authorization, Connection");
   res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, PUT, DELETE, POST, OPTIONS");
