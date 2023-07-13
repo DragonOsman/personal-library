@@ -1,4 +1,4 @@
-import { IBook } from "../context/BookContext";
+import { IBook } from "../IBook";
 import "./BookInfo.css";
 
 const BookInfo = (book: IBook) => {
@@ -10,9 +10,9 @@ const BookInfo = (book: IBook) => {
         height={200}
       />
       <div className="desc">
-        <h2>{book.book?.title}</h2>
-        <h3>{book.book?.author}</h3>
-        <p>{book.book?.description}</p>
+        <h2>{book.title}</h2>
+        <h3>{book.author}</h3>
+        <p>{book.description}</p>
       </div>
     </div>
   );

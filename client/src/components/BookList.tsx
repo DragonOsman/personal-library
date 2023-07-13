@@ -1,12 +1,20 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
+import { IBook } from "../IBook";
 import { Link } from "react-router-dom";
 import BookInfo from "../components/BookInfo";
-import { BookContext, IBook } from "../context/BookContext";
 
 const BookList = () => {
   const { userContext, setUserContext } = useContext(UserContext);
-  const { bookContext, setBookContext } = useContext(BookContext);
+  const [books, setBooks] = useState<IBook[]>([{
+    _id: "",
+    title: "",
+    isbn: "",
+    author: "",
+    description: "",
+    published_date: "",
+    publisher: ""
+  }]);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -26,11 +34,12 @@ const BookList = () => {
         if (booksResponse.ok) {
           try {
             const booksData = await booksResponse.json();
-            const books = [];
-            for (const book in booksData) {
-              books.push(book);
-              console.log(`book: ${book}`);
+            console.log(`Type of booksData is: ${typeof booksData}`);
+            console.log(booksData);
+            for (const book of booksData) {
+              console.log(book);
             }
+            setBooks(booksData);
           } catch (err) {
             console.log(`Error getting books data from response: ${err}`);
           }
@@ -41,9 +50,12 @@ const BookList = () => {
     };
 
     fetchBooks();
-  }, [userContext.token, setBookContext, bookContext]);
+  }, [userContext.token]);
 
-
+  const bookList = books.length === 0
+    ? "No books to show!"
+    : books.map((book: IBook, index: number) => <BookInfo {...book} key={index} />)
+  ;
 
   return (
     <div className="ShowBookList">
@@ -66,7 +78,7 @@ const BookList = () => {
           </div>
         </div>
 
-        <div className="list">{}</div>
+        <div className="list">{bookList}</div>
       </div>
     </div>
   );
