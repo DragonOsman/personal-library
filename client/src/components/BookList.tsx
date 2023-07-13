@@ -43,7 +43,10 @@ const BookList = () => {
   try {
     bookList = bookContext.length === 0
     ? "There are no books!"
-    : bookContext.map((book: IBook, index: number) => <BookInfo book={book.book} key={index} />)
+    : bookContext.map((book: IBook, index: number) => {
+      console.log(`Inside bookContext.map callback, book: ${book}, book.book: ${book.book}`);
+      return <BookInfo book={book.book} key={index} />;
+    })
   ;
   } catch (err) {
     console.log(`In BookList component, when creating bookList object: ${err}`);
