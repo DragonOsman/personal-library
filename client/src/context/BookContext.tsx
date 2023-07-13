@@ -1,16 +1,15 @@
 import { createContext, ReactNode, useState } from "react";
 
 export interface IBook {
-  book: {
-    _id: string;
-    title: string;
-    isbn: string;
-    author: string;
-    description: string;
-    published_date?: string;
-    publisher: string;
-    updated_date?: Date;
-  };
+  _id: string;
+  title: string;
+  isbn: string;
+  author: string;
+  description: string;
+  published_date?: string;
+  publisher: string;
+  updated_date?: Date;
+  book?: IBook;
 }
 
 interface BookProviderProps {
@@ -18,6 +17,13 @@ interface BookProviderProps {
 }
 
 const Book: IBook = {
+  _id: "",
+  title: "",
+  isbn: "",
+  author: "",
+  description: "",
+  published_date: "",
+  publisher: "",
   book: {
     _id: "",
     title: "",
