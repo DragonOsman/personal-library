@@ -1,4 +1,14 @@
+.ShowBookList {
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  min-width: 100px;
+}
+
 .list {
-  width: 800px;
-  padding: 15px;
+  display: grid;
+  margin: 20px 0 50px 0;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 2em;
 }
