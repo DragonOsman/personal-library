@@ -26,7 +26,7 @@ const Header = () => {
         }
       );
 
-      setUserContext({ ...previousUserContext, details: undefined, token: null });
+      setUserContext({ ...previousUserContext, details: null, token: null });
 
     } catch (err) {
       console.log(`Error in logoutHandler, catch block: ${err}`);
