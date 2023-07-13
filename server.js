@@ -44,15 +44,6 @@ app.options("*", cors(corsOptions), (req, res, next) => {
   res.status(200).json({ success: true });
 });
 
-app.all("*", cors(corsOptions), (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
-  res.setHeader("Access-Control-Allow-Headers",
-    "Content-Type, X-Requested-With, Accept, Authorization, Connection");
-  res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, PUT, DELETE, POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  res.status(200).json({ success: true });
-});
-
 app.use(passport.initialize());
 
 app.use("/api/users", userRouter);
