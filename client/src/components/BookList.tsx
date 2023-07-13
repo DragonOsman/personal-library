@@ -28,7 +28,7 @@ const BookList = () => {
           try {
             booksData.current = await booksResponse.json();
             console.log("Inside useEffect callback in BookList; booksData is: ");
-            for (const book in booksData) {
+            for (const book in booksData.current) {
               console.log(book);
             }
             setBookContext(booksData.current);
