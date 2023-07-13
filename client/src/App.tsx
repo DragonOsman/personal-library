@@ -51,14 +51,13 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={!userContext.token ? <Login /> : (
-          userContext.token && Home !== undefined ? <Home /> : <Loader />)} />
+          userContext.token ? <Home /> : <Loader />)} />
         <Route path="/users/register" element={<Register />} />
         <Route path="/users/login" element={<Login />} />
         <Route path="/books/add-book" element={<AddBook />} />
         <Route path="/books/show-book/:id" element={<ShowBookDetails />} />
         <Route path="/books/list-books" element={<BookList />} />
         <Route path="/books/update-book/:id" element={<UpdateBook />} />
-
       </Routes>
     </>
   );
