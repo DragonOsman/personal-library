@@ -1,14 +1,13 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import { Link } from "react-router-dom";
-//import BookInfo from "../components/BookInfo";
+import BookInfo from "../components/BookInfo";
 import { BookContext, IBook } from "../context/BookContext";
 
 const BookList = () => {
   const { userContext, setUserContext } = useContext(UserContext);
   const { bookContext, setBookContext } = useContext(BookContext);
 
-  const booksData = useRef(bookContext);
   useEffect(() => {
     const fetchBooks = async () => {
       try {
@@ -26,15 +25,11 @@ const BookList = () => {
 
         if (booksResponse.ok) {
           try {
-            booksData.current = await booksResponse.json();
-            console.log("Inside useEffect callback in BookList; booksData is: ");
-            for (const book in booksData.current) {
-              console.log(book);
-            }
-            setBookContext(booksData.current);
-            console.log("Inside useEffect callback in BookList; bookContext is: ");
-            for (const book in bookContext) {
-              console.log(book);
+            const booksData = await booksResponse.json();
+            const books = [];
+            for (const book in booksData) {
+              books.push(book);
+              console.log(`book: ${book}`);
             }
           } catch (err) {
             console.log(`Error getting books data from response: ${err}`);
@@ -48,18 +43,7 @@ const BookList = () => {
     fetchBooks();
   }, [userContext.token, setBookContext, bookContext]);
 
-  //let bookList;
-  /*try {
-    bookList = booksData.current.length === 0
-    ? "There are no books!"
-    : booksData.current.map((book: IBook, index: number) => {
-      console.log(`Inside bookContext.map callback, book: ${book}, book.book: ${book.book}`);
-      return <BookInfo book={book.book} key={index} />;
-    })
-  ;
-  } catch (err) {
-    console.log(`In BookList component, when creating bookList object: ${err}`);
-  }*/
+
 
   return (
     <div className="ShowBookList">
@@ -82,7 +66,7 @@ const BookList = () => {
           </div>
         </div>
 
-        <div className="list">{/*bookList*/}</div>
+        <div className="list">{}</div>
       </div>
     </div>
   );
