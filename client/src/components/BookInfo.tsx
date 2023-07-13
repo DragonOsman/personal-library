@@ -4,7 +4,7 @@ import "./BookInfo.css";
 
 const BookInfo = (book: IBook) => {
   return (
-    <div className="col-md-4">
+    <div className="col-md-8 m-auto">
       <div className="container container-fluid">
         <img
           src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d"
