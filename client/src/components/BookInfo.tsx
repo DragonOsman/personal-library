@@ -2,12 +2,6 @@ import { IBook } from "../context/BookContext";
 import "./BookInfo.css";
 
 const BookInfo = (book: IBook) => {
-  console.log(`book inside BookInfo: ${book}`);
-  for (const key of Object.keys(book)) {
-    for (const value of Object.values(book)) {
-      console.log(`${key}:${value}`);
-    }
-  }
   return (
     <div className="container container-fluid">
       <img
