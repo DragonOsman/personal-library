@@ -43,7 +43,7 @@ bookRouter.get("/list-books", verifyUser, async (req, res) => {
 bookRouter.get("/show-book/:id", verifyUser, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
-    res.json(book);
+    res.json({ book });
   } catch (err) {
     res.status(404).json({ error: "No book found" });
   }
