@@ -27,13 +27,11 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
 
 app.use(cors({
-  origin: CLIENT_URL,
+  origin: [CLIENT_URL, `${CLIENT_URL}/`],
   headers: "Content-Type, X-Requested-With, Accept, Authorization, Connection",
   methods: "GET, HEAD, PUT, DELETE, POST, OPTIONS",
   credentials: true
 }));
-
-app.options("*", cors());
 
 app.use(passport.initialize());
 
