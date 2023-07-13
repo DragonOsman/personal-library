@@ -37,7 +37,7 @@ app.use(cors(corsOptions));
 
 app.options("*", cors(corsOptions), (req, res, next) => {
   const url = req.baseUrl;
-  const headers = req.headers;
+  const headers = req.headers["access-control-request-headers"];
   const method = req.method;
   res.setHeader("Access-Control-Allow-Origin", url);
   res.setHeader("Access-Control-Allow-Headers",
@@ -51,7 +51,7 @@ app.options("*", cors(corsOptions), (req, res, next) => {
 
 app.all("*", cors(corsOptions), (req, res, next) => {
   const url = req.baseUrl;
-  const headers = req.headers;
+  const headers = req.headers["access-control-request-headers"];
   const method = req.method;
   res.setHeader("Access-Control-Allow-Origin", url);
   res.setHeader("Access-Control-Allow-Headers",
