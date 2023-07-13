@@ -65,7 +65,7 @@ const BookList = () => {
             <br />
           </div>
         </div>
-        <div className="list row">{bookList}</div>
+        <div className="list col-md-12 m-auto row">{bookList}</div>
       </div>
     </div>
   );
