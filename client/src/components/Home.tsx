@@ -6,7 +6,7 @@ import BookList from "./BookList";
 import Loader from "../components/Loader";
 import "./Home.css";
 
-const Home = () => {
+const Home = (): JSX.Element => {
   const { userContext, setUserContext } = useContext(UserContext);
   const [books, setBooks] = useState<IBook[]>([{
     _id: "",
@@ -88,19 +88,20 @@ const Home = () => {
     return (
       <Loader />
     );
-  } else if (userContext.details === null) {
-      return (
-        <div className="user-details d-flex justify-content-center align-items-center flex-column">
-          <p className="text-danger">
-            Error Loading User details
-          </p>
-        </div>
-      );
-    } else if (userContext.details.firstName !== "" && userContext.details.lastName !== "") {
+  } else if (userContext.details === null ||
+    userContext.details.firstName === "" || userContext.details.lastName === "") {
+    return (
+      <div className="user-details d-flex justify-content-center align-items-center flex-column">
+        <p className="text-danger">
+          Error loading user details or first and last names are unavailable temporarily
+        </p>
+      </div>
+    );
+  } else {
     return (
       <div className="user-details d-flex justify-content-center align-items-center flex-column">
         <p>
-          Welcome,&nbsp;
+           Welcome,&nbsp;
           <strong>
             {userContext.details.firstName}
             {` ${userContext.details.lastName}`}
