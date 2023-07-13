@@ -1,7 +1,7 @@
 import { useState, createContext, ReactNode } from "react";
 
 export interface IUser {
-  details?: {
+  details: {
     firstName: string;
     lastName: string;
     email: string;
