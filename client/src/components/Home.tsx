@@ -1,4 +1,5 @@
-import { useContext, useEffect, useCallback, useState } from "react";
+import { useContext, useEffect, useCallback } from "react";
+import { BookContext } from "../context/BookContext";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import BookList from "./BookList";
@@ -7,17 +8,8 @@ import "./Home.css";
 
 const Home = () => {
   const { userContext, setUserContext } = useContext(UserContext);
-  const book = {
-    _id: "",
-    title: "",
-    isbn: "",
-    author: "",
-    description: "",
-    publisher: "",
-    published_date: ""
-  };
-  const bookArray: typeof book[] = [book];
-  const [books, setBooks] = useState<typeof book[]>(bookArray);
+  const { bookContext, setBookContext } = useContext(BookContext);
+
   const navigate = useNavigate();
 
   const previousUserContext = userContext;
@@ -80,7 +72,7 @@ const Home = () => {
             {` ${userContext.details.lastName}`}
           </strong>!
         </p>
-        {books.length > 0 ? (
+        {bookContext.length > 0 ? (
           <>
             <h1>Below you can see your list of books:</h1>
             <BookList />
