@@ -1,8 +1,8 @@
 import { IBook } from "../context/BookContext";
 import "./BookInfo.css";
 
-const BookInfo = (bookObj: IBook) => {
-  const book = bookObj.book;
+const BookInfo = (book: IBook) => {
+
   return (
     <div className="container container-fluid">
       <img
@@ -11,9 +11,9 @@ const BookInfo = (bookObj: IBook) => {
         height={200}
       />
       <div className="desc">
-        <h2>{book.title}</h2>
-        <h3>{book.author}</h3>
-        <p>{book.description}</p>
+        <h2>{book.book.title}</h2>
+        <h3>{book.book.author}</h3>
+        <p>{book.book.description}</p>
       </div>
     </div>
   );
