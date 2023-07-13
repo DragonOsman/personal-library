@@ -27,10 +27,6 @@ const BookList = () => {
         if (booksResponse.ok) {
           try {
             const booksData = await booksResponse.json();
-            console.log(`Type of booksData is: ${typeof booksData.books}`);
-            for (const book of booksData.books) {
-              console.log(book);
-            }
             setBookContext(booksData.books);
           } catch (err) {
             console.log(`Error getting books data from response: ${err}`);

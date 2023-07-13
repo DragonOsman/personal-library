@@ -14,7 +14,7 @@
 }
 
 .desc h2 {
-  font-size: 1em;
+  font-size: 20px;
   font-weight: 400;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .desc > p {
-  font-size: 24px;
+  font-size: 14px;
 }
 
 .desc h3 {

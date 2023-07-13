@@ -1,23 +1,21 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
+import { IBook } from "../context/BookContext";
 import { UserContext } from "../context/UserContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ShowBookDetails = () => {
   const { userContext, setUserContext } = useContext(UserContext);
+  const [book, setBook] = useState<IBook>({
+    _id: "",
+    title: "",
+    isbn: "",
+    author: "",
+    description: "",
+    published_date: "",
+    publisher: ""
+  });
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const bookRef = useRef({
-    book: {
-      _id: "",
-      title: "",
-      isbn: "",
-      author: "",
-      description: "",
-      published_date: "",
-      publisher: ""
-    }
-  });
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -37,7 +35,7 @@ const ShowBookDetails = () => {
         if (response.ok) {
           try {
             const data = await response.json();
-            bookRef.current = data.book;
+            setBook(data.book);
           } catch (err) {
             console.log(`Error when running "const data = await response.json()": ${err}`);
           }
@@ -78,32 +76,32 @@ const ShowBookDetails = () => {
           <tr>
             <th scope="row">1</th>
             <td>Title</td>
-            <td>{bookRef.current.book.title}</td>
+            <td>{book.title}</td>
           </tr>
           <tr>
             <th scope="row">2</th>
             <td>Author</td>
-            <td>{bookRef.current.book.author}</td>
+            <td>{book.author}</td>
           </tr>
           <tr>
             <th scope="row">3</th>
             <td>ISBN</td>
-            <td>{bookRef.current.book.isbn}</td>
+            <td>{book.isbn}</td>
           </tr>
           <tr>
             <th scope="row">4</th>
             <td>Description</td>
-            <td>{bookRef.current.book.description}</td>
+            <td>{book.description}</td>
           </tr>
           <tr>
             <th scope="row">5</th>
             <td>Publisher</td>
-            <td>{bookRef.current.book.publisher}</td>
+            <td>{book.publisher}</td>
           </tr>
           <tr>
             <th scope="row">6</th>
             <td>Publishing Date</td>
-            <td>{bookRef.current.book.published_date}</td>
+            <td>{book.published_date}</td>
           </tr>
         </tbody>
       </table>
@@ -130,7 +128,7 @@ const ShowBookDetails = () => {
             type="button"
             className="btn btn-outline-danger btn-lg btn-block"
             onClick={() => {
-              onDeleteClick(bookRef.current.book._id);
+              onDeleteClick(book._id);
             }}
           >
             Delete Book
@@ -138,7 +136,7 @@ const ShowBookDetails = () => {
         </div>
         <div className="col-md-6 m-auto">
           <Link
-            to={`/edit-book/${bookRef.current.book._id}`}
+            to={`/edit-book/${book._id}`}
             className="btn btn-outline-info btn-lg btn-block"
           >
               Edit Book
