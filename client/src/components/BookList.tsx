@@ -55,7 +55,7 @@ const BookList = () => {
           </div>
           <div className="col-md-11">
             <Link
-              to="/create-book"
+              to="/books/create-book"
               className="btn btn-outline-warning float-right"
             >
               + Add New Book
