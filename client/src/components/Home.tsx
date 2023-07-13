@@ -96,7 +96,7 @@ const Home = () => {
           </p>
         </div>
       );
-    } else {
+    } else if (userContext.details.firstName !== "" && userContext.details.lastName !== "") {
     return (
       <div className="user-details d-flex justify-content-center align-items-center flex-column">
         <p>
