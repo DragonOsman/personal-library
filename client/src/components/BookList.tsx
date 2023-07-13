@@ -3,6 +3,7 @@ import { UserContext } from "../context/UserContext";
 import { BookContext, IBook } from "../context/BookContext";
 import { Link } from "react-router-dom";
 import BookInfo from "../components/BookInfo";
+import "./BookList.css";
 
 const BookList = () => {
   const { userContext, setUserContext } = useContext(UserContext);
@@ -68,8 +69,7 @@ const BookList = () => {
             <br />
           </div>
         </div>
-
-        <div className="list">{bookList}</div>
+        <div className="list row">{bookList}</div>
       </div>
     </div>
   );
