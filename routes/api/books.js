@@ -34,7 +34,7 @@ bookRouter.post("/add-book", verifyUser, async (req, res) => {
 bookRouter.get("/list-books", verifyUser, async (req, res) => {
   try {
     const books = await Book.find();
-    res.json(books);
+    res.json({ books });
   } catch (err) {
     res.status(404).json({ error: "No books found" });
   }
