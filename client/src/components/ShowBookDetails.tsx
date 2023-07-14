@@ -138,7 +138,7 @@ const ShowBookDetails = () => {
         </div>
         <div className="col-md-6 m-auto">
           <Link
-            to={`/books/edit-book/${book._id}`}
+            to={`/books/update-book/${book._id}`}
             className="btn btn-outline-info btn-lg btn-block"
           >
               Edit Book
