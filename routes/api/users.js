@@ -4,6 +4,7 @@ const User = require("../../models/User");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const cors = require("cors");
 
 const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
@@ -12,11 +13,21 @@ const {
   COOKIE_OPTIONS,
   verifyUser,
   getRefreshToken
- } = require("../../authenticate");
+ } = require("../../authenticate")
+;
 
 const { REFRESH_TOKEN_SECRET } = process.env;
 
-userRouter.post("/register", (req, res) => {
+const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
+
+const corsOptions = {
+  origin: CLIENT_URL,
+  headers: "Content-Type, X-Requested-With, Accept, Authorization, Connection",
+  methods: "GET, HEAD, PUT, DELETE, POST, OPTIONS",
+  credentials: true
+};
+
+userRouter.post("/register", cors(corsOptions), (req, res) => {
   try {
     const { isValid, errors } = validateRegisterInput(req.body);
     if (!isValid) {
@@ -68,7 +79,10 @@ userRouter.post("/register", (req, res) => {
   }
 });
 
-userRouter.post("/login", passport.authenticate("local", { session: false }),
+userRouter.post("/login", [
+  passport.authenticate("local", { session: false }),
+  cors(corsOptions)
+],
     async (req, res, next) => {
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
@@ -106,9 +120,10 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
   }
 });
 
-userRouter.get("/user-info", verifyUser, (req, res, next) => res.json({ user: req.user }));
+userRouter.get("/user-info", [verifyUser,cors(corsOptions)],
+(req, res, next) => res.json({ user: req.user }));
 
-userRouter.get("/logout", verifyUser, async (req, res, next) => {
+userRouter.get("/logout", [verifyUser, cors(corsOptions)], async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
   try {
     const user = await User.findById(req.user._id);
@@ -138,7 +153,7 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   }
 });
 
-userRouter.post("/refreshToken", async (req, res, next) => {
+userRouter.post("/refreshToken", cors(corsOptions), async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
 
   if (refreshToken) {

@@ -1,10 +1,20 @@
 const express = require("express");
 const bookRouter = express.Router();
 const { Book } = require("../../models/Book");
+const cors = require("cors");
 
 const { verifyUser } = require("../../authenticate");
 
-bookRouter.post("/add-book", verifyUser, async (req, res) => {
+const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
+
+const corsOptions = {
+  origin: CLIENT_URL,
+  headers: "Content-Type, X-Requested-With, Accept, Authorization, Connection",
+  methods: "GET, HEAD, PUT, DELETE, POST, OPTIONS",
+  credentials: true
+};
+
+bookRouter.post("/add-book", [verifyUser, cors(corsOptions)], async (req, res) => {
   const {
     title,
     author,
@@ -31,7 +41,7 @@ bookRouter.post("/add-book", verifyUser, async (req, res) => {
   }
 });
 
-bookRouter.get("/list-books", verifyUser, async (req, res) => {
+bookRouter.get("/list-books", [verifyUser, cors(corsOptions)], async (req, res) => {
   try {
     const books = await Book.find();
     res.json({ books });
@@ -40,7 +50,7 @@ bookRouter.get("/list-books", verifyUser, async (req, res) => {
   }
 });
 
-bookRouter.get("/show-book/:id", verifyUser, async (req, res) => {
+bookRouter.get("/show-book/:id", [verifyUser, cors(corsOptions)], async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     res.json({ book });
@@ -49,7 +59,7 @@ bookRouter.get("/show-book/:id", verifyUser, async (req, res) => {
   }
 });
 
-bookRouter.put("/update-book/:id", verifyUser, async (req, res) => {
+bookRouter.put("/update-book/:id", [verifyUser, cors(corsOptions)], async (req, res) => {
   try {
     await Book.findByIdAndUpdate(req.params.id, req.body);
     res.json({ message: "Book updated successfully" });
@@ -58,7 +68,7 @@ bookRouter.put("/update-book/:id", verifyUser, async (req, res) => {
   }
 });
 
-bookRouter.delete("/delete-book/:id", verifyUser, async (req, res) => {
+bookRouter.delete("/delete-book/:id", [verifyUser, cors(corsOptions)], async (req, res) => {
   try {
     await Book.findByIdAndRemove(req.params.id, req.body);
     res.json({ message: "Book entry deleted successfully" });
