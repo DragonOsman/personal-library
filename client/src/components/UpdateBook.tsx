@@ -79,7 +79,7 @@ const UpdateBookInfo = () => {
   });
 
   return (
-    <div className="container-fluid">
+    <div className="update-book container-fluid">
       <div className="container">
         <div className="row">
           <div className="col-md-8 m-auto">

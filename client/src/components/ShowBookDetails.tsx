@@ -111,7 +111,7 @@ const ShowBookDetails = () => {
   );
 
   return (
-    <div className="container container-fluid">
+    <div className="show-book-details container container-fluid">
       <div className="row">
         <div className="col-md-8 m-auto">
           <Link to="/books/list-books" className="btn btn-outline-warning float-left">

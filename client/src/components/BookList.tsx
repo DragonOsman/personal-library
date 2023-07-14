@@ -46,7 +46,7 @@ const BookList = () => {
   ;
 
   return (
-    <div className="ShowBookList">
+    <div className="book-list">
       <div className="container">
         <div className="row">
           <div className="col-md-12">
