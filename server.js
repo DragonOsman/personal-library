@@ -35,7 +35,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.options("*", cors(corsOptions), (req, res, next) => {
+app.options(["/api/books/*", "/api/users/*"], cors(corsOptions), (req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.setHeader("Access-Control-Allow-Headers",
     "Content-Type, X-Requested-With, Accept, Authorization, Connection");
