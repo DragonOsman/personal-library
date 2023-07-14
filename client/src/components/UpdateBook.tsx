@@ -64,17 +64,8 @@ const UpdateBookInfo = () => {
       }
     },
     validationSchema: Yup.object({
-      title: Yup.string()
-        .required("Book title is required"),
-      author: Yup.string()
-        .required("Book author is required"),
       isbn: Yup.string()
         .matches(/[0-9-]{10}|[0-9-]{13}/g, "ISBN must have 10 to 13 digits with some hyphens")
-        .required("ISBN is required"),
-      publisher: Yup.string()
-        .required("Publisher is requried"),
-      description: Yup.string()
-        .required("Description is required")
     })
   });
 
@@ -111,7 +102,6 @@ const UpdateBookInfo = () => {
                 type="text"
                 className="title form-control form-control-lg"
                 placeholder="Please enter book's title"
-                required
                 {...formik.getFieldProps("title")}
               />
               {formik.touched.title && formik.errors.title ? (
@@ -122,7 +112,6 @@ const UpdateBookInfo = () => {
                 type="text"
                 className="author form-control form-control-lg"
                 placeholder="Please enter name of book's author"
-                required
                 {...formik.getFieldProps("author")}
               />
               {formik.touched.author && formik.errors.author ? (
@@ -133,7 +122,6 @@ const UpdateBookInfo = () => {
                 type="text"
                 className="isbn form-control form-control-lg"
                 placeholder="Please enter ISBN of book"
-                required
                 {...formik.getFieldProps("isbn")}
             />
               {formik.touched.isbn && formik.errors.isbn ? (
@@ -144,7 +132,6 @@ const UpdateBookInfo = () => {
                 type="text"
                 className="description form-control form-control-lg"
                 placeholder="Please enter description for book"
-                required
                 {...formik.getFieldProps("description")}
               />
               {formik.touched.description && formik.errors.description ? (
@@ -155,7 +142,6 @@ const UpdateBookInfo = () => {
                 type="text"
                 className="publisher form-control form-control-lg"
                 placeholder="Please enter book publisher's name"
-                required
                 {...formik.getFieldProps("publisher")}
               />
               {formik.touched.publisher && formik.errors.publisher ? (
