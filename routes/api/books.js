@@ -60,6 +60,24 @@ bookRouter.get("/show-book/:id", [verifyUser, cors(corsOptions)], async (req, re
 });
 
 bookRouter.put("/update-book/:id", [verifyUser, cors(corsOptions)], async (req, res) => {
+  const {
+    title,
+    author,
+    isbn,
+    publisher,
+    description
+  } = req.body;
+
+  if (title === "" || author === "" || isbn === "", publisher === "", description === "") {
+    res.statusCode = 400;
+    res.json({ error: "Book title, author, ISBN, publisher and description are required!" });
+  }
+
+  if (!isbn.match(/[0-9-]{10}|[0-9-]{13}/g)) {
+    res.statusCode = 400;
+    res.json({ error: "ISBN is invalid!" });
+  }
+
   try {
     await Book.findByIdAndUpdate(req.params.id, req.body);
     res.json({ message: "Book updated successfully" });
