@@ -1,18 +1,8 @@
 const express = require("express");
 const bookRouter = express.Router();
 const { Book } = require("../../models/Book");
-const cors = require("cors");
 
 const { verifyUser } = require("../../authenticate");
-
-const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
-
-const corsOptions = {
-  origin: CLIENT_URL,
-  headers: "Content-Type, X-Requested-With, Accept, Authorization, Connection",
-  methods: "GET, HEAD, PUT, DELETE, POST, OPTIONS",
-  credentials: true
-};
 
 bookRouter.post("/add-book", verifyUser, async (req, res) => {
   const {
