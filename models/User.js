@@ -30,11 +30,6 @@ const UserSchema = new Schema({
   refreshTokens: {
     type: [SessionSchema]
   },
-  books: [{
-    type: [BookSchema],
-    required: true,
-    default: []
-  }],
   date: {
     type: Date,
     default: Date.now
