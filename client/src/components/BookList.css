@@ -3,7 +3,6 @@
   width: 100%;
   min-height: 100vh;
   min-width: 100px;
-  max-width: 300px;
 }
 
 .list {
@@ -16,10 +15,4 @@
 
 .book-list .btn {
   font-size: 20px;
-}
-
-@media screen and (min-width: 300px) {
-  .book-list {
-    max-width: 100px;
-  }
 }
