@@ -35,6 +35,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.post("/api/users/refreshToken", cors(corsOptions));
+
 app.options("/api/**", cors(corsOptions), (req, res, next) => {
   res.status(200).json({ success: true });
 });
