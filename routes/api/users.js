@@ -135,6 +135,7 @@ userRouter.get("/logout", [verifyUser, cors(corsOptions)], async (req, res, next
       // If the refresh token being tested for is there, user is authorized
       // So we do the work: which is to remove all their refresh tokens
       if (tokenIndex !== -1) {
+        user.refreshTokens.id(user.refreshTokens[tokenIndex]._id).remove();
         user.refreshTokens = [];
       }
 
