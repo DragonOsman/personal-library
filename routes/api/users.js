@@ -27,7 +27,7 @@ const corsOptions = {
   credentials: true
 };
 
-userRouter.post("/register", (req, res) => {
+userRouter.post("/register", cors(corsOptions), (req, res) => {
   try {
     const { isValid, errors } = validateRegisterInput(req.body);
     if (!isValid) {
