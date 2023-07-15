@@ -158,6 +158,7 @@ userRouter.post("/refreshToken", cors(corsOptions), async (req, res, next) => {
 
   if (refreshToken) {
     try {
+      res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
       const payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
       const userId = payload._id;
       const user = await User.findOne({ _id: userId });
