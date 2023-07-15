@@ -79,7 +79,7 @@ userRouter.post("/register", (req, res) => {
   }
 });
 
-userRouter.post("/login", passport.authenticate("local", { session: false }),
+userRouter.post("/login", [passport.authenticate("local", { session: false }), cors(corsOptions)],
     async (req, res, next) => {
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
