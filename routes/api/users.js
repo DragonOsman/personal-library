@@ -117,7 +117,7 @@ userRouter.post("/login", [passport.authenticate("local", { session: false }), c
   }
 });
 
-userRouter.get("/user-info", verifyUser,
+userRouter.get("/user-info", [verifyUser, cors(corsOptions)],
 (req, res, next) => res.json({ user: req.user }));
 
 userRouter.get("/logout", [verifyUser, cors(corsOptions)], async (req, res, next) => {
