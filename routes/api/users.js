@@ -188,4 +188,8 @@ userRouter.post("/refreshToken", cors(corsOptions), async (req, res, next) => {
   }
 });
 
+userRouter.options("/refreshToken", cors(corsOptions), (req, res, next) => {
+  res.status(200).json({ success: true });
+});
+
 module.exports = userRouter;
