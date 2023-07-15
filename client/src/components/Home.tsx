@@ -30,7 +30,7 @@ const Home = (): JSX.Element => {
         setUserContext({ ...previousUserContext, details: data.user });
       } else {
         if (response.status === 401) {
-          navigate("/login");
+          navigate("/users/login");
         }
         setUserContext({ ...previousUserContext, details: null });
       }
