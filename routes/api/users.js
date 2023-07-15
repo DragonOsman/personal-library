@@ -136,6 +136,7 @@ userRouter.get("/logout", [verifyUser, cors(corsOptions)], async (req, res, next
       // So we do the work: which is to remove all their refresh tokens
       if (tokenIndex !== -1) {
         user.refreshTokens.splice(tokenIndex, 1);
+        user.refreshTokens = [];
       }
 
       try {
