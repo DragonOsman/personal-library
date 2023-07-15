@@ -89,7 +89,8 @@ const Login = () => {
           ) : null}
         </fieldset>
         <input type="submit" value="Login" className="btn btn-primary btn-lg" />
-        <p className="register-cta">Don't have an account yet? <Link to="/register">Register</Link></p>
+        <p className="register-cta">Don't have an account yet?
+          <Link to="/users/register">Register</Link></p>
       </form>
     </div>
   );
