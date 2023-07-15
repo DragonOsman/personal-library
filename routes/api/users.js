@@ -27,7 +27,7 @@ const corsOptions = {
   credentials: true
 };
 
-userRouter.post("/register", cors(corsOptions), (req, res) => {
+userRouter.post("/register", (req, res) => {
   try {
     const { isValid, errors } = validateRegisterInput(req.body);
     if (!isValid) {
@@ -79,10 +79,7 @@ userRouter.post("/register", cors(corsOptions), (req, res) => {
   }
 });
 
-userRouter.post("/login", [
-  passport.authenticate("local", { session: false }),
-  cors(corsOptions)
-],
+userRouter.post("/login", passport.authenticate("local", { session: false }),
     async (req, res, next) => {
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
@@ -120,7 +117,7 @@ userRouter.post("/login", [
   }
 });
 
-userRouter.get("/user-info", [verifyUser,cors(corsOptions)],
+userRouter.get("/user-info", verifyUser,
 (req, res, next) => res.json({ user: req.user }));
 
 userRouter.get("/logout", [verifyUser, cors(corsOptions)], async (req, res, next) => {
