@@ -69,9 +69,9 @@ const AddBook = () => {
 
         if (!response.ok) {
           console.log("Something went wrong when trying to add a book!");
+        } else {
+          navigate("/");
         }
-
-        navigate("/");
       } catch (err) {
         console.log(`Inside catch block for add-book form submission handler: ${err}`);
       }
