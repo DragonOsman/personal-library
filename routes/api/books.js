@@ -14,7 +14,7 @@ const corsOptions = {
   credentials: true
 };
 
-bookRouter.post("/add-book", [verifyUser, cors(corsOptions)], async (req, res) => {
+bookRouter.post("/add-book", verifyUser, async (req, res) => {
   const {
     title,
     author,
@@ -41,7 +41,7 @@ bookRouter.post("/add-book", [verifyUser, cors(corsOptions)], async (req, res) =
   }
 });
 
-bookRouter.get("/list-books", [verifyUser, cors(corsOptions)], async (req, res) => {
+bookRouter.get("/list-books", verifyUser, async (req, res) => {
   try {
     const books = await Book.find();
     res.json({ books });
@@ -50,7 +50,7 @@ bookRouter.get("/list-books", [verifyUser, cors(corsOptions)], async (req, res) 
   }
 });
 
-bookRouter.get("/show-book/:id", [verifyUser, cors(corsOptions)], async (req, res) => {
+bookRouter.get("/show-book/:id", verifyUser, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     res.json({ book });
@@ -59,7 +59,7 @@ bookRouter.get("/show-book/:id", [verifyUser, cors(corsOptions)], async (req, re
   }
 });
 
-bookRouter.put("/update-book/:id", [verifyUser, cors(corsOptions)], async (req, res) => {
+bookRouter.put("/update-book/:id", verifyUser, async (req, res) => {
   const {
     title,
     author,
@@ -86,7 +86,7 @@ bookRouter.put("/update-book/:id", [verifyUser, cors(corsOptions)], async (req, 
   }
 });
 
-bookRouter.delete("/delete-book/:id", [verifyUser, cors(corsOptions)], async (req, res) => {
+bookRouter.delete("/delete-book/:id", verifyUser, async (req, res) => {
   try {
     await Book.findByIdAndRemove(req.params.id, req.body);
     res.json({ message: "Book entry deleted successfully" });
