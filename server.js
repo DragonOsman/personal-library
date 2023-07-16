@@ -25,15 +25,18 @@ app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
-
+const whitelist = [CLIENT_URL];
 const corsOptions = {
-  origin: CLIENT_URL,
+  origin: (origin, callback) => {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 };
-
 app.use(cors(corsOptions));
-
-app.post("/api/users/refreshToken", cors(corsOptions));
 
 app.options("/api/**", cors(corsOptions), (req, res, next) => {
   res.status(200).json({ success: true });
