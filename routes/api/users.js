@@ -18,21 +18,7 @@ const {
 
 const { REFRESH_TOKEN_SECRET } = process.env;
 
-const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
-
-userRouter.options("*", cors({
-  origin: CLIENT_URL,
-  credentials: true
-}), (req, res, next) => {
-  res.status(200).json({ success: true });
-});
-
-userRouter.post("/register", cors({
-  origin: CLIENT_URL,
-  credentials: true,
-  methods: ["POST", "OPTIONS"],
-  headers: ["Connection", "X-Requested-With", "Content-Type"]
-}), (req, res) => {
+userRouter.post("/register", (req, res) => {
   try {
     const { isValid, errors } = validateRegisterInput(req.body);
     if (!isValid) {
@@ -105,11 +91,6 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
       user.refreshTokens.push({ refreshToken });
       try {
         await user.save();
-        res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
-        res.setHeader("Access-Control-Allow-Credentials", true);
-        res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-        res.setHeader("Access-Control-Allow-Headers",
-          "Content-Type, Connection, X-Requested-With");
         res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
         res.json({ success: true, token });
       } catch (err) {
@@ -127,15 +108,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
   }
 });
 
-userRouter.get("/user-info", verifyUser,
-(req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers",
-    "Content-Type, Connection, X-Requested-With, Authorization");
-  res.json({ user: req.user });
-});
+userRouter.get("/user-info", verifyUser, (req, res, next) => res.json({ user: req.user }));
 
 userRouter.get("/logout", verifyUser, async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
@@ -149,11 +122,6 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
 
       try {
         await user.save();
-        res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
-        res.setHeader("Access-Control-Allow-Credentials", true);
-        res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-        res.setHeader("Access-Control-Allow-Headers",
-          "Content-Type, Connection, X-Requested-With, Authorization");
         res.clearCookie("refreshToken", COOKIE_OPTIONS);
         res.json({ success: true });
       } catch (err) {
@@ -167,12 +135,8 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   }
 });
 
-userRouter.post("/refreshToken", cors({
-  origin: CLIENT_URL,
-  methods: ["POST", "OPTIONS"],
-  headers: ["Content-Type", "X-Requested-With", "Connection"],
-  credentials: true
-}), async (req, res, next) => {
+userRouter.post("/refreshToken",
+  async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
 
   if (refreshToken) {
@@ -196,11 +160,6 @@ userRouter.post("/refreshToken", cors({
 
         try {
           await user.save();
-          res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
-          res.setHeader("Access-Control-Allow-Credentials", true);
-          res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-          res.setHeader("Access-Control-Allow-Headers",
-            "Content-Type, Connection, X-Requested-With");
           res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
           res.json({ success: true, token });
         } catch (err) {

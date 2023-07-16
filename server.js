@@ -38,7 +38,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.options("/api/**", cors(corsOptions), (req, res, next) => {
+app.options("/api/**", cors(), (req, res, next) => {
   res.status(200).json({ success: true });
 });
 
