@@ -20,14 +20,19 @@ const { REFRESH_TOKEN_SECRET } = process.env;
 
 const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
 
-const corsOptions = {
+userRouter.options("*", cors({
   origin: CLIENT_URL,
-  headers: "Content-Type, X-Requested-With, Accept, Authorization, Connection",
-  methods: "GET, HEAD, PUT, DELETE, POST, OPTIONS",
   credentials: true
-};
+}), (req, res, next) => {
+  res.status(200).json({ success: true });
+});
 
-userRouter.post("/register", cors(corsOptions), (req, res) => {
+userRouter.post("/register", cors({
+  origin: CLIENT_URL,
+  credentials: true,
+  methods: ["POST", "OPTIONS"],
+  headers: ["Connection", "X-Requested-With", "Content-Type"]
+}), (req, res) => {
   try {
     const { isValid, errors } = validateRegisterInput(req.body);
     if (!isValid) {
@@ -79,7 +84,12 @@ userRouter.post("/register", cors(corsOptions), (req, res) => {
   }
 });
 
-userRouter.post("/login", [passport.authenticate("local", { session: false }), cors(corsOptions)],
+userRouter.post("/login", [passport.authenticate("local", { session: false }), cors({
+  origin: CLIENT_URL,
+  methods: ["POST", "OPTIONS"],
+  headers: ["Content-Type", "X-Requested-With", "Connection"],
+  credentials: true
+})],
     async (req, res, next) => {
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
@@ -117,13 +127,22 @@ userRouter.post("/login", [passport.authenticate("local", { session: false }), c
   }
 });
 
-userRouter.get("/user-info", [verifyUser, cors(corsOptions)],
+userRouter.get("/user-info", [verifyUser, cors({
+  origin: CLIENT_URL,
+  credentials: true,
+  headers: ["Content-Type", "Connection", "X-Requested-With", "Authorization"],
+  methods: ["GET", "OPTIONS"]
+})],
 (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.json({ user: req.user });
 });
 
-userRouter.get("/logout", [verifyUser, cors(corsOptions)], async (req, res, next) => {
+userRouter.get("/logout", [verifyUser, cors({
+  origin: CLIENT_URL,
+  methods: ["GET", "OPTIONS"],
+  headers: ["Content-Type", "X-Requested-With", "Connection"],
+  credentials: true
+})], async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
   const payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
   try {
@@ -148,7 +167,12 @@ userRouter.get("/logout", [verifyUser, cors(corsOptions)], async (req, res, next
   }
 });
 
-userRouter.post("/refreshToken", cors(corsOptions), async (req, res, next) => {
+userRouter.post("/refreshToken", cors({
+  origin: CLIENT_URL,
+  methods: ["POST", "OPTIONS"],
+  headers: ["Content-Type", "X-Requested-With", "Connection"],
+  credentials: true
+}), async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
 
   if (refreshToken) {
@@ -189,10 +213,6 @@ userRouter.post("/refreshToken", cors(corsOptions), async (req, res, next) => {
       return next(err);
     }
   }
-});
-
-userRouter.options("/refreshToken", cors(corsOptions), (req, res, next) => {
-  res.status(200).json({ success: true });
 });
 
 module.exports = userRouter;
