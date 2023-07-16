@@ -115,7 +115,13 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
     if (user) {
-      user.refreshTokens.filter(item => item.refreshToken !== refreshToken);
+      const tokenIndex = user.refreshTokens.findIndex(
+        item => item.refreshToken === refreshToken
+      );
+
+      if (tokenIndex !== -1) {
+        user.refreshTokens.filter(item => item.refreshToken !== refreshToken);
+      }
 
       try {
         await user.save();
