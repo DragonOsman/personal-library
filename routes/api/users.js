@@ -84,12 +84,7 @@ userRouter.post("/register", cors({
   }
 });
 
-userRouter.post("/login", [passport.authenticate("local", { session: false }), cors({
-  origin: CLIENT_URL,
-  methods: ["POST", "OPTIONS"],
-  headers: ["Content-Type", "X-Requested-With", "Connection"],
-  credentials: true
-})],
+userRouter.post("/login", passport.authenticate("local", { session: false }),
     async (req, res, next) => {
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
@@ -110,6 +105,11 @@ userRouter.post("/login", [passport.authenticate("local", { session: false }), c
       user.refreshTokens.push({ refreshToken });
       try {
         await user.save();
+        res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
+        res.setHeader("Access-Control-Allow-Credentials", true);
+        res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers",
+          "Content-Type, Connection, X-Requested-With");
         res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
         res.json({ success: true, token });
       } catch (err) {
@@ -127,22 +127,17 @@ userRouter.post("/login", [passport.authenticate("local", { session: false }), c
   }
 });
 
-userRouter.get("/user-info", [verifyUser, cors({
-  origin: CLIENT_URL,
-  credentials: true,
-  headers: ["Content-Type", "Connection", "X-Requested-With", "Authorization"],
-  methods: ["GET", "OPTIONS"]
-})],
+userRouter.get("/user-info", verifyUser,
 (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers",
+    "Content-Type, Connection, X-Requested-With, Authorization");
   res.json({ user: req.user });
 });
 
-userRouter.get("/logout", [verifyUser, cors({
-  origin: CLIENT_URL,
-  methods: ["GET", "OPTIONS"],
-  headers: ["Content-Type", "X-Requested-With", "Connection"],
-  credentials: true
-})], async (req, res, next) => {
+userRouter.get("/logout", verifyUser, async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
   const payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
   try {
@@ -154,6 +149,11 @@ userRouter.get("/logout", [verifyUser, cors({
 
       try {
         await user.save();
+        res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
+        res.setHeader("Access-Control-Allow-Credentials", true);
+        res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers",
+          "Content-Type, Connection, X-Requested-With, Authorization");
         res.clearCookie("refreshToken", COOKIE_OPTIONS);
         res.json({ success: true });
       } catch (err) {
@@ -197,6 +197,10 @@ userRouter.post("/refreshToken", cors({
         try {
           await user.save();
           res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
+          res.setHeader("Access-Control-Allow-Credentials", true);
+          res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+          res.setHeader("Access-Control-Allow-Headers",
+            "Content-Type, Connection, X-Requested-With");
           res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
           res.json({ success: true, token });
         } catch (err) {

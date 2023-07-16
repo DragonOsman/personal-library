@@ -1,8 +1,17 @@
 const express = require("express");
 const bookRouter = express.Router();
 const { Book } = require("../../models/Book");
+const cors = require("cors");
 
 const { verifyUser } = require("../../authenticate");
+
+const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
+bookRouter.options("*", cors({
+  origin: CLIENT_URL,
+  credentials: true
+}), (req, res, next) => {
+  res.status(200).json({ success: true });
+});
 
 bookRouter.post("/add-book", verifyUser, async (req, res) => {
   const {
