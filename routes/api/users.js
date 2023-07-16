@@ -112,13 +112,10 @@ userRouter.get("/user-info", verifyUser, (req, res, next) => res.json({ user: re
 
 userRouter.get("/logout", verifyUser, async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
-  const payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
   try {
     const user = await User.findById(req.user._id);
     if (user) {
-      user.refreshTokens.filter(
-        item => item.refreshToken !== refreshToken && item.refreshToken._id !== payload._id
-      );
+      user.refreshTokens.filter(item => item.refreshToken !== refreshToken);
 
       try {
         await user.save();
