@@ -13,7 +13,7 @@ const BookList = () => {
     const fetchBooks = async () => {
       try {
         const booksResponse = await fetch(
-          "https://personal-library-server.onrender.comapi/books/list-books", {
+          "https://personal-library-server.onrender.com/api/books/list-books", {
             method: "GET",
             credentials: "include",
             mode: "cors",
