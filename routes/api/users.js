@@ -3,7 +3,9 @@ const userRouter = express.Router();
 const User = require("../../models/User");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const cors = require("cors");
 
 const validateRegisterInput = require("../../user-validation/register");
@@ -17,6 +19,20 @@ const {
 ;
 
 const { REFRESH_TOKEN_SECRET } = process.env;
+
+const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
+const whitelist = [CLIENT_URL];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+};
+userRouter.use(cors(corsOptions));
 
 userRouter.post("/register", (req, res) => {
   try {
@@ -138,8 +154,11 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   }
 });
 
-userRouter.post("/refreshToken",
-  async (req, res, next) => {
+userRouter.options("/refreshToken", cors(corsOptions), (req, res, next) => {
+  res.status(200).json({ success: true });
+});
+
+userRouter.post("/refreshToken", cors(corsOptions), async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
 
   if (refreshToken) {

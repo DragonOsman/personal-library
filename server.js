@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const cors = require("cors");
 const passport = require("passport");
 const connectDB = require("./config/db");
 
@@ -23,24 +22,6 @@ const bookRouter = require("./routes/api/books");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
-
-const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
-const whitelist = [CLIENT_URL];
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true
-};
-app.use(cors(corsOptions));
-
-app.options("/api/**", cors(), (req, res, next) => {
-  res.status(200).json({ success: true });
-});
 
 app.use(passport.initialize());
 
