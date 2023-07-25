@@ -12,8 +12,7 @@ const BookList = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const booksResponse = await fetch(
-          `https://personal-library-server.onrender.com/api/books/list-books`, {
+        const booksResponse = await fetch("api/books/list-books", {
             method: "GET",
             credentials: "include",
             mode: "cors",

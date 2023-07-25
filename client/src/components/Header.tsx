@@ -14,8 +14,7 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
-      await fetch(
-        "https://personal-library-server.onrender.com/api/users/logout", {
+      await fetch("/api/users/logout", {
           method: "GET",
           credentials: "include",
           headers: {
