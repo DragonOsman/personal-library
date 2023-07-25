@@ -42,8 +42,7 @@ const Home = (): JSX.Element => {
     // fetch only when user details are not present
     // or when first and last name properties are
     // empty strings
-    if (!userContext.details ||
-        (userContext.details.firstName === "" && userContext.details.lastName === "")) {
+    if (!userContext.details) {
       fetchUserDetails();
     }
   }, [fetchUserDetails, userContext.details]);
