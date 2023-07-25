@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-const cors = require("cors");
+//const cors = require("cors");
 
 const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
