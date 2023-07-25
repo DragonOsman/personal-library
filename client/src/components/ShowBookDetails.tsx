@@ -54,8 +54,7 @@ const ShowBookDetails = () => {
 
   const onDeleteClick = async (id: string) => {
     try {
-      fetch(`
-      https://personal-library-server.onrender.com/api/books/delete-book/${id}`, {
+      fetch(`/api/books/delete-book/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

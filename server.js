@@ -13,7 +13,7 @@ connectDB();
 
 const app = express();
 
-const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
+/*const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
 const whitelist = [CLIENT_URL];
 const corsOptions = {
   origin: (origin, callback) => {
@@ -28,6 +28,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.options("/api/**", cors(corsOptions), (req, res, next) => res.status(200).json({ success: true }));
+*/
 
 require("./strategies/JwtStrategy");
 require("./strategies/LocalStrategy");
