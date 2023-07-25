@@ -15,7 +15,6 @@ const BookList = () => {
         const booksResponse = await fetch("/api/books/list-books", {
             method: "GET",
             credentials: "include",
-            mode: "cors",
             headers: {
               "Content-Type": "application/json",
               "Authorization": `Bearer ${userContext.token}`

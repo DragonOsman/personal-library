@@ -60,7 +60,6 @@ const ShowBookDetails = () => {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${userContext.token}`
           },
-          mode: "cors",
           credentials: "include"
         }
       );

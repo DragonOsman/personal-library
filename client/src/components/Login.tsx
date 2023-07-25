@@ -44,8 +44,7 @@ const Login = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(user),
-          credentials: "include",
-          mode: "cors"
+          credentials: "include"
         });
 
         formik.setSubmitting(false);

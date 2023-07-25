@@ -20,8 +20,7 @@ const Header = () => {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${userContext.token}`
-          },
-          mode: "cors"
+          }
         }
       );
 
