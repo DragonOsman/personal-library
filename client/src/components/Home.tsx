@@ -15,7 +15,8 @@ const Home = (): JSX.Element => {
 
   const fetchUserDetails = useCallback(async () => {
     try {
-      const response:Response = await fetch("/api/users/user-info", {
+      const response:Response = await fetch(
+        "https://personal-library-server.onrender.com/api/users/user-info", {
         method: "GET",
         credentials: "include",
         headers: {
