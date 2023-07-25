@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const connectDB = require("./config/db");
+const cors = require("cors");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -11,6 +12,22 @@ if (process.env.NODE_ENV !== "production") {
 connectDB();
 
 const app = express();
+
+const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
+const whitelist = [CLIENT_URL];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+};
+app.use(cors(corsOptions));
+
+app.options("/api/**", cors(corsOptions), (req, res, next) => res.status(200).json({ success: true }));
 
 require("./strategies/JwtStrategy");
 require("./strategies/LocalStrategy");
