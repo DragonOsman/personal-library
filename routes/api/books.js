@@ -18,11 +18,6 @@ bookRouter.post("/add-book", verifyUser, async (req, res) => {
     res.json({ error: "Book title, author, ISBN, publisher and description are required!" });
   }
 
-  if (!isbn.match(/[0-9-]{10}|[0-9-]{13}/g)) {
-    res.statusCode = 400;
-    res.json({ error: "ISBN is invalid!" });
-  }
-
   try {
     await Book.create(req.body);
     res.json({ message: "book added successfully" });
@@ -61,11 +56,6 @@ bookRouter.put("/update-book/:id", verifyUser, async (req, res) => {
   if (title === "" || author === "" || isbn === "", publisher === "", description === "") {
     res.statusCode = 400;
     res.json({ error: "Book title, author, ISBN, publisher and description are required!" });
-  }
-
-  if (!isbn.match(/[0-9-]{10}|[0-9-]{13}/g)) {
-    res.statusCode = 400;
-    res.json({ error: "ISBN is invalid!" });
   }
 
   try {

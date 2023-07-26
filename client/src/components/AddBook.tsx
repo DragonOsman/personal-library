@@ -34,7 +34,6 @@ const AddBook = () => {
       author: Yup.string()
         .required("Book author is required"),
       isbn: Yup.string()
-        .matches(/[0-9-]{10}|[0-9-]{13}/g, "ISBN must have 10 to 13 digits with some hyphens")
         .required("ISBN is required"),
       publisher: Yup.string()
         .required("Publisher is requried"),
