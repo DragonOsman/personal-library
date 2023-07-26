@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-//const cors = require("cors");
+const cors = require("cors");
 
 const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
@@ -20,7 +20,7 @@ const {
 
 const { REFRESH_TOKEN_SECRET } = process.env;
 
-/*const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
+const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
 const whitelist = [CLIENT_URL];
 const corsOptions = {
   origin: (origin, callback) => {
@@ -32,7 +32,7 @@ const corsOptions = {
   },
   credentials: true
 };
-userRouter.use(cors(corsOptions));*/
+userRouter.use(cors(corsOptions));
 
 userRouter.post("/register", (req, res) => {
   try {
@@ -154,11 +154,11 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   }
 });
 
-/*userRouter.options("/refreshToken", cors(corsOptions), (req, res, next) => {
+userRouter.options("/refreshToken", cors(corsOptions), (req, res, next) => {
   res.status(200).json({ success: true });
-});*/
+});
 
-userRouter.post("/refreshToken", /*cors(corsOptions),*/ async (req, res, next) => {
+userRouter.post("/refreshToken", cors(corsOptions), async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
 
   if (refreshToken) {
