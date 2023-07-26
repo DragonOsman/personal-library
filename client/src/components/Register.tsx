@@ -54,7 +54,8 @@ const Register = () => {
       };
 
       try {
-        const response = await fetch("/api/users/register", {
+        const response = await fetch(
+        "https://personal-library-server.onrender.com/api/users/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
