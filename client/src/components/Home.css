@@ -4,7 +4,7 @@
 }
 
 .container {
-  width: calc(((450px + 2em) * 4) + 50px);
+  width: calc((450px + 2em) * 2);
 }
 
 .user-details {
@@ -13,4 +13,22 @@
   margin-right: 100px;
   margin-left: 100px;
   margin-bottom: 100px;
+}
+
+@media screen and (min-width: 300px) and (max-width: 450px) {
+  .user-details > p {
+    font-size: 12px;
+    font-weight: 100;
+  }
+
+  .container {
+    width: 100px;
+  }
+
+  .user-details {
+    padding: 10px;
+    margin-right: 50px;
+    margin-left: 50px;
+    margin-bottom: 100px;
+  }
 }
