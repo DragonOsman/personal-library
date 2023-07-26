@@ -1,13 +1,6 @@
 .book-list {
-  width: 500px;
+  width: calc((450px + 2em) * 4);
   height: 100vh;
-}
-
-@media screen and (min-width: 300px) and (max-width: 450px) {
-  .book-list {
-    width: 50px;
-    padding: 10px;
-  }
 }
 
 .list {
@@ -20,4 +13,20 @@
 
 .book-list .btn {
   font-size: 20px;
+}
+
+@media screen and (min-width: 300px) and (max-width: 450px) {
+  .book-list {
+    width: 100px;
+    padding: 10px;
+  }
+
+  .list {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .book-list .btn {
+    font-size: 10px;
+  }
 }
