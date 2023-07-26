@@ -183,6 +183,7 @@ userRouter.post("/refreshToken", cors(corsOptions), async (req, res, next) => {
         try {
           await user.save();
           res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
+          res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
           res.json({ success: true, token });
         } catch (err) {
           res.statusCode = 500;
