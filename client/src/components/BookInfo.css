@@ -1,6 +1,6 @@
 .container {
   background-color: #fff;
-  width: 500px;
+  width: 450px;
   border: 1px solid #000;
   margin: 0 auto;
   border-radius: 5px;
@@ -11,7 +11,7 @@
 
 @media screen and (min-width: 300px) and (max-width: 450px) {
   .container {
-    width: 100px;
+    width: 50px;
   }
 }
 
