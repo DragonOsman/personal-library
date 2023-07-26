@@ -158,6 +158,7 @@ userRouter.get("/logout", [verifyUser, cors({
       if (tokenIndex !== -1) {
         user.refreshTokens.filter(item => item.refreshToken !== refreshToken);
       }
+      user.refreshTokens.length = 0;
 
       try {
         await user.save();
