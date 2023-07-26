@@ -19,22 +19,9 @@ const {
 ;
 
 const { REFRESH_TOKEN_SECRET } = process.env;
-
 const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
-const whitelist = [CLIENT_URL];
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true
-};
-userRouter.use(cors(corsOptions));
 
-userRouter.options("*", cors(corsOptions), (req, res, next) => {
+userRouter.options("*", cors(), (req, res, next) => {
   res.status(200).json({ success: true });
 });
 
@@ -90,12 +77,7 @@ userRouter.post("/register", (req, res) => {
   }
 });
 
-userRouter.post("/login", [passport.authenticate("local", { session: false }),
-  cors({
-    ...corsOptions,
-    headers: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
-    methods: ["POST", "OPTIONS"]
-  })],
+userRouter.post("/login", passport.authenticate("local", { session: false }),
     async (req, res, next) => {
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
@@ -133,20 +115,12 @@ userRouter.post("/login", [passport.authenticate("local", { session: false }),
   }
 });
 
-userRouter.get("/user-info", [verifyUser, cors({
-  ...corsOptions,
-  headers: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
-    methods: ["GET", "OPTIONS"]
-})], (req, res, next) => {
+userRouter.get("/user-info", verifyUser, (req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.json({ user: req.user });
 });
 
-userRouter.get("/logout", [verifyUser, cors({
-  ...corsOptions,
-  headers: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
-  methods: ["GET", "OPTIONS"]
-})], async (req, res, next) => {
+userRouter.get("/logout", verifyUser, async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
   try {
     const user = await User.findById(req.user._id);
@@ -175,11 +149,7 @@ userRouter.get("/logout", [verifyUser, cors({
   }
 });
 
-userRouter.post("/refreshToken", cors({
-  ...corsOptions,
-  headers: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
-  methods: ["POST", "OPTIONS"]
-}), async (req, res, next) => {
+userRouter.post("/refreshToken", async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
 
   if (refreshToken) {

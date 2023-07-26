@@ -50,34 +50,36 @@ const Home = (): JSX.Element => {
   }, [fetchUserDetails, userContext.details]);
 
   return (
-    <div className="user-details d-flex justify-content-center align-items-center flex-column">
-      {userContext.details ? (
-        <>
-          <p>Welcome,&nbsp;
-            <strong>
-              {userContext.details.firstName}
-              {` ${userContext.details.lastName}`}
-            </strong>!
+    <div className="container container-fluid">
+      <div className="user-details d-flex justify-content-center align-items-center flex-column">
+        {userContext.details ? (
+          <>
+            <p>Welcome,&nbsp;
+              <strong>
+                {userContext.details.firstName}
+                {` ${userContext.details.lastName}`}
+              </strong>!
+            </p>
+            {bookContext && bookContext.length > 0 ? (
+              <>
+                <h1>Below you can see your list of books:</h1>
+                <BookList />
+              </>
+            ) : (
+              <>
+                <p>No books to show!</p>
+                <p>Please <Link to="/books/add-book">add some books</Link> first!</p>
+              </>
+            )}
+          </>
+        ) : userContext.details === null ? (
+          <p className="text-danger">
+            Error loading user details
           </p>
-          {bookContext && bookContext.length > 0 ? (
-            <>
-              <h1>Below you can see your list of books:</h1>
-              <BookList />
-            </>
-          ) : (
-            <>
-              <p>No books to show!</p>
-              <p>Please <Link to="/books/add-book">add some books</Link> first!</p>
-            </>
-          )}
-        </>
-      ) : userContext.details === null ? (
-        <p className="text-danger">
-          Error loading user details
-        </p>
-      ) : (
-        <Loader />
-      )}
+        ) : (
+          <Loader />
+        )}
+      </div>
     </div>
   );
 };

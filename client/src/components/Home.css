@@ -3,6 +3,10 @@
   font-weight: 200;
 }
 
+.container {
+  width: calc(((450px + 2em) * 4) + 50px);
+}
+
 .user-details {
   padding: 15px;
   background-color: #fff;

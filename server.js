@@ -29,10 +29,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.options("*", cors(corsOptions), (req, res, next) => {
-  res.status(200).json({ success: true });
-});
-
 require("./strategies/JwtStrategy");
 require("./strategies/LocalStrategy");
 require("./authenticate");
