@@ -23,11 +23,15 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true
+  credentials: true,
+  headers: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
+  methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"]
 };
 app.use(cors(corsOptions));
 
-app.options("/api/**", cors(corsOptions), (req, res, next) => res.status(200).json({ success: true }));
+app.options("*", cors(corsOptions), (req, res, next) => {
+  res.status(200).json({ success: true });
+});
 
 require("./strategies/JwtStrategy");
 require("./strategies/LocalStrategy");

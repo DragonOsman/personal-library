@@ -34,6 +34,10 @@ const corsOptions = {
 };
 userRouter.use(cors(corsOptions));
 
+userRouter.options("*", cors(corsOptions), (req, res, next) => {
+  res.status(200).json({ success: true });
+});
+
 userRouter.post("/register", (req, res) => {
   try {
     const { isValid, errors } = validateRegisterInput(req.body);
@@ -86,7 +90,12 @@ userRouter.post("/register", (req, res) => {
   }
 });
 
-userRouter.post("/login", passport.authenticate("local", { session: false }),
+userRouter.post("/login", [passport.authenticate("local", { session: false }),
+  cors({
+    ...corsOptions,
+    headers: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
+    methods: ["POST", "OPTIONS"]
+  })],
     async (req, res, next) => {
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
@@ -124,9 +133,20 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
   }
 });
 
-userRouter.get("/user-info", verifyUser, (req, res, next) => res.json({ user: req.user }));
+userRouter.get("/user-info", [verifyUser, cors({
+  ...corsOptions,
+  headers: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
+    methods: ["GET", "OPTIONS"]
+})], (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
+  res.json({ user: req.user });
+});
 
-userRouter.get("/logout", verifyUser, async (req, res, next) => {
+userRouter.get("/logout", [verifyUser, cors({
+  ...corsOptions,
+  headers: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
+  methods: ["GET", "OPTIONS"]
+})], async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
   try {
     const user = await User.findById(req.user._id);
@@ -154,11 +174,11 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   }
 });
 
-userRouter.options("/refreshToken", cors(corsOptions), (req, res, next) => {
-  res.status(200).json({ success: true });
-});
-
-userRouter.post("/refreshToken", cors(corsOptions), async (req, res, next) => {
+userRouter.post("/refreshToken", cors({
+  ...corsOptions,
+  headers: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
+  methods: ["POST", "OPTIONS"]
+}), async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
 
   if (refreshToken) {
