@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { UserContext } from "../context/UserContext";
 import { useContext } from "react";
@@ -14,6 +14,8 @@ const Login = () => {
   const { userContext, setUserContext } = useContext(UserContext);
 
   const previousUserContext = userContext;
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -52,6 +54,7 @@ const Login = () => {
         if (response.ok) {
           const data = await response.json();
           setUserContext({ ...previousUserContext, token: data.token });
+          navigate("/");
         }
       } catch (error) {
         console.log(`Error when trying to log user in: ${error}`);
@@ -89,7 +92,7 @@ const Login = () => {
         </fieldset>
         <input type="submit" value="Login" className="btn btn-primary btn-lg" />
         <p className="register-cta">Don't have an account yet?
-          <Link to="/users/register">Register</Link></p>
+          <Link to="/users/register"> Register</Link></p>
       </form>
     </div>
   );
