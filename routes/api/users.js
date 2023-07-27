@@ -193,12 +193,12 @@ userRouter.post("/refreshToken", async (req, res, next) => {
   }
 });
 
-userRouter.get("/delete-account/:id", verifyUser, async (req, res, next) => {
+userRouter.delete("/delete-account/:id", verifyUser, async (req, res, next) => {
   try {
     await User.findByIdAndDelete(req.params.id, req.body);
     const books = await Book.find();
     if (books.length > 0) {
-      await Book.deleteMany({ user: req.params.id });
+      await Book.deleteMany({ userId: req.params.id });
     }
     res.status(200).json({ success: true, message: "User and his/her books sucessfully deleted" });
   } catch (err) {
