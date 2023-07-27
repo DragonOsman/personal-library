@@ -1,6 +1,7 @@
 const express = require("express");
 const userRouter = express.Router();
 const User = require("../../models/User");
+const Book = require("../../models/Book");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 if (process.env.NODE_ENV !== "production") {
@@ -189,6 +190,19 @@ userRouter.post("/refreshToken", async (req, res, next) => {
       res.json({ message: "Unauthorized" });
       return next(err);
     }
+  }
+});
+
+userRouter.get("/delete-account/:id", verifyUser, async (req, res, next) => {
+  try {
+    await User.findByIdAndDelete(req.params.id, req.body);
+    const books = await Book.find();
+    if (books.length > 0) {
+      await Book.deleteMany({ user: req.params.id });
+    }
+    res.status(200).json({ success: true, message: "User and his/her books sucessfully deleted" });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
   }
 });
 
