@@ -28,6 +28,11 @@ const BookSchema = new Schema({
   updated_date: {
     type: Date,
     default: Date.now
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "User"
   }
 });
 
