@@ -1,6 +1,6 @@
 import "./Header.css";
 import logo from "../logo.png";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 
@@ -29,6 +29,27 @@ const Header = () => {
 
     } catch (err) {
       console.log(`Error in logoutHandler, catch block: ${err}`);
+    }
+  };
+
+  const { id } = useParams();
+
+  const deleteAccountHandler = async () => {
+    try {
+      await fetch(`
+        https://personal-library-server.onrender.com/api/users/delete-account/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${userContext.token}`
+          },
+          credentials: "include",
+          body: JSON.stringify({ ...userContext.details })
+        });
+
+        setUserContext({ ...previousUserContext, details: undefined, token: null });
+    } catch (err) {
+      console.log(`Error trying to delete user account: ${err}`);
     }
   };
 
@@ -77,8 +98,19 @@ const Header = () => {
                       type="button"
                       className="btn btn-danger"
                       onClick={logoutHandler}
+                      title="logout"
                     >
                       Logout
+                    </button>
+                  </li>
+                  <li className="nav-item">
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={deleteAccountHandler}
+                      title="delete account"
+                    >
+                      Delete Account
                     </button>
                   </li>
                 </>
