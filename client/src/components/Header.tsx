@@ -12,7 +12,7 @@ const Header = () => {
 
   const handleToggle = () => setIsCollapsed(!isCollapsed);
 
-  const logoutHandler = async () => {
+  const handleLogout = async () => {
     try {
       await fetch(
         "https://personal-library-server.onrender.com/api/users/logout", {
@@ -34,7 +34,7 @@ const Header = () => {
 
   const { id } = useParams();
 
-  const deleteAccountHandler = async () => {
+  const handleDeleteAccount = async () => {
     try {
       await fetch(`
         https://personal-library-server.onrender.com/api/users/delete-account/${id}`, {
@@ -97,7 +97,7 @@ const Header = () => {
                     <button
                       type="button"
                       className="btn btn-danger"
-                      onClick={logoutHandler}
+                      onClick={handleLogout}
                       title="logout"
                     >
                       Logout
@@ -107,7 +107,7 @@ const Header = () => {
                     <button
                       type="button"
                       className="btn btn-danger"
-                      onClick={deleteAccountHandler}
+                      onClick={handleDeleteAccount}
                       title="delete account"
                     >
                       Delete Account
