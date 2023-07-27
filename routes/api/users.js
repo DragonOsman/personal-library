@@ -2,6 +2,7 @@ const express = require("express");
 const userRouter = express.Router();
 const User = require("../../models/User");
 const Book = require("../../models/Book");
+const mongoose = require("mongoose");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 if (process.env.NODE_ENV !== "production") {
@@ -195,11 +196,12 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 
 userRouter.delete("/delete-account/:id", verifyUser, async (req, res, next) => {
   try {
-    await User.findByIdAndDelete(req.params.id, req.body);
-    const books = await Book.find();
-    if (books.length > 0) {
-      await Book.deleteMany({ userId: req.params.id });
-    }
+    const db = mongoose.connection.db;
+    const collections = await db.listCollections().toArray();
+
+    collections.map(collection => collection.name)
+      .forEach(async collectionName => db.dropCollection(collectionName))
+    ;
     res.status(200).json({ success: true, message: "User and his/her books sucessfully deleted" });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
