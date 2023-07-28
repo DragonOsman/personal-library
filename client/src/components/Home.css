@@ -7,7 +7,7 @@
   padding: 5px;
   background-color: #fff;
   margin-bottom: 50px;
-  width: 450px;
+  width: 650px;
 }
 
 @media screen and (min-width: 300px) and (max-width: 450px) {
@@ -20,5 +20,18 @@
     padding: 10px;
     margin: 10px;
     width: 200px;
+  }
+}
+
+@media screen and (min-width: 500px) and (max-width: 650px) {
+  .user-details > p {
+    font-size: 14px;
+    font-weight: 200;
+  }
+
+  .user-details {
+    padding: 12px;
+    margin: 12px;
+    width: 250px;
   }
 }
