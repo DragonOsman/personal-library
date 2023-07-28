@@ -1,7 +1,7 @@
 .user-details > p {
   font-size: 24px;
   font-weight: 200;
-  width: calc((450px + 2em) * 2);
+  width: calc(450px + 2em);
 }
 
 .user-details {
