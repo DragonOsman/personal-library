@@ -2,7 +2,6 @@ const express = require("express");
 const userRouter = express.Router();
 const User = require("../../models/User");
 const Book = require("../../models/Book");
-const mongoose = require("mongoose");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 if (process.env.NODE_ENV !== "production") {
