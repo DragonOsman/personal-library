@@ -23,6 +23,7 @@ bookRouter.post("/add-book", verifyUser, async (req, res) => {
   if (title === "" || author === "" || isbn === "", publisher === "", description === "") {
     res.statusCode = 400;
     res.json({ error: "Book title, author, ISBN, publisher and description are required!" });
+    console.log("Validation error occurred during book data input, add book route");
   }
 
   try {
@@ -30,6 +31,7 @@ bookRouter.post("/add-book", verifyUser, async (req, res) => {
     res.json({ message: "book added successfully" });
   } catch (err) {
     res.status(400).json({ error: "Unable to add this book" });
+    console.log(`Error when trying to add book: ${err.message}`);
   }
 });
 
