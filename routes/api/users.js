@@ -196,12 +196,13 @@ userRouter.post("/refreshToken", async (req, res, next) => {
 
 userRouter.delete("/delete-account/:id", verifyUser, async (req, res, next) => {
   try {
-    const db = mongoose.connection.db;
-    const collections = await db.listCollections().toArray();
+    await User.findByIdAndDelete(req.params.id, req.body);
 
-    collections.map(collection => collection.name)
-      .forEach(async collectionName => db.dropCollection(collectionName))
-    ;
+    const books = await Book.find();
+    if (books.length > 0) {
+      await Book.deleteMany({ userId: req.params.id });
+    }
+
     res.status(200).json({ success: true, message: "User and his/her books sucessfully deleted" });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
