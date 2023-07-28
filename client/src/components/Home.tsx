@@ -59,7 +59,7 @@ const Home = (): JSX.Element => {
               {` ${userContext.details.lastName}`}
             </strong>!
           </p>
-          {bookContext && bookContext.length > 0 ? (
+          {bookContext.length > 0 ? (
             <>
               <h1>Below you can see your list of books:</h1>
               <BookList />
