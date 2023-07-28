@@ -1,8 +1,3 @@
-.user-details > p {
-  font-size: 24px;
-  font-weight: 200;
-}
-
 .user-details {
   padding: 5px;
   background-color: #fff;
@@ -10,16 +5,21 @@
   width: 650px;
 }
 
-@media screen and (min-width: 300px) and (max-width: 450px) {
-  .user-details > p {
-    font-size: 12px;
-    font-weight: 100;
-  }
+.user-details > p {
+  font-size: 24px;
+  font-weight: 200;
+}
 
+@media screen and (min-width: 300px) and (max-width: 450px) {
   .user-details {
     padding: 10px;
     margin: 10px;
     width: 200px;
+  }
+
+  .user-details > p {
+    font-size: 12px;
+    font-weight: 100;
   }
 }
 
