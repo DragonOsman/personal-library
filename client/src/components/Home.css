@@ -5,11 +5,9 @@
 }
 
 .user-details {
-  padding: 15px;
+  padding: 5px;
   background-color: #fff;
-  margin-right: 100px;
-  margin-left: 100px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 
 @media screen and (min-width: 300px) and (max-width: 450px) {
