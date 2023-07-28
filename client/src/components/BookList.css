@@ -1,6 +1,7 @@
 .book-list {
   width: calc((450px + 2em) * 2);
   height: 100vh;
+  margin: 5px;
 }
 
 .list {

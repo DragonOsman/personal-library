@@ -11,9 +11,6 @@ html {
 
 body {
   margin-top: 70px;
-  display: flex;
-  justify-content: center;
-  justify-items: center;
   background-color: #287098;
 }
 
@@ -26,7 +23,7 @@ body {
 }
 
 .add-book-form-container, .book-list,
-.show-book-details, .update-book {
+.show-book-details, .update-book, .user-details {
   min-height: 100vh;
   min-width: 300px;
   color: #000;
