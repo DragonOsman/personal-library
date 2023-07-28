@@ -1,6 +1,6 @@
 const express = require("express");
 const bookRouter = express.Router();
-const { Book } = require("../../models/Book");
+const Book = require("../../models/Book");
 const { verifyUser } = require("../../authenticate");
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
