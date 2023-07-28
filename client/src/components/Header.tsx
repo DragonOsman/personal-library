@@ -1,6 +1,6 @@
 import "./Header.css";
 import logo from "../logo.png";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 
@@ -32,12 +32,10 @@ const Header = () => {
     }
   };
 
-  const { id } = useParams();
-
   const handleDeleteAccount = async () => {
     try {
       await fetch(`
-        https://personal-library-server.onrender.com/api/users/delete-account/${id}`, {
+        https://personal-library-server.onrender.com/api/users/delete-account`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
