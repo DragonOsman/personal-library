@@ -27,7 +27,7 @@ bookRouter.post("/add-book", verifyUser, async (req, res) => {
   }
 
   try {
-    await Book.create(req.body);
+    await Book.create({ ...req.body, userId: req.user._id });
     res.json({ message: "book added successfully" });
   } catch (err) {
     res.status(400).json({ error: "Unable to add this book" });
