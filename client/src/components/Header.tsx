@@ -96,7 +96,7 @@ const Header = () => {
                   <li className="nav-item">
                     <button
                       type="button"
-                      className="btn btn-danger"
+                      className="btn btn-danger logout-btn"
                       onClick={handleLogout}
                       title="logout"
                     >

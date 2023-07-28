@@ -42,3 +42,7 @@ nav.navbar {
 .nav-link:hover {
   color: #287098;
 }
+
+.logout-btn {
+  margin-right: 5px;
+}
