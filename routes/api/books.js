@@ -68,7 +68,7 @@ bookRouter.put("/update-book/:id", verifyUser, async (req, res) => {
   }
 
   try {
-    await Book.findByIdAndUpdate(req.params.id, req.body);
+    await Book.findByIdAndUpdate(req.params.id, { ...req.body, userId: req.user._id });
     res.json({ message: "Book updated successfully" });
   } catch (err) {
     res.status(400).json({ error: "Unable to update database" });
@@ -77,7 +77,7 @@ bookRouter.put("/update-book/:id", verifyUser, async (req, res) => {
 
 bookRouter.delete("/delete-book/:id", verifyUser, async (req, res) => {
   try {
-    await Book.findByIdAndRemove(req.params.id, req.body);
+    await Book.findByIdAndRemove(req.params.id, { ...req.body, userId: req.user._id });
     res.json({ message: "Book entry deleted successfully" });
   } catch (err) {
     res.status(400).json({ error: "No such book exists" });
