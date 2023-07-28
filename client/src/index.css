@@ -11,8 +11,9 @@ html {
 
 body {
   margin-top: 70px;
-  margin-left: 5px;
-  margin-right: 5px;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
   background-color: #287098;
 }
 
