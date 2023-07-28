@@ -1,9 +1,6 @@
 .user-details > p {
   font-size: 24px;
   font-weight: 200;
-}
-
-.container {
   width: calc((450px + 2em) * 2);
 }
 
@@ -21,14 +18,9 @@
     font-weight: 100;
   }
 
-  .container {
-    width: 100px;
-  }
-
   .user-details {
     padding: 10px;
-    margin-right: 50px;
-    margin-left: 50px;
-    margin-bottom: 100px;
+    margin: 10px;
+    width: 200px;
   }
 }
