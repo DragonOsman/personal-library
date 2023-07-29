@@ -1,5 +1,5 @@
 .book-list {
-  width: 750px;
+  width: calc((450px * 2) + 2em);
   height: 100vh;
   margin: 5px;
 }
@@ -7,7 +7,7 @@
 .list {
   display: grid;
   margin: 10px;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 1fr;
   gap: 2em;
 }
