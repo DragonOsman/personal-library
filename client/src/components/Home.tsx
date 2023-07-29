@@ -53,15 +53,15 @@ const Home = (): JSX.Element => {
     <div className="user-details container-fluid d-flex justify-content-center align-items-center flex-column">
       {userContext.details ? (
         <>
-          <p>Welcome,&nbsp;
+          <h1>Welcome,&nbsp;
             <strong>
               {userContext.details.firstName}
               {` ${userContext.details.lastName}`}
             </strong>!
-          </p>
+          </h1>
           {bookContext.length > 0 ? (
             <>
-              <h1>Below you can see your list of books:</h1>
+              <h2>Below you can see your list of books:</h2>
               <BookList />
             </>
           ) : (
