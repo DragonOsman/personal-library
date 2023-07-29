@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-const cors = require("cors");
 
 const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
@@ -20,11 +19,6 @@ const {
 ;
 
 const { REFRESH_TOKEN_SECRET } = process.env;
-const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
-
-userRouter.options("*", cors(), (req, res, next) => {
-  res.status(200).json({ success: true });
-});
 
 userRouter.post("/register", (req, res) => {
   try {
@@ -116,10 +110,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
   }
 });
 
-userRouter.get("/user-info", verifyUser, (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
-  res.json({ user: req.user });
-});
+userRouter.get("/user-info", verifyUser, (req, res, next) => res.json({ user: req.user }));
 
 userRouter.get("/logout", verifyUser, async (req, res, next) => {
   const refreshToken = req.signedCookies.refreshToken;
@@ -175,7 +166,6 @@ userRouter.post("/refreshToken", async (req, res, next) => {
         try {
           await user.save();
           res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
-          res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
           res.json({ success: true, token });
         } catch (err) {
           res.statusCode = 500;

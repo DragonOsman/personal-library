@@ -2,14 +2,6 @@ const express = require("express");
 const bookRouter = express.Router();
 const Book = require("../../models/Book");
 const { verifyUser } = require("../../authenticate");
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
-const cors = require("cors");
-
-bookRouter.options("*", cors(), (req, res, next) => {
-  res.status(200).json({ success: true });
-});
 
 bookRouter.post("/add-book", verifyUser, async (req, res) => {
   const {
