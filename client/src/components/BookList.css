@@ -13,6 +13,10 @@
   width: calc((450px * 2) + 2em);
 }
 
+.book-list > .container {
+  width: calc((450px * 2) + 2em);
+}
+
 .book-list .btn {
   font-size: 20px;
 }
