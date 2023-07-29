@@ -2,8 +2,6 @@
   width: calc((450px * 2) + 2em);
   height: 100vh;
   margin: 5px;
-  background-color: #287098;
-  filter: brightness(85%);
 }
 
 .list {
@@ -17,6 +15,8 @@
 
 .book-list > .container {
   width: calc((450px * 2) + 2em);
+  background-color: #287098;
+  filter: brightness(85%);
 }
 
 .book-list .btn {
