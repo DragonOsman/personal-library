@@ -10,12 +10,12 @@
 }
 
 @media screen and (min-width: 300px) and (max-width: 450px) {
-  .container {
+  .BookInfo > .container {
     width: 100px;
   }
 }
 
-.container:first-of-type {
+.BookInfo > .container:first-of-type {
   margin-top: 0px;
 }
 
