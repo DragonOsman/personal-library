@@ -11,6 +11,7 @@
   grid-auto-rows: 1fr;
   gap: 2em;
   width: calc((450px * 2) + 2em);
+  overflow: scroll;
 }
 
 .book-list > .container {
