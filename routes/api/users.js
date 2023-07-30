@@ -90,7 +90,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
     }
     const user = await User.findById(req.user._id);
     if (user) {
-      user.refreshTokens.push({ refreshToken });
+      user.refreshToken.refreshToken = { refreshToken };
       try {
         await user.save();
         res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
@@ -117,14 +117,9 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
     if (user) {
-      const tokenIndex = user.refreshTokens.findIndex(
-        item => item.refreshToken === refreshToken
-      );
-
-      if (tokenIndex !== -1) {
-        user.refreshTokens.filter(item => item.refreshToken !== refreshToken);
+      if (user.refreshToken.refreshToken === refreshToken) {
+        user.refreshToken = null;
       }
-      user.refreshTokens.length = 0;
 
       try {
         await user.save();
@@ -150,18 +145,13 @@ userRouter.post("/refreshToken", async (req, res, next) => {
       const userId = payload._id;
       const user = await User.findOne({ _id: userId });
       if (user) {
-        const tokenIndex = user.refreshTokens.findIndex(
-          item => item.refreshToken === refreshToken
-        );
-
-        if (tokenIndex === -1) {
-          res.statusCode = 401;
-          res.json({ message: "Unauthorized" });
+        if (user.refreshToken.refreshToken !== refreshToken) {
+          res.status(401).json({ message: "Unauthorized" });
         }
 
         const token = getToken({ _id: userId });
         const newRefreshToken = getRefreshToken({ _id: userId });
-        user.refreshTokens.push({ refreshToken: newRefreshToken });
+        user.refreshToken = { refreshToken: newRefreshToken };
 
         try {
           await user.save();
