@@ -26,8 +26,8 @@ const UserSchema = new Schema({
     required: true,
     default: "local"
   },
-  refreshToken: {
-    type: SessionSchema
+  refreshTokens: {
+    type: [SessionSchema]
   },
   date: {
     type: Date,
@@ -38,7 +38,7 @@ const UserSchema = new Schema({
 // Remove refresh token from the response:
 UserSchema.set("toJSON", {
   transform: (doc, ret, options) => {
-    delete ret.refreshToken;
+    delete ret.refreshTokens;
     return ret;
   }
 });
