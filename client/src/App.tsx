@@ -55,7 +55,6 @@ function App() {
         <Route path="/users/login" element={<Login />} />
         <Route path="/books/add-book" element={<AddBook />} />
         <Route path="/books/show-book/:id" element={<ShowBookDetails />} />
-        <Route path="/books/list-books" element={<BookList />} />
         <Route path="/books/update-book/:id" element={<UpdateBook />} />
       </Routes>
     </>
