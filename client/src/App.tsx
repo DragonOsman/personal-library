@@ -40,6 +40,7 @@ function App() {
   }, [previousUserContext, setUserContext]);
 
   useEffect(() => {
+    verifyUser();
     // call verifyUser every 5mins
     setTimeout(verifyUser, 5 * 60 * 1000);
   }, [verifyUser]);
