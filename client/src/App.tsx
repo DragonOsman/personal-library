@@ -15,10 +15,9 @@ import "./App.css";
 function App() {
   const { userContext, setUserContext } = useContext(UserContext);
 
-  const previousUserContext = userContext;
-
   useEffect(() => {
     const verifyUser = async () => {
+      const previousUserContext = userContext;
       try {
         const response = await fetch(
         "https://personal-library-server.onrender.com/api/users/refreshToken", {
@@ -44,7 +43,7 @@ function App() {
 
     // call verifyUser every 5mins
     setTimeout(verifyUser, 5 * 60 * 1000);
-  }, [previousUserContext, setUserContext]);
+  }, [userContext, setUserContext]);
 
   return (
     <>
