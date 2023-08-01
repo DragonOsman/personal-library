@@ -98,6 +98,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
       } catch (err) {
         res.statusCode = 500;
         res.json({ error: err });
+        console.log(`Error trying to login; inner catch block: ${err.message}`);
       }
     } else {
       res.statusCode = 401;
@@ -106,6 +107,7 @@ userRouter.post("/login", passport.authenticate("local", { session: false }),
   } catch (err) {
     res.statusCode = 500;
     res.json({ error: err });
+    console.log(`Error trying to login; outer catch block: ${err.message}`);
     return next(err);
   }
 });
