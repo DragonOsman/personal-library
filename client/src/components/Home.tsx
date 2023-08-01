@@ -2,7 +2,6 @@ import { useContext, useEffect, useCallback, JSX } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { BookContext } from "../context/BookContext";
-import BookList from "./BookList";
 import Loader from "../components/Loader";
 import "./Home.css";
 
