@@ -1,4 +1,4 @@
-import { useContext, useEffect, useCallback } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import { BookContext, IBook } from "../context/BookContext";
 import { Link } from "react-router-dom";
@@ -9,35 +9,35 @@ const BookList = () => {
   const { userContext, setUserContext } = useContext(UserContext);
   const { bookContext, setBookContext } = useContext(BookContext);
 
-  const fetchBooks = useCallback(async () => {
-    try {
-      const booksResponse = await fetch(
-        "https://personal-library-server.onrender.com/api/books/list-books", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${userContext.token}`
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const booksResponse = await fetch(
+          "https://personal-library-server.onrender.com/api/books/list-books", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${userContext.token}`
+            }
+          }
+        );
+
+        if (booksResponse.ok) {
+          try {
+            const booksData = await booksResponse.json();
+            setBookContext(booksData.books);
+          } catch (err) {
+            console.log(`Error getting books data from response: ${err}`);
           }
         }
-      );
-
-      if (booksResponse.ok) {
-        try {
-          const booksData = await booksResponse.json();
-          setBookContext(booksData.books);
-        } catch (err) {
-          console.log(`Error getting books data from response: ${err}`);
-        }
+      } catch (err) {
+        console.log(`Error fetching books: ${err}`);
       }
-    } catch (err) {
-      console.log(`Error fetching books: ${err}`);
-    }
-  }, [setBookContext, userContext.token]);
+    };
 
-  useEffect(() => {
     fetchBooks();
-  }, [fetchBooks]);
+  }, [userContext.token, setBookContext]);
 
   const bookList = bookContext.length === 0
     ? "No books to show!"
