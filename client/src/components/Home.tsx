@@ -61,7 +61,7 @@ const Home = (): JSX.Element => {
           {bookContext.length > 0 ? (
             <>
               <p>Follow link below to see your list of books</p>
-              <Link to="/books/list-books">Book List</Link>
+              <p><Link to="/books/list-books">Book List</Link></p>
             </>
           ) : (
             <>
