@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { BookContext, IBook } from "../context/BookContext";
 import { Link } from "react-router-dom";
@@ -9,35 +9,34 @@ const BookList = () => {
   const { userContext, setUserContext } = useContext(UserContext);
   const { bookContext, setBookContext } = useContext(BookContext);
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const booksResponse = await fetch(
-          "https://personal-library-server.onrender.com/api/books/list-books", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${userContext.token}`
-            }
-          }
-        );
+  const [isListVisible, setIsListVisible] = useState(false);
 
-        if (booksResponse.ok) {
-          try {
-            const booksData = await booksResponse.json();
-            setBookContext(booksData.books);
-          } catch (err) {
-            console.log(`Error getting books data from response: ${err}`);
+  const fetchBooks = async () => {
+    try {
+      const booksResponse = await fetch(
+        "https://personal-library-server.onrender.com/api/books/list-books", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${userContext.token}`
           }
         }
-      } catch (err) {
-        console.log(`Error fetching books: ${err}`);
-      }
-    };
+      );
 
-    fetchBooks();
-  }, [userContext.token, setBookContext]);
+      if (booksResponse.ok) {
+        try {
+          const booksData = await booksResponse.json();
+          setBookContext(booksData.books);
+          setIsListVisible(true);
+        } catch (err) {
+          console.log(`Error getting books data from response: ${err}`);
+        }
+      }
+    } catch (err) {
+      console.log(`Error fetching books: ${err}`);
+    }
+  };
 
   const bookList = bookContext.length === 0
     ? "No books to show!"
@@ -64,7 +63,15 @@ const BookList = () => {
             <br />
           </div>
         </div>
-        <div className="list">{bookList}</div>
+        <button
+          type="button"
+          title="toggle book list"
+          className="btn btn-primary"
+          onClick={fetchBooks}
+        >
+          Show Book List
+        </button>
+        {isListVisible && <div className="list">{bookList}</div>}
       </div>
     </div>
   );
