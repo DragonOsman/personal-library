@@ -2,6 +2,7 @@ import { useContext, useEffect, useCallback, JSX } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { BookContext } from "../context/BookContext";
+import BookList from "./BookList";
 import Loader from "../components/Loader";
 import "./Home.css";
 
@@ -60,8 +61,8 @@ const Home = (): JSX.Element => {
           </h1>
           {bookContext.length > 0 ? (
             <>
-              <p>Follow link below to see your list of books</p>
-              <p><Link to="/books/list-books">Book List</Link></p>
+              <h1>Below you can see your list of books (click or tap the button):</h1>
+              <BookList />
             </>
           ) : (
             <>
