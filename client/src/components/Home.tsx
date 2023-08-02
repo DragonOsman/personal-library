@@ -44,13 +44,14 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     // fetch only when user details are not present
-    // or when first and last name properties are
-    // empty strings
-    if (!userContext.details ||
-        (userContext.details.firstName === "" && userContext.details.lastName === "")) {
+    if (!userContext.details) {
       fetchUserDetails();
     }
   }, [fetchUserDetails, userContext.details]);
+
+  const handleRefetch = () => {
+    setUserContext({ ...previousUserContext, details: undefined });
+  };
 
   return (
     <div className="user-details container-fluid d-flex justify-content-center align-items-center flex-column">
@@ -64,6 +65,14 @@ const Home = (): JSX.Element => {
           </h1>
           {bookContext.length > 0 ? (
             <>
+              <button
+                type="button"
+                title="refetch user details"
+                onClick={handleRefetch}
+                className="btn btn-primary"
+              >
+                Refetch User Detals
+              </button>
               <h1>Below you can see your list of books (click or tap the button):</h1>
               <BookList />
             </>
