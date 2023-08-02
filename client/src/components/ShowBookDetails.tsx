@@ -14,6 +14,7 @@ const ShowBookDetails = () => {
     published_date: "",
     publisher: ""
   });
+  const [error, setError] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -35,17 +36,17 @@ const ShowBookDetails = () => {
         if (response.ok) {
           try {
             const data = await response.json();
-            console.log(`In ShowBookDetails component useEffect hook, response.ok check;
-                         data.book is ${data.book} and data is ${data}`);
             setBook(data.book);
           } catch (err) {
             console.log(`Error when running "const data = await response.json()": ${err}`);
+            setError(err as string);
           }
         } else {
           console.log("HTTP response when trying to fetch book details not ok!  Something's wrong!");
         }
       } catch (err) {
         console.log(`Error trying to fetch book details: ${err}`);
+        setError(err as string);
       }
     };
 
@@ -67,6 +68,7 @@ const ShowBookDetails = () => {
       navigate("/");
     } catch (err) {
       console.log(`Error trying to delete book: ${err}`);
+      setError(err as string);
     }
   };
 
@@ -113,8 +115,8 @@ const ShowBookDetails = () => {
     <div className="show-book-details container container-fluid">
       <div className="row">
         <div className="col-md-8 m-auto">
-          <Link to="/books/list-books" className="btn btn-outline-warning float-left">
-            Show Book List
+          <Link to="/" className="btn btn-outline-warning float-left">
+            Back to Home
           </Link>
         </div>
         <br />
@@ -144,6 +146,7 @@ const ShowBookDetails = () => {
           </Link>
         </div>
       </div>
+      {error !== "" && <p className="text-danger">{error}</p>}
     </div>
   );
 };

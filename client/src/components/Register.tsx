@@ -1,7 +1,7 @@
 import "./Register.css";
 import { useFormik } from "formik";
 import { UserContext } from "../context/UserContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import * as Yup from "yup";
 
 interface FormValues {
@@ -16,6 +16,8 @@ const Register = () => {
   const { userContext, setUserContext } = useContext(UserContext);
 
   const previousUserContext = userContext;
+
+  const [error, setError] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -69,8 +71,9 @@ const Register = () => {
           const data = await response.json();
           setUserContext({ ...previousUserContext, token: data.token });
         }
-      } catch (error) {
-        console.log(`Error when trying tor register user: ${error}`);
+      } catch (err) {
+        console.log(`Error when trying tor register user: ${err}`);
+        setError(err as string);
       }
     }
   });
@@ -138,6 +141,7 @@ const Register = () => {
         </fieldset>
         <input type="submit" value="Register" className="btn btn-primary btn-lg" />
       </form>
+      {error !== "" && <p className="text-danger">{error}</p>}
     </div>
   );
 };

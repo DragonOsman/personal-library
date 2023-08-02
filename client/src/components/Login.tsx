@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { UserContext } from "../context/UserContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import * as Yup from "yup";
 import "./Login.css";
 
@@ -14,6 +14,8 @@ const Login = () => {
   const { userContext, setUserContext } = useContext(UserContext);
 
   const previousUserContext = userContext;
+
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -56,8 +58,9 @@ const Login = () => {
           setUserContext({ ...previousUserContext, token: data.token });
           navigate("/");
         }
-      } catch (error) {
-        console.log(`Error when trying to log user in: ${error}`);
+      } catch (err) {
+        console.log(`Error when trying to log user in: ${err}`);
+        setError(err as string);
       }
     }
   });
@@ -94,6 +97,7 @@ const Login = () => {
         <p className="register-cta">Don't have an account yet?
           <Link to="/users/register"> Register</Link></p>
       </form>
+      {error !== "" && <p className="text-danger">{error}</p>}
     </div>
   );
 };

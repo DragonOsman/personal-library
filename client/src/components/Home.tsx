@@ -1,10 +1,11 @@
-import { useContext, useEffect, useCallback, JSX } from "react";
+import { useContext, useEffect, useCallback, JSX, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { BookContext } from "../context/BookContext";
 import BookList from "./BookList";
 import Loader from "../components/Loader";
 import "./Home.css";
+import { spawn } from "child_process";
 
 const Home = (): JSX.Element => {
   const { userContext, setUserContext } = useContext(UserContext);
@@ -12,6 +13,8 @@ const Home = (): JSX.Element => {
   const navigate = useNavigate();
 
   const previousUserContext = userContext;
+
+  const [error, setError] = useState("");
 
   const fetchUserDetails = useCallback(async () => {
     try {
@@ -36,6 +39,7 @@ const Home = (): JSX.Element => {
       }
     } catch (err) {
       console.log(`Error fetching user details: ${err}`);
+      setError(err as string);
     }
   }, [navigate, setUserContext, previousUserContext, userContext.token]);
 
@@ -74,6 +78,8 @@ const Home = (): JSX.Element => {
       ) : userContext.details === null ? (
         <p className="text-danger">
           Error loading user details
+          <br />
+          {error !== "" && <span>{error}</span>}
         </p>
       ) : (
         <Loader />

@@ -10,6 +10,7 @@ const BookList = () => {
   const { bookContext, setBookContext } = useContext(BookContext);
 
   const [isListVisible, setIsListVisible] = useState(false);
+  const [error, setError] = useState("");
 
   const fetchBooks = async () => {
     try {
@@ -31,10 +32,12 @@ const BookList = () => {
           setIsListVisible(true);
         } catch (err) {
           console.log(`Error getting books data from response: ${err}`);
+          setError(err as string);
         }
       }
     } catch (err) {
       console.log(`Error fetching books: ${err}`);
+      setError(err as string);
     }
   };
 
@@ -72,6 +75,7 @@ const BookList = () => {
           Show Book List
         </button>
         {isListVisible && <div className="list">{bookList}</div>}
+        {error !== "" && <p className="text-danger">{error}</p>}
       </div>
     </div>
   );
