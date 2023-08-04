@@ -53,62 +53,51 @@ const Home = () => {
     setUserContext({ ...previousUserContext, details: undefined });
   };
 
-  if (userContext.details) {
-    return (
-      <div
-        className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
-      >
-        <>
-          <h1>Welcome,&nbsp;
-            <strong>
-              {userContext.details.firstName}
-              {` ${userContext.details.lastName}`}
-            </strong>!
-          </h1>
-          {bookContext.length > 0 ? (
-            <>
-              <button
-                type="button"
-                title="refetch user details"
-                onClick={handleRefetch}
-                className="btn btn-primary"
-              >
-                Refetch User Detals
-              </button>
-              <h1>Below you can see your list of books (click or tap the button):</h1>
-              <BookList />
-            </>
-          ) : (
-            <>
-              <p>No books to show!</p>
-              <p>Please <Link to="/books/add-book">add some books</Link> first!</p>
-            </>
-          )}
-        </>
-      </div>
-    );
-  } else if (userContext.details === null) {
-    return (
-      <div
-        className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
-      >
-        <p className="text-danger">
-          Error loading user details
-          <br />
-          {error !== "" && <span>{error}</span>}
-        </p>
-      </div>
-    );
-  } else if (userContext.details === undefined) {
-    return (
-      <div
-        className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
-      >
-        <p>Loading user details</p>
+  return (
+    <div
+      className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
+    >
+      {userContext.details === undefined ? (
         <Loader />
-      </div>
-    );
-  }
+      ) : (
+        userContext.details === null ? (
+          <p className="text-danger">
+            Error loading user details
+            <br />
+            {error !== "" && <span>{error}</span>}
+          </p>
+        ) : (
+          <>
+            <h1>Welcome,&nbsp;
+              <strong>
+                {userContext.details.firstName}
+                {` ${userContext.details.lastName}`}
+              </strong>!
+            </h1>
+            {bookContext.length > 0 ? (
+              <>
+                <button
+                  type="button"
+                  title="refetch user details"
+                  onClick={handleRefetch}
+                  className="btn btn-primary"
+                >
+                  Refetch User Detals
+                </button>
+                <h1>Below you can see your list of books (click or tap the button):</h1>
+                <BookList />
+              </>
+            ) : (
+              <>
+                <p>No books to show!</p>
+                <p>Please <Link to="/books/add-book">add some books</Link> first!</p>
+              </>
+            )}
+          </>
+        )
+      )}
+    </div>
+  );
 };
 
 export default Home;
