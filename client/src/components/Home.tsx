@@ -53,9 +53,11 @@ const Home = (): JSX.Element => {
     setUserContext({ ...previousUserContext, details: undefined });
   };
 
-  return (
-    <div className="user-details container-fluid d-flex justify-content-center align-items-center flex-column">
-      {userContext.details ? (
+  if (userContext.details) {
+    return (
+      <div
+        className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
+      >
         <>
           <h1>Welcome,&nbsp;
             <strong>
@@ -83,17 +85,29 @@ const Home = (): JSX.Element => {
             </>
           )}
         </>
-      ) : userContext.details === null ? (
+      </div>
+    );
+  } else if (userContext.details === null) {
+    return (
+      <div
+        className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
+      >
         <p className="text-danger">
           Error loading user details
           <br />
           {error !== "" && <span>{error}</span>}
         </p>
-      ) : (
+      </div>
+    );
+  } else if (userContext.details === undefined) {
+    return (
+      <div
+        className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
+      >
         <Loader />
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 };
 
 export default Home;
