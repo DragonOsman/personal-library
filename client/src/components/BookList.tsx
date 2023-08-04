@@ -74,7 +74,7 @@ const BookList = () => {
         >
           Show Book List
         </button>
-        {isListVisible && <div className="list">{bookList}</div>}
+        {isListVisible && <div className={`list ${bookContext.length > 2 && "scroll"}`}>{bookList}</div>}
         {error !== "" && <p className="text-danger">{error}</p>}
       </div>
     </div>
