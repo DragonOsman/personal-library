@@ -49,6 +49,20 @@ const Home = () => {
     }
   }, [fetchUserDetails, userContext.details]);
 
+  const renderBooks = (
+    bookContext.length > 0 ? (
+      <>
+        <h1>Below you can see your list of books (click or tap the button):</h1>
+        <BookList />
+      </>
+    ) : (
+      <>
+        <p>No books to show!</p>
+        <p>Please <Link to="/books/add-book">add some books</Link> first!</p>
+      </>
+    )
+  );
+
   return (
     <div
       className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
@@ -57,14 +71,18 @@ const Home = () => {
         <>
           <p>Loading user details</p>
           <Loader />
+          {renderBooks}
         </>
       ) : (
         userContext.details === null ? (
-          <p className="text-danger">
-            Error loading user details
-            <br />
-            {error !== "" && <span>{error}</span>}
-          </p>
+          <>
+            <p className="text-danger">
+              Error loading user details
+              <br />
+              {error !== "" && <span>{error}</span>}
+            </p>
+            {renderBooks}
+          </>
         ) : (
           <>
             <h1>Welcome,&nbsp;
@@ -73,17 +91,7 @@ const Home = () => {
                 {` ${userContext.details.lastName}`}
               </strong>!
             </h1>
-            {bookContext.length > 0 ? (
-              <>
-                <h1>Below you can see your list of books (click or tap the button):</h1>
-                <BookList />
-              </>
-            ) : (
-              <>
-                <p>No books to show!</p>
-                <p>Please <Link to="/books/add-book">add some books</Link> first!</p>
-              </>
-            )}
+            {renderBooks}
           </>
         )
       )}
