@@ -24,7 +24,7 @@
   "scripts": {
     "client-install": "npm install --prefix client",
     "client-build": "npm run build --prefix client",
-    "start": "node --max-old-space-size=400 --optimize-for-size server.js",
+    "start": "node --max-old-space-size=400 --optimize-for-size --max-executable-size=400 server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
