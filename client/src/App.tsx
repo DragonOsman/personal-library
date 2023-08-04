@@ -35,13 +35,13 @@ function App() {
     } catch (err) {
       console.log(`Error while making request to refreshToken route: ${err}`);
     }
-
-    // call verifyUser every 5mins
-    setTimeout(verifyUser, 8 * 60 * 1000);
   }, [setUserContext, userContext]);
 
   useEffect(() => {
     verifyUser();
+
+    // call verifyUser every 5mins
+    setTimeout(verifyUser, 5 * 60 * 1000);
   }, [verifyUser]);
 
   return (
