@@ -5,6 +5,10 @@
   padding: 5px;
 }
 
+.book-list h2 {
+  color: #fff;
+}
+
 .list {
   display: grid;
   margin: 10px;
