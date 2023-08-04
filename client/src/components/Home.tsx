@@ -58,7 +58,10 @@ const Home = () => {
       className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
     >
       {userContext.details === undefined ? (
-        <Loader />
+        <>
+          <p>Loading user details</p>
+          <Loader />
+        </>
       ) : (
         userContext.details === null ? (
           <p className="text-danger">
