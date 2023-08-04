@@ -16,8 +16,12 @@
   width: calc((450px * 2));
 }
 
-.scroll {
+.scroll-y {
   overflow-y: scroll;
+}
+
+.scroll-x {
+  overflow-x: scroll;
 }
 
 .book-list > .container {
