@@ -1,4 +1,4 @@
-import { useContext, useEffect, useCallback, JSX, useState } from "react";
+import { useContext, useEffect, useCallback, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { BookContext } from "../context/BookContext";
@@ -6,7 +6,7 @@ import BookList from "./BookList";
 import Loader from "../components/Loader";
 import "./Home.css";
 
-const Home = (): JSX.Element => {
+const Home = () => {
   const { userContext, setUserContext } = useContext(UserContext);
   const { bookContext, setBookContext } = useContext(BookContext);
   const navigate = useNavigate();
@@ -108,13 +108,6 @@ const Home = (): JSX.Element => {
       </div>
     );
   }
-  return (
-    <div
-      className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
-    >
-      <Loader />
-    </div>
-  );
 };
 
 export default Home;
