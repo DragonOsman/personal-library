@@ -81,7 +81,7 @@ const AddBook = () => {
       <div className="row">
         <div className="col-md-8 m-auto">
           <Link
-            to="/books/list-books"
+            to="/"
             className="book-list-link btn btn-warning"
           >
             Show Book List
