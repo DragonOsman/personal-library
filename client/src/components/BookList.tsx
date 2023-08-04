@@ -69,7 +69,7 @@ const BookList = () => {
         <button
           type="button"
           title="toggle book list"
-          className="btn btn-primary show-list-btn"
+          className="btn btn-primary"
           onClick={fetchBooks}
         >
           Show Book List
