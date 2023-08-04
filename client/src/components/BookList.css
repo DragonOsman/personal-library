@@ -2,6 +2,7 @@
   width: calc((450px * 2) + 2em);
   height: 100vh;
   margin: 5px;
+  padding: 5px;
 }
 
 .list {
