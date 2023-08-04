@@ -104,6 +104,7 @@ const Home = () => {
       <div
         className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
       >
+        <p>Loading user details</p>
         <Loader />
       </div>
     );
