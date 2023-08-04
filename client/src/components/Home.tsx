@@ -77,16 +77,16 @@ const Home = () => {
                 {` ${userContext.details.lastName}`}
               </strong>!
             </h1>
+            <button
+              type="button"
+              title="refetch user details"
+              onClick={handleRefetch}
+              className="btn btn-primary"
+            >
+              Refetch User Detals
+            </button>
             {bookContext.length > 0 ? (
               <>
-                <button
-                  type="button"
-                  title="refetch user details"
-                  onClick={handleRefetch}
-                  className="btn btn-primary"
-                >
-                  Refetch User Detals
-                </button>
                 <h1>Below you can see your list of books (click or tap the button):</h1>
                 <BookList />
               </>
