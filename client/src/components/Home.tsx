@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { BookContext } from "../context/BookContext";
 import BookList from "./BookList";
-import Loader from "../components/Loader";
 import "./Home.css";
 
 const Home = () => {
@@ -57,13 +56,7 @@ const Home = () => {
     <div
       className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
     >
-      {userContext.details === undefined ? (
-        <>
-          <p>Loading user details</p>
-          <Loader />
-        </>
-      ) : (
-        userContext.details === null ? (
+      {userContext.details === null ? (
           <p className="text-danger">
             Error loading user details
             <br />
@@ -73,8 +66,8 @@ const Home = () => {
           <>
             <h1>Welcome,&nbsp;
               <strong>
-                {userContext.details.firstName}
-                {` ${userContext.details.lastName}`}
+                {userContext.details?.firstName}
+                {` ${userContext.details?.lastName}`}
               </strong>!
             </h1>
             <button
@@ -98,7 +91,7 @@ const Home = () => {
             )}
           </>
         )
-      )}
+      }
     </div>
   );
 };
