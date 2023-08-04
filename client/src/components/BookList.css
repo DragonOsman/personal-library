@@ -18,7 +18,7 @@
   width: calc((450px * 2) + 2em);
   background-color: #287098;
   filter: brightness(85%);
-  padding-bottom: 5px;
+  padding: 10px;
 }
 
 .book-list .btn {
