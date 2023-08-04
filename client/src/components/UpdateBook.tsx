@@ -83,8 +83,8 @@ const UpdateBookInfo = () => {
         <div className="row">
           <div className="col-md-8 m-auto">
             <br />
-            <Link to="/books/list-books" className="btn btn-outline-warning float-left">
-              List Books
+            <Link to="/" className="btn btn-outline-warning float-left">
+              Back to Home
             </Link>
           </div>
           <div className="col-md-8 m-auto">
