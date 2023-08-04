@@ -108,6 +108,13 @@ const Home = (): JSX.Element => {
       </div>
     );
   }
+  return (
+    <div
+      className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
+    >
+      <Loader />
+    </div>
+  );
 };
 
 export default Home;
