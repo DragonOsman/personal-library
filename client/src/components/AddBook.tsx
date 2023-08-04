@@ -67,6 +67,7 @@ const AddBook = () => {
 
         if (response.ok) {
           navigate("/");
+          return <p className="addbook-success">Book added successfully!</p>;
         } else {
           console.log("Something went wrong when trying to add a book!");
         }

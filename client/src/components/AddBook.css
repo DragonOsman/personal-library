@@ -9,3 +9,9 @@
 .book-list-link {
   font-size: 20px;
 }
+
+.addbook-success {
+  background-color: #14b16f;
+  padding: 6px;
+  border: 1.5px solid #063622;
+}

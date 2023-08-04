@@ -1,5 +1,5 @@
 .book-list {
-  width: calc((450px * 2) + 2em);
+  width: calc((450px * 2) + 2em + 100px);
   height: 100vh;
   margin: 5px;
   padding: 5px;
@@ -11,7 +11,7 @@
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 1fr;
   gap: 2em;
-  width: calc((450px * 2) + 2em);
+  width: calc((450px * 2) + 2em + 100px);
 }
 
 .scroll {
