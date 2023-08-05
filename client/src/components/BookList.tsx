@@ -10,6 +10,7 @@ const BookList = () => {
   const { bookContext, setBookContext } = useContext(BookContext);
 
   const [isListVisible, setIsListVisible] = useState(false);
+  const [isListFetched, setIsListFetched] = useState(false);
   const [error, setError] = useState("");
 
   const fetchBooks = async () => {
@@ -29,7 +30,7 @@ const BookList = () => {
         try {
           const booksData = await booksResponse.json();
           setBookContext(booksData.books);
-          setIsListVisible(true);
+          setIsListFetched(true);
         } catch (err) {
           console.log(`Error getting books data from response: ${err}`);
           setError(err as string);
@@ -39,6 +40,10 @@ const BookList = () => {
       console.log(`Error fetching books: ${err}`);
       setError(err as string);
     }
+  };
+
+  const toggleVisibility = () => {
+    setIsListVisible(!isListVisible);
   };
 
   const bookList = bookContext.length === 0
@@ -62,18 +67,27 @@ const BookList = () => {
               + Add New Book
             </Link>
             <br />
-            <br />
-            <br />
           </div>
         </div>
-        <button
-          type="button"
-          title="toggle book list"
-          className="btn btn-primary show-book-list"
-          onClick={fetchBooks}
-        >
-          Fetch Book List
-        </button>
+        {isListFetched ? (
+          <button
+            type="button"
+            title="show or hide book list"
+            className="btn btn-primary show-book-list"
+            onClick={toggleVisibility}
+          >
+            {isListVisible ? "Hide " : "Show "} Book List
+          </button>
+        ) : (
+          <button
+            type="button"
+            title="fetch book list"
+            className="btn btn-primary fetch-book-list"
+            onClick={fetchBooks}
+          >
+            Fetch Book List
+          </button>
+        )}
         {isListVisible && <div
           className={`list ${bookContext.length >= 3 ? "scroll-y" :
             bookContext.length === 2 ? "scroll-x" : ""}`}
