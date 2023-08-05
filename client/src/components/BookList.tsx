@@ -96,7 +96,7 @@ const BookList = () => {
           >
             {bookList}
           </div>) : (
-            window.innerWidth < 500 && (
+            (isListFetched && isListVisible && window.innerWidth < 500) && (
               <div
                 className={`list ${bookContext.length === 1 ? "" :
                   bookContext.length > 1 ? "scroll-y" : ""}`}
