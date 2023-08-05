@@ -37,10 +37,15 @@ function App() {
     }
   }, [setUserContext, userContext]);
 
+  // call verifyUser once on page load
   useEffect(() => {
-    // call verifyUser every 5mins
-    setTimeout(verifyUser, 5 * 60 * 1000);
     verifyUser();
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    // ...then call it every 5mins
+    setTimeout(verifyUser, 5 * 60 * 1000);
   }, [verifyUser]);
 
   return (
