@@ -16,7 +16,8 @@
   width: calc((450px * 2));
 }
 
-.show-book-list {
+.show-book-list,
+.fetch-book-list {
   margin-bottom: 10px;
 }
 
