@@ -98,7 +98,7 @@ const BookList = () => {
           </div>) : (
             (isListFetched && isListVisible && window.innerWidth < 700) && (
               <div
-                className={`list ${bookContext.length === 1 ? "" :
+                className={`list ${bookContext.length === 1 ? "scroll-x" :
                   bookContext.length > 1 ? "scroll-y" : ""}`}
               >
                 {bookList}
