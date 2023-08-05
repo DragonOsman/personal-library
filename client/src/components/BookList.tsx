@@ -75,8 +75,8 @@ const BookList = () => {
           Show Book List
         </button>
         {isListVisible && <div
-          className={`list ${bookContext.length > 2 ? "scroll-y" :
-            bookContext.length >= 2 ? "scroll-x" : ""}`}
+          className={`list ${bookContext.length >= 3 ? "scroll-y" :
+            bookContext.length === 2 ? "scroll-x" : ""}`}
         >
           {bookList}
         </div>}
