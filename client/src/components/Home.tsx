@@ -49,6 +49,8 @@ const Home = () => {
     }
   }, [fetchUserDetails, userContext.details]);
 
+  const refetchDetails = () => setUserContext({ ...previousUserContext, details: undefined });
+
   const renderBooks = (
     bookContext.length > 0 ? (
       <>
@@ -92,6 +94,14 @@ const Home = () => {
               </strong>!
             </h1>
             {renderBooks}
+            <button
+              type="button"
+              title="refetch user details"
+              className="btn btn-primary"
+              onClick={refetchDetails}
+            >
+              Refetch User Details
+            </button>
           </>
         )
       )}
