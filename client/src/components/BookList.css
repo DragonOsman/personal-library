@@ -42,9 +42,9 @@
 
 @media screen and (min-width: 280px) and (max-width: 319px) {
   .book-list {
-    width: 100px;
+    width: 50px;
     padding: 10px;
-    margin-left: -19px;
+    margin-left: -20px;
   }
 
   .list {
