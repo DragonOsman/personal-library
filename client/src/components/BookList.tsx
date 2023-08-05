@@ -66,14 +66,16 @@ const BookList = () => {
             <br />
           </div>
         </div>
-        <button
-          type="button"
-          title="toggle book list"
-          className="btn btn-primary fetch-books"
-          onClick={fetchBooks}
-        >
-          Show Book List
-        </button>
+        {!isListVisible && (
+          <button
+            type="button"
+            title="toggle book list"
+            className="btn btn-primary"
+            onClick={fetchBooks}
+          >
+            Show Book List
+          </button>
+        )}
         {isListVisible && <div
           className={`list ${bookContext.length >= 3 ? "scroll-y" :
             bookContext.length === 2 ? "scroll-x" : ""}`}
