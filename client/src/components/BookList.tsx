@@ -29,7 +29,7 @@ const BookList = () => {
         try {
           const booksData = await booksResponse.json();
           setBookContext(booksData.books);
-          setIsListVisible(!isListVisible);
+          setIsListVisible(true);
         } catch (err) {
           console.log(`Error getting books data from response: ${err}`);
           setError(err as string);
@@ -69,10 +69,10 @@ const BookList = () => {
         <button
           type="button"
           title="toggle book list"
-          className="btn btn-primary book-list-toggle"
+          className="btn btn-primary show-book-list"
           onClick={fetchBooks}
         >
-          Show/Hide Book List
+          Fetch Book List
         </button>
         {isListVisible && <div
           className={`list ${bookContext.length >= 3 ? "scroll-y" :
