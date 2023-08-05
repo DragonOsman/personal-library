@@ -93,7 +93,6 @@ const Home = () => {
                 {` ${userContext.details.lastName}`}
               </strong>!
             </h1>
-            {renderBooks}
             <button
               type="button"
               title="refetch user details"
@@ -102,6 +101,7 @@ const Home = () => {
             >
               Refetch User Details
             </button>
+            {renderBooks}
           </>
         )
       )}
