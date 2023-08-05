@@ -13,6 +13,7 @@
   grid-auto-rows: 1fr;
   gap: 1em;
   width: calc((450px * 2));
+  margin-left: -5px;
 }
 
 .scroll-y {
