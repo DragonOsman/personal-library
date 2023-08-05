@@ -9,7 +9,7 @@ const BookList = () => {
   const { userContext, setUserContext } = useContext(UserContext);
   const { bookContext, setBookContext } = useContext(BookContext);
 
-  const [isListVisible, setIsListVisible] = useState(false);
+  const [isListVisible, setIsListVisible] = useState(true);
   const [isListFetched, setIsListFetched] = useState(false);
   const [error, setError] = useState("");
 
@@ -66,6 +66,7 @@ const BookList = () => {
             >
               + Add New Book
             </Link>
+            <br />
             <br />
           </div>
         </div>
