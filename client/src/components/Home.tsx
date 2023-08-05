@@ -67,20 +67,20 @@ const Home = () => {
     <div
       className="user-details container-fluid d-flex justify-content-center align-items-center flex-column"
     >
-      {userContext.details === undefined ? (
+      {userContext.details === null ? (
         <>
-          <p>Loading user details</p>
-          <Loader />
+          <p className="text-danger">
+            Error loading user details
+            <br />
+            {error !== "" && <span>{error}</span>}
+          </p>
           {renderBooks}
         </>
       ) : (
-        userContext.details === null ? (
+        !userContext.details ? (
           <>
-            <p className="text-danger">
-              Error loading user details
-              <br />
-              {error !== "" && <span>{error}</span>}
-            </p>
+            <p>Loading user details</p>
+            <Loader />
             {renderBooks}
           </>
         ) : (
