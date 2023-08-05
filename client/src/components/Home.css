@@ -43,7 +43,46 @@
 
   .user-details {
     padding: 12px;
-    margin: 12px;
-    width: 250px;
+    margin: 10px;
+    width: 300px;
+  }
+}
+
+@media screen and (min-width: 700px) and (max-width: 768px) {
+  .user-details > p {
+    font-size: 14px;
+    font-weight: 200;
+  }
+
+  .user-details {
+    padding: 12px;
+    margin: 10px;
+    width: 400px;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 800px) {
+  .user-details > p {
+    font-size: 14px;
+    font-weight: 200;
+  }
+
+  .user-details {
+    padding: 12px;
+    margin: 10px;
+    width: 400px;
+  }
+}
+
+@media screen and (min-width: 801px) and (max-width: 900px) {
+  .user-details > p {
+    font-size: 14px;
+    font-weight: 200;
+  }
+
+  .user-details {
+    padding: 12px;
+    margin: 10px;
+    width: 450px;
   }
 }

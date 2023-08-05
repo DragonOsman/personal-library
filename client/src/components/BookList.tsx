@@ -89,22 +89,13 @@ const BookList = () => {
             Fetch Book List
           </button>
         )}
-        {(isListFetched && isListVisible && window.innerWidth >= 700) ? (
+        {(isListFetched && isListVisible) && (
           <div
             className={`list ${bookContext.length >= 3 ? "scroll-y" :
               bookContext.length === 2 ? "scroll-x" : ""}`}
           >
             {bookList}
-          </div>) : (
-            (isListFetched && isListVisible && window.innerWidth < 700) && (
-              <div
-                className={`list ${bookContext.length === 1 ? "scroll-x" :
-                  bookContext.length > 1 ? "scroll-y" : ""}`}
-              >
-                {bookList}
-              </div>
-            )
-          )}
+          </div>)}
         {error !== "" && <p className="text-danger">{error}</p>}
       </div>
     </div>
