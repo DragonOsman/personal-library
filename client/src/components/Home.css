@@ -9,7 +9,20 @@
   font-weight: 200;
 }
 
-@media screen and (min-width: 300px) and (max-width: 499px) {
+@media screen and (min-width: 280px) and (max-width: 319px) {
+  .user-details {
+    padding: 10px;
+    margin: 5px;
+    width: 200px;
+  }
+
+  .user-details > p {
+    font-size: 12px;
+    font-weight: 100;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 499px) {
   .user-details {
     padding: 10px;
     margin: 5px;
