@@ -42,9 +42,9 @@
 
 @media screen and (min-width: 300px) and (max-width: 499px) {
   .book-list {
-    width: 100px;
+    width: 200px;
     padding: 10px;
-    margin-left: -1px;
+    margin-left: -14px;
   }
 
   .list {
@@ -55,6 +55,10 @@
 
   .book-list .btn {
     font-size: 10px;
+  }
+
+  .scroll-y {
+    overflow-y: scroll;
   }
 }
 
