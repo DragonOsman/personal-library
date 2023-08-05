@@ -61,7 +61,6 @@ const Header = () => {
               alt="dragon logo"
               className="dragon-logo"
             />
-            Osman Zakir/DragonOsman Personal Library
           </a>
           <button
             className="navbar-toggler"
