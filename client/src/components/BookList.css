@@ -16,6 +16,10 @@
   width: calc((450px * 2));
 }
 
+.book-list-toggle {
+  margin-bottom: 10px;
+}
+
 .scroll-y {
   overflow-y: scroll;
 }
