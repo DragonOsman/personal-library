@@ -89,12 +89,13 @@ const BookList = () => {
             Fetch Book List
           </button>
         )}
-        {isListVisible && <div
-          className={`list ${bookContext.length >= 3 ? "scroll-y" :
-            bookContext.length === 2 ? "scroll-x" : ""}`}
-        >
-          {bookList}
-        </div>}
+        {(isListFetched && isListVisible) && (
+          <div
+            className={`list ${bookContext.length >= 3 ? "scroll-y" :
+              bookContext.length === 2 ? "scroll-x" : ""}`}
+          >
+            {bookList}
+          </div>)}
         {error !== "" && <p className="text-danger">{error}</p>}
       </div>
     </div>
