@@ -74,6 +74,7 @@
     grid-template-columns: 1fr;
     overflow-y: scroll;
     margin: 5px;
+    width: 100px;
   }
 
   .book-list .btn {
