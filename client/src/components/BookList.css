@@ -64,14 +64,15 @@
 
 @media screen and (min-width: 500px) and (max-width: 650px) {
   .book-list {
-    width: 150px;
+    width: 100px;
     padding: 10px;
     margin-left: -22px;
   }
 
   .list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+    overflow-y: scroll;
     margin: 5px;
   }
 
