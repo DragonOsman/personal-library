@@ -30,7 +30,7 @@
 }
 
 .book-list > .container {
-  width: calc((450px * 2) + 2em);
+  width: calc((400px * 2) + 2em);
   background-color: #287098;
   filter: brightness(85%);
   padding: 10px;
@@ -40,7 +40,7 @@
   font-size: 20px;
 }
 
-@media screen and (min-width: 300px) and (max-width: 450px) {
+@media screen and (min-width: 300px) and (max-width: 499px) {
   .book-list {
     width: 100px;
     padding: 10px;
