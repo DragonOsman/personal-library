@@ -1,6 +1,6 @@
 .BookInfo > .container {
   background-color: #fff;
-  width: 400px;
+  width: 100%;
   border: 1px solid #000;
   margin: 0 auto;
   border-radius: 5px;
@@ -8,30 +8,6 @@
   margin-bottom: 10px;
   margin-top: 10px;
   padding: 2px;
-}
-
-@media screen and (min-width: 320px) and (max-width: 480px) {
-  .BookInfo > .container {
-    width: 100px;
-  }
-}
-
-@media screen and (min-width: 481px) and (max-width: 699px) {
-  .BookInfo > .container {
-    width: 200px;
-  }
-}
-
-@media screen and (min-width: 700px) and (max-width: 767px) {
-  .BookInfo > .container {
-    width: 250px;
-  }
-}
-
-@media screen and (min-width: 768px) and (max-width: 1024px) {
-  .BookInfo > .container {
-    width: 350px;
-  }
 }
 
 .BookInfo > .container:first-of-type {
