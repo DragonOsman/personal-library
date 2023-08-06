@@ -1,7 +1,7 @@
 .book-list {
   width: calc((350px * 2));
   height: 100vh;
-  margin: 10px;
+  margin: 10px 10px 5px 5px;
 }
 
 .book-list h2 {
