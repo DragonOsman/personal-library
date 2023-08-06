@@ -1,7 +1,7 @@
 .book-list {
   width: calc((350px * 2));
   height: 100vh;
-  margin: 10px 10px 5px 5px;
+  margin: 10px 10px 5px 0;
 }
 
 .book-list h2 {
@@ -43,11 +43,11 @@
   .book-list {
     width: 100px;
     padding: 5px;
-    margin-left: -20px;
+    margin-left: -22px;
   }
 
   .list {
-    overflow-y: scroll;
+    overflow: scroll;
     margin: 5px;
     width: 100px;
     display: grid;
@@ -67,7 +67,7 @@
   }
 
   .list {
-    overflow-y: scroll;
+    overflow: scroll;
     margin: 5px;
     width: 200px;
     display: grid;
@@ -87,7 +87,7 @@
   }
 
   .list {
-    overflow-y: scroll;
+    overflow: scroll;
     margin: 5px;
     width: 250px;
     display: grid;
@@ -107,7 +107,7 @@
   }
 
   .list {
-    overflow-y: scroll;
+    overflow: scroll;
     margin: 5px;
     width: 350px;
     display: grid;
