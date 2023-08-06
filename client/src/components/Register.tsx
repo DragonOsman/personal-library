@@ -2,6 +2,7 @@ import "./Register.css";
 import { useFormik } from "formik";
 import { UserContext } from "../context/UserContext";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 interface FormValues {
@@ -18,6 +19,8 @@ const Register = () => {
   const previousUserContext = userContext;
 
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -70,6 +73,7 @@ const Register = () => {
         if (response.ok) {
           const data = await response.json();
           setUserContext({ ...previousUserContext, token: data.token });
+          navigate("/");
         }
       } catch (err) {
         console.log(`Error when trying tor register user: ${err}`);
