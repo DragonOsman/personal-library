@@ -14,6 +14,7 @@
   .user-details {
     padding: 10px;
     width: 200px;
+    margin: 10px;
   }
 
   .user-details > p {
