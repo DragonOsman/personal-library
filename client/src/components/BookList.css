@@ -81,7 +81,7 @@
 
 @media screen and (min-width: 700px) and (max-width: 767px) {
   .book-list {
-    width: 300px;
+    width: 250px;
     padding: 5px;
     margin: 5px;
   }
@@ -89,7 +89,7 @@
   .list {
     overflow-y: scroll;
     margin: 5px;
-    width: 300px;
+    width: 250px;
     display: grid;
     grid-template-columns: 1fr;
   }
@@ -101,7 +101,7 @@
 
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .book-list {
-    width: 400px;
+    width: 350px;
     padding: 5px;
     margin: 5px;
   }
@@ -109,7 +109,7 @@
   .list {
     overflow-y: scroll;
     margin: 5px;
-    width: 100px;
+    width: 350px;
     display: grid;
     grid-template-columns: 1fr;
   }
