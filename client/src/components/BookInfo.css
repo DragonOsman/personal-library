@@ -18,7 +18,7 @@
 
 @media screen and (min-width: 700px) and (max-width: 767px) {
   .BookInfo > .container {
-    width: 250px;
+    width: 200px;
   }
 }
 
