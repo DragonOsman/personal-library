@@ -44,7 +44,6 @@
   .book-list {
     width: 100%;
     padding: 5px;
-    margin-left: -40px;
   }
 
   .list {
@@ -64,7 +63,7 @@
   .book-list {
     width: 100%;
     padding: 5px;
-    margin-left: -20px;
+    margin-left: 10px;
   }
 
   .list {
@@ -84,7 +83,7 @@
   .book-list {
     width: 100%;
     padding: 5px;
-    margin: 0;
+    margin: 10px;
   }
 
   .list {
@@ -104,13 +103,13 @@
   .book-list {
     width: 100%;
     padding: 5px;
-    margin: 5px;
+    margin: 10px;
   }
 
   .list {
     overflow: scroll;
     margin: 5px;
-    width: 350px;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr;
   }
