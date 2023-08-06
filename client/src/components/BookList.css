@@ -1,7 +1,7 @@
 .book-list {
-  width: calc((400px * 2));
+  width: calc((400px * 2) + 50px);
   height: 100vh;
-  margin-left: -20px;
+  margin-left: -19px;
 }
 
 .book-list h2 {
@@ -29,7 +29,7 @@
 }
 
 .book-list > .container {
-  width: calc((400px * 2) + 2em);
+  width: calc((400px * 2) + 50px);
   background-color: #287098;
   filter: brightness(85%);
   padding: 10px;
