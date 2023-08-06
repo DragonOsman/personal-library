@@ -91,11 +91,14 @@ const BookList = () => {
         )}
         {(isListFetched && isListVisible) && (
           <div
-            className={`list ${bookContext.length >= 3 ? "scroll-y" :
-              bookContext.length === 2 ? "scroll-x" : ""}`}
+            className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
+            window.innerWidth >= 700 && bookContext.length === 2 ? "scroll-x" :
+            window.innerWidth < 700 && bookContext.length === 1 ? "" :
+            window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""}`}
           >
             {bookList}
-          </div>)}
+          </div>
+        )}
         {error !== "" && <p className="text-danger">{error}</p>}
       </div>
     </div>
