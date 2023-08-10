@@ -48,6 +48,7 @@
   .list {
     overflow: scroll;
     margin: 5px;
+    margin-top: 100px;
     width: 100%;
     display: grid;
     grid-template-columns: 1fr;
