@@ -45,10 +45,13 @@
     margin-right: 100px;
   }
 
+  .list-is-visible {
+    margin-top: 300px;
+  }
+
   .list {
     overflow: scroll;
     margin: 5px;
-    margin-top: 100px;
     width: 100%;
     display: grid;
     grid-template-columns: 1fr;
