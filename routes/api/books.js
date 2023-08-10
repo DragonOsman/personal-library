@@ -32,8 +32,7 @@ bookRouter.get("/list-books", verifyUser, async (req, res) => {
     const books = await Book.find();
 
     // return only this user's books
-    const filteredBooks = books.filter(book => book.userId === req.user._id);
-    res.json({ books: filteredBooks });
+    res.json({ books, $where: { userId: req.user._id } });
   } catch (err) {
     res.status(404).json({ error: "No books found" });
   }
