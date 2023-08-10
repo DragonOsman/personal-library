@@ -55,7 +55,6 @@ const Home = () => {
     bookContext.length > 0 ? (
       <>
         <h1>Below you can see your list of books (click or tap the button):</h1>
-        <br />
         <BookList />
       </>
     ) : (
