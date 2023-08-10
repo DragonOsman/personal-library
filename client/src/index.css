@@ -30,13 +30,6 @@ body {
   color: #000;
 }
 
-@media screen and (min-width: 280px) and (max-width: 319px) {
-  .add-book-form-container, .book-list,
-  .show-book-details, .update-book {
-    min-width: 100px;
-  }
-}
-
 label {
   font-size: 12px;
 }
@@ -55,4 +48,17 @@ input {
 
 .text-danger {
   font-size: 1.2rem;
+}
+
+@media screen and (min-width: 280px) and (max-width: 319px) {
+  .add-book-form-container, .book-list,
+  .show-book-details, .update-book {
+    width: 200px;
+  }
+
+  .login-form-container, .register-form-container {
+    width: 200px;
+    margin-right: 40px;
+    margin-left: 40px;
+  }
 }
