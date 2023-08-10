@@ -19,7 +19,7 @@ body {
 
 .login-form-container, .register-form-container {
   padding: 10px;
-  width: 70%;
+  width: 100%;
   margin: 0 auto;
   background-color: #fff;
   margin-top: 5rem;
