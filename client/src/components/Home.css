@@ -4,8 +4,7 @@
   width: calc((450px * 2) + 100px);
 }
 
-.user-details
- > p {
+.user-details > p {
   font-size: 24px;
   font-weight: 200;
  }
