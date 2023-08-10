@@ -1,7 +1,7 @@
 import "./Register.css";
 import { useFormik } from "formik";
 import { UserContext } from "../context/UserContext";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
@@ -76,7 +76,7 @@ const Register = () => {
           navigate("/");
         }
       } catch (err) {
-        console.log(`Error when trying tor register user: ${err}`);
+        console.log(`Error when trying to register user: ${err}`);
         setError(err as string);
       }
     }
