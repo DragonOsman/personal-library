@@ -52,14 +52,14 @@ const BookList = () => {
   ;
 
   return (
-    <div className="book-list container container-fluid">
+    <div className="book-list container container-fluid d-flex justify-content-center align-items-center flex-column">
       <div className="container">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-12 col-sm-12 col-lg-12 col-xl-12 col-xxl-12 col-xs-12">
             <br />
             <h2 className="display-4 text-center">Book List</h2>
           </div>
-          <div className="col-md-11">
+          <div className="col-md-12 col-sm-12 col-lg-12 col-xl-12 col-xxl-12 col-xs-12">
             <Link
               to="/books/add-book"
               className="btn btn-outline-warning float-right"
