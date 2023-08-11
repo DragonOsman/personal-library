@@ -43,15 +43,15 @@
   .book-list {
     width: 100%;
     padding: 5px;
-    margin-right: 1000px;
-    margin-left: 1000px;
+    margin-right: 1500px;
+    margin-left: 1600px;
     margin-top: -250px;
   }
 
   .list-is-visible {
-    margin-top: 2000px;
-    margin-right: 1000px;
-    margin-left: 1000px;
+    margin-top: 4000px;
+    margin-right: 1500px;
+    margin-left: 1500px;
   }
 
   .list {
