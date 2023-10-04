@@ -7,7 +7,11 @@
 .user-details > p {
   font-size: 24px;
   font-weight: 200;
- }
+}
+
+.fetch-details {
+  margin-bottom: 100px;
+}
 
 @media screen and (min-width: 280px) and (max-width: 319px) {
   .user-details {
@@ -71,7 +75,7 @@
   }
 }
 
-@media screen and (min-width: 801px) and (max-width: 900px) {
+@media screen and (min-width: 801px) and (max-width: 991px) {
   .user-details > p {
     font-size: 14px;
     font-weight: 200;

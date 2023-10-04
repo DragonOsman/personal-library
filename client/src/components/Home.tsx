@@ -96,7 +96,7 @@ const Home = () => {
             <button
               type="button"
               title="refetch user details"
-              className="btn btn-primary"
+              className="btn btn-primary fetch-details"
               onClick={refetchDetails}
             >
               Refetch User Details
