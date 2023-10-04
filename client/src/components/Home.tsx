@@ -67,7 +67,7 @@ const Home = () => {
 
   return (
     <div
-      className="user-details container-fluid d-flex justify-content-center row
+      className="user-details container-fluid d-flex justify-content-center
       align-items-center flex-column"
     >
       {userContext.details === null ? (
@@ -87,7 +87,7 @@ const Home = () => {
             {renderBooks}
           </>
         ) : (
-          <div className="col-auto container-fluid">
+          <>
             <h1>Welcome,&nbsp;
               <strong>
                 {userContext.details.firstName}
@@ -103,7 +103,7 @@ const Home = () => {
               Refetch User Details
             </button>
             {renderBooks}
-          </div>
+          </>
         )
       )}
     </div>

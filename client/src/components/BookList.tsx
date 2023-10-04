@@ -53,12 +53,12 @@ const BookList = () => {
 
   return (
     <div className="book-list container container-fluid d-flex justify-content-center align-items-center flex-column">
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
-          <div className="col-md-12 col-sm-12 col-lg-12 col-xl-12 col-xxl-12 col-xs-12">
+          <div className="col-auto">
             <h2 className="display-4 text-center">Book List</h2>
           </div>
-          <div className="col-md-12 col-sm-12 col-lg-12 col-xl-12 col-xxl-12 col-xs-12">
+          <div className="col-auto">
             <Link
               to="/books/add-book"
               className="btn btn-outline-warning float-right"
@@ -93,7 +93,8 @@ const BookList = () => {
             className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
             window.innerWidth >= 700 && bookContext.length === 2 ? "scroll-x" :
             window.innerWidth < 700 && bookContext.length === 1 ? "" :
-            window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible`}
+            window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible
+             container-fluid`}
           >
             {bookList}
           </div>

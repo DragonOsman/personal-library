@@ -66,8 +66,13 @@ const Login = () => {
   });
 
   return (
-    <div className="login-form-container">
-      <form onSubmit={(event) => {event.preventDefault(); formik.handleSubmit(event);}} method="post">
+    <div className="login-form-container d-flex container-fluid row
+    align-items-center justify-content-center">
+      <form
+        onSubmit={(event) => {event.preventDefault(); formik.handleSubmit(event);}}
+        method="post"
+        className="co-auto container-fluid"
+      >
         <fieldset className="mb-3">
           <legend>User login form</legend>
           <label className="form-label" htmlFor="email">Email:</label>
