@@ -16,11 +16,12 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5em;
   width: 100%;
+  margin-top: -5px;
 }
 
 .show-book-list,
 .fetch-book-list {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .scroll-y {
