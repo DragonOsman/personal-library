@@ -68,44 +68,46 @@ const Home = () => {
   return (
     <div
       className="user-details container-fluid d-flex justify-content-center
-      align-items-center flex-column"
+      align-items-center flex-column row"
     >
-      {userContext.details === null ? (
-        <>
-          <p className="text-danger">
-            Error loading user details
-            <br />
-            {error !== "" && <span>{error}</span>}
-          </p>
-          {renderBooks}
-        </>
-      ) : (
-        !userContext.details ? (
+      <div className="col-auto container-fluid">
+        {userContext.details === null ? (
           <>
-            <p>Loading user details</p>
-            <Loader />
+            <p className="text-danger">
+              Error loading user details
+              <br />
+              {error !== "" && <span>{error}</span>}
+            </p>
             {renderBooks}
           </>
         ) : (
-          <>
-            <h1>Welcome,&nbsp;
-              <strong>
-                {userContext.details.firstName}
-                {` ${userContext.details.lastName}`}
-              </strong>!
-            </h1>
-            <button
-              type="button"
-              title="refetch user details"
-              className="btn btn-primary fetch-details"
-              onClick={refetchDetails}
-            >
-              Refetch User Details
-            </button>
-            {renderBooks}
-          </>
-        )
-      )}
+          !userContext.details ? (
+            <>
+              <p>Loading user details</p>
+              <Loader />
+              {renderBooks}
+            </>
+          ) : (
+            <>
+              <h1>Welcome,&nbsp;
+                <strong>
+                  {userContext.details.firstName}
+                  {` ${userContext.details.lastName}`}
+                </strong>!
+              </h1>
+              <button
+                type="button"
+                title="refetch user details"
+                className="btn btn-primary fetch-details"
+                onClick={refetchDetails}
+              >
+                Refetch User Details
+              </button>
+              {renderBooks}
+            </>
+          )
+        )}
+      </div>
     </div>
   );
 };

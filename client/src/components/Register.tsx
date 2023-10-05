@@ -83,8 +83,7 @@ const Register = () => {
   });
 
   return (
-    <div className="register-form-container d-flex container-fluid row
-     align-items-center justify-content-center">
+    <div className="register-form-container row container-fluid">
       <form
         onSubmit={(event) => {event.preventDefault(); formik.handleSubmit(event);}}
         method="post"

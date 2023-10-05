@@ -48,20 +48,24 @@ const BookList = () => {
 
   const bookList = bookContext.length === 0
     ? "No books to show!"
-    : bookContext.map((book: IBook, index: number) => <BookInfo {...book} key={index} />)
+    : bookContext.map((book: IBook, index: number) => (
+      <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 col-xm-12">
+        <BookInfo {...book} key={index} />
+      </div>
+    ))
   ;
 
   return (
     <div className="book-list container container-fluid d-flex justify-content-center align-items-center flex-column">
       <div className="container-fluid">
-        <div className="row">
+        <div className="row flex-column">
           <div className="col-auto">
             <h2 className="display-4 text-center">Book List</h2>
           </div>
           <div className="col-auto">
             <Link
               to="/books/add-book"
-              className="btn btn-outline-warning float-right"
+              className="btn btn-outline-warning float-right add-book"
             >
               + Add New Book
             </Link>
