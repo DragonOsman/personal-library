@@ -49,7 +49,7 @@ function App() {
   }, [verifyUser]);
 
   return (
-    <div className="container-fluid">
+    <>
       <Header />
       <Routes>
         <Route path="/" element={!userContext.token ? <Login /> : (
@@ -60,7 +60,7 @@ function App() {
         <Route path="/books/show-book/:id" element={<ShowBookDetails />} />
         <Route path="/books/update-book/:id" element={<UpdateBook />} />
       </Routes>
-    </div>
+    </>
   );
 }
 

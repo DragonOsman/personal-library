@@ -66,11 +66,12 @@ const Login = () => {
   });
 
   return (
-    <div className="login-form-container container-fluid row">
+    <div className="login-form-container container-fluid
+    row d-flex align-items-center justify-content-center">
       <form
         onSubmit={(event) => {event.preventDefault(); formik.handleSubmit(event);}}
         method="post"
-        className="col-auto container-fluid d-flex align-items-center justify-content-center"
+        className="col-auto container-fluid"
       >
         <fieldset className="mb-3">
           <legend>User login form</legend>
