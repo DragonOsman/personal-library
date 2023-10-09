@@ -16,7 +16,7 @@ body {
 
 .login-form-container, .register-form-container {
   padding: 5%;
-  width: 700px;
+  width: 70%;
   background-color: #fff;
 }
 
@@ -45,30 +45,4 @@ input {
 
 .text-danger {
   font-size: 1.2rem;
-}
-
-@media screen and (min-width: 280px) and (max-width: 319px) {
-  .add-book-form-container, .book-list,
-  .show-book-details, .update-book {
-    width: 200px;
-  }
-
-  .login-form-container, .register-form-container {
-    width: 200px;
-    margin-right: 5px;
-    margin-left: 5px;
-  }
-}
-
-@media screen and (min-width: 320px) and (max-width: 499px) {
-  .add-book-form-container, .book-list,
-  .show-book-details, .update-book {
-    width: 400px;
-  }
-
-  .login-form-container, .register-form-container {
-    width: 400px;
-    margin-right: 5px;
-    margin-left: 5px;
-  }
 }
