@@ -1,12 +1,12 @@
 .book-list {
   width: 100%;
   height: 100vh;
-  margin-top: 1%;
+  margin-top: 3%;
   overflow: scroll;
 }
 
 .list-is-visible {
-  padding: 2%;
+  padding: 5%;
   margin-top: 21vh;
 }
 
@@ -16,7 +16,7 @@
 
 .show-book-list,
 .fetch-book-list {
-  margin-bottom: 5%;
+  margin-bottom: 3%;
 }
 
 .scroll-y {
