@@ -87,7 +87,7 @@ const Home = () => {
               {renderBooks}
             </>
           ) : (
-            <div className="d-flex justify-content-center align-items-center flex-direction-column">
+            <>
               <h1>Welcome,&nbsp;
                 <strong>
                   {userContext.details.firstName}
@@ -103,7 +103,7 @@ const Home = () => {
                 Refetch User Details
               </button>
               {renderBooks}
-            </div>
+            </>
           )
         )}
       </div>
