@@ -69,8 +69,7 @@ const Home = () => {
     <div
       className="user-details container-fluid row"
     >
-      <div className="col-xs-12 col-sm-12 col-md-2 col-lg-12 col-xl-12 col-xxl-12 container-fluid
-      d-flex justify-content-center align-items-center flex-direction-column">
+      <div className="col-xs-12 col-sm-12 col-md-2 col-lg-12 col-xl-12 col-xxl-12 container-fluid">
         {userContext.details === null ? (
           <>
             <p className="text-danger">
@@ -88,7 +87,7 @@ const Home = () => {
               {renderBooks}
             </>
           ) : (
-            <>
+            <div className="d-flex justify-content-center align-items-center flex-direction-column">
               <h1>Welcome,&nbsp;
                 <strong>
                   {userContext.details.firstName}
@@ -104,7 +103,7 @@ const Home = () => {
                 Refetch User Details
               </button>
               {renderBooks}
-            </>
+            </div>
           )
         )}
       </div>
