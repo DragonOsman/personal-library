@@ -90,16 +90,13 @@ const BookList = () => {
         )}
         {(isListFetched && isListVisible) && (
           <div
-            className="container-fluid row"
+            className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
+            window.innerWidth >= 700 && bookContext.length === 2 ? "scroll-x" :
+            window.innerWidth < 700 && bookContext.length === 1 ? "" :
+            window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible
+             container-fluid row`}
           >
-            <div className={`col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6
-              list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
-              window.innerWidth >= 700 && bookContext.length === 2 ? "scroll-x" :
-              window.innerWidth < 700 && bookContext.length === 1 ? "" :
-              window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible`}
-            >
-              {bookList}
-            </div>
+            {bookList}
           </div>
         )}
         {error !== "" && <p className="text-danger">{error}</p>}
