@@ -57,7 +57,7 @@ const BookList = () => {
 
   return (
     <div className="book-list container container-fluid d-flex justify-content-center align-items-center flex-column">
-      <div className="container-fluid">
+      <div className="container-fluid container">
         <div className="row flex-column">
           <div className="col-auto">
             <h2 className="display-4 text-center">Book List</h2>
