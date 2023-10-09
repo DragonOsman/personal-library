@@ -51,8 +51,7 @@ function App() {
   return (
     <div className="container-fluid App">
       <Header />
-      <div className="container-fluid d-flex align-items-center
-       justify-content-center flex-direction-column">
+      <div className="container-fluid">
         <Routes>
           <Route path="/" element={!userContext.token ? <Login /> : (
             userContext.token ? <Home /> : <Loader />)} />
