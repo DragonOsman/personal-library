@@ -48,12 +48,8 @@ const BookList = () => {
 
   const bookList = bookContext.length === 0
     ? "No books to show!"
-    : bookContext.map((book: IBook, index: number) => (
-      <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 col-xm-12">
-        <BookInfo {...book} key={index} />
-      </div>
-    ))
-  ;
+    : bookContext.map((book: IBook, index: number) => <BookInfo {...book} key={index} />
+  );
 
   return (
     <div className="book-list container container-fluid d-flex justify-content-center align-items-center flex-column">
@@ -94,13 +90,16 @@ const BookList = () => {
         )}
         {(isListFetched && isListVisible) && (
           <div
-            className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
-            window.innerWidth >= 700 && bookContext.length === 2 ? "scroll-x" :
-            window.innerWidth < 700 && bookContext.length === 1 ? "" :
-            window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible
-             container-fluid`}
+            className="container-fluid row"
           >
-            {bookList}
+            <div className={`col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6
+              list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
+              window.innerWidth >= 700 && bookContext.length === 2 ? "scroll-x" :
+              window.innerWidth < 700 && bookContext.length === 1 ? "" :
+              window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible`}
+            >
+              {bookList}
+            </div>
           </div>
         )}
         {error !== "" && <p className="text-danger">{error}</p>}

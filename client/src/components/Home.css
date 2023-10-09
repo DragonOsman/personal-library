@@ -2,8 +2,6 @@
   background-color: #fff;
   margin-bottom: 50px;
   width: calc((450px * 2) + 100px);
-  margin-left: 30%;
-  margin-right: 30%;
 }
 
 .user-details > p {
