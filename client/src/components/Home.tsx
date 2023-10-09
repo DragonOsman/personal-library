@@ -70,7 +70,7 @@ const Home = () => {
       className="user-details container-fluid d-flex justify-content-center
       align-items-center flex-column row"
     >
-      <div className="col-auto container-fluid">
+      <div className="col-xs-12 col-sm-12 col-md-2 col-lg-12 col-xl-12 col-xxl-12 container-fluid">
         {userContext.details === null ? (
           <>
             <p className="text-danger">
