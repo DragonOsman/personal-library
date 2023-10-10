@@ -52,11 +52,11 @@ const BookList = () => {
   );
 
   return (
-    <div className={`book-list container container-fluid d-flex
+    <div className={`book-list container container-fluid d-inline-flex
     justify-content-center align-items-center flex-column
     ${isListVisible ? "scroll-y" : "overflow-hidden"}`}>
       <div className="container-fluid container">
-        <div className="row flex-direction-column">
+        <div className="row flex-column">
           <div className="col-auto">
             <h2 className="display-4 text-center">Book List</h2>
           </div>
@@ -71,35 +71,37 @@ const BookList = () => {
             <br />
           </div>
         </div>
-        {isListFetched ? (
-          <button
-            type="button"
-            title="show or hide book list"
-            className="btn btn-primary show-book-list"
-            onClick={toggleVisibility}
-          >
-            {isListVisible ? "Hide " : "Show "} Book List
-          </button>
-        ) : (
-          <button
-            type="button"
-            title="fetch book list"
-            className="btn btn-primary fetch-book-list"
-            onClick={fetchBooks}
-          >
-            Fetch Book List
-          </button>
-        )}
-        {(isListFetched && isListVisible) && (
-          <div
-            className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
-            window.innerWidth < 700 && bookContext.length === 1 ? "" :
-            window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible
-             container-fluid row`}
-          >
-            {bookList}
-          </div>
-        )}
+        <div className="row container-fluid">
+          {isListFetched ? (
+            <button
+              type="button"
+              title="show or hide book list"
+              className="btn btn-primary show-book-list"
+              onClick={toggleVisibility}
+            >
+              {isListVisible ? "Hide " : "Show "} Book List
+            </button>
+          ) : (
+            <button
+              type="button"
+              title="fetch book list"
+              className="btn btn-primary fetch-book-list"
+              onClick={fetchBooks}
+            >
+              Fetch Book List
+            </button>
+          )}
+          {(isListFetched && isListVisible) && (
+            <div
+              className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
+              window.innerWidth < 700 && bookContext.length === 1 ? "" :
+              window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible
+               container-fluid`}
+            >
+              {bookList}
+            </div>
+          )}
+        </div>
         {error !== "" && <p className="text-danger">{error}</p>}
       </div>
     </div>
