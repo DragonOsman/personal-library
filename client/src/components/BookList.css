@@ -6,7 +6,7 @@
 
 .list-is-visible {
   padding: 5%;
-  margin-top: 21vh;
+  margin-top: 30vh;
 }
 
 .book-list h2 {
@@ -56,6 +56,6 @@
   }
 
   .list-is-visible {
-    margin-top: 21vh;
+    margin-top: 30vh;
   }
 }
