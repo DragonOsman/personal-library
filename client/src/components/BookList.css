@@ -30,7 +30,7 @@
   overflow: hidden;
 }
 
-.book-list > .container {
+.book-list > .container-fluid {
   width: 100%;
   background-color: #287098;
   filter: brightness(85%);
