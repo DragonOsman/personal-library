@@ -17,3 +17,10 @@
 .book-list-indicator {
   margin-bottom: -5px;
 }
+
+@media screen and (max-width: 992px) {
+  .user-details {
+    background-color: #fff;
+    background-size: cover;
+  }
+}

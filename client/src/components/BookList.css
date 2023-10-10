@@ -54,4 +54,8 @@
     grid-template-columns: 1fr;
     gap: 2px
   }
+
+  .book-list {
+    margin-top: 1%;
+  }
 }
