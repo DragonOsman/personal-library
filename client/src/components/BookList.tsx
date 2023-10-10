@@ -52,12 +52,11 @@ const BookList = () => {
   );
 
   return (
-    <div className={`book-list container-fluid
-    d-xs-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex
+    <div className={`book-list container-fluid d-inline-flex
     justify-content-center align-items-center flex-column
     ${isListVisible ? "scroll-y" : "overflow-hidden"}`}>
       <div className="container-fluid">
-        <div className="row flex-column">
+        <div className="row container-fluid">
           <div className="col-auto">
             <h2 className="display-4 text-center">Book List</h2>
           </div>

@@ -1,12 +1,12 @@
 .book-list {
   width: 100%;
   height: 100vh;
-  margin-top: 5%;
+  margin-top: 1%;
 }
 
 .list-is-visible {
   padding: 5%;
-  margin-top: 100vh;
+  margin-top: 150vh;
 }
 
 .book-list h2 {
@@ -56,6 +56,6 @@
   }
 
   .list-is-visible {
-    margin-top: 70vh;
+    margin-top: 100vh;
   }
 }
