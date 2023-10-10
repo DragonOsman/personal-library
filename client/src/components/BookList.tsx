@@ -55,7 +55,7 @@ const BookList = () => {
     <div className={`book-list container container-fluid d-inline-flex
     justify-content-center align-items-center flex-column
     ${isListVisible ? "scroll-y" : "overflow-hidden"}`}>
-      <div className="container-fluid container">
+      <div className="container-fluid">
         <div className="row flex-column">
           <div className="col-auto">
             <h2 className="display-4 text-center">Book List</h2>

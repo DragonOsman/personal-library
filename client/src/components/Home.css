@@ -16,9 +16,3 @@
 .book-list-indicator {
   margin-bottom: -5px;
 }
-
-@media screen and (max-width: 992px) {
-  .user-details {
-    width: 200px;
-  }
-}
