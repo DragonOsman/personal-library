@@ -4,11 +4,6 @@
   margin-top: 1%;
 }
 
-.list-is-visible {
-  padding: 5%;
-  margin-top: 200vh;
-}
-
 .book-list h2 {
   color: #fff;
 }
@@ -45,17 +40,15 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
-  margin-top: 1%;
+  margin-top: 200vh;
 }
 
 @media screen and (max-width: 992px) {
   .list {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2px
-  }
-
-  .list-is-visible {
-    margin-top: 150vh;
+    gap: 2px;
+    margin-top: 100vh;
+    padding-top: 1%;
   }
 }
