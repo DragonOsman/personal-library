@@ -1,7 +1,7 @@
 .user-details {
   background-color: #fff;
   margin-bottom: 20%;
-  width: calc((450px * 3 + (2px * 2)) + 100px);
+  width: calc((450px * 2) + 100px);
 }
 
 .user-details > p {

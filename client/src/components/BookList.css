@@ -26,6 +26,10 @@
   overflow-x: scroll;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
 .book-list > .container {
   width: 100%;
   background-color: #287098;
