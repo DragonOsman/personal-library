@@ -56,7 +56,7 @@ const BookList = () => {
     justify-content-center align-items-center flex-column
     ${isListVisible ? "scroll-y" : ""}`}>
       <div className="container-fluid container">
-        <div className="row flex-column">
+        <div className="row flex-direction-column">
           <div className="col-auto">
             <h2 className="display-4 text-center">Book List</h2>
           </div>
