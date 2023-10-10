@@ -97,7 +97,8 @@ const BookList = () => {
             className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
             window.innerWidth < 700 && bookContext.length === 1 ? "" :
             window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible
-              container-fluid col-auto`}
+              container-fluid col-auto d-inline-flex
+              align-items-center justify-content-center flex-column`}
           >
             {bookList}
           </div>
