@@ -54,7 +54,9 @@ const Home = () => {
   const renderBooks = (
     bookContext.length > 0 ? (
       <>
-        <h1>Below you can see your list of books (click or tap the button):</h1>
+        <h1 className="book-list-indicator">
+          Below you can see your list of books (click or tap the button):
+        </h1>
         <BookList />
       </>
     ) : (
@@ -67,10 +69,11 @@ const Home = () => {
 
   return (
     <div
-      className="user-details container-fluid d-flex justify-content-center
-      align-items-center flex-column row"
+      className="user-details container-fluid row
+      d-inline-flex flex-column justify-content-center align-items-center"
     >
-      <div className="col-xs-12 col-sm-12 col-md-2 col-lg-12 col-xl-12 col-xxl-12 container-fluid">
+      <div className="col-xs-12 col-sm-12 col-md-2 col-lg-12
+      col-xl-12 col-xxl-12 container-fluid">
         {userContext.details === null ? (
           <>
             <p className="text-danger">

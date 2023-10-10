@@ -52,9 +52,11 @@ const BookList = () => {
   );
 
   return (
-    <div className="book-list container container-fluid d-flex justify-content-center align-items-center flex-column">
-      <div className="container-fluid container">
-        <div className="row flex-column">
+    <div className={`book-list container-fluid d-inline-flex
+    justify-content-center align-items-center flex-column
+    ${isListVisible ? "scroll-y" : "overflow-hidden"}`}>
+      <div className="container-fluid">
+        <div className="row container-fluid">
           <div className="col-auto">
             <h2 className="display-4 text-center">Book List</h2>
           </div>
@@ -91,10 +93,9 @@ const BookList = () => {
         {(isListFetched && isListVisible) && (
           <div
             className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
-            window.innerWidth >= 700 && bookContext.length === 2 ? "scroll-x" :
             window.innerWidth < 700 && bookContext.length === 1 ? "" :
             window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible
-             container-fluid row`}
+              container-fluid`}
           >
             {bookList}
           </div>

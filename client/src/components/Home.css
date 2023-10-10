@@ -1,7 +1,8 @@
 .user-details {
   background-color: #fff;
-  margin-bottom: 50px;
+  margin-bottom: 20%;
   width: calc((450px * 2) + 100px);
+  padding-top: 1%;
 }
 
 .user-details > p {
@@ -10,5 +11,15 @@
 }
 
 .fetch-details {
-  margin-bottom: 20%;
+  margin-bottom: 5%;
+}
+
+.book-list-indicator {
+  margin-bottom: -10%;
+}
+
+@media screen and (max-width: 992px) {
+  .user-details {
+    width: 400px;
+  }
 }
