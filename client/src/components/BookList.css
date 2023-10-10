@@ -52,14 +52,14 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 2px;
-    margin-top: 20vh;
+    margin-top: 25vh;
   }
 
   .list-is-visible {
-    margin-top: 20vh;
+    margin-top: 25vh;
   }
 
   .book-list {
-    margin-left: -2%;
+    margin-left: -3%;
   }
 }
