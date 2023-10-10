@@ -6,7 +6,7 @@
 
 .list-is-visible {
   padding: 5%;
-  margin-top: 150vh;
+  margin-top: 200vh;
 }
 
 .book-list h2 {
@@ -45,7 +45,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
-  margin-top: 5%;
+  margin-top: 1%;
 }
 
 @media screen and (max-width: 992px) {
@@ -56,6 +56,6 @@
   }
 
   .list-is-visible {
-    margin-top: 100vh;
+    margin-top: 150vh;
   }
 }
