@@ -52,7 +52,8 @@ const BookList = () => {
   );
 
   return (
-    <div className={`book-list container container-fluid d-inline-flex
+    <div className={`book-list container-fluid
+    d-xs-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex
     justify-content-center align-items-center flex-column
     ${isListVisible ? "scroll-y" : "overflow-hidden"}`}>
       <div className="container-fluid">
@@ -96,7 +97,7 @@ const BookList = () => {
               className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
               window.innerWidth < 700 && bookContext.length === 1 ? "" :
               window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible
-               container-fluid`}
+               container-fluid col-auto`}
             >
               {bookList}
             </div>
