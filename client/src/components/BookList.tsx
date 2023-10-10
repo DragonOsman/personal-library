@@ -57,9 +57,9 @@ const BookList = () => {
     ${isListVisible ? "scroll-y" : "overflow-hidden"}`}>
       <div className="container-fluid">
         <div className="row container-fluid">
-          <div className="col-auto">
-            <h2 className="display-4 text-center">Book List</h2>
-          </div>
+          <h2 className="display-4 text-center col-auto">Book List</h2>
+        </div>
+        <div className="row container-fluid">
           <div className="col-auto">
             <Link
               to="/books/add-book"
@@ -97,7 +97,7 @@ const BookList = () => {
             className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
             window.innerWidth < 700 && bookContext.length === 1 ? "" :
             window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible
-              container-fluid`}
+              container-fluid col-auto`}
           >
             {bookList}
           </div>
