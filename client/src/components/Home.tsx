@@ -69,9 +69,7 @@ const Home = () => {
 
   return (
     <div
-      className="user-details container-fluid row d-xs-flex
-      d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex
-      align-items-center justify-content-center flex-column"
+      className="user-details container-fluid row"
     >
       <div className="col-xs-12 col-sm-12 col-md-2 col-lg-12
       col-xl-12 col-xxl-12 container-fluid">
