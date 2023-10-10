@@ -71,25 +71,27 @@ const BookList = () => {
             <br />
           </div>
         </div>
-        {isListFetched ? (
-          <button
-            type="button"
-            title="show or hide book list"
-            className="btn btn-primary show-book-list"
-            onClick={toggleVisibility}
-          >
-            {isListVisible ? "Hide " : "Show "} Book List
-          </button>
-        ) : (
-          <button
-            type="button"
-            title="fetch book list"
-            className="btn btn-primary fetch-book-list"
-            onClick={fetchBooks}
-          >
-            Fetch Book List
-          </button>
-        )}
+        <div className="row container-fluid">
+          {isListFetched ? (
+            <button
+              type="button"
+              title="show or hide book list"
+              className="btn btn-primary show-book-list"
+              onClick={toggleVisibility}
+            >
+              {isListVisible ? "Hide " : "Show "} Book List
+            </button>
+          ) : (
+            <button
+              type="button"
+              title="fetch book list"
+              className="btn btn-primary fetch-book-list"
+              onClick={fetchBooks}
+            >
+              Fetch Book List
+            </button>
+          )}
+        </div>
         {(isListFetched && isListVisible) && (
           <div
             className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
