@@ -52,7 +52,7 @@ function App() {
     <div className="container-fluid App">
       <Header />
       <div className="container-fluid d-flex justify-content-center
-      align-items-center flex-direction-column">
+      align-items-center flex-column">
         <Routes>
           <Route path="/" element={!userContext.token ? <Login /> : (
             userContext.token ? <Home /> : <Loader />)} />
