@@ -55,18 +55,4 @@
     margin-top: 50vh;
     margin-left: -1%;
   }
-
-  .book-list h2 {
-    margin-top: 2%;
-    margin-bottom: 3%;
-  }
-
-  .list-is-visible {
-    margin-top: 50vh;
-  }
-
-  .show-book-list,
-  .fetch-book-list {
-    margin-bottom: 5%;
-  }
 }
