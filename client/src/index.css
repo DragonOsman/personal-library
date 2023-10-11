@@ -14,11 +14,15 @@ body {
   background-color: #287098;
 }
 
-.login-form-container, .register-form-container {
-  padding: 5%;
+.login-form-container, .register-form-container,
+.user-details {
   width: 50vw;
   background-color: #fff;
+}
+
+.login-form-container, .register-form-container {
   text-align: left;
+  padding: 5%;
 }
 
 .add-book-form-container, .book-list,

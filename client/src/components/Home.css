@@ -1,7 +1,6 @@
 .user-details {
   background-color: #fff;
   margin-bottom: 20%;
-  width: calc((450px * 2) + 100px);
   padding-top: 1%;
 }
 
@@ -16,11 +15,4 @@
 
 .book-list-indicator {
   margin-bottom: 1%;
-}
-
-@media screen and (max-width: 992px) {
-  .user-details {
-    width: 400px;
-    margin-left: 1%;
-  }
 }
