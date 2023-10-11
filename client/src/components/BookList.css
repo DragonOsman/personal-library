@@ -2,7 +2,7 @@
   width: 50vw;
   height: 100vh;
   margin-top: 1%;
-  margin-right: 3%;
+  margin-right: 10%;
 }
 
 .book-list h2 {
@@ -49,23 +49,14 @@
 }
 
 @media screen and (max-width: 992px) {
-  .book-list {
-    width: 100px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-right: 4%;
-  }
-
   .list {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2px;
-    margin-top: 100vh;
+    margin-top: 200vh;
   }
 
   .list-is-visible {
-    margin-top: 100vh;
+    margin-top: 200vh;
   }
 }
