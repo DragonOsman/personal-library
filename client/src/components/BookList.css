@@ -49,15 +49,18 @@
   margin-top: 10vh;
 }
 
-@media screen and (min-width: 280px) and (max-width: 992px) {
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+}
+
+@media screen and (min-width: 280px) and (max-width: 767px) {
   .list {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2px;
-    margin-top: 200vh;
-  }
-
-  .list-is-visible {
-    margin-top: 200vh;
   }
 }
