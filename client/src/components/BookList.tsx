@@ -70,12 +70,12 @@ const BookList = () => {
             <br />
           </div>
         </div>
-        <div className="container-fluid row">
+        <div className="container-fluid">
           {isListFetched ? (
             <button
               type="button"
               title="show or hide book list"
-              className="btn btn-primary show-book-list col-auto"
+              className="btn btn-primary show-book-list"
               onClick={toggleVisibility}
             >
               {isListVisible ? "Hide " : "Show "} Book List
@@ -84,7 +84,7 @@ const BookList = () => {
             <button
               type="button"
               title="fetch book list"
-              className="btn btn-primary fetch-book-list col-auto"
+              className="btn btn-primary fetch-book-list"
               onClick={fetchBooks}
             >
               Fetch Book List
@@ -96,11 +96,9 @@ const BookList = () => {
             className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
             window.innerWidth < 700 && bookContext.length === 1 ? "" :
             window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible
-              container-fluid row`}
+              container-fluid`}
           >
-            <div className="col-auto">
-              {bookList}
-            </div>
+            {bookList}
           </div>
         )}
         {error !== "" && <p className="text-danger">{error}</p>}
