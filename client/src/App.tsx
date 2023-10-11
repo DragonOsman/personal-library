@@ -51,7 +51,7 @@ function App() {
   return (
     <div className="container-fluid App">
       <Header />
-      <div className="container-fluid d-xs-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex
+      <div className="container-fluid d-flex
        justify-content-center align-items-center flex-column row">
         <div className="col-auto">
           <Routes>
