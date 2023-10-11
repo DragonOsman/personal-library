@@ -71,7 +71,7 @@ const BookList = () => {
             <br />
           </div>
         </div>
-        <div className="row container-fluid">
+        <div className="container-fluid">
           {isListFetched ? (
             <button
               type="button"
