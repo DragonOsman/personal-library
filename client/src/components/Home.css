@@ -16,3 +16,9 @@
 .book-list-indicator {
   margin-bottom: 1%;
 }
+
+@media screen and (min-width: 280px) and (max-width: 419px) {
+  .render-books {
+    margin-left: -10px;
+  }
+}
