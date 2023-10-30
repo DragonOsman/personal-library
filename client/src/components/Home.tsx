@@ -110,7 +110,7 @@ const Home = () => {
               >
                 Refetch User Details
               </button>
-              <div className="container-fluid">
+              <div className="container-fluid render-books">
                 {renderBooks}
               </div>
             </>
