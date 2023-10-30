@@ -63,3 +63,9 @@
     gap: 2px;
   }
 }
+
+@media screen and (min-width: 280px) and (max-width: 419px) {
+  .list {
+    margin-left: -10px;
+  }
+}

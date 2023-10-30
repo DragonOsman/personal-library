@@ -2,7 +2,6 @@
   background-color: #fff;
   width: 100%;
   border: 1px solid #000;
-  margin: 0 auto;
   border-radius: 5px;
   overflow-y: scroll;
   margin-bottom: 10px;
@@ -36,4 +35,10 @@
   color: #6c757d;
   font-size: 1em;
   padding: 10px 0;
+}
+
+@media screen and (min-width: 280px) and (max-width: 419px) {
+  .BookInfo {
+    margin-left: -10px;
+  }
 }
