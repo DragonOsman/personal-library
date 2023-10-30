@@ -51,3 +51,10 @@ input {
 .text-danger {
   font-size: 1.2rem;
 }
+
+@media screen and (min-width: 280px) and (max-width: 419px) {
+  .login-form-container, .register-form-container,
+  .user-details {
+    margin-left: 5px;
+  }
+}
