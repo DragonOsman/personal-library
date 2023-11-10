@@ -10,7 +10,7 @@
 }
 
 .BookInfo:first-child {
-  margin-left: 10px;
+  margin-left: 12px;
 }
 
 .BookInfo > .container:first-of-type {
