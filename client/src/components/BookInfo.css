@@ -9,7 +9,7 @@
   padding: 2px;
 }
 
-.BookInfo {
+.BookInfo:first-child {
   margin-left: 8px;
 }
 
