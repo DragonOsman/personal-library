@@ -9,6 +9,10 @@
   padding: 2px;
 }
 
+.BookInfo {
+  margin-left: 5px;
+}
+
 .BookInfo > .container:first-of-type {
   margin-top: 0px;
 }
