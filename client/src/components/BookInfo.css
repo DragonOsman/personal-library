@@ -42,6 +42,10 @@
 }
 
 @media screen and (min-width: 280px) and (max-width: 419px) {
+  .BookInfo:first-child {
+    margin-left: 0;
+  }
+
   .BookInfo {
     margin-left: 10px;
   }
