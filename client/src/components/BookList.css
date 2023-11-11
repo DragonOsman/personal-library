@@ -85,6 +85,6 @@
   .book-list {
     margin-left: -20px;
     margin-bottom: 20px;
-    overflow-x: scroll;
+    margin-right: 3000px;
   }
 }
