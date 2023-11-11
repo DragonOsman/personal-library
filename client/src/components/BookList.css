@@ -67,9 +67,11 @@
 @media screen and (min-width: 280px) and (max-width: 419px) {
   .list {
     margin-left: 7px;
+    margin-bottom: 10px;
   }
 
   .book-list {
-    margin-left: -12px;
+    margin-left: -14px;
+    margin-bottom: 10px;
   }
 }
