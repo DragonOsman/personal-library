@@ -66,12 +66,10 @@
 
 @media screen and (min-width: 280px) and (max-width: 419px) {
   .list {
-    margin-left: 5px;
-    overflow-x: scroll;
+    margin-left: 7px;
   }
 
   .book-list {
-    margin-left: -10px;
-    overflow-x: scroll;
+    margin-left: -12px;
   }
 }
