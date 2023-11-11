@@ -54,6 +54,6 @@ input {
 
 @media screen and (min-width: 280px) and (max-width: 419px) {
   .login-form-container, .register-form-container {
-    margin-left: 17px;
+    margin-left: 15px;
   }
 }
