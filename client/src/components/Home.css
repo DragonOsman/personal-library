@@ -18,12 +18,6 @@
 }
 
 @media screen and (min-width: 280px) and (max-width: 419px) {
-  .user-details {
-    margin-left: 10px;
-    margin-right: 10px;
-    width: 100vw;
-  }
-
   .render-books {
     margin-left: 10px;
   }

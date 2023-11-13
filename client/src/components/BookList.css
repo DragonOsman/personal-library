@@ -78,13 +78,13 @@
 
 @media screen and (min-width: 280px) and (max-width: 300px) {
   .list {
-    margin-left: 7px;
-    margin-bottom: 2px;
+    margin-left: 5vw;
+    margin-bottom: 5vw;
   }
 
   .book-list {
-    margin-left: -20px;
-    margin-right: 50px;
+    margin-left: 5vw;
+    margin-right: 5vw;
     margin-bottom: 20px;
   }
 }
