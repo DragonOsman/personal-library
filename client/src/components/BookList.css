@@ -78,7 +78,8 @@
 
 @media screen and (min-width: 280px) and (max-width: 300px) {
   .list {
-    margin-left: 5vw;
+    margin-left: 20px;
+    margin-right: 300px;
     margin-bottom: 5vw;
   }
 
