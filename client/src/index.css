@@ -17,8 +17,7 @@ body {
 .login-form-container, .register-form-container,
 .user-details {
   width: 80vw;
-  margin-left: 20vw;
-  margin-right: -30vw;
+  margin-left: 10vw;
   background-color: #fff;
 }
 
