@@ -78,14 +78,10 @@
 
 @media screen and (min-width: 280px) and (max-width: 300px) {
   .list {
-    margin-left: 20px;
-    margin-left: -300px;
     margin-bottom: 10px;
   }
 
   .book-list {
-    margin-left: -20px;
-    margin-right: 50px;
     margin-bottom: 20px;
   }
 }
