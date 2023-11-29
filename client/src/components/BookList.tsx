@@ -52,13 +52,14 @@ const BookList = () => {
   );
 
   return (
-    <div className={"book-list container-fluid row"}>
+    <div className="book-list container-fluid row
+      d-flex justify-content-center align-items-center">
       <div className="container-fluid col-auto">
         <div className="row container-fluid">
           <h2 className="display-4 text-center col-auto">Book List</h2>
         </div>
         <div className="row container-fluid">
-          <div className="col-auto">
+          <div>
             <Link
               to="/books/add-book"
               className="btn btn-outline-warning float-right add-book"
