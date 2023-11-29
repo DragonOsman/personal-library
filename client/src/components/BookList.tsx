@@ -62,7 +62,7 @@ const BookList = () => {
           <div>
             <Link
               to="/books/add-book"
-              className="btn btn-outline-warning float-right add-book"
+              className="btn btn-outline-warning add-book"
             >
               + Add New Book
             </Link>
