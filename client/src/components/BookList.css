@@ -1,7 +1,7 @@
 .book-list {
   width: 100%;
   height: 100vh;
-  margin-top: 0;
+  margin-top: -50px;
   margin-left: 0;
 }
 
@@ -11,7 +11,7 @@
 
 .show-book-list,
 .fetch-book-list {
-  margin-bottom: 3%;
+  margin-bottom: 10%;
 }
 
 .scroll-y {
