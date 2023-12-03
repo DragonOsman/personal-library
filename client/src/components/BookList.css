@@ -46,7 +46,8 @@
 }
 
 .list-is-visible {
-  margin-top: 30vh;
+  margin-top: 50vh;
+  margin-bottom: 20vh;
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
