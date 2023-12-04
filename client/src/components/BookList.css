@@ -11,7 +11,7 @@
 
 .show-book-list,
 .fetch-book-list {
-  margin-bottom: 10%;
+  margin-bottom: 50px;
 }
 
 .scroll-y {
@@ -47,7 +47,6 @@
 
 .list-is-visible {
   margin-top: 10vh;
-  overflow-y: scroll;
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
