@@ -1,9 +1,9 @@
 .add-book-form-container {
   background-color: #fff;
   padding: 10px;
-  margin-left: 100px;
-  margin-right: 100px;
+  margin-left: 0;
   margin-bottom: 100px;
+  width: 90vw;
 }
 
 .book-list-link {
