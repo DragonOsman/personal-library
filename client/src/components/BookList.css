@@ -3,6 +3,7 @@
   height: 100vh;
   margin-top: -10px;
   margin-left: 0;
+  overflow: scroll;
 }
 
 .book-list h2 {
@@ -12,18 +13,6 @@
 .show-book-list,
 .fetch-book-list {
   margin-bottom: 50px;
-}
-
-.overflow-x {
-  overflow-x: scroll;
-}
-
-.overflow-y {
-  overflow-y: scroll;
-}
-
-.overflow-hidden {
-  overflow: hidden;
 }
 
 .book-list > .container-fluid {
