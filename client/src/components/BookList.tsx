@@ -93,10 +93,7 @@ const BookList = () => {
         </div>
         {(isListFetched && isListVisible) && (
           <div
-            className={`list ${window.innerWidth >= 700 && bookContext.length >= 3 ? "scroll-y" :
-            window.innerWidth < 700 && bookContext.length === 1 ? "" :
-            window.innerWidth < 700 && bookContext.length > 1 ? "scroll-y" : ""} list-is-visible
-              container-fluid`}
+            className="list list-is-visible container-fluid"
           >
             {bookList}
           </div>
