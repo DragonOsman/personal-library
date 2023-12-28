@@ -12,7 +12,10 @@
 
 .book-list h2 {
   color: #fff;
-  margin-top: 100px;
+}
+
+.list-is-visible .list-title {
+  margin-top: 200px;
 }
 
 .show-book-list,
