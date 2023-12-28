@@ -35,7 +35,7 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
   width: 100%;
-  margin-top: 2vh;
+  margin-top: 10vh;
   margin-bottom: 30px;
 }
 
