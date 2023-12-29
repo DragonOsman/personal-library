@@ -36,11 +36,11 @@
   gap: 2px;
   width: 100%;
   margin-bottom: 30px;
-  margin-top: 100vh;
+  margin-top: calc(100vh + 100px);
 }
 
 .list-is-visible {
-  margin-top: 100vh;
+  margin-top: calc(100vh + 100px);
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
