@@ -56,7 +56,7 @@ const BookList = () => {
       d-flex justify-content-center align-items-center">
       <div className="container-fluid col-auto">
         <div className={`row container-fluid ${isListVisible ? "list-is-visible" : ""}`}>
-          <h2 className="display-4 text-center col-auto list-title">
+          <h2 className="display-4 text-center col-auto">
             Book List
           </h2>
         </div>
