@@ -16,7 +16,7 @@
 
 .show-book-list,
 .fetch-book-list {
-  margin-bottom: 30px;
+  margin-bottom: 0;
 }
 
 .book-list > .container-fluid {
@@ -30,10 +30,6 @@
   font-size: 20px;
 }
 
-.list-title {
-  margin-top: 200px;
-}
-
 .list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -43,7 +39,7 @@
 }
 
 .list-is-visible {
-  margin-top: 31vh;
+  margin-top: 41vh;
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
