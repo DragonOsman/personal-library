@@ -35,13 +35,13 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
   width: 100%;
-  margin-top: 40vh;
+  margin-top: 41vh;
   margin-bottom: 30px;
-  height: 100vh;
+  height: 101vh;
 }
 
 .list-is-visible {
-  margin-top: 40vh;
+  margin-top: 41vh;
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
