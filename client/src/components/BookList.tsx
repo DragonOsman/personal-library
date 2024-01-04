@@ -56,7 +56,12 @@ const BookList = () => {
       d-flex justify-content-center align-items-center">
       <div className="container-fluid col-auto">
         <div className="row container-fluid">
-          <h2 className="display-4 text-center col-auto book-list-heading">
+          <h2
+            className="display-4 text-center col-auto"
+            style={{
+              marginTop: isListVisible && isListFetched ? "20vh" : ""
+            }}
+          >
             Book List
           </h2>
         </div>
