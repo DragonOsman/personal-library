@@ -25,7 +25,9 @@
   font-size: 20px;
 }
 
-.add-book {
+.add-book,
+.fetch-book-list,
+.show-book-list {
   margin-bottom: -10px;
 }
 
