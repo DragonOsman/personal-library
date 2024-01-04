@@ -34,7 +34,7 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
   width: 100%;
-  margin-top: calc(100vh + 3000px);
+  margin-top: calc(150vh + 3000px);
   margin-bottom: 30px;
   height: 100vh;
   overflow-y: scroll;
