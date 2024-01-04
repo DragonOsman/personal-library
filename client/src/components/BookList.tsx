@@ -65,6 +65,9 @@ const BookList = () => {
             <Link
               to="/books/add-book"
               className="btn btn-outline-warning add-book"
+              style={{
+                marginBottom: isListFetched && isListVisible ? "-100px" : ""
+              }}
             >
               + Add New Book
             </Link>
@@ -80,7 +83,7 @@ const BookList = () => {
               className="btn btn-primary show-book-list"
               onClick={toggleVisibility}
               style={{
-                marginBottom: isListFetched && isListVisible ? "-900px" : ""
+                marginBottom: isListFetched && isListVisible ? "-1000px" : ""
               }}
             >
               {isListVisible ? "Hide " : "Show "} Book List
