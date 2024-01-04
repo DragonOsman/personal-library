@@ -59,7 +59,7 @@ const BookList = () => {
           <h2
             className="display-4 text-center col-auto"
             style={{
-              marginTop: isListVisible && isListFetched ? "-15vh" : ""
+              marginTop: isListVisible && isListFetched ? "-20vh" : ""
             }}
           >
             Book List
