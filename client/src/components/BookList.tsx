@@ -80,7 +80,7 @@ const BookList = () => {
               className="btn btn-primary show-book-list"
               onClick={toggleVisibility}
               style={{
-                marginBottom: isListFetched && isListVisible ? "-100px" : ""
+                marginBottom: isListFetched && isListVisible ? "-500px" : ""
               }}
             >
               {isListVisible ? "Hide " : "Show "} Book List
