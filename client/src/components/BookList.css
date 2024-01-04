@@ -43,6 +43,11 @@
   margin-top: 30vh;
 }
 
+/* "styled heading" for book list */
+.styled-heading {
+  margin-top: -50vh;
+}
+
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .list {
     display: grid;

@@ -57,10 +57,7 @@ const BookList = () => {
       <div className="container-fluid col-auto">
         <div className="row container-fluid">
           <h2
-            className="display-4 text-center col-auto"
-            style={{
-              marginTop: isListVisible ? "-100vh" : ""
-            }}
+            className={`display-4 text-center col-auto ${isListVisible ? "styled-heading" : ""}`}
           >
             Book List
           </h2>
