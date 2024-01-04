@@ -44,7 +44,7 @@
 
 /* "styled heading" for book list */
 .styled-heading {
-  margin-top: calc(-500vh + 100px);
+  margin-top: calc(-800vh + 100px);
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
