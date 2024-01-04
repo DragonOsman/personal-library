@@ -25,12 +25,16 @@
   font-size: 20px;
 }
 
+.add-book {
+  margin-bottom: -50px;
+}
+
 .list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
   width: 100%;
-  margin-top: calc(50vh + 1500px);
+  margin-top: calc(55vh + 1500px);
   margin-bottom: 30px;
   height: 90vh;
   overflow-y: scroll;
