@@ -41,7 +41,11 @@
 }
 
 .list-is-visible {
-  margin-top: 80vh;
+  margin-top: 30vh;
+}
+
+.book-list-heading {
+  margin-top: 20vh;
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {

@@ -56,7 +56,7 @@ const BookList = () => {
       d-flex justify-content-center align-items-center">
       <div className="container-fluid col-auto">
         <div className="row container-fluid">
-          <h2 className="display-4 text-center col-auto">
+          <h2 className="display-4 text-center col-auto book-list-heading">
             Book List
           </h2>
         </div>
@@ -66,7 +66,7 @@ const BookList = () => {
               to="/books/add-book"
               className="btn btn-outline-warning add-book"
               style={{
-                marginBottom: isListFetched && isListVisible ? "-1000px" : ""
+                marginBottom: isListFetched && isListVisible ? "-900px" : ""
               }}
             >
               + Add New Book
