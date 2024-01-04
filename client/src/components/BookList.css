@@ -39,12 +39,12 @@
 }
 
 .list-is-visible {
-  margin-top: 0;
+  margin-top: 100px;
 }
 
 /* "styled heading" for book list */
 .styled-heading {
-  margin-top: -500vh;
+  margin-top: calc(-500vh + 100px);
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
