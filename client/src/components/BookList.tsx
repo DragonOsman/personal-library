@@ -66,7 +66,7 @@ const BookList = () => {
               to="/books/add-book"
               className="btn btn-outline-warning add-book"
               style={{
-                marginBottom: isListFetched && isListVisible ? "-100px" : ""
+                marginBottom: isListFetched && isListVisible ? "-1000px" : ""
               }}
             >
               + Add New Book
