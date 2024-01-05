@@ -8,24 +8,24 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  background-color: #287098;
 }
 
 .book-list h2 {
   color: #fff;
+  text-align: center;
 }
 
 .add-book {
-  margin-top: -8vh;
+  margin-top: -1vh;
 }
 
 .show-book-list, .fetch-book-list {
-  margin-top: -20px;
+  margin-top: -10px;
 }
 
 .book-list > .container-fluid {
   width: 100%;
-  background-color: #287098;
-  filter: brightness(85%);
   padding: 10px;
 }
 
@@ -41,6 +41,8 @@
   width: 100%;
   margin-bottom: 30px;
   overflow-y: scroll;
+  background-color: #287098;
+  filter: brightness(85%);
 }
 
 .list-is-visible {
