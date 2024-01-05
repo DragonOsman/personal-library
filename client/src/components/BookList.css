@@ -20,15 +20,15 @@
 }
 
 .list-visible-title {
-  margin-top: 100px;
+  margin-top: 300px;
 }
 
 .add-book {
-  margin-top: -1vh;
+  margin-top: 400px;
 }
 
 .show-book-list, .fetch-book-list {
-  margin-top: -10px;
+  margin-top: 410px;
 }
 
 .book-list > .container-fluid {
