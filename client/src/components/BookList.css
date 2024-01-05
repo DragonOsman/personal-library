@@ -12,14 +12,15 @@
 
 .book-list h2 {
   color: #fff;
+  text-align: center;
 }
 
 .add-book {
-  margin-top: -10vh;
+  margin-top: -30vh;
 }
 
 .show-book-list, .fetch-book-list {
-  margin-top: -20px;
+  margin-top: -50px;
 }
 
 .book-list > .container-fluid {
