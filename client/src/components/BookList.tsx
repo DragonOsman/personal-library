@@ -67,7 +67,8 @@ const BookList = () => {
           <div>
             <Link
               to="/books/add-book"
-              className="btn btn-outline-warning add-book"
+              className={`btn btn-outline-warning add-book
+                ${isListFetched && isListVisible ? "list-visible-add" : ""}`}
             >
               + Add New Book
             </Link>
@@ -80,7 +81,8 @@ const BookList = () => {
             <button
               type="button"
               title="show or hide book list"
-              className="btn btn-primary show-book-list"
+              className={`btn btn-primary show-book-list
+                ${isListFetched && isListVisible ? "list-visible-show" : ""}`}
               onClick={toggleVisibility}
             >
               {isListVisible ? "Hide " : "Show "} Book List
@@ -89,7 +91,8 @@ const BookList = () => {
             <button
               type="button"
               title="fetch book list"
-              className="btn btn-primary fetch-book-list"
+              className={`btn btn-primary fetch-book-list
+                ${isListFetched && isListVisible ? "list-visible-fetch" : ""}`}
               onClick={fetchBooks}
             >
               Fetch Book List
