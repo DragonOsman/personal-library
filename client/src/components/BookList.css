@@ -33,6 +33,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
+  height: 50vh;
   width: 100%;
   margin-bottom: 30px;
   overflow-y: scroll;
@@ -43,9 +44,9 @@
 }
 
 /* "styled heading" for book list */
-.styled-heading {
+/*.styled-heading {
   margin-top: -3100vh;
-}
+}*/
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .list {
