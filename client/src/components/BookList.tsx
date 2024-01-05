@@ -68,9 +68,6 @@ const BookList = () => {
             <Link
               to="/books/add-book"
               className="btn btn-outline-warning add-book"
-              style={{
-                marginBottom: isListFetched && isListVisible ? "-900px" : ""
-              }}
             >
               + Add New Book
             </Link>
