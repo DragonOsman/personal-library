@@ -57,7 +57,8 @@ const BookList = () => {
       <div className="container-fluid col-auto">
         <div className="row container-fluid">
           <h2
-            className="display-4 col-auto"
+            className={`display-4 col-auto list-title
+              ${isListFetched && isListVisible ? "list-visible-title" : ""}`}
           >
             Book List
           </h2>
