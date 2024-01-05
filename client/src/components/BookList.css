@@ -14,6 +14,14 @@
   color: #fff;
 }
 
+.add-book {
+  margin-top: -100vh;
+}
+
+.show-book-list, .fetch-book-list {
+  margin-top: -20px;
+}
+
 .book-list > .container-fluid {
   width: 100%;
   background-color: #287098;
