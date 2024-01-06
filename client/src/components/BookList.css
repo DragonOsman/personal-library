@@ -23,20 +23,21 @@
   margin-top: 300px;
 }
 
-.list-visible-show {
+.list-visible-show,
+.list-visible-fetch {
   margin-top: 200px;
 }
 
-.list-visible-fetch {
+.list-visible-add {
   margin-top: 210px;
 }
 
 .add-book {
-  margin-top: -8vh;
+  margin-top: 210px;
 }
 
 .show-book-list, .fetch-book-list {
-  margin-top: -10vh;
+  margin-top: 200px;
 }
 
 .book-list > .container-fluid {
