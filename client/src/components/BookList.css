@@ -25,20 +25,20 @@
 
 .list-visible-show,
 .list-visible-fetch {
-  margin-top: 15vh;
+  margin-top: 16vh;
 }
 
 .list-visible-add {
-  margin-top: 20vh;
+  margin-top: 21vh;
 }
 
 .add-book {
-  margin-top: -20vh;
+  margin-top: -21vh;
 }
 
 .show-book-list,
 .fetch-book-list {
-  margin-top: -15vh;
+  margin-top: -16vh;
 }
 
 .book-list > .container-fluid {
