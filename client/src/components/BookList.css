@@ -16,7 +16,7 @@
 }
 
 .list-title {
-  margin-top: -1vh;
+  margin-top: 1vh;
 }
 
 .list-visible-title {
@@ -33,12 +33,12 @@
 }
 
 .add-book {
-  margin-top: -1vh;
+  margin-top: 1vh;
 }
 
 .show-book-list,
 .fetch-book-list {
-  margin-top: -3vh;
+  margin-top: 5vh;
 }
 
 .book-list > .container-fluid {
