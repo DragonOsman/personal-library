@@ -33,12 +33,12 @@
 }
 
 .add-book {
-  margin-top: -50vh;
+  margin-top: -75vh;
 }
 
 .show-book-list,
 .fetch-book-list {
-  margin-top: -40vh;
+  margin-top: -65vh;
 }
 
 .book-list > .container-fluid {
