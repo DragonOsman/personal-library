@@ -16,20 +16,20 @@
 }
 
 .list-title {
-  margin-top: 0;
+  margin-top: -10vh;
 }
 
 .list-visible-title {
-  margin-top: 0;
+  margin-top: -10vh;
 }
 
 .list-visible-show,
 .list-visible-fetch {
-  margin-top: 0;
+  margin-top: -75vh;
 }
 
 .list-visible-add {
-  margin-top: 0;
+  margin-top: -80vh;
 }
 
 .add-book {
