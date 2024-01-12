@@ -1,7 +1,7 @@
 .book-list {
   width: 100%;
   height: 100vh;
-  margin-top: 0;
+  margin-top: -10px;
   margin-left: 10px;
   overflow: scroll;
   display: flex;
@@ -13,28 +13,6 @@
 
 .book-list h2 {
   color: #fff;
-}
-
-.list-visible-title {
-  margin-top: -100vh;
-}
-
-.list-visible-show,
-.list-visible-fetch {
-  margin-top: 100vh;
-}
-
-.list-visible-add {
-  margin-top: 0;
-}
-
-.add-book {
-  margin-top: 0;
-}
-
-.show-book-list,
-.fetch-book-list {
-  margin-top: -75vh;
 }
 
 .book-list > .container-fluid {
