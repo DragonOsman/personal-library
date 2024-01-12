@@ -15,25 +15,17 @@
   color: #fff;
 }
 
-.list-title {
-  margin-top: 0;
-}
-
-.list-visible-title {
-  margin-top: 100vh;
-}
-
 .list-visible-show,
 .list-visible-fetch {
   margin-top: 100vh;
 }
 
 .list-visible-add {
-  margin-top: 95vh;
+  margin-top: 0;
 }
 
 .add-book {
-  margin-top: -74vh;
+  margin-top: 0;
 }
 
 .show-book-list,
