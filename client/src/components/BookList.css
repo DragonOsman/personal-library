@@ -15,6 +15,10 @@
   color: #fff;
 }
 
+.list-visible-title {
+  margin-top: -100vh;
+}
+
 .list-visible-show,
 .list-visible-fetch {
   margin-top: 100vh;
