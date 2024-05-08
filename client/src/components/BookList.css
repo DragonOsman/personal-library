@@ -20,7 +20,7 @@
   padding: 10px;
   background-color: #287098;
   filter: brightness(70%);
-  text-align: center;
+  margin-top: -15vh
 }
 
 .book-list .btn {
@@ -41,7 +41,7 @@
 }
 
 .list-is-visible {
-  margin-top: 40%;
+  margin-top: 15vh;
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
