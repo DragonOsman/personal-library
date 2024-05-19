@@ -27,10 +27,11 @@
 
   .render-books {
     margin-left: -1px;
+    margin-right: 3px;
   }
 
   .book-list-indicator {
-    margin-left: -23px;
+    margin-left: 0px;
   }
 }
 
