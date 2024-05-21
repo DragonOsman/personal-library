@@ -20,18 +20,13 @@
   margin-bottom: 1%;
 }
 
-@media screen and (min-width: 320px) {
+@media screen and (min-width: 320px) and (max-width: 399px) {
   .user-details {
-    margin-left: -2px;
+    margin-left: -5%;
   }
 
   .render-books {
-    margin-left: -1px;
-    margin-right: 3px;
-  }
-
-  .book-list-indicator {
-    margin-left: 0px;
+    margin-left: -5%;
   }
 }
 
