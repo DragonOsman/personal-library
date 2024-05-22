@@ -52,16 +52,18 @@ function App() {
     <div className="container-fluid App">
       <Header />
       <div className="container-fluid d-flex
-       justify-content-center align-items-center flex-column">
-        <Routes>
-          <Route path="/" element={!userContext.token ? <Login /> : (
-            userContext.token ? <Home /> : <Loader />)} />
-          <Route path="/users/register" element={<Register />} />
-          <Route path="/users/login" element={<Login />} />
-          <Route path="/books/add-book" element={<AddBook />} />
-          <Route path="/books/show-book/:id" element={<ShowBookDetails />} />
-          <Route path="/books/update-book/:id" element={<UpdateBook />} />
-        </Routes>
+       justify-content-center align-items-center flex-column row">
+        <div className="col-auto">
+          <Routes>
+            <Route path="/" element={!userContext.token ? <Login /> : (
+              userContext.token ? <Home /> : <Loader />)} />
+            <Route path="/users/register" element={<Register />} />
+            <Route path="/users/login" element={<Login />} />
+            <Route path="/books/add-book" element={<AddBook />} />
+            <Route path="/books/show-book/:id" element={<ShowBookDetails />} />
+            <Route path="/books/update-book/:id" element={<UpdateBook />} />
+          </Routes>
+        </div>
       </div>
     </div>
   );
