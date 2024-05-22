@@ -20,10 +20,10 @@
   margin-bottom: 1%;
 }
 
-@media screen and (min-width: 320px) and (max-width: 399px) {
+@media screen and (min-width: 320px) and (max-width: 340px) {
   .render-books {
     margin-left: 1%;
-    margin-right: 50%;
+    margin-right: 80%;
   }
 }
 
