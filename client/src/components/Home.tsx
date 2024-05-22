@@ -70,50 +70,53 @@ const Home = () => {
   return (
     <div
       className="user-details container-fluid d-inline-flex
-      justify-content-center align-items-center flex-column"
+      justify-content-center align-items-center flex-column row"
     >
-      {userContext.details === null ? (
-        <>
-          <p className="text-danger">
-            Error loading user details
-            <br />
-            {error !== "" && <span>{error}</span>}
-          </p>
-          <div className="container-fluid">
-            {renderBooks}
-          </div>
-        </>
-      ) : (
-        !userContext.details ? (
+      <div className="col-xs-12 col-sm-12 col-md-2 col-lg-12
+      col-xl-12 col-xxl-12 container-fluid">
+        {userContext.details === null ? (
           <>
-            <p>Loading user details</p>
-            <Loader />
+            <p className="text-danger">
+              Error loading user details
+              <br />
+              {error !== "" && <span>{error}</span>}
+            </p>
             <div className="container-fluid">
               {renderBooks}
             </div>
           </>
         ) : (
-          <>
-            <h1>Welcome,&nbsp;
-              <strong>
-                {userContext.details.firstName}
-                {` ${userContext.details.lastName}`}
-              </strong>!
-            </h1>
-            <button
-              type="button"
-              title="refetch user details"
-              className="btn btn-primary fetch-details"
-              onClick={refetchDetails}
-            >
-              Refetch User Details
-            </button>
-            <div className="container-fluid render-books">
-              {renderBooks}
-            </div>
-          </>
-        )
-      )}
+          !userContext.details ? (
+            <>
+              <p>Loading user details</p>
+              <Loader />
+              <div className="container-fluid">
+                {renderBooks}
+              </div>
+            </>
+          ) : (
+            <>
+              <h1>Welcome,&nbsp;
+                <strong>
+                  {userContext.details.firstName}
+                  {` ${userContext.details.lastName}`}
+                </strong>!
+              </h1>
+              <button
+                type="button"
+                title="refetch user details"
+                className="btn btn-primary fetch-details"
+                onClick={refetchDetails}
+              >
+                Refetch User Details
+              </button>
+              <div className="container-fluid render-books">
+                {renderBooks}
+              </div>
+            </>
+          )
+        )}
+      </div>
     </div>
   );
 };
