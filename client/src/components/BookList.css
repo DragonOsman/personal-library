@@ -75,13 +75,13 @@
   }
 }
 
-@media screen and (min-width: 280px) and (max-width: 300px) {
+@media screen and (min-width: 320px) and (max-width: 419px) {
   .list {
     margin-bottom: 10px;
   }
 
   .book-list {
-    margin-bottom: 20px;
-    margin-left: -50px;
+    margin-bottom: 10%;
+    margin-left: -5vw;
   }
 }
