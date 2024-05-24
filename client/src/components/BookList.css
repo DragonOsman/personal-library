@@ -1,7 +1,6 @@
 .book-list {
   width: 100%;
   margin-top: 0;
-  margin-left: 10px;
   overflow: scroll;
   display: flex;
   justify-content: center;
@@ -70,7 +69,5 @@
 
   .book-list {
     margin-bottom: 10%;
-    margin-left: -5vw;
-    margin-right: 70vw;
   }
 }
