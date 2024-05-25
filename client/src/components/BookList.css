@@ -8,8 +8,8 @@
   align-items: center;
   background-color: #287098;
   filter: brightness(68%);
-  margin-left: -1vw;
-  margin-right: -6vw;
+  margin-left: -2vw;
+  margin-right: -10vw;
 }
 
 .book-list h2 {
@@ -22,7 +22,7 @@
   background-color: #287098;
   filter: brightness(70%);
   margin-top: -71vh;
-  padding-left: calc(10px + 1vh);
+  padding-left: calc(10px + 2vh);
 }
 
 .book-list .btn {
