@@ -9,7 +9,7 @@
   background-color: #287098;
   filter: brightness(68%);
   margin-left: -2vw;
-  margin-right: -10vw;
+  margin-right: -15vw;
 }
 
 .book-list h2 {
@@ -22,7 +22,7 @@
   background-color: #287098;
   filter: brightness(70%);
   margin-top: -71vh;
-  padding-left: calc(10px + 2vh);
+  padding-left: calc(10px + 4vh);
 }
 
 .book-list .btn {
