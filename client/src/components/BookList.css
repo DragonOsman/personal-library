@@ -8,7 +8,7 @@
   align-items: center;
   background-color: #287098;
   margin-left: 1vh;
-  padding: 2vh;
+  padding: 1vh;
   padding-top: 4vh;
 }
 
@@ -72,6 +72,6 @@
 
   .book-list {
     margin-bottom: 10%;
-    margin-left: -5vh;
+    margin-left: -4vh;
   }
 }
