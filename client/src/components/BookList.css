@@ -72,5 +72,6 @@
   .book-list {
     margin-bottom: 10%;
     margin-left: -5vh;
+    padding: 0;
   }
 }
