@@ -9,7 +9,6 @@
   background-color: #287098;
   margin-left: 1vh;
   padding: 1vh;
-  padding-top: 4vh;
 }
 
 .book-list h2 {
@@ -73,5 +72,6 @@
   .book-list {
     margin-bottom: 10%;
     margin-left: -3vh;
+    margin-right: 3vh;
   }
 }
