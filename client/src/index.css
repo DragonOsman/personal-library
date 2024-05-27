@@ -11,13 +11,12 @@ html {
 
 body {
   background-color: #287098;
-  filter: brightness(70%);
 }
 
 .login-form-container, .register-form-container {
   width: 80vw;
   margin-left: 18px;
-  margin-top: 10vh;
+  margin-top: 9vh;
   background-color: #fff;
   text-align: left;
   padding: 5%;

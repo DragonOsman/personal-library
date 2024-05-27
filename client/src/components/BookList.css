@@ -7,6 +7,7 @@
   flex-direction: column;
   align-items: center;
   background-color: #287098;
+  filter: brightness(69%);
   margin-left: 1vh;
   padding: 1vh;
 }
