@@ -12,6 +12,7 @@ html {
 body {
   margin-top: 70px;
   background-color: #287098;
+  filter: brightness(70%);
 }
 
 .login-form-container, .register-form-container {
