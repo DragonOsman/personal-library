@@ -1,5 +1,5 @@
 .book-list {
-  width: 100%;
+  width: 50vw;
   margin-top: 0;
   overflow: scroll;
   display: flex;
