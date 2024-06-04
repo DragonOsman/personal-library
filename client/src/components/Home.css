@@ -19,3 +19,10 @@
 .book-list-indicator {
   margin-bottom: 1%;
 }
+
+.render-books {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
