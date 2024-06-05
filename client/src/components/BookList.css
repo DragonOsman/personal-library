@@ -61,7 +61,7 @@
   }
 
   .book-list {
-    margin-bottom: 10%;
     padding: 0;
+    margin: 0 5vw 10% -5vw;
   }
 }
