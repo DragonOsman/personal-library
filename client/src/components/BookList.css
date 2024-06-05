@@ -47,6 +47,14 @@
   margin-top: 72vh;
 }
 
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .list {
     display: grid;
@@ -55,7 +63,7 @@
   }
 }
 
-@media screen and (min-width: 320px) and (max-width: 419px) {
+@media screen and (min-width: 320px) and (max-width: 323px) {
   .list {
     margin-bottom: 10px;
   }
@@ -65,5 +73,18 @@
     margin-top: 0;
     margin-bottom: 30%;
     margin-left: -5vw;
+  }
+}
+
+@media screen and (min-width: 324px) and (max-width: 370px) {
+  .list {
+    margin-bottom: 10%;
+  }
+
+  .book-list {
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 40%;
+    margin-left: 0;
   }
 }
