@@ -3,7 +3,7 @@
   margin-bottom: 70px;
   padding-top: 10px;
   width: 90vw;
-  margin-left: -2vw;
+  margin-left: 0;
   overflow: auto;
 }
 
@@ -25,4 +25,10 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+@media screen and (min-width: 320px) and (max-width: 419px) {
+  .user-details {
+    margin-left: -1vw;
+  }
 }
