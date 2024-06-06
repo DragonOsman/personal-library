@@ -2,8 +2,7 @@
   width: 80vw;
   margin-top: 0;
   margin-bottom: 10%;
-  overflow-x: scroll;
-  overflow-y: auto;
+  overflow: auto;
   display: flex;
   justify-content: center;
   flex-direction: column;

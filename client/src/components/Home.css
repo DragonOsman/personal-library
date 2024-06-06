@@ -4,7 +4,7 @@
   padding-top: 10px;
   width: 90vw;
   margin-left: 0;
-  overflow-y: scroll;
+  overflow: auto;
 }
 
 .user-details > p {
