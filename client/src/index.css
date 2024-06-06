@@ -20,7 +20,6 @@ body {
 
 .login-form-container, .register-form-container {
   width: 80vw;
-  margin-left: 18px;
   background-color: #fff;
   text-align: left;
   padding: 5%;
@@ -52,9 +51,3 @@ input {
 .text-danger {
   font-size: 1.2rem;
 }
-
-/*@media screen and (min-width: 280px) and (max-width: 419px) {
-  .login-form-container, .register-form-container {
-    margin-left: 0.6vw;
-  }
-}*/
