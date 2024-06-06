@@ -12,6 +12,10 @@ html {
 body {
   background-color: #287098;
   margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .login-form-container, .register-form-container {
@@ -49,8 +53,8 @@ input {
   font-size: 1.2rem;
 }
 
-@media screen and (min-width: 280px) and (max-width: 419px) {
+/*@media screen and (min-width: 280px) and (max-width: 419px) {
   .login-form-container, .register-form-container {
     margin-left: 0.6vw;
   }
-}
+}*/
