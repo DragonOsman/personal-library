@@ -54,9 +54,9 @@ const Home = () => {
   const renderBooks = (
     bookContext.length > 0 ? (
       <>
-        <h1 className="book-list-indicator">
+        <p className="book-list-indicator">
           Below you can see your list of books (click or tap the button):
-        </h1>
+        </p>
         <BookList />
       </>
     ) : (
