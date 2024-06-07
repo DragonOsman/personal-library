@@ -32,3 +32,10 @@
     margin-left: -2vw;
   }
 }
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .book-list-indicator {
+    margin-left: -5vw;
+    margin-right: -7vw;
+  }
+}
