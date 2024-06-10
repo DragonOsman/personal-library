@@ -86,13 +86,13 @@ const Home = () => {
           </>
         ) : (
           !userContext.details ? (
-            <>
+            <div className="loading-details">
               <p>Loading user details</p>
               <Loader />
               <div className="container-fluid">
                 {renderBooks}
               </div>
-            </>
+            </div>
           ) : (
             <>
               <h1>Welcome,&nbsp;
