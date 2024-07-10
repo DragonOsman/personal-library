@@ -50,6 +50,6 @@
   },
   "homepage": "https://github.com/DragonOsman/personal-library#readme",
   "engines": {
-    "node": "20.15.1"
+    "node": "16.x"
   }
 }
