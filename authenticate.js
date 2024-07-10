@@ -7,11 +7,9 @@ exports.COOKIE_OPTIONS = {
   httpOnly: true,
   secure: true,
   signed: true,
-  sameSite: "none",
+  sameSite: "Strict",
   maxAge: math.evaluate(SESSION_EXPIRY) * 1000,
-  path: "https://personal-library-server.onrender.com/api/users/refreshToken",
-  partitioned: true,
-  host: "https://personal-library-ejl3.onrender.com/"
+  path: "/api/users/refreshToken"
 };
 
 exports.getToken = user => {

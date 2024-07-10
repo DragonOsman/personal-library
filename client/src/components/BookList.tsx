@@ -16,7 +16,7 @@ const BookList = () => {
   const fetchBooks = async () => {
     try {
       const booksResponse = await fetch(
-        "https://personal-library-server.onrender.com/api/books/list-books", {
+        "/api/books/list-books", {
           method: "GET",
           credentials: "include",
           headers: {

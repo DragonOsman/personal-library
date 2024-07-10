@@ -41,8 +41,8 @@ const UpdateBookInfo = () => {
       };
 
       try {
-        const response = await fetch(`
-          https://personal-library-server.onrender.com/api/books/update-book/${id}`, {
+        const response = await fetch(
+          `/api/books/update-book/${id}`, {
             method: "PUT",
             credentials: "include",
             headers: {

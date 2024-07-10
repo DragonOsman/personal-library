@@ -22,7 +22,7 @@ const ShowBookDetails = () => {
     const fetchBookDetails = async () => {
       try {
         const response = await fetch(
-          `https://personal-library-server.onrender.com/api/books/show-book/${id}`, {
+          `/api/books/show-book/${id}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

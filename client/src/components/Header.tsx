@@ -15,7 +15,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       await fetch(
-        "https://personal-library-server.onrender.com/api/users/logout", {
+        "/api/users/logout", {
           method: "GET",
           credentials: "include",
           headers: {
@@ -35,7 +35,7 @@ const Header = () => {
   const handleDeleteAccount = async () => {
     try {
       await fetch(`
-        https://personal-library-server.onrender.com/api/users/delete-account`, {
+        /api/users/delete-account`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

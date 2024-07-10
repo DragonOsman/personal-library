@@ -54,7 +54,7 @@ const AddBook = () => {
 
       try {
         const response = await fetch(
-          "https://personal-library-server.onrender.com/api/books/add-book", {
+          "/api/books/add-book", {
             method: "POST",
             credentials: "include",
             headers: {
