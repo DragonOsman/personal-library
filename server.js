@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-const CLIENT_URL = "https://personal-library-ejl3.onrender.com";
+const CLIENT_URL = "https://personal-library-client.vercel.app";
 const whitelist = [CLIENT_URL];
 const corsOptions = {
   origin: (origin, callback) => {
