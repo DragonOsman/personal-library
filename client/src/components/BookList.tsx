@@ -16,7 +16,7 @@ const BookList = () => {
   const fetchBooks = async () => {
     try {
       const booksResponse = await fetch(
-        "/api/books/list-books", {
+        "https://personal-library-server.vercel.app/api/books/list-books", {
           method: "GET",
           credentials: "include",
           headers: {

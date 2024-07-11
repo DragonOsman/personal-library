@@ -43,7 +43,7 @@ const Login = () => {
 
       try {
         const response = await fetch(
-        "/api/users/login", {
+        "https://personal-library-server.vercel.app/api/users/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

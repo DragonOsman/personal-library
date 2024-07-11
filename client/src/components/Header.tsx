@@ -15,7 +15,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       await fetch(
-        "/api/users/logout", {
+        "https://personal-library-server.vercel.app/api/users/logout", {
           method: "GET",
           credentials: "include",
           headers: {
@@ -35,7 +35,7 @@ const Header = () => {
   const handleDeleteAccount = async () => {
     try {
       await fetch(`
-        /api/users/delete-account`, {
+        https://personal-library-server.vercel.app/api/users/delete-account`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

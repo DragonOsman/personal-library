@@ -21,8 +21,8 @@ const ShowBookDetails = () => {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch(
-          `/api/books/show-book/${id}`, {
+        const response = await fetch(`
+          https://personal-library-server.vercel.app/api/books/show-book/${id}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

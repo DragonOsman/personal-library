@@ -54,7 +54,7 @@ const AddBook = () => {
 
       try {
         const response = await fetch(
-          "/api/books/add-book", {
+          "https://personal-library-server.vercel.app/api/books/add-book", {
             method: "POST",
             credentials: "include",
             headers: {
