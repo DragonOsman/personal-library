@@ -7,9 +7,10 @@ exports.COOKIE_OPTIONS = {
   httpOnly: true,
   secure: true,
   signed: true,
-  sameSite: "Strict",
+  sameSite: "None",
   maxAge: math.evaluate(SESSION_EXPIRY) * 1000,
-  path: "/api/users/refreshToken"
+  path: "https://personal-library-server.vercel.app/api/users/refreshToken",
+  partitioned: true
 };
 
 exports.getToken = user => {
