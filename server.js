@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const CLIENT_URL = "https://personal-library-client.vercel.app";
-const whitelist = [CLIENT_URL];
+const whitelist = [CLIENT_URL, `${CLIENT_URL}/`];
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -22,6 +22,7 @@ const corsOptions = {
   credentials: true,
   allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization", "Connection"],
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
+  optionsSuccessStatus: 200,
   maxAge: 86400
 };
 app.use(cors(corsOptions));
