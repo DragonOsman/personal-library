@@ -27,6 +27,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+app.options("*", (_, res) => {
+  res.sendStatus(200);
+});
+
 connectDB();
 
 const app = express();
