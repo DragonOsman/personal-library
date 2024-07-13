@@ -3,25 +3,57 @@ const bookRouter = express.Router();
 const Book = require("../../models/Book");
 const { verifyUser } = require("../../authenticate");
 
-/*bookRouter.options("/add-book", (_, res) => {
+const CLIENT_URL = "https://personal-library-client.vercel.app";
+
+bookRouter.options("/add-book", (_, res) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
+  );
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.sendStatus(200);
 });
 
 bookRouter.options("/list-books", (_, res) => {
   res.sendStatus(200);
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
+  );
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
 });
 
 bookRouter.options("/show-book/:id", (_, res) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
+  );
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.sendStatus(200);
 });
 
 bookRouter.options("/update-book/:id", (_, res) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
+  );
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.sendStatus(200);
 });
 
 bookRouter.options("/delete-book/:id", (_, res) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
+  );
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.sendStatus(200);
-});*/
+});
 
 bookRouter.post("/add-book", verifyUser, async (req, res) => {
   const {

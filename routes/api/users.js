@@ -8,25 +8,57 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-/*userRouter.options("/login", (_, res) => {
+const CLIENT_URL = "https://personal-library-client.vercel.app";
+
+userRouter.options("/login", (_, res) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
+  );
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.sendStatus(200);
 });
 
 userRouter.options("/register", (_, res) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
+  );
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.sendStatus(200);
 });
 
 userRouter.options("/user-info", (_, res) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
+  );
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.sendStatus(200);
 });
 
 userRouter.options("/refreshToken", (_, res) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
+  );
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.sendStatus(200);
 });
 
 userRouter.options("/logout", (_, res) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
+  );
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.sendStatus(200);
-});*/
+});
 
 const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
