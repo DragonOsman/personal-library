@@ -27,26 +27,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.options("/api/users/*", (_, res) => {
-  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
-  );
-  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
-  res.sendStatus(200);
-});
-
-app.options("/api/books/*", (_, res) => {
-  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
-  );
-  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
-  res.sendStatus(200);
-});
-
 connectDB();
 
 const app = express();
@@ -69,4 +49,11 @@ app.use("/api/books", bookRouter);
 
 app.get("/", (req, res) => res.json({ status: "success" }));
 
-module.exports = app;
+const PORT = 3000 || process.env.PORT;
+
+app.listen(PORT, (err) => {
+  if (err) {
+    console.log(`error in server setup: ${err}`);
+  }
+  console.log(`server running on port ${PORT}`);
+});
