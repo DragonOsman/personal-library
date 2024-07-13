@@ -3,6 +3,26 @@ const bookRouter = express.Router();
 const Book = require("../../models/Book");
 const { verifyUser } = require("../../authenticate");
 
+/*bookRouter.options("/add-book", (_, res) => {
+  res.sendStatus(200);
+});
+
+bookRouter.options("/list-books", (_, res) => {
+  res.sendStatus(200);
+});
+
+bookRouter.options("/show-book/:id", (_, res) => {
+  res.sendStatus(200);
+});
+
+bookRouter.options("/update-book/:id", (_, res) => {
+  res.sendStatus(200);
+});
+
+bookRouter.options("/delete-book/:id", (_, res) => {
+  res.sendStatus(200);
+});*/
+
 bookRouter.post("/add-book", verifyUser, async (req, res) => {
   const {
     title,

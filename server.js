@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const CLIENT_URL = "https://personal-library-client.vercel.app";
-const whitelist = [CLIENT_URL, `${CLIENT_URL}/`];
+const whitelist = [CLIENT_URL];
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -27,7 +27,23 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.options("*", (_, res) => {
+app.options("/api/users/*", (_, res) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
+  );
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
+  res.sendStatus(200);
+});
+
+app.options("/api/books/*", (_, res) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Authorization, Connection"
+  );
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.sendStatus(200);
 });
 

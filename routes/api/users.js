@@ -8,6 +8,26 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
+/*userRouter.options("/login", (_, res) => {
+  res.sendStatus(200);
+});
+
+userRouter.options("/register", (_, res) => {
+  res.sendStatus(200);
+});
+
+userRouter.options("/user-info", (_, res) => {
+  res.sendStatus(200);
+});
+
+userRouter.options("/refreshToken", (_, res) => {
+  res.sendStatus(200);
+});
+
+userRouter.options("/logout", (_, res) => {
+  res.sendStatus(200);
+});*/
+
 const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
 const {
