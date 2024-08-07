@@ -9,6 +9,8 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
+app.use(cors());
+
 const CLIENT_URL = "https://personal-library-client.vercel.app";
 const whitelist = [CLIENT_URL];
 const corsOptions = {
@@ -19,9 +21,6 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true,
-  allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization", "Connection"],
-  methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   optionsSuccessStatus: 200,
   maxAge: 86400
 };
