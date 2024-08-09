@@ -14,13 +14,7 @@ app.use(cors());
 const CLIENT_URL = "https://personal-library-client.vercel.app";
 const whitelist = [CLIENT_URL];
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: CLIENT_URL,
   optionsSuccessStatus: 200,
   maxAge: 86400
 };
