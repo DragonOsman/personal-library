@@ -40,6 +40,8 @@
       }
     ],
     "semi": "error",
-    "no-extra-semi": "error"
+    "no-extra-semi": "error",
+    "@typescript-eslint/comma-dangle": "error",
+    "comma-dangle": "error"
   }
 }
