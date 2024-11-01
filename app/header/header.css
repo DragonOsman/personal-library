@@ -1,0 +1,16 @@
+header {
+  background-color: var(--header-background);
+}
+
+nav {
+  padding-top: 10px;
+}
+
+nav .nav-links {
+  padding-top: 15px;
+}
+
+.nav-links:hover {
+  text-decoration: underline;
+  color: var(--foreground);
+}

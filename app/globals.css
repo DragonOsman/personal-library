@@ -27,11 +27,12 @@ img {
 :root {
   --foreground: #287098;
   --background: #37383c;
+  --header-background: #151516;
   font-size: 16px;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: #fff;
+  background-color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }

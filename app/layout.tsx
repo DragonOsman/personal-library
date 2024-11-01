@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import Header from "@/app/header/Header";
+import "@/app/globals.css";
 
 export const metadata: Metadata = {
   title: "DragonOsman Personal Library",
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="en-us">
       <body
       >
+        <Header />
         {children}
       </body>
     </html>
