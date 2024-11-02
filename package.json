@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "daisyui": "^4.12.14",
     "mysql": "^2.18.1",
     "next": "15.0.2",
     "react": "19.0.0-rc-02c0e824-20241028",
@@ -21,6 +22,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^16.4.5",
     "eslint": "^8",
     "eslint-config-next": "15.0.2",
     "eslint-plugin-next": "^0.0.0",
