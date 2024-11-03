@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "daisyui";
 
 /* Apply box-sizing to all elements */
 *, *::before, *::after {
