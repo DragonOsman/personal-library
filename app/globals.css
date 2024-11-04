@@ -30,10 +30,10 @@ img {
   --foreground: #37383c;
   --header-background: #151516;
   font-size: 16px;
+  background-color: var(--background);
 }
 
 body {
   color: #fff;
-  background-color: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
