@@ -26,8 +26,8 @@ img {
 }
 
 :root {
-  --foreground: #287098;
-  --background: #37383c;
+  --background: #287098;
+  --foreground: #37383c;
   --header-background: #151516;
   font-size: 16px;
 }

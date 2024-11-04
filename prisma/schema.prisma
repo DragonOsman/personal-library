@@ -14,6 +14,7 @@ model books {
   author           String    @db.VarChar(255)
   publication_date DateTime  @default(now()) @db.Timestamp(0)
   added_at         DateTime? @default(now()) @db.Timestamp(0)
+  isbn             String    @db.Char(13)
   users            users     @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reader_id")
 }
 
