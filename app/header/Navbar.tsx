@@ -30,7 +30,7 @@ const Navbar = () => {
   }];
 
   return (
-    <nav className="flex justify-between items center w-full h-20 px-4 text-white bg-black fixed nav">
+    <nav className="flex justify-between items center w-full h-20 px-4 text-white bg-black absolute nav">
       <div className="brand">
         <Image
           src={logo.src}
