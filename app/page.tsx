@@ -3,7 +3,7 @@ import { prisma } from "./lib/prisma";
 
 const Home = () => {
   return (
-    <h2>Welcome, Guest!</h2>
+    <h2>Welcome to the Public Homepage!</h2>
   );
 };
 
