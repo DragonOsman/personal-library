@@ -26,8 +26,16 @@ const Navbar = () => {
     link: "home"
   }, {
     id: 2,
+    link: "dashboard"
+  }, {
+    id: 3,
+    link: "register"
+  }, {
+    id: 4,
     link: "login"
   }];
+
+  const signoutBtn = <button type="button">Logout</button>
 
   return (
     <nav className="flex justify-between items center w-full h-20 px-4 text-white bg-black fixed nav">
@@ -47,9 +55,12 @@ const Navbar = () => {
               key={linkObj.id}
               className="nav-links px-4 cursor-pointer capitalize font-medium"
             >
-              <Link href={linkObj.link}>{linkObj.link}</Link>
+              <Link href={linkObj.link === "home" ? "/" : linkObj.link}>{linkObj.link}</Link>
             </li>
           ))}
+          <li className="nav-links px-4 cursor-pointer capitalize font-medium">
+            {signoutBtn}
+          </li>
         </ul>
         <div
           className="cursor-pointer pr-4 z-10 text-gray-500 md:hidden"
@@ -69,6 +80,9 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
+            <li className="nav-links px-4 cursor-pointer capitalize font-medium">
+              {signoutBtn}
+            </li>
           </ul>
         )}
       </div>
