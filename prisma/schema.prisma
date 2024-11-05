@@ -1,10 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model User {
@@ -16,15 +16,16 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
+  account       Account?
+  session       Session?  @relation(fields: [id], references: [userId])
+  books         Book[]    @relation(map: "readerId")
 
   @@map("users")
 }
 
 model Account {
-  id                String   @id @default(cuid())
-  userId            String   @map("user_id")
+  id                String   @id @default(cuid()) @unique
+  userId            String   @map("user_id") @unique
   type              String?
   provider          String
   providerAccountId String   @map("provider_account_id")
@@ -36,23 +37,23 @@ model Account {
   id_token          String?  @db.Text
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([provider, providerAccountId])
-  @@map("accounts")
+  @@map("account")
 }
 
 model Session {
   id           String   @id @default(cuid())
-  userId       String?  @map("user_id")
-  sessionToken String   @unique @map("session_token") @db.Text
+  userId       String?  @map("user_id") @unique
+  sessionToken String   @map("session_token") @db.Text
   accessToken  String?  @map("access_token") @db.Text
   expires      DateTime
-  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  users        User[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  @@map("sessions")
+  @@map("session")
 }
 
 model VerificationRequest {
@@ -66,13 +67,14 @@ model VerificationRequest {
   @@unique([identifier, token])
 }
 
-model books {
-  id               String    @id @default(cuid())
-  title            String    @db.VarChar(255)
-  description      String?   @db.Text
-  author           String    @db.VarChar(255)
-  publicationDate  DateTime  @default(now()) @db.Timestamp(0)
-  addedAt          DateTime? @default(now()) @db.Timestamp(0)
-  isbn             String    @db.Char(13)
-  users            users     @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "readerId")
+model Book {
+  id              String    @db.VarChar(255) @default(cuid()) @unique
+  title           String    @db.VarChar(255)
+  description     String?   @db.Text
+  author          String    @db.VarChar(255)
+  isbn            String    @db.Char(13) @unique
+  addedAt         DateTime? @default(now()) @db.Timestamp(0)
+  publicationDate DateTime  @default(now()) @db.Timestamp(0)
+  readerId        String    @db.VarChar(255) @default("")
+  user            User      @relation(fields: [readerId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "readerId")
 }
