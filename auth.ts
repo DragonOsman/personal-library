@@ -6,7 +6,6 @@ import google from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { useSession } from "next-auth/react";
-import { randomUUID } from "crypto";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { "strategy": "jwt" },
@@ -75,28 +74,35 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           const session = useSession();
 
-          if (session.status === "authenticated") {
-            if (session.data) {
-              if (session.data.user) {
-                if (session.data.user.id) {
-                  return session.data.user.id;
-                }
-              }
-            }
+          if (session.status !== "authenticated") {
+            throw new Error("Must be logged in and authenticated");
           }
-          return randomUUID();
+
+          if (!session.data) {
+            throw new Error("Session data must be truthy");
+          }
+
+          if (!session.data.user) {
+            throw new Error("User must exist");
+          }
+
+          if (!session.data.user.id) {
+            throw new Error("User id must exist");
+          }
+
+          return session.data.user.id;
         };
 
         const userId = getId();
 
-        const user = await prisma.users.findUnique({
+        const user = await prisma.user.findUnique({
           where: {
             id: userId,
             email: String(credentials.email)
           }
         });
 
-        if (!user ||
+        if (!user || user.password &&
             !(await bcrypt.compare(String(credentials.password), user.password))
         ) {
           return null;
