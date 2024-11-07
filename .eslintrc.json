@@ -5,7 +5,7 @@
   ],
   "plugins": [
     "react",
-    "a11y",
+    "jsx-a11y",
     "react-hooks",
     "next"
   ],
