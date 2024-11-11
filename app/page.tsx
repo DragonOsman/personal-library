@@ -1,12 +1,23 @@
-import { redirect } from "next/dist/server/api-utils";
-import { prisma } from "./lib/prisma";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
-const Home = () => {
-  return (
-    <main>
-      <h2>Welcome to the Public Homepage!</h2>
-    </main>
-  );
+const Home = async () => {
+  const session = await auth();
+  if (session && !session?.user) {
+    redirect("api/auth/login");
+  }
+
+  if (session) {
+    const user = session.user;
+
+    return (
+      <main>
+        <h2>Welcome to your Dashboard, ${user?.name}!</h2>
+      </main>
+    );
+  }
+
+  redirect("/api/auth/login");
 };
 
 export default Home;

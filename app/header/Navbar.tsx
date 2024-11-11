@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import logo from "../../public/images/logo.png";
 
 const Navbar = () => {
   const [navVisilbility, setNavVisibility] = useState(false);
-
+  const session = useSession();
   const handleResize = () => {
     if (window.innerWidth >= 768) {
       setNavVisibility(false);
@@ -21,24 +22,34 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const isLoggedIn = (session && session.status !== "unauthenticated"
+    && session.data
+    && session.data.user
+  );
+
   const links = [{
     id: 1,
     link: "home"
   }, {
     id: 2,
-    link: "dashboard"
-  }, {
-    id: 3,
     link: "register"
   }, {
-    id: 4,
+    id: 3,
     link: "login"
   }];
 
-  const signoutBtn = <button type="button">Logout</button>
+  const signoutBtn = <button type="button">Logout</button>;
+
+  const linksShown = [];
+  if (isLoggedIn) {
+    linksShown.push(links[0]);
+  } else if (!isLoggedIn) {
+    linksShown.push(links[1]);
+    linksShown.push(links[2]);
+  }
 
   return (
-    <nav className="flex justify-between items center w-full h-20 px-4 text-white bg-black fixed nav">
+    <nav className="flex justify-between items center w-full h-20 px-4 bg-black text-white nav">
       <div className="brand">
         <Image
           src={logo.src}
@@ -50,17 +61,18 @@ const Navbar = () => {
       </div>
       <div className="links">
         <ul className="hidden md:flex">
-          {links.map((linkObj) => (
+          {linksShown.map((linkShown) => (
             <li
-              key={linkObj.id}
+              key={linkShown.id}
               className="nav-links px-4 cursor-pointer capitalize font-medium"
             >
-              <Link href={linkObj.link === "home" ? "/" : linkObj.link}>{linkObj.link}</Link>
+              <Link href={linkShown.link === "home" ? "/" : linkShown.link}>{linkShown.link}</Link>
             </li>
           ))}
-          <li className="nav-links px-4 cursor-pointer capitalize font-medium">
-            {signoutBtn}
-          </li>
+          {isLoggedIn && (
+            <li className="nav-links px-4 cursor-pointer capitalize font-medium">
+              {signoutBtn}
+            </li>)}
         </ul>
         <div
           className="cursor-pointer pr-4 z-10 text-gray-500 md:hidden"
@@ -70,19 +82,20 @@ const Navbar = () => {
         </div>
         {navVisilbility && (
           <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full">
-            {links.map((linkObj) => (
+            {linksShown.map((linkShown) => (
               <li
                 className="cursor-pointer px-4 capitalize-py-6 text-4xl"
-                key={linkObj.id}
+                key={linkShown.id}
               >
-                <Link href={linkObj.link} onClick={() => setNavVisibility(!navVisilbility)}>
-                  {linkObj.link}
+                <Link href={linkShown.link} onClick={() => setNavVisibility(!navVisilbility)}>
+                  {linkShown.link}
                 </Link>
               </li>
             ))}
-            <li className="nav-links px-4 cursor-pointer capitalize font-medium">
-              {signoutBtn}
-            </li>
+            {isLoggedIn && (
+              <li className="nav-links px-4 cursor-pointer capitalize font-medium">
+                {signoutBtn}
+              </li>)}
           </ul>
         )}
       </div>

@@ -1,9 +1,11 @@
 header {
   background-color: var(--header-background);
+  position: sticky;
 }
 
 nav {
   padding-top: 10px;
+  height: 50px;
 }
 
 nav .nav-links {

@@ -1,5 +1,7 @@
+import * as React from "react";
 import type { Metadata } from "next";
 import Header from "@/app/header/Header";
+import { SessionProvider } from "next-auth/react";
 import "@/app/globals.css";
 
 export const metadata: Metadata = {
@@ -8,16 +10,17 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en-us">
-      <body
-      >
-        <Header />
-        {children}
+      <body>
+        <SessionProvider>
+          <Header />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

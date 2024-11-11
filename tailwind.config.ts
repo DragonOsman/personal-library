@@ -20,9 +20,6 @@ const config: Config = {
       lg: "976px",
       xl: "1440px"
     }
-  },
-  plugins: [
-    require("daisyui")
-  ]
+  }
 };
 export default config;
