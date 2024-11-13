@@ -2,7 +2,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-"./register.css";
+import "./register.css";
 import { useFormik } from "formik";
 import { Button, TextField, Typography } from "@mui/material";
 import { register } from "@/app/actions/register";
