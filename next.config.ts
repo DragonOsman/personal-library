@@ -2,9 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  experimental: {
-    esmExternals: false
-  },
   webpack: (config) => {
     config.modules.rules.push({
       test: /\.tsx?$/,
