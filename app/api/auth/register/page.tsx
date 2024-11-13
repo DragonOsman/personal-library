@@ -35,12 +35,13 @@ const FormPage = () => {
         }}
       >
         <Typography variant="h6">Register</Typography>
-        <TextField
-          id="firstName"
+        <label htmlFor="firstName">First Name</label>:
+        <input
           type="text"
-          label="firstName"
+          id="firstName"
           placeholder="First Name"
-          fullWidth
+          className="w-full rounded"
+          required
           {...formik.getFieldProps("firstName")}
         />
         {formik.errors.firstName && formik.touched.firstName && (
@@ -48,12 +49,13 @@ const FormPage = () => {
             {formik.errors.firstName}
           </p>
         )}
-        <TextField
+        <label htmlFor="lastName">Last Name</label>:
+        <input
           id="lastName"
           type="text"
-          label="lastName"
           placeholder="Last Name"
-          fullWidth
+          className="w-full rounded"
+          required
           {...formik.getFieldProps("lastName")}
         />
         {formik.errors.lastName && formik.touched.lastName && (
@@ -61,12 +63,13 @@ const FormPage = () => {
             {formik.errors.lastName}
           </p>
         )}
-        <TextField
+        <label htmlFor="email">Email</label>:
+        <input
           id="email"
           type="email"
-          label="Email"
           placeholder="johndoe@example.com"
-          fullWidth
+          className="w-full rounded"
+          required
           {...formik.getFieldProps("email")}
         />
         {formik.errors.email && formik.touched.email && (
@@ -74,12 +77,13 @@ const FormPage = () => {
             {formik.errors.email}
           </p>
         )}
-        <TextField
+        <label htmlFor="password">Password</label>:
+        <input
           id="password"
           type="password"
-          label="password"
           placeholder="Enter Password"
-          fullWidth
+          className="w-full rounded"
+          required
           {...formik.getFieldProps("password")}
         />
         {formik.errors.password && formik.touched.password && (
@@ -87,12 +91,13 @@ const FormPage = () => {
             {formik.errors.password}
           </p>
         )}
-        <TextField
+        <label htmlFor="confirmPassword">Confirm Password</label>:
+        <input
           id="confirmPassword"
           type="password"
-          label="confirmPassword"
           placeholder="Confirm Password"
-          fullWidth
+          className="w-full rounded"
+          required
           {...formik.getFieldProps("confirmPassword")}
         />
         {formik.errors.confirmPassword && formik.touched.confirmPassword && (
@@ -100,9 +105,7 @@ const FormPage = () => {
             {formik.errors.confirmPassword}
           </p>
         )}
-        <Button variant="contained" type="submit" fullWidth>
-          Register
-        </Button>
+        <input type="submit" className="w-full rounded" value="Register" />
       </form>
     </section>
   );
