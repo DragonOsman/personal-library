@@ -2,17 +2,18 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  webpack: (config) => {
-    config.modules.rules.push({
-      test: /\.tsx?$/,
-      use: {
-        loader: "ts-loader",
-        options: {
-          transpileOnly: true
-        }
-      }
-    });
-    return config;
+  basePath: "",
+  experimental: {
+    turbo: {
+      resolveExtensions: [
+        ".tsx",
+        ".ts",
+        ".js",
+        ".jsx",
+        ".json",
+        ".mdx"
+      ]
+    }
   }
 };
 

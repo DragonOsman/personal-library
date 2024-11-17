@@ -1,18 +1,17 @@
 header {
-  background-color: var(--header-background);
-  position: sticky;
+  margin-bottom: 50px;
 }
 
 nav {
-  padding-top: 10px;
   height: 50px;
 }
 
 nav .nav-links {
-  padding-top: 15px;
+  padding-top: 1px;
 }
 
 .nav-links:hover {
+  --background: #287098;
   text-decoration: underline;
   color: var(--background);
 }

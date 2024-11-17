@@ -5,7 +5,10 @@ import { SessionProvider } from "next-auth/react";
 import "@/app/globals.css";
 
 export const metadata: Metadata = {
-  title: "DragonOsman Personal Library",
+  title: {
+    default: "DragonOsman Personal Library",
+    template: "%s | DragonOsman Personal Library"
+  },
   description: "Personal library app: manage a list of books you've read and/or have",
 };
 

@@ -49,7 +49,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="flex justify-between items center w-full h-20 px-4 bg-black text-white nav">
+    <nav className="flex bg-black absolute top-0 left-0 w-full justify-between items-center h-20 px-4 text-white nav">
       <div className="brand">
         <Image
           src={logo.src}
@@ -81,7 +81,7 @@ const Navbar = () => {
           {navVisilbility ? <FaTimes size={30} /> : <FaBars size={30} />}
         </div>
         {navVisilbility && (
-          <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full">
+          <ul className="flex flex-col justify-center items-center absolute">
             {linksShown.map((linkShown) => (
               <li
                 className="cursor-pointer px-4 capitalize-py-6 text-4xl"
