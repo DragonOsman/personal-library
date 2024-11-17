@@ -1,3 +1,5 @@
+"use server";
+
 import { registrationSchema } from "../lib/definitions";
 import bcrypt from "bcryptjs";
 import prisma from "../lib/prisma";
@@ -7,9 +9,7 @@ import { redirect } from "next/navigation";
 import cookies from "next/headers";
 import { NextResponse } from "next/server";
 
-export const register = async (formData: FormData) => {
-  "use server";
-
+export const registerAction = async (formData: FormData) => {
   const validatedFields = registrationSchema.safeParse({
     firstName: formData.get("firstName"),
     lastName: formData.get("lastName"),
@@ -61,7 +61,6 @@ export const register = async (formData: FormData) => {
         }
       });
     }
-
 
     const cookieStore = await cookies.cookies();
     cookieStore.set("session", user.id, {
