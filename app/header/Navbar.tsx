@@ -8,96 +8,80 @@ import Image from "next/image";
 import logo from "../../public/images/logo.png";
 
 const Navbar = () => {
-  const [navVisilbility, setNavVisibility] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const session = useSession();
-  const handleResize = () => {
-    if (window.innerWidth >= 768) {
-      setNavVisibility(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const isLoggedIn = (session && session.status !== "unauthenticated"
-    && session.data
-    && session.data.user
-  );
-
-  const links = [{
-    id: 1,
-    link: "home"
-  }, {
-    id: 2,
-    link: "register"
-  }, {
-    id: 3,
-    link: "login"
-  }];
-
-  const signoutBtn = <button type="button">Logout</button>;
-
-  const linksShown = [];
-  if (isLoggedIn) {
-    linksShown.push(links[0]);
-  } else if (!isLoggedIn) {
-    linksShown.push(links[1]);
-    linksShown.push(links[2]);
+  let isLoggedIn = false;
+  if (session) {
+    isLoggedIn = true;
   }
 
+  const toggleMenu = () => setIsOpen(!isOpen);
+
   return (
-    <nav className="flex bg-black absolute top-0 left-0 w-full justify-between items-center h-20 px-4 text-white nav">
-      <div className="brand">
-        <Image
-          src={logo.src}
-          alt="dragon logo"
-          className="dragon-logo place-self-start"
-          width={50}
-          height={50}
-        />
-      </div>
-      <div className="links">
-        <ul className="hidden md:flex">
-          {linksShown.map((linkShown) => (
-            <li
-              key={linkShown.id}
-              className="nav-links px-4 cursor-pointer capitalize font-medium"
-            >
-              <Link href={linkShown.link === "home" ? "/" : linkShown.link}>{linkShown.link}</Link>
-            </li>
-          ))}
-          {isLoggedIn && (
-            <li className="nav-links px-4 cursor-pointer capitalize font-medium">
-              {signoutBtn}
-            </li>)}
-        </ul>
-        <div
-          className="cursor-pointer pr-4 z-10 text-gray-500 md:hidden"
-          onClick={() => setNavVisibility(!navVisilbility)}
-        >
-          {navVisilbility ? <FaTimes size={30} /> : <FaBars size={30} />}
+    <nav className="bg-black p-4">
+      <div className="flex container mx-auto flex-col lg:flex-row justify-between items-center">
+        <div className="mb-4 hover:cursor-pointer">
+          <Image
+            src={logo.src}
+            alt="dragon logo"
+            className="dragon-logo place-self-start"
+            width={50}
+            height={50}
+          />
         </div>
-        {navVisilbility && (
-          <ul className="flex flex-col justify-center items-center absolute">
-            {linksShown.map((linkShown) => (
-              <li
-                className="cursor-pointer px-4 capitalize-py-6 text-4xl"
-                key={linkShown.id}
-              >
-                <Link href={linkShown.link} onClick={() => setNavVisibility(!navVisilbility)}>
-                  {linkShown.link}
-                </Link>
-              </li>
-            ))}
-            {isLoggedIn && (
-              <li className="nav-links px-4 cursor-pointer capitalize font-medium">
-                {signoutBtn}
-              </li>)}
+        <div className="lg:hidden">
+          <button
+            type="button"
+            title="toggle navbar"
+            onClick={toggleMenu}
+            className="text-white focus:outline-none"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
+          <ul
+            className={`lg:flex flex-col lg:flex-row ${isOpen ? "block" : "hidden"} lg:space-x-4 lg:mt-0 mt-4 flex-col items-center text-xl`}
+          >
+            <>
+              {isLoggedIn ? (
+                <>
+                  <li>
+                    <Link href="/api/auth/register">Register</Link>
+                  </li>
+                  <li>
+                    <Link href="/api/auth/login">Login</Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <Link href="/">Home</Link>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      title="logout button"
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </>
+              )}
+            </>
           </ul>
-        )}
+        </div>
       </div>
     </nav>
   );
