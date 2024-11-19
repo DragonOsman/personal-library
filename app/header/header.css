@@ -15,3 +15,12 @@ nav .nav-links {
   text-decoration: underline;
   color: var(--background);
 }
+
+.is-visible {
+  margin-right: 500px;
+  margin-left: -30px;
+}
+
+.nav-links, .is-visible {
+  padding-top: 15px;
+}
