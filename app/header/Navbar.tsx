@@ -84,7 +84,7 @@ const Navbar = () => {
           {navVisilbility ? <FaTimes size={30} /> : <FaBars size={30} />}
         </div>
         {navVisilbility && (
-          <ul className="bg-black flex flex-col justify-center items-center absolute is-visible w-full">
+          <ul className="bg-black flex flex-col justify-items-center content-center absolute is-visible w-full">
             {linksShown.map((linkShown) => (
               <li
                 className="cursor-pointer px-4 py-6 nav-links"
