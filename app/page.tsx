@@ -11,9 +11,7 @@ const Home = async () => {
     const user = session.user;
 
     return (
-      <main>
-        <h2>Welcome to your Dashboard, ${user?.name}!</h2>
-      </main>
+      <h2>Welcome to your Dashboard, ${user?.name}!</h2>
     );
   }
 
