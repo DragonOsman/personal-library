@@ -17,7 +17,7 @@ const RegisterForm = () => {
 
   return (
     <section className="register-container flex-col min-h-screen flex justify-center items-center">
-      <h2>Register</h2>
+      <h2>Create an account</h2>
       <Formik
         initialValues={{
           firstName: "",
