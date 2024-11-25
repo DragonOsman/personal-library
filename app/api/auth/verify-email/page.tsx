@@ -35,7 +35,7 @@ const Page = async ({ searchParams }: VerifyEmailPageProps) => {
       verified = true;
     }
   } else {
-    message = "No verificatioi token found. Check your email.";
+    message = "No verification token found. Check your email.";
   }
 
   return (
