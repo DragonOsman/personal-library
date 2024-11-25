@@ -1,14 +1,14 @@
 "use server";
 
-import { registrationSchema } from "../lib/definitions";
+import { registrationSchema } from "@/app/lib/definitions";
 import bcrypt from "bcryptjs";
-import prisma from "../lib/prisma";
-import { auth } from "../../auth";
+import prisma from "@/app/lib/prisma";
+import { auth } from "@/auth";
 import { randomUUID, randomBytes } from "crypto";
 import { redirect } from "next/navigation";
 import cookies from "next/headers";
 import { NextResponse } from "next/server";
-import { sendEmail } from "./email-actions";
+import { sendEmail } from "@/app/actions/email-actions";
 import { verificationTemplate } from "@/emails/verification-template";
 import { createElement } from "react";
 
