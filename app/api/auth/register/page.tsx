@@ -1,4 +1,4 @@
-import RegisterForm from "./RegisterForm";
+import RegisterForm from "@/app/api/auth/register/RegisterForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

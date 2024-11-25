@@ -4,7 +4,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import "./register.css";
+import "@/app/api/auth/register/register.css";
 import { registerAction } from "@/app/actions/register";
 import { registrationSchema } from "@/app/lib/definitions";
 import { Button } from "@mui/material";
