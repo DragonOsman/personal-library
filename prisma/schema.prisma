@@ -8,18 +8,19 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  firstName     String    @default("") @db.VarChar(255)
-  lastName      String    @default("") @db.VarChar(255)
-  email         String    @unique
-  password      String
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  account       Account?
-  session       Session?  @relation(fields: [id], references: [userId])
-  books         Book[]    @relation(map: "readerId")
+  id                      String    @id @default(uuid())
+  firstName               String    @default("") @db.VarChar(255)
+  lastName                String    @default("") @db.VarChar(255)
+  email                   String    @unique
+  password                String
+  emailVerified           DateTime? @map("email_verified")
+  emailVerificationToken  String  @unique @db.VarChar(255)
+  image                   String?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  account                 Account?
+  session                 Session?  @relation(fields: [id], references: [userId])
+  books                   Book[]    @relation(map: "readerId")
 
   @@map("users")
 }
