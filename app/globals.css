@@ -44,6 +44,8 @@ input[type="text"],
 input[type="password"],
 input[type="email"] {
   margin-bottom: 5px;
+  padding: 5px;
+  color: #000;
 }
 
 .confirmPassword {
