@@ -39,13 +39,15 @@ export const registerAction = async (formData: FormData) => {
   }
 
   try {
+    const emailVerificationToken = "";
     const hashedPassword = await bcrypt.hash(password, 32);
     const userData = await prisma.user.create({
       data: {
         firstName,
         lastName,
         email,
-        password: hashedPassword
+        password: hashedPassword,
+        emailVerificationToken
       }
     });
     const user = userData;
