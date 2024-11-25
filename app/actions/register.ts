@@ -4,10 +4,13 @@ import { registrationSchema } from "../lib/definitions";
 import bcrypt from "bcryptjs";
 import prisma from "../lib/prisma";
 import { auth } from "../../auth";
-import { randomUUID } from "crypto";
+import { randomUUID, randomBytes } from "crypto";
 import { redirect } from "next/navigation";
 import cookies from "next/headers";
 import { NextResponse } from "next/server";
+import { sendEmail } from "./email-actions";
+import { verificationTemplate } from "@/emails/verification-template";
+import { createElement } from "react";
 
 export const registerAction = async (formData: FormData) => {
   const validatedFields = registrationSchema.safeParse({
@@ -39,7 +42,7 @@ export const registerAction = async (formData: FormData) => {
   }
 
   try {
-    const emailVerificationToken = "";
+    let emailVerificationToken = "";
     const hashedPassword = await bcrypt.hash(password, 32);
     const userData = await prisma.user.create({
       data: {
@@ -62,6 +65,23 @@ export const registerAction = async (formData: FormData) => {
           sessionToken: randomUUID()
         }
       });
+
+      emailVerificationToken = randomBytes(32).toString("hex");
+      await prisma.user.update({
+        where: {
+          id: user.id
+        },
+        data: {
+          emailVerificationToken
+        }
+      });
+
+      await sendEmail({
+        to: ["Your email address", user.email],
+        subject: "Verify your email address",
+        react: createElement(verificationTemplate, { username: email, emailVerificationToken })
+      });
+      redirect("/api/auth/verify-email");
     }
 
     const cookieStore = await cookies.cookies();
