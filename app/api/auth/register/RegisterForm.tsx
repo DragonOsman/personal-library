@@ -8,11 +8,15 @@ import "@/app/api/auth/register/register.css";
 import { registerAction } from "@/app/actions/register";
 import { registrationSchema } from "@/app/lib/definitions";
 import { Button } from "@mui/material";
-import { FormikValues, Formik, Form, Field } from "formik";
+import { FormikValues, Formik, Form, Field, useFormikContext } from "formik";
 
 const RegisterForm = () => {
+  const { isSubmitting, setSubmitting } = useFormikContext();
   const handleSubmit = (values: FormikValues) => {
-    console.log(JSON.stringify(values));
+    setSubmitting(false);
+    for (const [key, value] of Object.keys(values)) {
+      console.log(`${key}:${value}`);
+    }
   };
 
   return (
@@ -89,7 +93,13 @@ const RegisterForm = () => {
             {touched.confirmPassword && errors.confirmPassword && (
               <p className="text-sm text-red-600">{errors.confirmPassword}</p>
             )}
-            <Button variant="contained" type="submit">Register</Button>
+            <Button
+              variant="contained"
+              type="submit"
+              disabled={isSubmitting ? true : false}
+            >
+              Register
+            </Button>
           </Form>
         )}
       </Formik>
