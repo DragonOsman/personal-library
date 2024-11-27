@@ -11,7 +11,7 @@ interface Email {
 
 export const sendEmail = async (payload: Email) => {
   const { error } = await resend.emails.send({
-    from: "DragonOsman's Personal Library <onboarding@resend.dev>",
+    from: "DragonOsman's Personal Library <osman@osmanzakir.dynu.net>",
     ...payload
   });
 
