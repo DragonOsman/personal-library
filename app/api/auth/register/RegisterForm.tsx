@@ -5,104 +5,101 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "@/app/api/auth/register/register.css";
-import { registerAction } from "@/app/actions/register";
+import { registerAction } from "@/app/actions/auth-actions";
 import { registrationSchema } from "@/app/lib/definitions";
 import { Button } from "@mui/material";
-import { FormikValues, Formik, Form, Field, useFormikContext } from "formik";
+import { FormikValues, useFormik } from "formik";
+import { FormEvent } from "react";
 
 const RegisterForm = () => {
-  const { isSubmitting, setSubmitting } = useFormikContext();
   const handleSubmit = (values: FormikValues) => {
-    setSubmitting(false);
     for (const [key, value] of Object.keys(values)) {
       console.log(`${key}:${value}`);
     }
   };
 
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
+    },
+    onSubmit: handleSubmit,
+    validate: () => registrationSchema
+  });
+
   return (
     <section className="register-container flex-col min-h-screen flex justify-center items-center">
       <h2>Create an account</h2>
-      <Formik
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: "",
-          confirmPassword: ""
-        }}
-        onSubmit={handleSubmit}
-        validate={() => registrationSchema}
+      <form
+        action={registerAction}
+        className="flex w-full flex-col space-between"
       >
-        {({ errors, touched, getFieldProps }) => (
-          <Form
-            action={registerAction}
-            className="flex w-full flex-col space-between"
-          >
-            <label htmlFor="firstName">First Name:</label>
-            <Field
-              type="text"
-              id="firstName"
-              className="firstName rounded"
-              required
-              {...getFieldProps("firstName")}
-            />
-            {touched.firstName && errors.firstName && (
-              <p className="text-sm text-red-600">{errors.firstName}</p>
-            )}
-            <label htmlFor="lastName">Last Name:</label>
-            <Field
-              type="text"
-              id="lastName"
-              className="lastName rounded"
-              required
-              {...getFieldProps("lastName")}
-            />
-            {touched.lastName && errors.lastName && (
-              <p className="text-sm text-red-600">{errors.lastName}</p>
-            )}
-            <label htmlFor="email">Email:</label>
-            <Field
-              type="email"
-              id="email"
-              className="email rounded"
-              required
-              {...getFieldProps("email")}
-            />
-            {touched.email && errors.email && (
-              <p className="text-sm text-red-600">{errors.email}</p>
-            )}
-            <label htmlFor="password">Password:</label>
-            <Field
-              type="password"
-              id="password"
-              className="password rounded"
-              required
-              {...getFieldProps("password")}
-            />
-            {touched.password && errors.password && (
-              <p className="text-sm text-red-600">{errors.password}</p>
-            )}
-            <label htmlFor="confirmPassword">Confirm Password:</label>
-            <Field
-              type="password"
-              id="confirmPassword"
-              className="confirmPassward rounded"
-              required
-              {...getFieldProps("confirmPassword")}
-            />
-            {touched.confirmPassword && errors.confirmPassword && (
-              <p className="text-sm text-red-600">{errors.confirmPassword}</p>
-            )}
-            <Button
-              variant="contained"
-              type="submit"
-              disabled={isSubmitting ? true : false}
-            >
-              Register
-            </Button>
-          </Form>
+        <label htmlFor="firstName">First Name:</label>
+        <input
+          type="text"
+          id="firstName"
+          className="firstName rounded"
+          required
+          {...formik.getFieldProps("firstName")}
+        />
+        {formik.touched.firstName && formik.errors.firstName && (
+          <p className="text-sm text-red-600">{formik.errors.firstName}</p>
         )}
-      </Formik>
+        <label htmlFor="lastName">Last Name:</label>
+        <input
+          type="text"
+          id="lastName"
+          className="lastName rounded"
+          required
+          {...formik.getFieldProps("lastName")}
+        />
+        {formik.touched.lastName && formik.errors.lastName && (
+          <p className="text-sm text-red-600">{formik.errors.lastName}</p>
+        )}
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          className="email rounded"
+          required
+          {...formik.getFieldProps("email")}
+        />
+        {formik.touched.email && formik.errors.email && (
+          <p className="text-sm text-red-600">{formik.errors.email}</p>
+        )}
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          className="password rounded"
+          required
+          {...formik.getFieldProps("password")}
+        />
+        {formik.touched.password && formik.errors.password && (
+          <p className="text-sm text-red-600">{formik.errors.password}</p>
+        )}
+        <label htmlFor="confirmPassword">Confirm Password:</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          className="confirmPassward rounded"
+          required
+          {...formik.getFieldProps("confirmPassword")}
+        />
+        {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+          <p className="text-sm text-red-600">{formik.errors.confirmPassword}</p>
+        )}
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={formik.isSubmitting ? true : false}
+        >
+          Register
+        </Button>
+      </form>
     </section>
   );
 };
