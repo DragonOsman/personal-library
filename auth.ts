@@ -7,6 +7,9 @@ import { z } from "zod";
 import type { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { findUserByEmail } from "@/app/actions/auth-actions";
+import prisma from "@/app/lib/prisma";
+import { Adapter } from "next-auth/adapters";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 
 const getUser = async (email: string) => {
   try {
@@ -19,6 +22,7 @@ const getUser = async (email: string) => {
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  adapter: PrismaAdapter(prisma),
   providers: [Credentials({
     authorize: async (credentials) => {
       const parsedCredentials = z
