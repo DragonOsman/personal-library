@@ -41,7 +41,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
           return user;
         }
       }
-      console.log('Invalid credentials');
+      console.log("Invalid credentials");
       return null;
     }
   }), Google, GitHub]
