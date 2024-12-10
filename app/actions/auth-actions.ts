@@ -5,11 +5,10 @@ import { signIn, signOut } from "@/auth";
 import bcrypt from "bcryptjs";
 import prisma from "@/app/lib/prisma";
 import { AuthError } from "next-auth";
-import { User } from "@prisma/client";
 import { auth } from "@/auth";
 import { randomUUID, randomBytes } from "crypto";
 import { redirect } from "next/navigation";
-import cookies from "next/headers";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { EmailNotVerifiedError } from "@/errors";
 import nodemailer from "nodemailer";
@@ -143,7 +142,7 @@ export const registerAction = async (formData: FormData) => {
 
   const emailVerificationToken = generateEmailVerificationToken();
   const hashedPassword = await bcrypt.hash(password, 32);
-  let user: User;
+  let user;
   try {
     user = await prisma.user.create({
       data: {
@@ -167,7 +166,7 @@ export const registerAction = async (formData: FormData) => {
       });
     }
 
-    const cookieStore = await cookies.cookies();
+    const cookieStore = await cookies();
     cookieStore.set("session", user.id, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
