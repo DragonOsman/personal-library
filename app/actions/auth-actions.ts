@@ -159,7 +159,7 @@ export const registerAction = async (formData: FormData) => {
       session.user = user;
       await prisma.session.create({
         data: {
-          userId: session?.user.id,
+          userId: user.id,
           expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
           sessionToken: randomUUID()
         }
@@ -171,7 +171,7 @@ export const registerAction = async (formData: FormData) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      sameSite: "lax",
+      sameSite: "strict",
       path: "/"
     });
   } catch (error) {
