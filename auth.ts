@@ -4,11 +4,9 @@ import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
 import { authConfig } from "@/auth.config";
 import { z } from "zod";
-import type { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { findUserByEmail } from "@/app/actions/auth-actions";
 import prisma from "@/app/lib/prisma";
-import { Adapter } from "next-auth/adapters";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
 const getUser = async (email: string) => {
