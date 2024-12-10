@@ -7,7 +7,7 @@
     "react",
     "jsx-a11y",
     "react-hooks",
-    "next"
+    "@next/next"
   ],
   "env": {
     "browser": true,
