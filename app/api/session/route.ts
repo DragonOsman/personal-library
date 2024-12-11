@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 
-export const GET = async (_request: Request) => {
+export const GET = async () => {
   const session = await auth();
 
   if (!session?.user) {
@@ -14,5 +14,5 @@ export const GET = async (_request: Request) => {
   return NextResponse.json({
     authenticated: !!session,
     session
-  })
+  });
 };
