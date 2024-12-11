@@ -9,7 +9,6 @@ import { registerAction } from "@/app/actions/auth-actions";
 import { registrationSchema } from "@/app/lib/definitions";
 import { Button } from "@mui/material";
 import { FormikValues, useFormik } from "formik";
-import { FormEvent } from "react";
 
 const RegisterForm = () => {
   const handleSubmit = (values: FormikValues) => {
