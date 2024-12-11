@@ -9,14 +9,12 @@ export const metadata: Metadata = {
     default: "DragonOsman Personal Library",
     template: "%s | DragonOsman Personal Library"
   },
-  description: "Personal library app: manage a list of books you've read and/or have",
+  description: "Personal library app: manage a list of books you've read and/or have"
 };
 
 export default function RootLayout({
   children
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-us">
       <body>

@@ -39,7 +39,7 @@ export const verifyEmail = async (email: string) => {
       emailVerified: new Date(),
       emailVerificationToken: undefined
     }
-  })
+  });
 };
 
 export const authenticate = async (prevState: string | undefined, formData: FormData) => {
@@ -88,7 +88,7 @@ const sendVerificationEmail = async (email: string, token: string) => {
     await transporter.sendMail(emailData);
   } catch (error) {
     console.log(`Failed to send email: ${error}`);
-    throw error;;
+    throw error;
   }
 };
 
