@@ -104,7 +104,7 @@ export const resendVerificationEmail = async (email: string) => {
 
     await sendVerificationEmail(email, emailVerificationToken);
   } catch (error) {
-    return "Something went wrong";
+    return `Something went wrong: ${error}`;
   }
 
   return "Verification email sent";
@@ -123,7 +123,8 @@ export const registerAction = async (formData: FormData) => {
     throw new Error(JSON.stringify(validatedFields.error.flatten().fieldErrors));
   }
 
-  const { firstName, lastName, email, password, confirmPassword } = validatedFields.data;
+  const {
+    firstName, lastName, email, password, confirmPassword } = validatedFields.data;
 
   if (password !== confirmPassword) {
     throw new Error("Passwords must match");
@@ -146,9 +147,9 @@ export const registerAction = async (formData: FormData) => {
   try {
     user = await prisma.user.create({
       data: {
-        firstName,
-        lastName,
-        email,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
         password: hashedPassword,
         emailVerificationToken
       }
