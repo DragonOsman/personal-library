@@ -131,6 +131,14 @@ export const registerAction = async (formData: FormData) => {
   }
 
   console.log(typeof prisma.user);
+  try {
+    if (!prisma.user) {
+      throw new Error("prisma.user is undefined.");
+    }
+  } catch (error) {
+    console.log(`An error occurred: ${error}`);
+  }
+
   const existingUser = await prisma.user.findUnique({
     where: {
       email: String(email)
