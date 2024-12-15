@@ -123,27 +123,23 @@ export const registerAction = async (formData: FormData) => {
     throw new Error(JSON.stringify(validatedFields.error.flatten().fieldErrors));
   }
 
-  const {
-    firstName, lastName, email, password, confirmPassword } = validatedFields.data;
+  const { firstName, lastName, email, password, confirmPassword } = validatedFields.data;
 
   if (password !== confirmPassword) {
     throw new Error("Passwords must match");
   }
 
   console.log(typeof prisma.user);
-  try {
-    if (!prisma.user) {
-      throw new Error("prisma.user is undefined.");
-    }
-  } catch (error) {
-    console.log(`An error occurred: ${error}`);
-  }
 
-  const existingUser = await prisma.user.findUnique({
-    where: {
-      email: String(email)
-    }
-  });
+  let existingUser = null;
+
+  if (prisma.user) {
+    existingUser = await prisma.user.findUnique({
+      where: {
+        email: String(email)
+      }
+    });
+  }
 
   if (existingUser) {
     throw new Error("User with this email address already exists!");
