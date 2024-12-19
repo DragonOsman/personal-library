@@ -3,4 +3,4 @@ export class EmailNotVerifiedError extends Error {
     super(message);
     this.name = "EmailNotVerifiedError";
   }
-};
+}

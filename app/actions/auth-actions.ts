@@ -131,15 +131,11 @@ export const registerAction = async (formData: FormData) => {
 
   console.log(typeof prisma.user);
 
-  let existingUser = null;
-
-  if (prisma.user) {
-    existingUser = await prisma.user.findUnique({
-      where: {
-        email: String(email)
-      }
-    });
-  }
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      email: String(email)
+    }
+  });
 
   if (existingUser) {
     throw new Error("User with this email address already exists!");
