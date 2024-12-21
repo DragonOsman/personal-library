@@ -129,6 +129,8 @@ export const registerAction = async (formData: FormData) => {
     throw new Error("Passwords must match");
   }
 
+  console.log("Validated fields:", validatedFields.data);
+
   console.log(typeof prisma.user);
 
   const existingUser = await prisma.user.findUnique({
@@ -176,7 +178,7 @@ export const registerAction = async (formData: FormData) => {
       path: "/"
     });
   } catch (error) {
-    console.error(error);
+    console.error(`Error creating user: ${error}`);
     NextResponse.json({
       status: 500,
       message: "Something went wrong"
@@ -184,6 +186,7 @@ export const registerAction = async (formData: FormData) => {
   }
 
   await sendVerificationEmail(email, emailVerificationToken);
+  console.log("Redirecting to verification page");
   redirect(`/email/verify/send?email=${email}&verification_sent=1`);
 };
 
