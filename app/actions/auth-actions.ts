@@ -147,9 +147,9 @@ export const registerAction = async (formData: FormData) => {
   try {
     user = await prisma.user.create({
       data: {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
+        firstName,
+        lastName,
+        email,
         password: hashedPassword,
         emailVerificationToken
       }
