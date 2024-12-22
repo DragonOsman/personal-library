@@ -156,10 +156,12 @@ export const registerAction = async (formData: FormData) => {
         emailVerificationToken
       }
     });
+    console.log(user);
     const session = await auth();
 
     if (session && session.user && session.user.id) {
       session.user = user;
+      console.log(session.user);
       await prisma.session.create({
         data: {
           userId: user.id,
