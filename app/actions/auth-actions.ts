@@ -138,6 +138,7 @@ export const registerAction = async (formData: FormData) => {
       email: String(email)
     }
   });
+  console.log("Existing user:", existingUser);
 
   if (existingUser) {
     throw new Error("User with this email address already exists!");
@@ -145,6 +146,8 @@ export const registerAction = async (formData: FormData) => {
 
   const emailVerificationToken = generateEmailVerificationToken();
   const hashedPassword = await bcrypt.hash(password, 32);
+  console.log("email verification token:", emailVerificationToken);
+  console.log("hashed password:", hashedPassword);
   let user;
   try {
     user = await prisma.user.create({
@@ -170,6 +173,7 @@ export const registerAction = async (formData: FormData) => {
         }
       });
     }
+    console.log("session created");
 
     const cookieStore = await cookies();
     cookieStore.set("session", user.id, {
