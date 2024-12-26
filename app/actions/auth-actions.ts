@@ -92,10 +92,19 @@ const sendVerificationEmail = async (email: string, token: string) => {
   }
 };
 
-const generateEmailVerificationToken = () => randomBytes(32).toString("hex");
+const generateEmailVerificationToken = async () => {
+  let result = "";
+  randomBytes(32, (error, buffer) => {
+    if (error) {
+      throw error;
+    }
+    result = buffer.toString("hex");
+  });
+  return result;
+};
 
 export const resendVerificationEmail = async (email: string) => {
-  const emailVerificationToken = generateEmailVerificationToken();
+  const emailVerificationToken = await generateEmailVerificationToken();
   try {
     await prisma.user.update({
       where: { email },
@@ -144,7 +153,7 @@ export const registerAction = async (formData: FormData) => {
     throw new Error("User with this email address already exists!");
   }
 
-  const emailVerificationToken = generateEmailVerificationToken();
+  const emailVerificationToken = await generateEmailVerificationToken();
   const hashedPassword = await bcrypt.hash(password, 32);
   console.log("email verification token:", emailVerificationToken);
   console.log("hashed password:", hashedPassword);
