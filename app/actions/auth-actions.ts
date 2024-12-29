@@ -95,11 +95,14 @@ const sendVerificationEmail = async (email: string, token: string) => {
 const generateEmailVerificationToken = async () => {
   let result = "";
   randomBytes(32, (error, buffer) => {
+    console.log("Buffer:", buffer);
     if (error) {
       throw error;
     }
     result = buffer.toString("hex");
+    console.log("Result:", result);
   });
+  console.log("Result:", result);
   return result;
 };
 
@@ -154,8 +157,8 @@ export const registerAction = async (formData: FormData) => {
   }
 
   const emailVerificationToken = await generateEmailVerificationToken();
-  const hashedPassword = await bcrypt.hash(password, 32);
   console.log("email verification token:", emailVerificationToken);
+  const hashedPassword = await bcrypt.hash(password, 10);
   console.log("hashed password:", hashedPassword);
   let user;
   try {
