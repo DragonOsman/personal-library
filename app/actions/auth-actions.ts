@@ -12,6 +12,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { EmailNotVerifiedError } from "@/errors";
 import nodemailer from "nodemailer";
+import { v4 } from "uuid";
 
 const isUserEmailVerified = async (email: string) => {
   const user = await prisma.user.findFirst({
@@ -164,6 +165,7 @@ export const registerAction = async (formData: FormData) => {
   try {
     user = await prisma.user.create({
       data: {
+        id: v4(),
         firstName,
         lastName,
         email,
