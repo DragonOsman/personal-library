@@ -47,7 +47,7 @@ model Account {
 
 model Session {
   id           String   @id @default(cuid())
-  userId       String?  @unique @map("user_id")
+  userId       String   @unique @map("user_id")
   sessionToken String   @map("session_token") @db.Text
   accessToken  String?  @map("access_token") @db.Text
   expires      DateTime
