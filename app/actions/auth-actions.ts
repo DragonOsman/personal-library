@@ -141,25 +141,18 @@ export const registerAction = async (formData: FormData) => {
     throw new Error("Passwords must match");
   }
 
-  console.log("Validated fields:", validatedFields.data);
-
-  console.log(typeof prisma.user);
-
   const existingUser = await prisma.user.findUnique({
     where: {
       email: String(email)
     }
   });
-  console.log("Existing user:", existingUser);
 
   if (existingUser) {
     throw new Error("User with this email address already exists!");
   }
 
   const emailVerificationToken = await generateEmailVerificationToken();
-  console.log("email verification token:", emailVerificationToken);
   const hashedPassword = await bcrypt.hash(password, 10);
-  console.log("hashed password:", hashedPassword);
   let user;
   try {
     user = await prisma.user.create({
