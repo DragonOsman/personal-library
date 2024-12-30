@@ -14,35 +14,14 @@ model User {
   email                   String    @unique
   password                String
   emailVerified           DateTime? @map("email_verified")
-  emailVerificationToken  String  @unique @db.VarChar(255)
+  emailVerificationToken  String    @unique @db.VarChar(255)
   image                   String?
   createdAt               DateTime  @default(now())
   updatedAt               DateTime  @updatedAt
-  account                 Account?
   session                 Session?  @relation(fields: [id], references: [userId])
   books                   Book[]    @relation(map: "readerId")
 
   @@map("users")
-}
-
-model Account {
-  id                String   @id @unique @default(uuid())
-  userId            String   @unique @map("user_id")
-  type              String?
-  provider          String
-  providerAccountId String   @map("provider_account_id")
-  token_type        String?
-  refresh_token     String?  @db.Text
-  access_token      String?  @db.Text
-  expires_at        Int?
-  scope             String?
-  id_token          String?  @db.Text
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  @@unique([provider, providerAccountId])
-  @@map("account")
 }
 
 model Session {

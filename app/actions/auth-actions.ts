@@ -13,6 +13,7 @@ import { NextResponse } from "next/server";
 import { EmailNotVerifiedError } from "@/errors";
 import nodemailer from "nodemailer";
 import { v4 } from "uuid";
+import type { User } from ".prisma/client";
 
 const isUserEmailVerified = async (email: string) => {
   const user = await prisma.user.findFirst({
@@ -152,22 +153,9 @@ export const registerAction = async (formData: FormData) => {
     throw new Error("User with this email address already exists!");
   }
 
-  const session = await auth();
-  if (session && session.user && session.user.id) {
-    console.log(session.user);
-    await prisma.session.create({
-      data: {
-        userId: v4(),
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        sessionToken: v4()
-      }
-    });
-  }
-  console.log("session created");
-
   const emailVerificationToken = await generateEmailVerificationToken();
   const hashedPassword = await bcrypt.hash(password, 10);
-  let user;
+  let user: User | null = null;
   try {
     user = await prisma.user.create({
       data: {
@@ -180,21 +168,53 @@ export const registerAction = async (formData: FormData) => {
       }
     });
     console.log(user);
-
-    const cookieStore = await cookies();
-    cookieStore.set("session", user.id, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      sameSite: "strict",
-      path: "/"
-    });
   } catch (error) {
     console.error(`Error creating user: ${error}`);
     NextResponse.json({
       status: 500,
       message: "Something went wrong"
     });
+  }
+
+  const session = await auth();
+  if (user) {
+    try {
+      if (session && session.user && session.user.id) {
+        session.user = user!;
+        console.log(session.user);
+        await prisma.session.create({
+          data: {
+            ...session,
+            sessionToken: v4(),
+            userId: user.id
+          }
+        });
+      }
+      console.log("session created");
+    } catch (error) {
+      console.error(`Error creating session: ${error}`);
+      NextResponse.json({
+        status: 500,
+        message: "Something went wrong"
+      });
+    }
+
+    try {
+      const cookieStore = await cookies();
+      cookieStore.set("session", user.id, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        sameSite: "strict",
+        path: "/"
+      });
+    } catch (error) {
+      console.error(`Error setting cookie: ${error}`);
+      NextResponse.json({
+        status: 500,
+        message: "Something went wrong"
+      });
+    }
   }
 
   await sendVerificationEmail(email, emailVerificationToken);
