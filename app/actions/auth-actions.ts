@@ -6,12 +6,13 @@ import bcrypt from "bcryptjs";
 import prisma from "@/app/lib/prisma";
 import { AuthError } from "next-auth";
 import { auth } from "@/auth";
-import { randomUUID, randomBytes } from "crypto";
+import { randomBytes } from "crypto";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { EmailNotVerifiedError } from "@/errors";
 import nodemailer from "nodemailer";
+import { v4 } from "uuid";
 
 const isUserEmailVerified = async (email: string) => {
   const user = await prisma.user.findFirst({
@@ -151,12 +152,26 @@ export const registerAction = async (formData: FormData) => {
     throw new Error("User with this email address already exists!");
   }
 
+  const session = await auth();
+  if (session && session.user && session.user.id) {
+    console.log(session.user);
+    await prisma.session.create({
+      data: {
+        userId: v4(),
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        sessionToken: v4()
+      }
+    });
+  }
+  console.log("session created");
+
   const emailVerificationToken = await generateEmailVerificationToken();
   const hashedPassword = await bcrypt.hash(password, 10);
   let user;
   try {
     user = await prisma.user.create({
       data: {
+        id: v4(),
         firstName,
         lastName,
         email,
@@ -165,20 +180,6 @@ export const registerAction = async (formData: FormData) => {
       }
     });
     console.log(user);
-    const session = await auth();
-
-    if (session && session.user && session.user.id) {
-      session.user = user;
-      console.log(session.user);
-      await prisma.session.create({
-        data: {
-          userId: user.id,
-          expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-          sessionToken: randomUUID()
-        }
-      });
-    }
-    console.log("session created");
 
     const cookieStore = await cookies();
     cookieStore.set("session", user.id, {

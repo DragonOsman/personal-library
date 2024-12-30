@@ -26,7 +26,7 @@ model User {
 }
 
 model Account {
-  id                String   @id @unique @default(cuid())
+  id                String   @id @unique @default(uuid())
   userId            String   @unique @map("user_id")
   type              String?
   provider          String
@@ -46,12 +46,12 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @default(uuid())
   userId       String   @unique @map("user_id")
   sessionToken String   @map("session_token") @db.Text
   accessToken  String?  @map("access_token") @db.Text
   expires      DateTime
-  users        User[]
+  user         User?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
