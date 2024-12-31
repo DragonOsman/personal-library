@@ -184,9 +184,10 @@ export const registerAction = async (formData: FormData) => {
         console.log(session.user);
         await prisma.session.create({
           data: {
-            ...session,
+            id: v4(),
             sessionToken: v4(),
-            userId: user.id
+            userId: user.id,
+            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
           }
         });
       }

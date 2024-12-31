@@ -8,20 +8,20 @@ datasource db {
 }
 
 model User {
-  id                      String    @id @default(uuid())
-  firstName               String    @default("") @db.VarChar(255)
-  lastName                String    @default("") @db.VarChar(255)
-  email                   String    @unique
-  password                String
-  emailVerified           DateTime? @map("email_verified")
-  emailVerificationToken  String    @unique @db.VarChar(255)
-  image                   String?
-  createdAt               DateTime  @default(now())
-  updatedAt               DateTime  @updatedAt
-  session                 Session?  @relation(fields: [id], references: [userId])
-  books                   Book[]    @relation(map: "readerId")
+  id                     String    @id @default(uuid())
+  firstName              String    @default("") @db.VarChar(255)
+  lastName               String    @default("") @db.VarChar(255)
+  email                  String    @unique
+  password               String
+  emailVerified          DateTime? @map("email_verified")
+  emailVerificationToken String    @unique @db.VarChar(255)
+  image                  String?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  books                  Book[]    @relation(map: "readerId")
+  Session                Session[]
 
-  @@map("users")
+  @@map("user")
 }
 
 model Session {
@@ -30,7 +30,7 @@ model Session {
   sessionToken String   @map("session_token") @db.Text
   accessToken  String?  @map("access_token") @db.Text
   expires      DateTime
-  user         User?
+  user         User?    @relation(fields: [userId], references: [id])
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -50,11 +50,14 @@ model VerificationRequest {
 
 model Book {
   id              String    @id
+  readerId        String
   title           String    @db.VarChar(255)
   description     String?   @db.Text
   author          String    @db.VarChar(255)
   isbn            String    @db.Char(13)
   addedAt         DateTime? @default(now()) @db.Timestamp(0)
   publicationDate DateTime  @default(now()) @db.Timestamp(0)
-  users           User      @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "readerId")
+  user            User      @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "readerId")
+
+  @@map("books")
 }
