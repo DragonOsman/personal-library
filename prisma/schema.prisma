@@ -57,7 +57,7 @@ model Book {
   isbn            String    @db.Char(13)
   addedAt         DateTime? @default(now()) @db.Timestamp(0)
   publicationDate DateTime  @default(now()) @db.Timestamp(0)
-  user            User      @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "readerId")
+  user            User?      @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "readerId")
 
   @@map("books")
 }
