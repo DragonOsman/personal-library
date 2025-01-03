@@ -1,12 +1,6 @@
 import { Metadata } from "next";
 import { ReactNode, FC } from "react";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import Header from "./components/Header";
 import "./globals.css";
 
@@ -18,10 +12,7 @@ export const metadada: Metadata = {
 
 const links = [
   { name: "Home", url: "/" },
-  { name: "Dashboard", url: "/dashboard" },
-  { name: "Login", url: "/api/auth/login" },
-  { name: "Logout", url: "/api/auth/logout" },
-  { name: "Register", url: "/api/auth/register" }
+  { name: "Dashboard", url: "/dashboard" }
 ];
 
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
@@ -30,13 +21,9 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
       <html lang="en">
       <body>
         <Header links={links} />
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-        {children}
+        <>
+          <main>{children}</main>
+        </>
       </body>
       </html>
     </ClerkProvider>
