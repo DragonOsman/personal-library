@@ -2,57 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Apply box-sizing to all elements */
-*, *::before, *::after {
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-/* Remove default margin and padding */
-body, h1, h2, h3, h4, h5, h6, p, ol, ul {
-  margin: 0;
-  padding: 0;
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-dark);
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 1rem;
 }
 
-/* Remove list styles */
-ol, ul {
-  list-style: none;
-}
-
-/* Ensure images are responsive */
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-:root {
-  --background: #287098;
-  --foreground: #37383c;
-  font-size: 16px;
-  background-color: var(--background);
-}
-
-body {
-  color: #fff;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-main {
-  margin-top: 50vh;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="email"] {
-  margin-bottom: 5px;
-  padding: 5px;
-  color: #000;
-}
-
-.confirmPassword {
-  margin-bottom: 9px;
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
 }
 
 h2 {
-  font-size: 24px;
-  font-weight: 100;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+h5 {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+h6 {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+:root {
+  --color-primary: #287098;
+  --color-secondary: #37383c;
+  --color-text: #000;
+  --color-text-light: #666;
+  --color-text-dark: #111;
+}
+
+body {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 17px;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+header {
+  background-color: #2e2f33;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+header img {
+  margin-right: auto;
+}
+
+header nav {
+  margin-left: auto;
 }
