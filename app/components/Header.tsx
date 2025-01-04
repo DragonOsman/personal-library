@@ -1,4 +1,3 @@
-import { FC } from "react";
 import logo from "../../public/images/logo.png";
 import Image from "next/image";
 import {
@@ -8,11 +7,7 @@ import {
   UserButton
 } from "@clerk/nextjs";
 
-interface HeaderProps {
-  links: { name: string; url: string }[];
-}
-
-const Header: FC<HeaderProps> = ({ links }) => {
+const Header = () => {
   return (
     <header>
       <Image
@@ -26,15 +21,46 @@ const Header: FC<HeaderProps> = ({ links }) => {
         <ul>
           <SignedOut>
             <SignInButton />
+            <li className="nav-item">
+              <a
+                href="/api/auth/signup"
+                className="link"
+                title="sign-up link"
+              >
+                Sign Up
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                href="/api/auth/signin"
+                className="link"
+                title="sign-in link"
+              >
+                Sign In
+              </a>
+            </li>
           </SignedOut>
           <SignedIn>
             <UserButton />
-          </SignedIn>
-          {links.map((link, index) => (
-            <li key={index}>
-              <a href={link.url}>{link.name}</a>
+            <li className="nav-item">
+              <a
+                href="/api/auth/signout"
+                title="sign-out link"
+                className="link"
+              >
+                Sign Out
+              </a>
             </li>
-          ))}
+            <li className="nav-item">
+              <a
+                href="/api/auth/dashboard"
+                title="dashboard link"
+                className="link"
+              >
+                Dashboard
+              </a>
+            </li>
+          </SignedIn>
         </ul>
       </nav>
     </header>
