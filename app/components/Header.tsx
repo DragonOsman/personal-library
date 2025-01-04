@@ -30,15 +30,6 @@ const Header = () => {
                 Sign Up
               </a>
             </li>
-            <li className="nav-item">
-              <a
-                href="/api/auth/signin"
-                className="link"
-                title="sign-in link"
-              >
-                Sign In
-              </a>
-            </li>
           </SignedOut>
           <SignedIn>
             <UserButton />
@@ -49,15 +40,6 @@ const Header = () => {
                 className="link"
               >
                 Sign Out
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                href="/api/auth/dashboard"
-                title="dashboard link"
-                className="link"
-              >
-                Dashboard
               </a>
             </li>
           </SignedIn>
