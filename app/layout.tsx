@@ -10,20 +10,24 @@ export const metadada: Metadata = {
   keywords: "Next.js, TypeScript, Library, Authentication, User Auth, Auth, MySQL"
 };
 
-const links = [
-  { name: "Home", url: "/" },
-  { name: "Dashboard", url: "/dashboard" }
-];
-
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <ClerkProvider>
-      <html lang="en">
-      <body>
-        <Header links={links} />
-        <>
-          <main>{children}</main>
-        </>
+    <ClerkProvider appearance={{
+      layout: {
+        logoImageUrl: "/public/images/logo.png",
+        logoLinkUrl: "/"
+      },
+      variables: {
+      colorPrimary: "#287098",
+      colorBackground: "#37383c"
+      }
+    }}>
+      <html lang="en-us">
+        <body>
+          <Header />
+          <>
+            <main>{children}</main>
+          </>
       </body>
       </html>
     </ClerkProvider>

@@ -45,8 +45,8 @@ h6 {
 }
 
 :root {
-  --color-primary: #287098;
-  --color-secondary: #37383c;
+  --color-primary: #37383c;
+  --color-secondary: #287098;
   --color-text: #000;
   --color-text-light: #666;
   --color-text-dark: #111;
