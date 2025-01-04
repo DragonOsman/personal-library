@@ -53,7 +53,12 @@ h6 {
 }
 
 body {
-  background-color: var(--color-primary);
+  background: linear-gradient(
+    to bottom,
+    var(--color-primary),
+    darken(var(--color-primary), 3px),
+    lighten(var(--color-primary), 3px)
+  );
   color: var(--color-text);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 17px;
