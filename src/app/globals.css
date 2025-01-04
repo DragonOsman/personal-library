@@ -17,7 +17,7 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: var(--color-text-dark);
+  color: lighten(var(--color-secondary), 4%);
   font-family: 'Arial', sans-serif;
   margin-bottom: 1rem;
 }
@@ -52,16 +52,25 @@ h6 {
   font-weight: bold;
 }
 
-body {
+html {
   background: linear-gradient(
     to bottom,
     var(--color-primary),
     darken(var(--color-primary), 3px),
     lighten(var(--color-primary), 3px)
   );
+}
+
+body {
   color: var(--color-text);
   font-family: Arial, Helvetica, 'Helvetica Neue', sans-serif;
   font-size: 17px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 a {
@@ -91,4 +100,83 @@ header img {
 
 header nav {
   margin-left: auto;
+  text-align: right;
+  align-self: center;
+}
+
+.sign-in-button,
+.sign-up-button {
+  background-color: var(--color-secondary);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+.sign-in-button:hover,
+.sign-up-button:hover {
+  background-color: darken(var(--color-secondary), 10%);
+}
+
+main {
+  margin-top: 50px;
+}
+
+button {
+  color: lighten(var(--color-secondary), 10%);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger-icon {
+  width: 25px;
+  height: 3px;
+  background-color: #000;
+  display: block;
+  margin: 5px 0;
+}
+
+.nav-menu {
+  display: flex;
+}
+
+.nav-menu ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-left: 20px;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+  .nav-menu.open {
+    display: flex;
+  }
+  .nav-item {
+    margin: 10px 0;
+  }
 }
