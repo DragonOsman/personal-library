@@ -8,6 +8,14 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-primary: #37383c;
+  --color-secondary: #287098;
+  --color-text: #000;
+  --color-text-light: #666;
+  --color-text-dark: #111;
+}
+
 h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-dark);
   font-family: 'Arial', sans-serif;
@@ -42,14 +50,6 @@ h5 {
 h6 {
   font-size: 1rem;
   font-weight: bold;
-}
-
-:root {
-  --color-primary: #37383c;
-  --color-secondary: #287098;
-  --color-text: #000;
-  --color-text-light: #666;
-  --color-text-dark: #111;
 }
 
 body {
