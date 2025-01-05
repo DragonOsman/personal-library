@@ -41,7 +41,7 @@ const Header = () => {
                 </SignInButton>
               </li>
               <li className="nav-item">
-              <SignUpButton>
+                <SignUpButton>
                   <button type="button" className="sign-up-button" title="Sign Up">
                     Sign Up
                   </button>
