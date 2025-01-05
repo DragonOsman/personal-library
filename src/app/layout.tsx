@@ -3,6 +3,7 @@ import { ReactNode, FC } from "react";
 import { ClerkProvider } from "@clerk/nextjs";
 import Header from "./components/Header";
 import "./globals.css";
+import logo from "../../public/images/logo.png";
 
 export const metadada: Metadata = {
   title: "DragonOsman Personal Library App",
@@ -14,7 +15,7 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <ClerkProvider appearance={{
       layout: {
-        logoImageUrl: "/public/images/logo.png",
+        logoImageUrl: `${logo.src}`,
         logoLinkUrl: "/"
       },
       variables: {
