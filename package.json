@@ -10,11 +10,11 @@
     "postinstall": "npx prisma generate"
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^2.7.3",
     "@clerk/nextjs": "^6.9.6",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@fontsource/roboto": "^5.1.0",
+    "@headlessui/react": "^2.2.0",
     "@mui/material": "^6.1.6",
     "@react-email/components": "^0.0.28",
     "@types/nodemailer": "^6.4.17",
