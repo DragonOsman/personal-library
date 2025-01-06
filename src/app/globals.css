@@ -50,15 +50,6 @@ h6 {
   font-weight: bold;
 }
 
-html {
-  background: linear-gradient(
-    to bottom,
-    var(--color-primary),
-    darken(var(--color-primary), 3px),
-    lighten(var(--color-primary), 3px)
-  );
-}
-
 body {
   color: var(--color-text);
   font-family: Arial, Helvetica, 'Helvetica Neue', sans-serif;

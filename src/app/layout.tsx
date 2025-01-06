@@ -24,7 +24,7 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
       }
     }}>
       <html lang="en-us">
-        <body>
+        <body className="antialiased bg-gradient-to-b from-background-500 to-background-700">
           <Header />
           <>
             <main>{children}</main>
