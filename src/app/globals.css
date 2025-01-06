@@ -11,9 +11,7 @@
 :root {
   --color-primary: #37383c;
   --color-secondary: #287098;
-  --color-text: #000;
-  --color-text-light: #666;
-  --color-text-dark: #111;
+  --color-text: #fff;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -107,7 +105,7 @@ header nav {
 .sign-in-button,
 .sign-up-button {
   background-color: var(--color-secondary);
-  color: #fff;
+  color: var(--color-text);
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
@@ -132,51 +130,4 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.hamburger {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.hamburger-icon {
-  width: 25px;
-  height: 3px;
-  background-color: #000;
-  display: block;
-  margin: 5px 0;
-}
-
-.nav-menu {
-  display: flex;
-}
-
-.nav-menu ul {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.nav-item {
-  margin-left: 20px;
-}
-
-@media (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
-  .nav-menu {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-  }
-  .nav-menu.open {
-    display: flex;
-  }
-  .nav-item {
-    margin: 10px 0;
-  }
 }
