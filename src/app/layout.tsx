@@ -19,8 +19,8 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
         logoLinkUrl: "/"
       },
       variables: {
-      colorPrimary: "#287098",
-      colorBackground: "#37383c"
+        colorPrimary: "#287098",
+        colorBackground: "#37383c"
       }
     }}>
       <html lang="en-us">

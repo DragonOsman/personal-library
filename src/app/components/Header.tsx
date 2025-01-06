@@ -1,7 +1,9 @@
 "use client";
 
 import logo from "../../../public/images/logo.png";
+import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   SignInButton,
   SignOutButton,
@@ -10,62 +12,97 @@ import {
   SignedOut,
   UserButton
 } from "@clerk/nextjs";
-import {
-  Bars3Icon,
-  XMarkIcon
-} from "@heroicons/react/24/outline";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggle = () => setIsOpen(!isOpen);
+
   return (
     <header>
-      <div className="header-container mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <Image
-          src={logo.src}
-          alt="Logo"
-          height={logo.height}
-          width={logo.width}
-          className="dragon-logo h-8 w-auto"
-        />
-        <div className="relative flex h-16 items-center justify-between">
-          <button className="menu-button group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" type="button" title="Menu Button">
-            <Bars3Icon className="h-6 w-6 block size-6 group-data-[open]:hidden" aria-hidden="true" />
-            <XMarkIcon className="h-6 w-6 hidden size-6 group-data-[open]:block" aria-hidden="true" />
-          </button>
-          <nav className="nav-container">
-            <ul className="flex h-16 items-center justify-between">
-              <SignedOut>
-                <li className="nav-item">
-                  <SignInButton>
-                    <button type="button" className="sign-in-button" title="Sign In">
-                      Sign In
-                    </button>
-                  </SignInButton>
-                </li>
-                <li className="nav-item">
-                  <SignUpButton>
-                    <button type="button" className="sign-up-button" title="Sign Up">
-                      Sign Up
-                    </button>
-                  </SignUpButton>
-                </li>
-              </SignedOut>
-              <SignedIn>
-                <UserButton userProfileMode="navigation" userProfileUrl="/" />
-                <li className="nav-item">
-                  <SignOutButton>
-                    <button type="button" className="sign-out-button" title="Sign Out">
-                      Sign Out
-                    </button>
-                  </SignOutButton>
-                </li>
-                <li className="nav-item">
-                  <UserButton />
-                </li>
-              </SignedIn>
-            </ul>
-          </nav>
-        </div>
-      </div>
+      <nav className="flex justify-between items-center w-full h-20 px-4">
+        <Link href="/">
+          <Image
+            src={logo.src}
+            alt="Logo"
+            height={logo.height}
+            width={logo.width}
+          />
+        </Link>
+        <ul className="hidden md:flex">
+          <SignedOut>
+            <li className="nav-item">
+              <SignInButton>
+                <button type="button" className="sign-in-button hover:brightness-100" title="Sign In">
+                  Sign In
+                </button>
+              </SignInButton>
+            </li>
+            <li className="nav-item">
+              <SignUpButton>
+                <button type="button" className="sign-up-button hover:brightness-100" title="Sign Up">
+                  Sign Up
+                </button>
+              </SignUpButton>
+            </li>
+          </SignedOut>
+          <SignedIn>
+            <UserButton userProfileMode="navigation" userProfileUrl="/" />
+            <li className="nav-item">
+              <SignOutButton>
+                <button type="button" className="sign-out-button" title="Sign Out">
+                  Sign Out
+                </button>
+              </SignOutButton>
+            </li>
+            <li className="nav-item">
+              <UserButton />
+            </li>
+          </SignedIn>
+        </ul>
+        <button
+          type="button"
+          title="Toggle Navbar"
+          onClick={handleToggle}
+          className="pr-4 z-10 text-gray-500 md:hidden"
+        >
+          {isOpen ? <FaTimes size={30} /> : <FaBars size={30} />}
+        </button>
+        {isOpen && (
+          <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full">
+            <SignedOut>
+              <li className="nav-item">
+                <SignInButton>
+                  <button type="button" className="sign-in-button" title="Sign In">
+                    Sign In
+                  </button>
+                </SignInButton>
+              </li>
+              <li className="nav-item">
+                <SignUpButton>
+                  <button type="button" className="sign-up-button" title="Sign Up">
+                    Sign Up
+                  </button>
+                </SignUpButton>
+              </li>
+            </SignedOut>
+            <SignedIn>
+              <UserButton userProfileMode="navigation" userProfileUrl="/" />
+              <li className="nav-item">
+                <SignOutButton>
+                  <button type="button" className="sign-out-button" title="Sign Out">
+                    Sign Out
+                  </button>
+                </SignOutButton>
+              </li>
+              <li className="nav-item">
+                <UserButton />
+              </li>
+            </SignedIn>
+          </ul>
+        )}
+      </nav>
     </header>
   );
 };
