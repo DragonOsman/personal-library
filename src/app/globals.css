@@ -16,8 +16,8 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: lighten(var(--color-secondary), 4%);
-  font-family: 'Arial', sans-serif;
+  color: #d9f0ff;
+  font-family: Arial, Helvetica, 'Helvetica Neue', sans-serif;
   margin-bottom: 1rem;
 }
 
@@ -61,6 +61,7 @@ body {
   text-align: center;
   align-items: center;
   justify-content: center;
+  background-color: linear-gradient(to top, #28292d, #105e86);
 }
 
 .logo {
