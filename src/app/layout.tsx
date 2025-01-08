@@ -20,7 +20,8 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
       },
       variables: {
         colorPrimary: "#287098",
-        colorBackground: "#37383c"
+        colorBackground: "#1b1b1d", // 3 units darker version of website secondary color #37383c
+        colorText: "#fff"
       }
     }}>
       <html lang="en-us">

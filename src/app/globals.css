@@ -1,7 +1,7 @@
+@import "daisyui";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "daisyui";
 
 * {
   margin: 0;
@@ -13,6 +13,10 @@
   --color-primary: #37383c;
   --color-secondary: #287098;
   --color-text: #fff;
+}
+
+html {
+  background-image: linear-gradient(to bottom right, #28292d, #105e86);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -61,7 +65,6 @@ body {
   text-align: center;
   align-items: center;
   justify-content: center;
-  background-color: linear-gradient(to top, #28292d, #105e86);
 }
 
 .logo {
@@ -114,6 +117,14 @@ nav img {
   border-radius: 5px;
   cursor: pointer;
   margin-left: 1rem;
+}
+
+.cl-socialButtonsBlockButton {
+  background-color: #246588;
+}
+
+.cl-socialButtonsBlockButton:hover {
+  background-color: #205979;
 }
 
 .sign-in-button:hover,
