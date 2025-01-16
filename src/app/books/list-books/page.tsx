@@ -3,8 +3,8 @@
 
 import { BookContext, IBookContext } from "../../context/BookContext";
 import { useContext, useEffect, useMemo } from "react";
-import Script from "next/script";
 import { config } from "dotenv";
+import Image from "next/image";
 config({
   path: "../../../../../.env"
 });
@@ -85,16 +85,10 @@ const ListBooksPage = () => {
         dataArray.map((data, index) => (
           <div key={index} className="grid grid-cols-4 gap-4 p-4">
             <div className="col-span-4">
-              <Script
-                src="https://www.google.com/books/jsapi.js"
-                onLoad={() => {
-                  if (window.google && window.google.books) {
-                    const viewer = new window.google.books.DefaultViewer(document.getElementById(`viewerCanvas${index}`));
-                    viewer.load(data.id);
-                  }
-                }}
+              <Image
+                src={data.volumeInfo.imageLinks?.thumbnail}
+                alt={`${data.volumeInfo.title} cover`}
               />
-              <div id={`viewerCanvas${index}`} className="viewerCanvas"></div>
             </div>
             <div className="font-bold">Title</div>
             <div className="font-bold">Authors</div>

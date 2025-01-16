@@ -6,7 +6,6 @@ import Header from "./components/Header";
 import BookContextProvider from "./context/BookContext";
 import "./globals.css";
 import logo from "../../public/images/logo.png";
-import Script from "next/script";
 
 export const metadada: Metadata = {
   title: "DragonOsman Personal Library App",
@@ -34,10 +33,6 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
             <>
               <main>{children}</main>
             </>
-            <Script
-              src="https://www.google.com/books/jsapi.js"
-              strategy="beforeInteractive"
-            />
           </body>
         </html>
       </BookContextProvider>
