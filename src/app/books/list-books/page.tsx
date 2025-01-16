@@ -1,0 +1,116 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import { BookContext, IBookContext } from "../../context/BookContext";
+import { useContext, useEffect, useMemo } from "react";
+import Script from "next/script";
+import { config } from "dotenv";
+config({
+  path: "../../../../../.env"
+});
+
+declare global {
+  interface Window {
+    google: any;
+  }
+}
+
+const ListBooksPage = () => {
+  const { books, setBooks } = useContext<IBookContext>(BookContext);
+  const baseURL = process.env.BASE_URL;
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const booksResponse = await fetch(`${baseURL}/api/books/`, {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+        if (booksResponse.ok) {
+          try {
+            const booksData = await booksResponse.json();
+            setBooks([...books, booksData]);
+          } catch (err) {
+            console.log(`An error occurred while extracting json data from response: ${err}`);
+          }
+        }
+      } catch (err) {
+        console.log(`An error occurred when getting book list: ${err}`);
+      }
+    };
+
+    fetchBooks();
+  }, [baseURL, books, setBooks]);
+
+  const dataArray = useMemo(() => {
+    const arr: Record<string, any>[] = [];
+    return arr;
+  }, []);
+
+  useEffect(() => {
+    const fetchBookData = async () => {
+      try {
+        for (const book of books) {
+          const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn=${book.isbn}`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json"
+            }
+          });
+
+          if (response.ok) {
+            try {
+              const data = await response.json();
+              dataArray.push(data);
+            } catch (err) {
+              console.log(`An error occurred when getting json data from response: ${err}`);
+            }
+          }
+        }
+      } catch (err) {
+        console.log(`An error occurred when getting book data: ${err}`);
+      }
+    };
+
+    fetchBookData();
+  }, [books, dataArray]);
+
+  return (
+    <div className="flex justify-content-center justify-items-center">
+      {dataArray.length > 0 ? (
+        dataArray.map((data, index) => (
+          <div key={index} className="grid grid-cols-4 gap-4 p-4">
+            <div className="col-span-4">
+              <Script
+                src="https://www.google.com/books/jsapi.js"
+                onLoad={() => {
+                  if (window.google && window.google.books) {
+                    const viewer = new window.google.books.DefaultViewer(document.getElementById(`viewerCanvas${index}`));
+                    viewer.load(data.id);
+                  }
+                }}
+              />
+              <div id={`viewerCanvas${index}`} className="viewerCanvas"></div>
+            </div>
+            <div className="font-bold">Title</div>
+            <div className="font-bold">Authors</div>
+            <div className="font-bold">Publisher</div>
+            <div className="font-bold">Published Date</div>
+            <div>{data.volumeInfo.title}</div>
+            <div>{data.volumeInfo.authors?.join(", ")}</div>
+            <div>{data.volumeInfo.publisher}</div>
+            <div>{data.volumeInfo.publishedDate}</div>
+          </div>
+        ))
+      ) : (
+        <p>No book data available.</p>
+      )}
+    </div>
+  );
+};
+
+export default ListBooksPage;

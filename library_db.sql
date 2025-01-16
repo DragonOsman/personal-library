@@ -7,6 +7,6 @@ CREATE TABLE IF NOT EXISTS books (
   author VARCHAR(255) NOT NULL,
   synopsis VARCHAR(1000),
   isbn VARCHAR(13) UNIQUE NOT NULL,
-  publication_date TIMESTAMP,
+  publication_date DATETIME,
   reader_ids JSON
-)
+);
