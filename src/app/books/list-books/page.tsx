@@ -77,7 +77,7 @@ const ListBooksPage = () => {
   }, [books, dataArray]);
 
   return (
-    <div className="flex justify-content-center justify-items-center">
+    <div className="list-books flex justify-items-center items-center flex-col">
       {dataArray.length > 0 ? (
         dataArray.map((data, index) => (
           <div key={index} className="grid grid-cols-4 gap-4 p-4">
@@ -101,8 +101,7 @@ const ListBooksPage = () => {
         <>
           <p>No book data available.</p>
           <p>
-            Click <Link className="text" href="/books/add-book">here</Link>
-            to search for and add books to your library
+            Click <Link className="text" href="/books/add-book">here</Link> to search for and add books to your library
           </p>
         </>
       )}
