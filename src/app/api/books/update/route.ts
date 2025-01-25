@@ -11,17 +11,32 @@ export const PUT = async (req: NextRequest) => {
   if (user) {
     const connection = await connectionPool.getConnection();
     const [rows] = await connection.connection.query<RowDataPacket[]>(
-      "SELECT * FROM books WHERE id = ? AND JSON_CONTAINS(reader_ids, ?, $)",
-      [bookId, user.id]
+      "SELECT * FROM library WHERE user_id = ?",
+      [user.id]
     );
 
     const { title, author, isbn, synopsis, publication_date } = await req.json();
 
     if (rows.length !== 0) {
-      const [rows] = await connection.connection.query<RowDataPacket[]>(
-        "UPDATE books SET title = ?, synopsis = ?, JSON_ARRAY_APPEND(reader_ids, $, ?), isbn = ?, author = ?, publication_date = ?",
-        [title, synopsis, user.id, isbn, author, publication_date]
-      );
+      const query = `
+        UPDATE library
+        SET books = JSON_REPLACE(
+          books,
+          '$.books[?(@.id == ?)].title', ?,
+          '$.books[?(@.id == ?)].author', ?,
+          '$.books[?(@.id == ?)].isbn', ?,
+          '$.books[?(@.id == ?)].synopsis', ?,
+          '$.books[?(@.id == ?)].publication_date', ?
+        )
+      `;
+      const values = [
+        bookId, bookId, title,
+        bookId, bookId, author,
+        bookId, bookId, isbn,
+        bookId, bookId, synopsis,
+        bookId, bookId, publication_date
+      ];
+      const [rows] = await connection.connection.query<RowDataPacket[]>(query, values);
 
       NextResponse.json({ status: 200, rows });
     }

@@ -3,7 +3,7 @@
 import { createContext, ReactNode, useState } from "react";
 
 export interface IBook {
-  volumeInfo: {
+  volumeInfo?: {
     title: string;
     authors: string[];
     publisher: string;
@@ -19,12 +19,11 @@ export interface IBook {
     };
     language: string;
   };
-  id: number;
+  id?: number;
   title: string;
   author: string;
   isbn: string;
   publicationDate: Date;
-  readerIds: string[];
   synopsis: string;
 }
 

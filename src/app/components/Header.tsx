@@ -32,14 +32,14 @@ const Header = () => {
         </Link>
         <ul className="hidden md:flex">
           <SignedOut>
-            <li className="nav-item">
+            <li>
               <SignInButton>
                 <button type="button" className="sign-in-button hover:brightness-100" title="Sign In">
                   Sign In
                 </button>
               </SignInButton>
             </li>
-            <li className="nav-item">
+            <li >
               <SignUpButton>
                 <button type="button" className="sign-up-button hover:brightness-100" title="Sign Up">
                   Sign Up
@@ -48,16 +48,13 @@ const Header = () => {
             </li>
           </SignedOut>
           <SignedIn>
-            <UserButton userProfileMode="navigation" userProfileUrl="/" />
-            <li className="nav-item">
-              <SignOutButton>
-                <button type="button" className="sign-out-button" title="Sign Out">
-                  Sign Out
-                </button>
-              </SignOutButton>
+            <li>
+              <UserButton userProfileMode="navigation" userProfileUrl="/user-profile" />
             </li>
-            <li className="nav-item">
-              <UserButton />
+            <li className="nav-link">
+              <Link href="/books/list-books">
+                List Books
+              </Link>
             </li>
           </SignedIn>
         </ul>
@@ -72,14 +69,14 @@ const Header = () => {
         {isOpen && (
           <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full">
             <SignedOut>
-              <li className="nav-item">
+              <li>
                 <SignInButton>
                   <button type="button" className="sign-in-button" title="Sign In">
                     Sign In
                   </button>
                 </SignInButton>
               </li>
-              <li className="nav-item">
+              <li>
                 <SignUpButton>
                   <button type="button" className="sign-up-button" title="Sign Up">
                     Sign Up
@@ -88,16 +85,13 @@ const Header = () => {
               </li>
             </SignedOut>
             <SignedIn>
-              <UserButton userProfileMode="navigation" userProfileUrl="/" />
-              <li className="nav-item">
-                <SignOutButton>
-                  <button type="button" className="sign-out-button" title="Sign Out">
-                    Sign Out
-                  </button>
-                </SignOutButton>
+              <li>
+                <UserButton userProfileMode="navigation" userProfileUrl="/user-profile" />
               </li>
-              <li className="nav-item">
-                <UserButton />
+              <li className="nav-link">
+                <Link href="/books/list-books">
+                  List Books
+                </Link>
               </li>
             </SignedIn>
           </ul>

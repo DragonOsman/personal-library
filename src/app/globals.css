@@ -72,8 +72,15 @@ body {
 }
 
 a {
-  color: var(--color-secondary);
   text-decoration: none;
+}
+
+a.text {
+  color: var(--color-secondary);
+}
+
+header a.nav-link {
+  color: var(--color-text);
 }
 
 a:hover {
@@ -109,7 +116,9 @@ nav img {
 }
 
 .sign-in-button,
-.sign-up-button {
+.sign-up-button,
+.sign-out-button,
+.nav-link {
   background-color: var(--color-secondary);
   color: var(--color-text);
   padding: 0.5rem 1rem;
@@ -127,9 +136,16 @@ nav img {
   background-color: #205979;
 }
 
+.cl-userButtonPopoverActionButton {
+  color: var(--color-secondary);
+}
+
 .sign-in-button:hover,
-.sign-up-button:hover {
+.sign-up-button:hover,
+.sign-out-button:hover,
+.nav-link:hover {
   background-color: #19191b;
+  color: var(--color-secondary)
 }
 
 main {
@@ -172,7 +188,8 @@ main {
   }
 
   .sign-in-button,
-  .sign-up-button {
+  .sign-up-button,
+  .sign-out-button {
     padding: 0.4rem 0.8rem;
   }
 

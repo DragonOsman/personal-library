@@ -3,11 +3,8 @@
 
 import { BookContext, IBookContext } from "../../context/BookContext";
 import { useContext, useEffect, useMemo } from "react";
-import { config } from "dotenv";
 import Image from "next/image";
-config({
-  path: "../../../../../.env"
-});
+import Link from "next/link";
 
 declare global {
   interface Window {
@@ -17,7 +14,7 @@ declare global {
 
 const ListBooksPage = () => {
   const { books, setBooks } = useContext<IBookContext>(BookContext);
-  const baseURL = process.env.BASE_URL;
+  const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -101,7 +98,13 @@ const ListBooksPage = () => {
           </div>
         ))
       ) : (
-        <p>No book data available.</p>
+        <>
+          <p>No book data available.</p>
+          <p>
+            Click <Link className="text" href="/books/add-book">here</Link>
+            to search for and add books to your library
+          </p>
+        </>
       )}
     </div>
   );
