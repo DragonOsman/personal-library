@@ -14,7 +14,10 @@ declare global {
 
 const ListBooksPage = () => {
   const { books, setBooks } = useContext<IBookContext>(BookContext);
-  const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+  const baseURL = `${process.env.NODE_ENV === "production" ?
+    `${process.env.NEXT_PUBLIC_BASE_URLPROD}` :
+    `${process.env.NEXT_PUBLIC_BASE_URLDEV}`}`
+  ;
 
   useEffect(() => {
     const fetchBooks = async () => {

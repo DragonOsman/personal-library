@@ -1,4 +1,4 @@
-CREATE DATABASE library_db;
+CREATE DATABASE IF NOT EXISTS library_db;
 USE library_db;
 
 CREATE TABLE IF NOT EXISTS Clerk (
