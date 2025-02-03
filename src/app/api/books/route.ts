@@ -1,4 +1,4 @@
-import connectionPool from "@/src/app/lib/db";
+import connection from "@/src/app/lib/db";
 import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 
@@ -8,7 +8,13 @@ export const GET = async () => {
     return NextResponse.json({ status: 401, message: "Please log in first" });
   }
   const readerId: string = user.id;
-  const conn = await connectionPool.getConnection();
-  const [rows] = await conn.connection.query(`SELECT * FROM books WHERE JSON_CONTAINS(reader_ids, '"${readerId}"')`);
+  try {
+    await connection.connect();
+    const [rows] = await connection.query(
+      `SELECT * FROM books WHERE JSON_CONTAINS(reader_ids, '"${readerId}"')`
+    );
+  } catch (err) {
+    console.error(`An error occurred while trying to either connect to database or retrieve data: ${err}`)
+  }
   return NextResponse.json({ status: 200, success: true, rows });
 };

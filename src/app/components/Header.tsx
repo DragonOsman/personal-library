@@ -49,11 +49,29 @@ const Header = () => {
           </SignedOut>
           <SignedIn>
             <li>
-              <UserButton userProfileMode="navigation" userProfileUrl="/user-profile" />
+              <UserButton
+                userProfileMode="navigation"
+                userProfileUrl="/user-profile"
+              />
             </li>
             <li className="nav-link">
               <Link href="/books/list-books">
                 List Books
+              </Link>
+            </li>
+            <li className="nav-link">
+              <Link href="/books/add-book">
+                Add Book
+              </Link>
+            </li>
+            <li className="nav-link">
+              <Link href="/books/update-book">
+                Edit Book
+              </Link>
+            </li>
+            <li className="nav-link">
+              <Link href="/books/delete-book">
+                Delete Book
               </Link>
             </li>
           </SignedIn>
@@ -86,11 +104,29 @@ const Header = () => {
             </SignedOut>
             <SignedIn>
               <li>
-                <UserButton userProfileMode="navigation" userProfileUrl="/user-profile" />
+                <UserButton
+                  userProfileMode="navigation"
+                  userProfileUrl="/user-profile"
+                />
               </li>
               <li className="nav-link">
                 <Link href="/books/list-books">
                   List Books
+                </Link>
+              </li>
+              <li className="nav-link">
+                <Link href="/books/add-book">
+                  Add Book
+                </Link>
+              </li>
+              <li className="nav-link">
+                <Link href="/books/update-book">
+                  Edit Book
+                </Link>
+              </li>
+              <li className="nav-link">
+                <Link href="/books/delete-book">
+                  Delete Book
                 </Link>
               </li>
             </SignedIn>

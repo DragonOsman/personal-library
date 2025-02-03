@@ -1,4 +1,4 @@
-import connectionPool from "@/src/app/lib/db";
+import connection from "@/src/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 import { RowDataPacket } from "mysql2";
@@ -16,7 +16,7 @@ export const POST = async (req: NextRequest) => {
   }
 
   try {
-    const [rows] = await connectionPool.query<RowDataPacket[]>(
+    const [rows] = await (await connection).execute<RowDataPacket[]>(
       "SELECT books FROM library WHERE user_id = ?",
       [user.id]
     );
@@ -28,7 +28,7 @@ export const POST = async (req: NextRequest) => {
 
     books.push({ title, author, publishedDate: publicationDate, isbn, synopsis });
 
-    await connectionPool.query(
+    await (await connection).execute(
       "UPDATE library SET books = ? WHERE user_id = ?",
       [JSON.stringify(books), user.id]
     );
