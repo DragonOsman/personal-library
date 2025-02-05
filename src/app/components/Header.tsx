@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   SignInButton,
-  SignOutButton,
   SignUpButton,
   SignedIn,
   SignedOut,
