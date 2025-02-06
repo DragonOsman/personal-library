@@ -73,6 +73,11 @@ const Header = () => {
                 Delete Book
               </Link>
             </li>
+            <li className="nav-link">
+              <Link href="/api/auth/delete-user">
+                Delete Account
+              </Link>
+            </li>
           </SignedIn>
         </ul>
         <button
@@ -126,6 +131,11 @@ const Header = () => {
               <li className="nav-link">
                 <Link href="/books/delete-book">
                   Delete Book
+                </Link>
+              </li>
+              <li className="nav-link">
+                <Link href="/api/auth/delete-user">
+                  Delete Account
                 </Link>
               </li>
             </SignedIn>
