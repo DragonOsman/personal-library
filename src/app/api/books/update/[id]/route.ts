@@ -1,16 +1,17 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse, NextRequest } from "next/server";
-import connectionPool from "@/src/app/lib/db";
+import connection from "@/src/app/lib/db";
 import { RowDataPacket } from "mysql2";
 
-export const PUT = async (req: NextRequest) => {
-  const { searchParams } = new URL(req.url);
-  const bookId = searchParams.get("book_id");
+export const PUT = async (req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) => {
+  const bookId = (await params).id;
 
   const user = await currentUser();
   if (user) {
-    const connection = await connectionPool.getConnection();
-    const [rows] = await connection.connection.query<RowDataPacket[]>(
+    const conn = await connection;
+    const [rows] = await conn.query<RowDataPacket[]>(
       "SELECT * FROM library WHERE user_id = ?",
       [user.id]
     );
@@ -36,7 +37,7 @@ export const PUT = async (req: NextRequest) => {
         bookId, bookId, synopsis,
         bookId, bookId, publication_date
       ];
-      const [rows] = await connection.connection.query<RowDataPacket[]>(query, values);
+      const [rows] = await conn.query<RowDataPacket[]>(query, values);
 
       NextResponse.json({ status: 200, rows });
     }

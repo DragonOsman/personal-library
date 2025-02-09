@@ -19,7 +19,7 @@ export interface IBook {
     };
     language: string;
   };
-  id?: number;
+  id?: string;
   title: string;
   author: string;
   isbn: string;

@@ -158,6 +158,21 @@ main {
   align-items: center;
 }
 
+.AddBook input[type="text"], .UpdateBook input[type="text"] {
+  color: #000;
+  margin-bottom: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.AddBook input[type="submit"], .UpdateBook input[type="submit"] {
+  margin-bottom: 3px;
+}
+
+.AddBook .searchBooks {
+  margin-bottom: 5px;
+}
+
 @media screen and (max-width: 768px) {
   body {
     font-size: 15px;

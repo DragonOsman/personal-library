@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS library (
   id VARCHAR(255) NOT NULL PRIMARY KEY,
-  user_id VARCHAR(255),
+  userId VARCHAR(255),
   books JSON,
   FOREIGN KEY (user_id) REFERENCES user(id),
 );

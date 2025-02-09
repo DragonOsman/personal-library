@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { BookContext, IBookContext } from "../../context/BookContext";
+import { BookContext, IBookContext, IBook } from "../../context/BookContext";
 import { useContext, useEffect, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,6 +19,19 @@ const ListBooksPage = () => {
     `${process.env.NEXT_PUBLIC_BASE_URLPROD}` :
     `${process.env.NEXT_PUBLIC_BASE_URLDEV}`}`
   ;
+
+  const handleDelete = async (id: string) => {
+    const response = await fetch(`${baseURL}/api/books/delete/:${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include"
+    });
+    if (response.ok) {
+      console.log("Book deleted successfully");
+    }
+  };
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -81,24 +95,31 @@ const ListBooksPage = () => {
 
   return (
     <div className="list-books flex justify-items-center items-center flex-col">
-      {dataArray.length > 0 ? (
-        dataArray.map((data, index) => (
-          <div key={index} className="grid grid-cols-4 gap-4 p-4">
-            <div className="col-span-4">
+      {dataArray.length > 0 && books.length > 0 ? (
+        dataArray.map((data: Record<string, any>, index: number) => (
+          books.map((book) => (
+            <div key={book.id} className="book">
+              <p>{book.title}</p>
               <Image
-                src={data.volumeInfo.imageLinks?.thumbnail}
-                alt={`${data.volumeInfo.title} cover`}
+                src={data.items[index].volumeInfo.imageLinks.thumbnail}
+                alt={book.title}
+                width={128}
+                height={192}
               />
+              <button
+                type="button"
+                onClick={() => handleDelete(book.id!)}
+              >
+                Delete
+              </button>
+              <Link
+                href={`${baseURL}/books/update-book/:${book.id!}`}
+                className="p-5 color"
+              >
+                Edit Book
+              </Link>
             </div>
-            <div className="font-bold">Title</div>
-            <div className="font-bold">Authors</div>
-            <div className="font-bold">Publisher</div>
-            <div className="font-bold">Published Date</div>
-            <div>{data.volumeInfo.title}</div>
-            <div>{data.volumeInfo.authors?.join(", ")}</div>
-            <div>{data.volumeInfo.publisher}</div>
-            <div>{data.volumeInfo.publishedDate}</div>
-          </div>
+          ))
         ))
       ) : (
         <>
