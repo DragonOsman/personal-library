@@ -19,7 +19,7 @@ const Header = () => {
   const handleToggle = () => setIsOpen(!isOpen);
 
   return (
-    <header>
+    <header className="navbar">
       <nav className="flex justify-between items-center w-full h-20 px-4">
         <Link href="/">
           <Image
@@ -38,7 +38,7 @@ const Header = () => {
                 </button>
               </SignInButton>
             </li>
-            <li >
+            <li>
               <SignUpButton>
                 <button type="button" className="sign-up-button hover:brightness-100" title="Sign Up">
                   Sign Up
