@@ -26,7 +26,7 @@ const DeleteBookPage = ({ params }: { params: Promise<{ id: string }> }) => {
       credentials: "include"
     });
     if (response.ok) {
-      setBooks(books.filter((book) => book.id !== id));
+      setBooks(books.filter((book) => book.id !== Number(id)));
       console.log("Book deleted successfully");
     }
   };

@@ -16,7 +16,7 @@ export const DELETE = async (req: NextRequest,
         [user.id]
       );
       const books = JSON.parse(fields[0].books);
-      const bookIndex = books.findIndex((book: { id: string }) => book.id === id);
+      const bookIndex = books.findIndex((book: { id: number }) => book.id === Number(id));
 
       if (bookIndex === -1) {
         return NextResponse.json({ status: 404, message: "Book not found" });

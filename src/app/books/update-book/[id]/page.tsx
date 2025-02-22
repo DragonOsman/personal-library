@@ -27,12 +27,18 @@ const UpdateBookPage = ({
   }, [params]);
 
   const initialValues = {
-    id,
+    id: 0,
     title: "",
     author: "",
     synopsis: "",
     isbn: "",
-    publicationDate: new Date()
+    publicationDate: new Date(),
+    readerId: "",
+    genre: "",
+    imageLinks: {
+      smallThumbnail: "",
+      thumbnail: ""
+    }
   };
 
   const validationSchema = z.object({
@@ -43,10 +49,10 @@ const UpdateBookPage = ({
     isbn: z.string().min(10, "ISBN must be at least 10 characters long")
   });
 
-  const onSubmit = async (values: typeof initialValues & { id: string }) => {
+  const onSubmit = async (values: typeof initialValues & { id: number }) => {
     console.log("Form data", values);
     try {
-      const response = await fetch(`${baseUrl}/api/books/update/${values.id}`, {
+      const response = await fetch(`${baseUrl}/api/books/update/${Number(id)}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

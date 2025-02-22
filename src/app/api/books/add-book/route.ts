@@ -26,7 +26,7 @@ export const POST = async (req: NextRequest) => {
       books = JSON.parse(rows[0].books);
     }
 
-    books.push({ title, author, publishedDate: publicationDate, isbn, synopsis });
+    books.push({ title, author, publicationDate, isbn, synopsis });
 
     await (await connection).execute(
       "UPDATE library SET books = ? WHERE user_id = ?",

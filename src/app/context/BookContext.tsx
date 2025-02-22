@@ -3,28 +3,18 @@
 import { createContext, ReactNode, useState } from "react";
 
 export interface IBook {
-  volumeInfo?: {
-    title: string;
-    authors: string[];
-    publisher: string;
-    publishedDate: string;
-    description: string;
-    pageCount: number;
-    categories: string[];
-    averageRating: number;
-    ratingsCount: number;
-    imageLinks: {
-      smallThumbnail: string;
-      thumbnail: string;
-    };
-    language: string;
-  };
-  id?: string;
+  id?: number;
   title: string;
   author: string;
   isbn: string;
   publicationDate: Date;
   synopsis: string;
+  readerId: string;
+  genre: string;
+  imageLinks: {
+    smallThumbnail: string;
+    thumbnail: string;
+  };
 }
 
 export interface IBookContext {
