@@ -16,7 +16,7 @@ export const PUT = async (req: NextRequest,
       [user.id]
     );
 
-    const { title, author, isbn, synopsis, publication_date } = await req.json();
+    const { title, author, isbn, synopsis, publicationDate, genre } = await req.json();
 
     if (rows.length !== 0) {
       const query = `
@@ -27,7 +27,7 @@ export const PUT = async (req: NextRequest,
           '$.books[?(@.id == ?)].author', ?,
           '$.books[?(@.id == ?)].isbn', ?,
           '$.books[?(@.id == ?)].synopsis', ?,
-          '$.books[?(@.id == ?)].publication_date', ?
+          '$.books[?(@.id == ?)].publicationDate', ?
         )
       `;
       const values = [
@@ -35,7 +35,8 @@ export const PUT = async (req: NextRequest,
         bookId, bookId, author,
         bookId, bookId, isbn,
         bookId, bookId, synopsis,
-        bookId, bookId, publication_date
+        bookId, bookId, publicationDate,
+        bookId, bookId, genre
       ];
       const [rows] = await conn.query<RowDataPacket[]>(query, values);
 

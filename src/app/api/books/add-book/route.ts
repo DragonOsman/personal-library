@@ -9,9 +9,9 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ status: 401, message: "Please log in first" });
   }
 
-  const { title, author, publicationDate, isbn, synopsis } = await req.json();
+  const { title, author, publicationDate, isbn, synopsis, genre } = await req.json();
 
-  if (!title || !author || !publicationDate || !isbn || !synopsis) {
+  if (!title || !author || !publicationDate || !isbn || !synopsis || !genre) {
     return NextResponse.json({ status: 400, message: "Missing required fields" });
   }
 
@@ -26,7 +26,7 @@ export const POST = async (req: NextRequest) => {
       books = JSON.parse(rows[0].books);
     }
 
-    books.push({ title, author, publicationDate, isbn, synopsis });
+    books.push({ title, author, publicationDate, isbn, synopsis, genre });
 
     await (await connection).execute(
       "UPDATE library SET books = ? WHERE user_id = ?",

@@ -9,12 +9,14 @@ export const GET = async () => {
   }
   const readerId: string = user.id;
   try {
-    await connection.connect();
-    const [rows] = await connection.query(
+    const dbConnection = await connection;
+    await dbConnection.connect();
+    const [rows] = await dbConnection.query(
       `SELECT * FROM books WHERE JSON_CONTAINS(reader_ids, '"${readerId}"')`
     );
+    return NextResponse.json({ status: 200, success: true, rows });
   } catch (err) {
-    console.error(`An error occurred while trying to either connect to database or retrieve data: ${err}`)
+    console.error(`An error occurred while trying to either connect to database or retrieve data: ${err}`);
+    return NextResponse.json({ status: 500, message: "Internal Server Error" });
   }
-  return NextResponse.json({ status: 200, success: true, rows });
 };

@@ -20,7 +20,7 @@ const ListBooksPage = () => {
     `${process.env.NEXT_PUBLIC_BASE_URLDEV}`}`
   ;
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     const response = await fetch(`${baseURL}/api/books/delete/:${id}`, {
       method: "DELETE",
       headers: {
@@ -125,7 +125,7 @@ const ListBooksPage = () => {
         <>
           <p>No book data available.</p>
           <p>
-            Click <Link className="text" href="/books/add-book">here</Link> to search for and add books to your library
+            Click <Link className="text" href="/books/add-book">here</Link> to add books to your library
           </p>
         </>
       )}

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useContext, useCallback, ChangeEvent } from "react";
+import { useState, useContext } from "react";
 import { BookContext } from "@/src/app/context/BookContext";
 import { Formik, Form, Field } from "formik";
+import { useAuth } from "@clerk/nextjs";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
@@ -10,8 +11,12 @@ const AddBook = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const { books, setBooks } = useContext(BookContext);
+  const { userId } = useAuth();
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const baseUrl = process.env.NODE_ENV === "production" ?
+    `${process.env.NEXT_PUBLIC_BASE_URLPROD}` :
+    `${process.env.NEXT_PUBLIC_BASE_URLDEV}`
+  ;
 
   const initialValues = {
     title: "",
@@ -19,7 +24,7 @@ const AddBook = () => {
     synopsis: "",
     isbn: "",
     publicationDate: new Date(),
-    readerId: "",
+    readerId: userId ?? "",
     genre: "",
     imageLinks: {
       smallThumbnail: "",
@@ -31,25 +36,25 @@ const AddBook = () => {
     title: z.string().min(1, "Title is required"),
     author: z.string().min(1, "Author is required"),
     synopsis: z.string().min(1, "Synopsis is required"),
-    publicationDate: z.date().min(new Date(1450, 0, 1), "Publication date must be after January 1, 1450"),
+    publicationDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Publication date is required and must be in the format yyyy-mm-dd"),
     isbn: z.string().min(10, "ISBN must be at least 10 characters long"),
     genre: z.string().min(1, "Genre is required"),
-    readerId: z.string().min(1, "Reader ID is required"),
-    imageLinks: z.object({
-      smallThumbnail: z.string().min(1, "Small thumbnail is required"),
-      thumbnail: z.string().min(1, "Thumbnail is required")
-    })
   });
 
   const onSubmit = async (values: typeof initialValues) => {
     console.log("Form data", values);
     try {
+      const formattedValues = {
+        ...values,
+        publicationDate: new Date(new Date(values.publicationDate).toLocaleDateString())
+      };
+
       const response = await fetch(`${baseUrl}/api/books/add-book`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ ...values }),
+        body: JSON.stringify(formattedValues),
         credentials: "include"
       });
       if (response.ok) {
@@ -84,6 +89,8 @@ const AddBook = () => {
             <Field
               {...formik.getFieldProps("title")}
               required
+              placeholder="Title"
+              title="Enter Title"
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
             />
             {formik.errors.title && formik.touched.title ? (
@@ -95,6 +102,8 @@ const AddBook = () => {
             <Field
               {...formik.getFieldProps("author")}
               required
+              placeholder="Author"
+              title="Enter Author's Name"
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
             />
             {formik.errors.author && formik.touched.author ? (
@@ -106,6 +115,8 @@ const AddBook = () => {
             <Field
               {...formik.getFieldProps("isbn")}
               required
+              placeholder="Enter ISBN"
+              title="Enter ISBN"
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
             />
             {formik.errors.isbn && formik.touched.isbn ? (
@@ -117,6 +128,9 @@ const AddBook = () => {
             <Field
               {...formik.getFieldProps("synopsis")}
               required
+              type="text"
+              placeholder="Enter Synopsis"
+              title="Enter Synopsis"
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
             />
             {formik.errors.synopsis && formik.touched.synopsis ? (
@@ -128,11 +142,27 @@ const AddBook = () => {
             <Field
               {...formik.getFieldProps("publicationDate")}
               required
+              type="text"
+              placeholder="Publication Date"
+              title="Enter Publication Date"
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
             />
             {formik.errors.publicationDate && formik.touched.publicationDate ? (
               <p className="text-sm text-red-400">
                 {formik.errors.publicationDate as string}
+              </p>
+            ) : null}
+            <label htmlFor="genre">Genre:</label>
+            <Field
+              {...formik.getFieldProps("genre")}
+              required
+              placeholder="Enter Genre"
+              title="Enter Genre"
+              className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
+            />
+            {formik.errors.genre && formik.touched.genre ? (
+              <p className="text-sm text-red-400">
+                {formik.errors.genre}
               </p>
             ) : null}
             <input
