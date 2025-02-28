@@ -27,6 +27,7 @@ const Header = () => {
             alt="Logo"
             height={logo.height}
             width={logo.width}
+            className="dragon-logo"
           />
         </Link>
         <ul className="hidden md:flex">
