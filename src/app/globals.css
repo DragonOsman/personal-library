@@ -97,7 +97,7 @@ header {
 
 header img {
   margin-right: auto;
-  margin-top: -20px
+  margin-top: 20px
 }
 
 header nav {
@@ -214,6 +214,10 @@ main {
     text-align: center;
   }
 
+  header .dragon-logo {
+    margin-top: 20px;
+  }
+
   main {
     margin-right: 20px;
     margin-left: 20px;
@@ -228,6 +232,10 @@ main {
 }
 
 @media screen and (max-width: 480px) {
+  header .dragon-logo {
+    margin-top: 10px;
+  }
+
   main {
     margin-right: 10px;
     margin-left: 10px;
