@@ -50,7 +50,7 @@ const AddBook = () => {
       };
 
       const response = await fetch(`${baseUrl}/api/books/add-book`, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
