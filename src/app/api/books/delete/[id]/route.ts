@@ -1,21 +1,21 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-import connectionPool from "@/src/app/lib/db";
+import connection from "@/src/app/lib/db";
 import { RowDataPacket } from "mysql2";
 
-export const DELETE = async (req: NextRequest) => {
-  const connection = await connectionPool.getConnection();
+export const DELETE = async (req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }) => {
   const user = await currentUser();
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
+  const id = (await params).id;
+  const conn = await connection;
 
   if (user) {
     try {
-      const [rows] = await connection.query<RowDataPacket[]>(
+      const [fields] = await conn.query<RowDataPacket[]>(
         "SELECT books FROM library WHERE user_id = ?",
         [user.id]
       );
-      const books = JSON.parse(rows[0].books);
+      const books = JSON.parse(fields[0].books);
       const bookIndex = books.findIndex((book: { id: number }) => book.id === Number(id));
 
       if (bookIndex === -1) {
@@ -23,7 +23,7 @@ export const DELETE = async (req: NextRequest) => {
       }
 
       books.splice(bookIndex, 1);
-      await connection.query("UPDATE library SET books = ? WHERE user_id = ?",
+      await conn.query("UPDATE library SET books = ? WHERE user_id = ?",
         [JSON.stringify(books), user.id]);
 
       return NextResponse.json({ status: 200, message: "Book deleted successfully" });

@@ -1,13 +1,23 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BookContext } from "@/src/app/context/BookContext";
 
-const DeleteBookPage = () => {
+const DeleteBookPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { books, setBooks } = useContext(BookContext);
+  const [id, setId] = useState("");
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  const handleDelete = async (id: number) => {
+  useEffect(() => {
+    const initId = async () => {
+      const newId = (await params).id;
+      setId(newId);
+    };
+
+    initId();
+  }, [params]);
+
+  const handleDelete = async () => {
     const response = await fetch(`${baseUrl}/api/books/delete/:${id}`, {
       method: "DELETE",
       headers: {
@@ -16,12 +26,13 @@ const DeleteBookPage = () => {
       credentials: "include"
     });
     if (response.ok) {
+      setBooks(books.filter((book) => book.id !== Number(id)));
       console.log("Book deleted successfully");
     }
   };
 
   return (
-    <div>
+    <div className="DeleteBook">
       <h1>Delete A Book</h1>
       <ul>
         <>
@@ -30,12 +41,17 @@ const DeleteBookPage = () => {
               {book.title}
               <button
                 type="button"
-                onClick={() => handleDelete(book.id!)}
+                onClick={() => handleDelete()}
               >
                 Delete
               </button>
             </li>
           ))}
+          {books.length === 0 && (
+            <li>
+              <p>No books to delete</p>
+            </li>
+          )}
         </>
       </ul>
     </div>
