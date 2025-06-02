@@ -2,8 +2,10 @@ import { clerkMiddleware, ClerkMiddlewareAuth, createRouteMatcher } from "@clerk
 import { NextRequest } from "next/server";
 
 const isPublicRoute = createRouteMatcher([
-  "/api/auth/sign-in(.*)",
-  "/api/auth/sign-up(.*)",
+  "/auth/sign-in(.*)",
+  "/auth/sign-up(.*)",
+  "/auth/onboarding(.*)",
+  "/user-profile(.*)",
   "/api/webhooks(.*)"
 ]);
 

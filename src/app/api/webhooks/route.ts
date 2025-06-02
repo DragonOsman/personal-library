@@ -1,6 +1,6 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { WebhookEvent, currentUser, User } from "@clerk/nextjs/server";
+import { WebhookEvent, User } from "@clerk/nextjs/server";
 import { Connection } from "mysql2/promise";
 import connection from "@/src/app/lib/db";
 import { v4 } from "uuid";
@@ -43,9 +43,49 @@ export async function POST(req: Request) {
   console.log(`Received webhook: ${eventType} with ID: ${id}`);
   console.log(`Webhook payload: ${body}`);
 
-  const user = await currentUser();
+  const userId: string = id as string;
+  const { data } = await req.json();
 
-  if (!user) {
+  const user: User = {
+    id: userId,
+    firstName: data.firstName || "",
+    lastName: data.lastName || "",
+    fullName: `${data.firstName || ""} ${data.lastName || ""}`,
+    username: data.username || "",
+    passwordEnabled: data.passwordEnabled || false,
+    primaryEmailAddress: data.primaryEmailAddress || "",
+    emailAddresses: data.emailAddresses || [],
+    createdAt: data.createdAt || new Date(),
+    updatedAt: data.updatedAt || new Date(),
+    externalAccounts: data.externalAccounts || [],
+    totpEnabled: data.totpEnabled || false,
+    backupCodeEnabled: data.backupCodeEnabled || false,
+    twoFactorEnabled: data.twoFactorEnabled || false,
+    banned: data.banned || false,
+    imageUrl: data.imageUrl || "",
+    hasImage: data.hasImage || false,
+    locked: data.locked || false,
+    primaryEmailAddressId: data.primaryEmailAddressId || "",
+    primaryPhoneNumberId: data.primaryPhoneNumberId || "",
+    primaryWeb3WalletId: data.primaryWeb3WalletId || "",
+    lastSignInAt: data.lastSignInAt || new Date(),
+    externalId: data.externalId || "",
+    publicMetadata: data.publicMetadata || {},
+    privateMetadata: data.privateMetadata || {},
+    unsafeMetadata: data.unsafeMetadata || {},
+    phoneNumbers: data.phoneNumbers || [],
+    web3Wallets: data.web3Wallets || [],
+    samlAccounts: data.samlAccounts || [],
+    lastActiveAt: data.lastActiveAt || new Date(),
+    createOrganizationEnabled: data.createOrganizationEnabled || false,
+    createOrganizationsLimit: data.createOrganizationsLimit || 0,
+    deleteSelfEnabled: data.deleteSelfEnabled || false,
+    legalAcceptedAt: data.legalAcceptedAt || new Date(),
+    primaryPhoneNumber: data.primaryPhoneNumber || "",
+    primaryWeb3Wallet: data.primaryWeb3Wallet || ""
+  }
+
+  if (!userId) {
     return new Response("Error: User not found", { status: 404 });
   }
 
@@ -56,18 +96,18 @@ export async function POST(req: Request) {
     return updateUser(dbConnection, user);
   } else if (eventType === "user.deleted") {
     const deleteUserQuery = `DELETE FROM users WHERE id = ?`;
-    const deleteUserValue = user.id;
+    const deleteUserValue = userId;
     const deleteLibraryQuery = `DELETE FROM libraries WHERE userId = ?`;
 
     try {
       await dbConnection.execute(deleteUserQuery, [deleteUserValue]);
       await dbConnection.execute(deleteLibraryQuery, [deleteUserValue]);
     } catch (error) {
-      console.error(`Error deleting user and/or libraryfrom database: ${error}`);
+      console.error(`Error deleting user and/or library from database: ${error}`);
       return new Response("Error: Database deletion error", { status: 500 });
     }
 
-    return new Response("User and deleted successfully", { status: 200 });
+    return new Response("User and library deleted successfully", { status: 200 });
   }
 
   return new Response("Webhook received", { status: 200 });
