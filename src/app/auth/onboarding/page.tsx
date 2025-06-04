@@ -66,7 +66,6 @@ const OnboardingPage = () => {
         author: item.volumeInfo.authors?.join(", ") || "Unknown Author",
         isbn: item.volumeInfo.industryIdentifiers?.[0]?.identifier || "N/A",
         publicationDate: new Date(item.volumeInfo.publishedDate as string),
-        readerIds: [],
         synopsis: item.volumeInfo.description || "No description available",
         volumeInfo: {
           title: item.volumeInfo.title,
