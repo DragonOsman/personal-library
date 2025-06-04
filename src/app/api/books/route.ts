@@ -16,7 +16,7 @@ export const GET = async () => {
       `SELECT * FROM books WHERE JSON_CONTAINS(reader_ids, '"${readerId}"')`
     );
   } catch (err) {
-    console.error(`An error occurred while trying to either connect to database or retrieve data: ${err}`)
+    console.error(`An error occurred while trying to either connect to database or retrieve data: ${err}`);
   }
   return NextResponse.json({ status: 200, success: true, rows });
 };
