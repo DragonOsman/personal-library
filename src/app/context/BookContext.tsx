@@ -25,6 +25,7 @@ export interface IBook {
   isbn: string;
   publicationDate: Date;
   synopsis: string;
+  readerIds: string[];
 }
 
 export interface IBookContext {

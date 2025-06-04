@@ -29,7 +29,7 @@ interface VolumeInfo {
 }
 
 interface Book extends IBook {
-  id: number;
+  id: string;
   volumeInfo: VolumeInfo;
 }
 
@@ -60,8 +60,8 @@ const OnboardingPage = () => {
         title: item.volumeInfo.title
       }));
 
-      data.items.map((item: { volumeInfo: VolumeInfo }, index: number) => setBooks([...books, {
-        id: index,
+      data.items.map((item: { volumeInfo: VolumeInfo }) => setBooks([...books, {
+        id: item.volumeInfo.industryIdentifiers?.[0]?.identifier,
         title: item.volumeInfo.title,
         author: item.volumeInfo.authors?.join(", ") || "Unknown Author",
         isbn: item.volumeInfo.industryIdentifiers?.[0]?.identifier || "N/A",
@@ -107,21 +107,21 @@ const OnboardingPage = () => {
             {books.map((book) => (
               <div key={book.id}>
                 <Image
-                  src={book.volumeInfo.imageLinks?.thumbnail}
+                  src={book.volumeInfo?.imageLinks?.thumbnail || "../../book-composition-with-open-book_23-2147690555.jpg"}
                   alt={book.title}
                   width={128}
                   height={192}
                 />
                 <Image
-                  src={book.volumeInfo.imageLinks?.thumbnail}
+                  src={book.volumeInfo?.imageLinks?.thumbnail || "../../book-composition-with-open-book_23-2147690555.jpg"}
                   alt={book.title}
                   width={128}
                   height={192}
                 />
-                <p>Author: {book.volumeInfo.authors?.join(", ") || "Unknown Author"}</p>
-                <p>Publisher: {book.volumeInfo.publisher || "Unknown Publisher"}</p>
-                <p>Published Date: {book.volumeInfo.publishedDate || "Unknown Date"}</p>
-                <p>Description: {book.volumeInfo.description || "No description available"}</p>
+                <p>Author: {book.volumeInfo?.authors?.join(", ") || "Unknown Author"}</p>
+                <p>Publisher: {book.volumeInfo?.publisher || "Unknown Publisher"}</p>
+                <p>Published Date: {book.volumeInfo?.publishedDate || "Unknown Date"}</p>
+                <p>Description: {book.volumeInfo?.description || "No description available"}</p>
                 <button
                   type="button"
                   onClick={() => handleAddBook(book as Book)}
