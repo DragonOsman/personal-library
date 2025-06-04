@@ -15,12 +15,12 @@ CREATE TABLE IF NOT EXISTS users (
   verifiedExternalAccounts JSON,
   web3Wallets JSON,
   primaryWeb3Wallet JSON,
-  FOREIGN KEY (library_id) REFERENCES library(id)
+  FOREIGN KEY (libraryId) REFERENCES library(id)
 );
 
 CREATE TABLE IF NOT EXISTS library (
   id VARCHAR(255) NOT NULL PRIMARY KEY,
   userId VARCHAR(255),
   books JSON,
-  FOREIGN KEY (user_id) REFERENCES user(id),
+  FOREIGN KEY (userId) REFERENCES user(id),
 );
