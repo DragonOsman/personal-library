@@ -1,6 +1,6 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { WebhookEvent, User } from "@clerk/nextjs/server";
+import type { WebhookEvent, User } from "@clerk/nextjs/server";
 import { Connection } from "mysql2/promise";
 import connection from "@/src/app/lib/db";
 import { v4 } from "uuid";
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     return new Response("Error: Missing SVIX headers", { status: 400 });
   }
 
-  const payload = await req.json();
+  const payload: WebhookEvent = await req.json();
   const body = JSON.stringify(payload);
 
   let event: WebhookEvent;
@@ -44,46 +44,8 @@ export async function POST(req: Request) {
   console.log(`Webhook payload: ${body}`);
 
   const userId: string = id as string;
-  const { data } = await req.json();
 
-  const user: User = {
-    id: userId,
-    firstName: data.firstName || "",
-    lastName: data.lastName || "",
-    fullName: `${data.firstName || ""} ${data.lastName || ""}`,
-    username: data.username || "",
-    passwordEnabled: data.passwordEnabled || false,
-    primaryEmailAddress: data.primaryEmailAddress || "",
-    emailAddresses: data.emailAddresses || [],
-    createdAt: data.createdAt || new Date(),
-    updatedAt: data.updatedAt || new Date(),
-    externalAccounts: data.externalAccounts || [],
-    totpEnabled: data.totpEnabled || false,
-    backupCodeEnabled: data.backupCodeEnabled || false,
-    twoFactorEnabled: data.twoFactorEnabled || false,
-    banned: data.banned || false,
-    imageUrl: data.imageUrl || "",
-    hasImage: data.hasImage || false,
-    locked: data.locked || false,
-    primaryEmailAddressId: data.primaryEmailAddressId || "",
-    primaryPhoneNumberId: data.primaryPhoneNumberId || "",
-    primaryWeb3WalletId: data.primaryWeb3WalletId || "",
-    lastSignInAt: data.lastSignInAt || new Date(),
-    externalId: data.externalId || "",
-    publicMetadata: data.publicMetadata || {},
-    privateMetadata: data.privateMetadata || {},
-    unsafeMetadata: data.unsafeMetadata || {},
-    phoneNumbers: data.phoneNumbers || [],
-    web3Wallets: data.web3Wallets || [],
-    samlAccounts: data.samlAccounts || [],
-    lastActiveAt: data.lastActiveAt || new Date(),
-    createOrganizationEnabled: data.createOrganizationEnabled || false,
-    createOrganizationsLimit: data.createOrganizationsLimit || 0,
-    deleteSelfEnabled: data.deleteSelfEnabled || false,
-    legalAcceptedAt: data.legalAcceptedAt || new Date(),
-    primaryPhoneNumber: data.primaryPhoneNumber || "",
-    primaryWeb3Wallet: data.primaryWeb3Wallet || ""
-  }
+  const user = payload.data as unknown as User;
 
   if (!userId) {
     return new Response("Error: User not found", { status: 404 });
