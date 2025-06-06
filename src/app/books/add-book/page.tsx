@@ -2,7 +2,7 @@
 
 import { useState, useContext, useCallback, ChangeEvent } from "react";
 import { BookContext } from "@/src/app/context/BookContext";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
@@ -15,10 +15,40 @@ const AddBook = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const { books, setBooks } = useContext(BookContext);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
 
   const uriEncodedTitle = encodeURIComponent(title);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const baseUrl = process.env.NODE_ENV === "production" ?
+    `${process.env.NEXT_PUBLIC_BASE_URLPROD}` :
+    `${process.env.NEXT_PUBLIC_BASE_URLDEV}`
+  ;
+
+  const handleAddBook = (book: {
+    industryIdentifiers?: { identifier: string }[];
+    title?: string;
+    isbn?: string;
+    authors?: string[];
+    description?: string;
+    publicationDate?: string
+  }) => {
+    if (window.confirm("Do you want to add this book to your library?")) {
+      setTitle(book.title || "");
+      setIsbn(book.isbn || "");
+      setAuthor(book.authors ? book.authors.join(", ") : "");
+      setSynopsis(book.description || "");
+      setPublicationDate(book.publicationDate ? new Date(book.publicationDate) : new Date());
+      setBooks([...books, {
+        title: book.title || "",
+        author: book.authors ? book.authors.join(", ") : "",
+        isbn: book.industryIdentifiers && book.industryIdentifiers.length > 0 ? book.industryIdentifiers[0].identifier : "",
+        publicationDate: new Date(),
+        synopsis: book.description || ""
+      }]);
+      setMessage("Book added successfully");
+      setSearchResults([]);
+    }
+  };
 
   const initialValues = {
     title,
@@ -30,53 +60,25 @@ const AddBook = () => {
 
   const searchBooks = useCallback(async () => {
     try {
-      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${uriEncodedTitle}+isbn:${isbn}&inauthor:${isbn}&key=${apiKey}`);
+      const response = await fetch(`${baseUrl}/api/books/search?title=${uriEncodedTitle}`);
       if (response.ok) {
         const data = await response.json();
-        if (data.items && data.items.length > 0) {
-          const handleResultClick = (book: {
-            industryIdentifiers?: { identifier: string }[];
-            title?: string;
-            isbn?: string;
-            authors?: string[];
-            description?: string;
-            publicationDate?: string
-          }) => {
-            if (window.confirm("Do you want to add this book to your library?")) {
-              setTitle(book.title || "");
-              setIsbn(book.isbn || "");
-              setAuthor(book.authors ? book.authors.join(", ") : "");
-              setSynopsis(book.description || "");
-              setPublicationDate(book.publicationDate ? new Date(book.publicationDate) : new Date());
-              setBooks([...books, {
-                title: book.title || "",
-                author: book.authors ? book.authors.join(", ") : "",
-                isbn: book.industryIdentifiers && book.industryIdentifiers.length > 0 ? book.industryIdentifiers[0].identifier : "",
-                publicationDate: new Date(),
-                synopsis: book.description || ""
-              }]);
-            }
-          };
+        for (const dataItem of Object.entries(data)) {
+          console.log(`Data item: ${dataItem}`);
+        }
 
-          data.items.forEach((item: {
-            id: string;
-            volumeInfo: {
-              description: string;
-              title: string;
-              authors: string[];
-              industryIdentifiers?: { identifier: string }[]
-            }
-          }) => {
-            const book = item.volumeInfo;
-            handleResultClick(book);
-          });
+        if (data.items && data.items.length > 0) {
+          setSearchResults(data.items.map((item:any) => item.volumeInfo));
+        } else {
+          setSearchResults([]);
+          setError("No books found matching your search criteria.");
         }
       }
     } catch (err) {
       console.error(`An error occurred while searching for books: ${err}`);
       setError(`An error occurred while searching for books: ${err}`);
     }
-  }, [apiKey, books, isbn, setBooks, uriEncodedTitle]);
+  }, [apiKey, isbn, uriEncodedTitle, author, books]);
 
   const validationSchema = z.object({
     title: z.string().min(1, "Title is required"),
@@ -215,6 +217,36 @@ const AddBook = () => {
           </Form>
         )}
       </Formik>
+
+      {searchResults.length > 0 && (
+        <div className="search-results mt-4">
+          <h2>Search Results</h2>
+          <ul>
+            {searchResults.map((result: {
+              industryIdentifiers?: { identifier: string }[];
+              title?: string;
+              isbn?: string;
+              authors?: string[];
+              description?: string;
+              publicationDate?: string
+            }, index) => (
+              <li key={index} className="mb-2 border-b pb-2">
+                <div>
+                  <strong>{result.title}</strong> by {result.authors?.join(", ")}
+                </div>
+                <button
+                  className="bg-green-500 text-white px-2 py-1 rounded mt-1"
+                  onClick={() => handleAddBook(result)}
+                  title="Add this book to your library"
+                  type="button"
+                >
+                  Add Book
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev-https": "next dev --experimental-https --turbopack"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.9.6",
