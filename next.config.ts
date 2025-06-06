@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   basePath: "",
+  crossOrigin: "use-credentials",
   experimental: {
     turbo: {
       resolveExtensions: [
@@ -15,10 +16,6 @@ const nextConfig: NextConfig = {
       ]
     }
   }
-};
-
-module.exports = {
-  crossOrigin: "use-credentials"
 };
 
 export default nextConfig;
