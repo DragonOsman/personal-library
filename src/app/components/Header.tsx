@@ -63,16 +63,6 @@ const Header = () => {
                 Add Book
               </Link>
             </li>
-            <li className="nav-link">
-              <Link href="/books/update-book">
-                Edit Book
-              </Link>
-            </li>
-            <li className="nav-link">
-              <Link href="/books/delete-book">
-                Delete Book
-              </Link>
-            </li>
           </SignedIn>
         </ul>
         <button
@@ -116,16 +106,6 @@ const Header = () => {
               <li className="nav-link">
                 <Link href="/books/add-book">
                   Add Book
-                </Link>
-              </li>
-              <li className="nav-link">
-                <Link href="/books/update-book">
-                  Edit Book
-                </Link>
-              </li>
-              <li className="nav-link">
-                <Link href="/books/delete-book">
-                  Delete Book
                 </Link>
               </li>
             </SignedIn>
