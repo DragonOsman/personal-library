@@ -4,17 +4,15 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   basePath: "",
   crossOrigin: "use-credentials",
-  experimental: {
-    turbo: {
-      resolveExtensions: [
-        ".tsx",
-        ".ts",
-        ".js",
-        ".jsx",
-        ".json",
-        ".mdx"
-      ]
-    }
+  turbo: {
+    resolveExtensions: [
+      ".tsx",
+      ".ts",
+      ".js",
+      ".jsx",
+      ".json",
+      ".mdx"
+    ]
   }
 };
 
