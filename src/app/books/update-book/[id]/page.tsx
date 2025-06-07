@@ -29,17 +29,17 @@ const UpdateBookPage = ({
   const initialValues = {
     id,
     title: "",
-    author: "",
-    synopsis: "",
+    authors: [],
+    description: "",
     isbn: "",
-    publicationDate: new Date()
+    publishedDate: ""
   };
 
   const validationSchema = z.object({
     title: z.string().min(1, "Title is required"),
-    author: z.string().min(1, "Author is required"),
-    synopsis: z.string().min(1, "Synopsis is required"),
-    publicationDate: z.date().min(new Date(1450, 0, 1), "Publication date must be after January 1, 1450"),
+    authors: z.array(z.string()).min(1, "Author is required"),
+    description: z.string().min(1, "Synopsis is required"),
+    publishedDate: z.string().min(1, "Publication date must be after January 1, 1450 and be in valid format"),
     isbn: z.string().min(10, "ISBN must be at least 10 characters long")
   });
 
@@ -55,7 +55,10 @@ const UpdateBookPage = ({
         credentials: "include"
       });
       if (response.ok) {
-        setBooks([...books, { ...values }]);
+        // Assuming the backend returns the updated book object in the response under a 'book' key
+        const responseData = await response.json();
+        const updatedBookFromServer = responseData.book; // Or however your backend structures it
+        setBooks(books.map(b => b.id === updatedBookFromServer.id ? updatedBookFromServer : b));
         alert("Book updated in library successfully!");
       } else {
         alert("Sorry, book couldn't be added to library");
@@ -96,13 +99,13 @@ const UpdateBookPage = ({
                 ) : null}
                 <label htmlFor="author">Author:</label>
                 <Field
-                  {...getFieldProps("author")}
+                  {...getFieldProps("authors")}
                   required
                   className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
                 />
-                {errors.author && touched.author ? (
+                {errors.authors && touched.authors ? (
                   <p className="text-sm text-red-400">
-                    {errors.author}
+                    {errors.authors}
                   </p>
                 ) : null}
                 <label htmlFor="isbn">ISBN:</label>
@@ -118,24 +121,24 @@ const UpdateBookPage = ({
                 ) : null}
                 <label htmlFor="synopsis">Synopsis:</label>
                 <Field
-                  {...getFieldProps("synopsis")}
+                  {...getFieldProps("description")}
                   required
                   className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
                 />
-                {errors.synopsis && touched.synopsis ? (
+                {errors.description && touched.description ? (
                   <p className="text-sm text-red-400">
-                    {errors.synopsis}
+                    {errors.description}
                   </p>
                 ) : null}
                 <label htmlFor="publicationDate">Publication Date:</label>
                 <Field
-                  {...getFieldProps("publicationDate")}
+                  {...getFieldProps("publishedDate")}
                   required
                   className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
                 />
-                {errors.publicationDate && touched.publicationDate ? (
+                {errors.publishedDate && touched.publishedDate ? (
                   <p className="text-sm text-red-400">
-                    {errors.publicationDate as string}
+                    {errors.publishedDate}
                   </p>
                 ) : null}
                 <button type="submit" disabled={isSubmitting}>

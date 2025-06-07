@@ -1,8 +1,8 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent, currentUser, User } from "@clerk/nextjs/server";
-import { Connection } from "mysql2/promise";
-import connection from "@/src/app/lib/db";
+import { PoolConnection } from "mysql2/promise";
+import connectionPool from "@/src/app/lib/db";
 import { v4 } from "uuid";
 
 export async function POST(req: Request) {
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     return new Response("Error: User not found", { status: 404 });
   }
 
-  const dbConnection: Connection = await connection;
+  const dbConnection: PoolConnection | null = await connectionPool.getConnection();
   if (eventType === "user.created") {
     return createUser(dbConnection, user);
   } else if (eventType === "user.updated") {
@@ -73,7 +73,7 @@ export async function POST(req: Request) {
   return new Response("Webhook received", { status: 200 });
 }
 
-async function createUser(dbConnection: Connection, user: User) {
+async function createUser(dbConnection: PoolConnection, user: User) {
   const userQuery = `
     INSERT INTO users (id, primaryEmailAddress, emailAddresses, firstName, lastName, createdAt, updatedAt)
     VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -129,7 +129,7 @@ async function createUser(dbConnection: Connection, user: User) {
   return new Response("User created successfully", { status: 200 });
 }
 
-async function updateUser(dbConnection: Connection, user: User) {
+async function updateUser(dbConnection: PoolConnection, user: User) {
   const query = `
     UPDATE users
     SET primaryEmailAddress = ?, emailAddresses = ?, firstName = ?, lastName = ?, updatedAt = ?
@@ -141,6 +141,7 @@ async function updateUser(dbConnection: Connection, user: User) {
     user.emailAddresses,
     user.firstName,
     user.lastName,
+    user.fullName,
     new Date(),
     user.id
   ];

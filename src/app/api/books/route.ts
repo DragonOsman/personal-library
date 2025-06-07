@@ -1,36 +1,54 @@
-import connection from "@/src/app/lib/db";
+import connectionPool from "@/src/app/lib/db";
 import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
-import type { RowDataPacket } from "mysql2";
+import type { RowDataPacket, PoolConnection } from "mysql2/promise";
 
 export const GET = async () => {
   const user = await currentUser();
   if (!user) {
-    return NextResponse.json({ status: 401, message: "Please log in first" });
+    return NextResponse.json({ message: "Please log in first" }, { status: 401 });
   }
   const readerId: string = user.id;
-  let bookRows: RowDataPacket[] = [];
+  const dbConn: PoolConnection = await connectionPool.getConnection();;
   try {
-    const conn = await connection;
-    await conn.connect();
-    // First, get the user's library id
-    const [libraryRows]: RowDataPacket[] = await conn.query(
-      `SELECT * FROM library WHERE userId = ?`,
+    const [rows] = await dbConn.query<RowDataPacket[]>(
+      `SELECT books FROM library WHERE userId = ?`,
       [readerId]
-    ) as RowDataPacket[];
-    if (!libraryRows.length) {
-      bookRows = [];
-    } else {
-      // Now, get books that are in the user's library
-      const [rows] = await conn.query<RowDataPacket[]>(
-        `SELECT books FROM library WHERE userId = ?`,
-        [readerId]
-      );
-      bookRows = rows;
-    }
-  } catch (err) {
-    console.error(`An error occurred while trying to either connect to database or retrieve data: ${err}`);
-  }
-  return NextResponse.json({ status: 200, success: true, rows: bookRows });
-};
+    );
 
+    if (rows.length === 0 || !rows[0] || typeof rows[0].books === "undefined" || rows[0].books === null) {
+      // No library entry found, or books column is null/undefined
+      return NextResponse.json({ books: [] }, { status: 404 });
+    }
+
+    let userBooks: any[] = [];
+
+    if (typeof rows[0].books === "string") {
+      try {
+        userBooks = JSON.parse(rows[0].books);
+        if (!Array.isArray(userBooks)) {
+          console.warn(`Parsed books data for user ${user.fullName} is not an array. Found:`, userBooks);
+          userBooks = [];
+        }
+      } catch (parseError) {
+        console.error(`Error parsing books JSON for user ${user.fullName}: ${parseError}. Data:`, rows[0].books);
+        return NextResponse.json({ message: "Error processing library data" }, { status: 500 });
+      }
+    } else if (Array.isArray(rows[0].books)) {
+      userBooks = rows[0].books;
+    } else {
+      console.warn(`Unexpected type for books data for user ${user.fullName}:`, typeof rows[0].books);
+      userBooks = [];
+    }
+
+    return NextResponse.json({ books: userBooks }, { status: 200});
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`Error fetching books for user ${user.fullName}: ${errorMessage}`, error)
+    return NextResponse.json({ message: "Failed to retrieve books from library" }, { status: 500 });
+  } finally {
+    if (dbConn) {
+      dbConn.release();
+    }
+  }
+}

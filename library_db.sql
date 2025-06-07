@@ -1,26 +1,25 @@
 CREATE DATABASE IF NOT EXISTS library_db;
 USE library_db;
 
-CREATE TABLE IF NOT EXISTS users (
-  id VARCHAR(255) NOT NULL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS user (
+  id VARCHAR(255) NOT NULL PRIMARY KEY UNIQUE,
   firstName VARCHAR(255),
   lastName VARCHAR(255),
+  fullName VARCHAR(255),
   passwordEnabled BOOLEAN,
   primaryEmailAddress VARCHAR(255),
   emailAddresses JSON,
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  libraryId VARCHAR(255),
   externalAccounts JSON,
   verifiedExternalAccounts JSON,
   web3Wallets JSON,
-  primaryWeb3Wallet JSON,
-  FOREIGN KEY (libraryId) REFERENCES library(id)
+  primaryWeb3Wallet JSON
 );
 
 CREATE TABLE IF NOT EXISTS library (
-  id VARCHAR(255) NOT NULL PRIMARY KEY,
-  userId VARCHAR(255),
+  id VARCHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()),
+  userId VARCHAR(255) UNIQUE,
   books JSON,
-  FOREIGN KEY (userId) REFERENCES user(id),
+  FOREIGN KEY (userId) REFERENCES users(id)
 );

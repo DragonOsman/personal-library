@@ -1,17 +1,17 @@
 "use client";
 
-import { useState, useContext, useCallback, ChangeEvent } from "react";
-import { BookContext } from "@/src/app/context/BookContext";
+import { useState, useContext, useCallback, ChangeEvent, FormEvent } from "react";
+import { BookContext, IBook } from "@/src/app/context/BookContext";
 import { Formik, Form, Field } from "formik";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 const AddBook = () => {
   const [isbn, setIsbn] = useState("");
   const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [synopsis, setSynopsis] = useState("");
-  const [publicationDate, setPublicationDate] = useState(new Date());
+  const [authors, setAuthors] = useState<string[]>([]);
+  const [description, setDescription] = useState("");
+  const [publishedDate, setPublishedDate] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const { books, setBooks } = useContext(BookContext);
@@ -24,41 +24,72 @@ const AddBook = () => {
     `${process.env.NEXT_PUBLIC_BASE_URLDEV}`
   ;
 
-  const handleAddBook = (book: {
-    industryIdentifiers?: { identifier: string }[];
-    title?: string;
-    isbn?: string;
-    authors?: string[];
-    description?: string;
-    publicationDate?: string
-  }) => {
+  // Renamed to be more specific for adding from search results
+  const handleAddBookFromSearch = async (volumeInfo: any) => {
     if (window.confirm("Do you want to add this book to your library?")) {
-      setTitle(book.title || "");
-      setIsbn(book.isbn || "");
-      setAuthor(book.authors ? book.authors.join(", ") : "");
-      setSynopsis(book.description || "");
-      setPublicationDate(book.publicationDate ? new Date(book.publicationDate) : new Date());
-      setBooks([...books, {
-        title: book.title || "",
-        author: book.authors ? book.authors.join(", ") : "",
-        isbn: book.industryIdentifiers && book.industryIdentifiers.length > 0 ? book.industryIdentifiers[0].identifier : "",
-        publicationDate: new Date(),
-        synopsis: book.description || ""
-      }]);
-      setMessage("Book added successfully");
-      setSearchResults([]);
+      // Map Google Books API data to IBook structure
+      const bookToAdd: Partial<IBook> = {
+        title: volumeInfo.title,
+        authors: volumeInfo.authors || [],
+        publishedDate: volumeInfo.publishedDate,
+        description: volumeInfo.description,
+        isbn: volumeInfo.industryIdentifiers?.find((id: any) => id.type === "ISBN_13" || id.type === "ISBN_10")?.identifier,
+        pageCount: volumeInfo.pageCount,
+        categories: volumeInfo.categories,
+        imageLinks: volumeInfo.imageLinks,
+        language: volumeInfo.language,
+      };
+
+      // Basic validation for required fields (matching backend)
+      if (!bookToAdd.title || !bookToAdd.authors || bookToAdd.authors.length === 0 || !bookToAdd.publishedDate || !bookToAdd.isbn || !bookToAdd.description) {
+        setError("Selected book is missing required information (title, authors, published date, ISBN, or description).");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${baseUrl}/api/books/add-book`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(bookToAdd),
+          credentials: "include",
+        });
+
+        if (response.ok) {
+          const responseData = await response.json();
+          const addedBook: IBook = responseData.book;
+          setBooks([...books, addedBook]);
+          setMessage("Book added to library successfully!");
+          setSearchResults([]); // Clear search results
+          // Clear form fields
+          setTitle("");
+          setAuthors([]);
+          setDescription("");
+          setPublishedDate("");
+          setIsbn("");
+          // Consider resetting Formik form if it was populated
+        } else {
+          const errorData = await response.json();
+          setError(`Failed to add book: ${errorData.message || response.statusText}`);
+        }
+      } catch (err) {
+        console.error("Error adding book from search:", err);
+        setError(`An error occurred: ${err instanceof Error ? err.message : String(err)}`);
+      }
     }
   };
 
+
   const initialValues = {
+    id: "",
     title,
-    author,
-    synopsis,
+    authors,
+    description,
     isbn,
-    publicationDate
+    publishedDate
   };
 
   const searchBooks = useCallback(async () => {
+    setError(""); // Clear previous errors
     try {
       const response = await fetch(`${baseUrl}/api/books/search?title=${uriEncodedTitle}`);
       if (response.ok) {
@@ -76,37 +107,49 @@ const AddBook = () => {
       }
     } catch (err) {
       console.error(`An error occurred while searching for books: ${err}`);
-      setError(`An error occurred while searching for books: ${err}`);
+      setError(`An error occurred while searching for books: ${err instanceof Error ? err.message : String(err)}`);
     }
-  }, [apiKey, isbn, uriEncodedTitle, author, books]);
+  }, [apiKey, isbn, uriEncodedTitle, authors, books]);
 
   const validationSchema = z.object({
     title: z.string().min(1, "Title is required"),
-    author: z.string().min(1, "Author is required"),
-    synopsis: z.string().min(1, "Synopsis is required"),
-    publicationDate: z.date().min(new Date(1450, 0, 1), "Publication date must be after January 1, 1450"),
+    authors: z.array(z.string()).min(1, "Author is required"),
+    description: z.string().min(1, "Description is required"),
+    publishedDate: z.string().min(1, "Publication date must be after January 1, 1450 and be in a valid date format"),
     isbn: z.string().min(10, "ISBN must be at least 10 characters long")
   });
 
-  const onSubmit = async (values: typeof initialValues) => {
+  const onSubmit = async (values: typeof initialValues, { resetForm }: { resetForm: () => void }) => {
     console.log("Form data", values);
+    setError("");
+    setMessage("");
     try {
       const response = await fetch(`${baseUrl}/api/books/add-book`, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ ...values }),
+        body: JSON.stringify(values), // Send all form values, backend will pick what it needs
         credentials: "include"
       });
       if (response.ok) {
-        setBooks([...books, { ...values }]);
+        const responseData = await response.json();
+        const addedBook: IBook = responseData.book;
+        setBooks([...books, addedBook]);
         setMessage("Book added successfully");
+        resetForm(); // Reset Formik form
+        // Also reset local state if not fully controlled by Formik
+        setTitle("");
+        setAuthors([]);
+        setDescription("");
+        setPublishedDate("");
+        setIsbn("");
       } else {
-        setError("Couldn't add book");
+        const errorData = await response.json();
+        setError(`Couldn't add book: ${errorData.message || "Please check your input."}`);
       }
     } catch (err) {
-      console.log(`An error occurred: ${err}`);
+      setError(`An error occurred: ${err instanceof Error ? err.message : String(err)}`);
     }
   };
 
@@ -114,12 +157,10 @@ const AddBook = () => {
     <div className="AddBook">
       <h1>Add a New Book</h1>
       <form
-        onSubmit={
-          async (event) => {
-            event.preventDefault();
-            await searchBooks();
-          }
-        }
+        onSubmit={async (event: FormEvent<HTMLFormElement>) => {
+          event.preventDefault();
+          await searchBooks();
+        }}
         className="searchBooks"
       >
         <label htmlFor="search">Search for a book:</label>
@@ -140,17 +181,16 @@ const AddBook = () => {
       </form>
       <Formik
         initialValues={initialValues}
+        enableReinitialize // Important if initialValues can change from state
         validationSchema={toFormikValidationSchema(validationSchema)}
         onSubmit={onSubmit}
       >
         {formik => (
           <Form
-            onSubmit={
-              (event) => {
-                event.preventDefault();
-                formik.handleSubmit();
-              }
-            }
+            onSubmit={(event: FormEvent<HTMLFormElement>) => { // Ensure Formik's handleSubmit is called
+              event.preventDefault();
+              formik.handleSubmit();
+            }}
           >
             <label htmlFor="title">Title:</label>
             <Field
@@ -165,13 +205,13 @@ const AddBook = () => {
             ) : null}
             <label htmlFor="author">Author:</label>
             <Field
-              {...formik.getFieldProps("author")}
+              {...formik.getFieldProps("authors")}
               required
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
             />
-            {formik.errors.author && formik.touched.author ? (
+            {formik.errors.authors && formik.touched.authors ? (
               <p className="text-sm text-red-400">
-                {formik.errors.author}
+                {formik.errors.authors}
               </p>
             ) : null}
             <label htmlFor="isbn">ISBN:</label>
@@ -185,33 +225,34 @@ const AddBook = () => {
                 {formik.errors.isbn}
               </p>
             ) : null}
-            <label htmlFor="synopsis">Synopsis:</label>
+            <label htmlFor="description">Synopsis:</label>
             <Field
-              {...formik.getFieldProps("synopsis")}
+              {...formik.getFieldProps("description")}
               required
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
             />
-            {formik.errors.synopsis && formik.touched.synopsis ? (
+            {formik.errors.description && formik.touched.description ? (
               <p className="text-sm text-red-400">
-                {formik.errors.synopsis}
+                {formik.errors.description}
               </p>
             ) : null}
-            <label htmlFor="publicationDate">Publication Date:</label>
+            <label htmlFor="publishedDate">Publication Date:</label>
             <Field
-              {...formik.getFieldProps("publicationDate")}
+              {...formik.getFieldProps("publishedDate")}
               required
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
             />
-            {formik.errors.publicationDate && formik.touched.publicationDate ? (
+            {formik.errors.publishedDate && formik.touched.publishedDate ? (
               <p className="text-sm text-red-400">
-                {formik.errors.publicationDate as string}
+                {formik.errors.publishedDate}
               </p>
             ) : null}
-            <input
-              type="button"
-              value="Add Book"
+            <button
+              type="submit"
               className="text-white w-full sm:w-auto bg-blue-300 hover:bg-blue-400 rounded-md text-center p-2"
-            />
+              disabled={formik.isSubmitting}
+            >Add Book Manually
+            </button>
             {error !== "" && <p className="text-red-600 text-sm">{error}</p>}
             {message !== "" && <p className="text-sm">{message}</p>}
           </Form>
@@ -222,21 +263,14 @@ const AddBook = () => {
         <div className="search-results mt-4">
           <h2>Search Results</h2>
           <ul>
-            {searchResults.map((result: {
-              industryIdentifiers?: { identifier: string }[];
-              title?: string;
-              isbn?: string;
-              authors?: string[];
-              description?: string;
-              publicationDate?: string
-            }, index) => (
+            {searchResults.map((result: any, index) => (
               <li key={index} className="mb-2 border-b pb-2">
                 <div>
                   <strong>{result.title}</strong> by {result.authors?.join(", ")}
                 </div>
                 <button
                   className="bg-green-500 text-white px-2 py-1 rounded mt-1"
-                  onClick={() => handleAddBook(result)}
+                  onClick={() => handleAddBookFromSearch(result)}
                   title="Add this book to your library"
                   type="button"
                 >

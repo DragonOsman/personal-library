@@ -1,7 +1,9 @@
-import connection from "@/src/app/lib/db";
+import connectionPool from "@/src/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
-import { RowDataPacket } from "mysql2";
+import { PoolConnection, RowDataPacket } from "mysql2/promise";
+import { randomUUID } from "crypto";
+import { IBook } from "@/src/app/context/BookContext";
 
 export const POST = async (req: NextRequest) => {
   const user = await currentUser();
@@ -9,33 +11,61 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ status: 401, message: "Please log in first" });
   }
 
-  const { title, author, publicationDate, isbn, synopsis } = await req.json();
+  const {
+    title,
+    authors,
+    publishedDate,
+    isbn,
+    description,
+    pageCount,
+    categories,
+    imageLinks,
+    language
+  } = await req.json();
 
-  if (!title || !author || !publicationDate || !isbn || !synopsis) {
-    return NextResponse.json({ status: 400, message: "Missing required fields" });
+  // Validate truly required fields. Description is also required by the frontend form's Zod schema.
+  if (!title || !authors || !Array.isArray(authors) || authors.length === 0 || !publishedDate || !isbn || !description) {
+    return NextResponse.json({ status: 400, message: "Missing required fields: title, authors, publishedDate, isbn, description are required." });
   }
-
+  const dbConn: PoolConnection = await connectionPool.getConnection();
   try {
-    const [rows] = await (await connection).execute<RowDataPacket[]>(
-      "SELECT books FROM library WHERE user_id = ?",
+    const [rows] = await dbConn.execute<RowDataPacket[]>(
+      "SELECT books FROM library WHERE userId = ?",
       [user.id]
     );
 
-    let books = [];
+    let currentBooks: IBook[] = [];
     if (rows.length > 0 && rows[0].books) {
-      books = JSON.parse(rows[0].books);
+      currentBooks = JSON.parse(rows[0].books as string)
     }
 
-    books.push({ title, author, publishedDate: publicationDate, isbn, synopsis });
+    const newBook: IBook = {
+      id: randomUUID(),
+      title,
+      authors: Array.isArray(authors) ? authors : [authors],
+      publishedDate,
+      isbn,
+      description,
+      pageCount,
+      categories,
+      imageLinks,
+      language
+    };
 
-    await (await connection).execute(
-      "UPDATE library SET books = ? WHERE user_id = ?",
-      [JSON.stringify(books), user.id]
+    currentBooks.push(newBook);
+
+    await dbConn.execute(
+      "INSERT INTO library (userId, books) VALUES (?, ?) ON DUPLICATE KEY UPDATE books = ?",
+      [user.id, JSON.stringify(currentBooks), JSON.stringify(currentBooks)]
     );
 
-    return NextResponse.json({ status: 200, message: "Book added successfully" });
+    return NextResponse.json({ status: 200, message: "Book added successfully", book: newBook });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ status: 500, message: "Internal Server Error" });
+  } finally {
+    if (dbConn) {
+      dbConn.release();
+    }
   }
 };

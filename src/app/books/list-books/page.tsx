@@ -3,7 +3,6 @@
 
 import { BookContext, IBookContext, IBook } from "../../context/BookContext";
 import { useContext, useEffect, useMemo } from "react";
-import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -70,7 +69,6 @@ const ListBooksPage = () => {
         for (const book of books) {
           const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn=${book.isbn}`, {
             method: "GET",
-            credentials: "include",
             headers: {
               "Content-Type": "application/json"
             }
