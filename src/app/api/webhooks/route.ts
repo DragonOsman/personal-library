@@ -1,14 +1,25 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { WebhookEvent, currentUser, User } from "@clerk/nextjs/server";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import { UserJSON, DeletedObjectJSON } from "@clerk/clerk-sdk-node"
 import { PoolConnection } from "mysql2/promise";
 import connectionPool from "@/src/app/lib/db";
-import { v4 } from "uuid";
+
+function getPrimaryEmailAddress(userData: UserJSON): string | undefined {
+  if (userData.primary_email_address_id && userData.email_addresses) {
+    const primaryEmail = userData.email_addresses.find(
+      email => email.id === userData.primary_email_address_id
+    );
+    return primaryEmail?.email_address;
+  }
+  return userData.email_addresses?.[0]?.email_address;
+}
 
 export async function POST(req: Request) {
   const signingSecret = process.env.SIGNING_SECRET;
 
   if (!signingSecret) {
+    console.error("SIGNING_SECRET is not set in environment variables");
     throw new Error("Please add SIGNING_SECRET from Clerk to your environment variables");
   }
 
@@ -38,121 +49,132 @@ export async function POST(req: Request) {
     return new Response("Error: Verification error", { status: 400 });
   }
 
-  const { id } = event.data;
   const eventType = event.type;
-  console.log(`Received webhook: ${eventType} with ID: ${id}`);
-  console.log(`Webhook payload: ${body}`);
 
-  const user = await currentUser();
+  const userIdFromEvent = (event.data as UserJSON | DeletedObjectJSON).id;
+  console.log(`Received webhook: ${eventType} for user ID: ${userIdFromEvent}`);
 
-  if (!user) {
-    return new Response("Error: User not found", { status: 404 });
-  }
-
-  const dbConnection: PoolConnection | null = await connectionPool.getConnection();
-  if (eventType === "user.created") {
-    return createUser(dbConnection, user);
-  } else if (eventType === "user.updated") {
-    return updateUser(dbConnection, user);
-  } else if (eventType === "user.deleted") {
-    const deleteUserQuery = `DELETE FROM users WHERE id = ?`;
-    const deleteUserValue = user.id;
-    const deleteLibraryQuery = `DELETE FROM libraries WHERE userId = ?`;
-
-    try {
-      await dbConnection.execute(deleteUserQuery, [deleteUserValue]);
-      await dbConnection.execute(deleteLibraryQuery, [deleteUserValue]);
-    } catch (error) {
-      console.error(`Error deleting user and/or libraryfrom database: ${error}`);
-      return new Response("Error: Database deletion error", { status: 500 });
+  let dbConnection: PoolConnection | null = null;
+  try {
+    dbConnection = await connectionPool.getConnection();
+    if (eventType === "user.created") {
+      await handleUserCreated(dbConnection, event.data as unknown as UserJSON);
+      return new Response("User created successfully in DB", { status: 201 });
+    } else if (eventType === "user.updated") {
+      await handleUserUpdated(dbConnection, event.data as unknown as UserJSON);
+      return new Response("User updated successfully in DB", { status: 200 });
+    } else if (eventType === "user.deleted") {
+      await handleUserDeleted(dbConnection, event.data as unknown as DeletedObjectJSON);
+      return new Response("User deleted successfully in DB", { status: 200 });
     }
-
-    return new Response("User and deleted successfully", { status: 200 });
+    return new Response(
+      "Webhook received, event type not handled by this endpoint",
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error(`Error processing webhook event ${eventType}: ${error}`);
+    const errorMessage = error instanceof Error ? error.message : error;
+    return new Response(`Error processing webhook event: ${errorMessage}`, { status: 500 });
+  } finally {
+    if (dbConnection) {
+      dbConnection.release();
+    }
   }
+};
 
-  return new Response("Webhook received", { status: 200 });
-}
-
-async function createUser(dbConnection: PoolConnection, user: User) {
+async function handleUserCreated(dbConnection: PoolConnection, userData: UserJSON) {
+  const primaryEmail = getPrimaryEmailAddress(userData);
+  const constructedFullName = `${userData.first_name || ""} ${userData.last_name || ""}`
+    .trim() || null
+  ;
   const userQuery = `
-    INSERT INTO users (id, primaryEmailAddress, emailAddresses, firstName, lastName, createdAt, updatedAt)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO users (
+      id, firstName, lastName, fullName, passwordEnabled,
+      primaryEmailAddress, emaiAddresses, createdAt, updatedAt,
+      externalAccounts, verifiedExternalAccounts, web3Wallets, primaryWeb3Wallet
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const userValues = [
-    user.id,
-    user.primaryEmailAddress,
-    user.emailAddresses,
-    user.firstName,
-    user.lastName,
-    new Date(),
-    new Date()
-  ];
-
-  const libraryQuery = `
-    INSERT INTO libraries (id, userId, books)
-    VALUES (?, ?, ?)
-  `;
-
-  const libraryValues = [v4(), user.id, []];
-
-  const libraryId = libraryValues[0];
-  try {
-    await dbConnection.execute(libraryQuery, libraryValues);
-  } catch (error) {
-    console.error(`Error inserting library into database: ${error}`);
-    return new Response("Error: Database insertion error", { status: 500 });
-  }
-
-  const updateUserQuery = `UPDATE users SET libraryId = ? WHERE id = ?`;
-  const updateUserValues = [
-    libraryId,
-    user.id
+    userData.id,
+    userData.first_name || null,
+    userData.last_name || null,
+    constructedFullName,
+    userData.password_enabled,
+    primaryEmail || null,
+    JSON.stringify(userData.email_addresses || []),
+    new Date(userData.created_at),
+    new Date(userData.updated_at),
+    JSON.stringify(userData.external_accounts || []),
+    // verifiedExternalAccounts - not directly in UserJSON, default to empty array
+    JSON.stringify([]),
+    JSON.stringify(userData.web3_wallets || []),
+    // primaryWeb3Wallet - not directly in UserJSON, default to null
+    JSON.stringify(null)
   ];
 
   try {
     await dbConnection.execute(userQuery, userValues);
-    console.log("User inserted into database");
+    console.log(`User ${userData.first_name}, id ${userData.id} inserted in database`);
   } catch (error) {
-    console.error(`Error inserting user into database: ${error}`);
-    return new Response("Error: Database insertion error", { status: 500 });
+    console.error(`Error inserting user in database: ${error}`);
   }
-
-  try {
-    await dbConnection.execute(updateUserQuery, updateUserValues);
-    console.log("User updated with library ID");
-  } catch (error) {
-    console.error(`Error updating user with library ID: ${error}`);
-    return new Response("Error: Database update error", { status: 500 });
-  }
-
-  return new Response("User created successfully", { status: 200 });
 }
 
-async function updateUser(dbConnection: PoolConnection, user: User) {
-  const query = `
+async function handleUserUpdated(dbConnection: PoolConnection, userData: UserJSON) {
+  const primaryEmail = getPrimaryEmailAddress(userData);
+  const constructedFullName = `${userData.first_name || ""} ${userData.last_name || ""}`;
+
+  const updatedUserQuery = `
     UPDATE users
-    SET primaryEmailAddress = ?, emailAddresses = ?, firstName = ?, lastName = ?, updatedAt = ?
+    SET
+      firstName = ?,
+      lastName = ?,
+      fullName = ?,
+      passwordEnabled = ?,
+      primaryEmailAddress = ?,
+      emailAddresses = ?,
+      updatedAt = ?,
+      externalAccounts = ?,
+      web3Wallets = ?,
     WHERE id = ?
   `;
 
   const values = [
-    user.primaryEmailAddress,
-    user.emailAddresses,
-    user.firstName,
-    user.lastName,
-    user.fullName,
-    new Date(),
-    user.id
+    userData.first_name || null,
+    userData.last_name || null,
+    constructedFullName,
+    userData.password_enabled,
+    primaryEmail || null,
+    JSON.stringify(userData.email_addresses || []),
+    new Date(userData.updated_at),
+    JSON.stringify(userData.external_accounts || []),
+    JSON.stringify(userData.web3_wallets || []),
+    userData.id
   ];
 
   try {
-    await dbConnection.execute(query, values);
-    console.log("User updated in database");
+    await dbConnection.execute(updatedUserQuery, values);
+    console.log(`User ${userData.first_name}, ${userData.id} updated in database`);
   } catch (error) {
     console.error(`Error updating user in database: ${error}`);
-    return new Response("Error: Database update error", { status: 500 });
+  }
+}
+
+async function handleUserDeleted(dbConnection: PoolConnection, deletedUserData: DeletedObjectJSON) {
+  if (!deletedUserData.id) {
+    console.warn("User deleted event received without user ID. Skipping deletion.");
+    return;
   }
 
-  return new Response("User updated successfully", { status: 200 });
+  const deleteUserQuery = "DELETE FROM users WHERE id = ?";
+
+  try {
+    await dbConnection.execute(deleteUserQuery, [deletedUserData.id]);
+    console.log(`User with ID ${deletedUserData.id} deleted from database`);
+  } catch (error) {
+    console.error(`Error deleting user from database: ${error}`);
+  }
+
 }

@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   basePath: "",
   crossOrigin: "use-credentials",
-  turbo: {
+  turbopack: {
     resolveExtensions: [
       ".tsx",
       ".ts",

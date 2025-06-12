@@ -9,15 +9,18 @@ export const GET = async () => {
     return NextResponse.json({ message: "Please log in first" }, { status: 401 });
   }
   const readerId: string = user.id;
-  const dbConn: PoolConnection = await connectionPool.getConnection();;
+  console.log(`Line 12 in src/app/api/books/route.ts: readerId: ${readerId}`);
+  let dbConn: PoolConnection | null = null;
   try {
+    dbConn = await connectionPool.getConnection();
     const [rows] = await dbConn.query<RowDataPacket[]>(
-      `SELECT books FROM library WHERE userId = ?`,
+      `SELECT books FROM libraries WHERE userId = ?`,
       [readerId]
     );
 
     if (rows.length === 0 || !rows[0] || typeof rows[0].books === "undefined" || rows[0].books === null) {
       // No library entry found, or books column is null/undefined
+      console.log(`Line 23 in src/app/api/books/route.ts: rows.length: ${rows.length}, books: ${rows[0]?.books}`);
       return NextResponse.json({ books: [] }, { status: 404 });
     }
 

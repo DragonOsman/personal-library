@@ -12,7 +12,7 @@ export const DELETE = async (req: NextRequest,
   if (user) {
     try {
       const [rows] = await dbConn.query<RowDataPacket[]>(
-        "SELECT books FROM library WHERE userId = ?",
+        "SELECT books FROM libraries WHERE userId = ?",
         [user.id]
       );
       const books = JSON.parse((rows as RowDataPacket[])[0].books);
@@ -23,7 +23,7 @@ export const DELETE = async (req: NextRequest,
       }
 
       books.splice(bookIndex, 1);
-      await dbConn!.query("UPDATE library SET books = ? WHERE userId = ?",
+      await dbConn!.query("UPDATE libraries SET books = ? WHERE userId = ?",
         [JSON.stringify(books), user.id]);
       return NextResponse.json({ status: 200, message: "Book deleted successfully" });
     } catch (err) {

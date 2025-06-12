@@ -27,17 +27,15 @@ export const POST = async (req: NextRequest) => {
   if (!title || !authors || !Array.isArray(authors) || authors.length === 0 || !publishedDate || !isbn || !description) {
     return NextResponse.json({ status: 400, message: "Missing required fields: title, authors, publishedDate, isbn, description are required." });
   }
-  const dbConn: PoolConnection = await connectionPool.getConnection();
+
+  let dbConn: PoolConnection | null= null;
   try {
+    dbConn = await connectionPool.getConnection();
     const [rows] = await dbConn.execute<RowDataPacket[]>(
-      "SELECT books FROM library WHERE userId = ?",
+      "SELECT books FROM libraries WHERE userId = ?",
       [user.id]
     );
-
-    let currentBooks: IBook[] = [];
-    if (rows.length > 0 && rows[0].books) {
-      currentBooks = JSON.parse(rows[0].books as string)
-    }
+    const libraryEntryExists = rows.length > 0 && rows[0] && rows[0].books !== null;
 
     const newBook: IBook = {
       id: randomUUID(),
@@ -52,12 +50,19 @@ export const POST = async (req: NextRequest) => {
       language
     };
 
-    currentBooks.push(newBook);
+    const newBookJson = JSON.stringify(newBook);
 
-    await dbConn.execute(
-      "INSERT INTO library (userId, books) VALUES (?, ?) ON DUPLICATE KEY UPDATE books = ?",
-      [user.id, JSON.stringify(currentBooks), JSON.stringify(currentBooks)]
-    );
+    if (libraryEntryExists) {
+      await dbConn.execute(
+        "UPDATE libraries SET books = JSON_ARRAY_APPEND(COALESCE(books, JSON_ARRAY()), '$', CAST(? AS JSON)) WHERE userId = ?",
+        [newBookJson, user.id]
+      );
+    } else {
+      await dbConn.execute(
+        "INSERT INTO libraries (userId, books) VALUES (?, JSON_ARRAY(CAST(? AS JSON)))",
+        [user.id, newBookJson]
+      );
+    }
 
     return NextResponse.json({ status: 200, message: "Book added successfully", book: newBook });
   } catch (error) {

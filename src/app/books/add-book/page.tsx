@@ -9,7 +9,7 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 const AddBook = () => {
   const [isbn, setIsbn] = useState("");
   const [title, setTitle] = useState("");
-  const [authors, setAuthors] = useState<string[]>([]);
+  const [authors, setAuthors] = useState<string>("");
   const [description, setDescription] = useState("");
   const [publishedDate, setPublishedDate] = useState("");
   const [error, setError] = useState("");
@@ -62,7 +62,7 @@ const AddBook = () => {
           setSearchResults([]); // Clear search results
           // Clear form fields
           setTitle("");
-          setAuthors([]);
+          setAuthors("");
           setDescription("");
           setPublishedDate("");
           setIsbn("");
@@ -113,7 +113,7 @@ const AddBook = () => {
 
   const validationSchema = z.object({
     title: z.string().min(1, "Title is required"),
-    authors: z.array(z.string()).min(1, "Author is required"),
+    authors: z.string().min(1, "One or more Author name(s) is/are required"),
     description: z.string().min(1, "Description is required"),
     publishedDate: z.string().min(1, "Publication date must be after January 1, 1450 and be in a valid date format"),
     isbn: z.string().min(10, "ISBN must be at least 10 characters long")
@@ -129,7 +129,12 @@ const AddBook = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(values), // Send all form values, backend will pick what it needs
+        body: JSON.stringify({
+          ...values,
+          authors: values.authors.includes(",") ?
+            values.authors.split(",").map((author: string) => author.trim()) :
+            [values.authors.trim()],
+        }),
         credentials: "include"
       });
       if (response.ok) {
@@ -140,7 +145,7 @@ const AddBook = () => {
         resetForm(); // Reset Formik form
         // Also reset local state if not fully controlled by Formik
         setTitle("");
-        setAuthors([]);
+        setAuthors("");
         setDescription("");
         setPublishedDate("");
         setIsbn("");
@@ -194,6 +199,8 @@ const AddBook = () => {
           >
             <label htmlFor="title">Title:</label>
             <Field
+              as="input"
+              type="text"
               {...formik.getFieldProps("title")}
               required
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
@@ -203,8 +210,10 @@ const AddBook = () => {
                 {formik.errors.title}
               </p>
             ) : null}
-            <label htmlFor="author">Author:</label>
+            <label htmlFor="authors">Author(s):</label>
             <Field
+              as="input"
+              type="text"
               {...formik.getFieldProps("authors")}
               required
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
@@ -216,6 +225,8 @@ const AddBook = () => {
             ) : null}
             <label htmlFor="isbn">ISBN:</label>
             <Field
+              as="input"
+              type="text"
               {...formik.getFieldProps("isbn")}
               required
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
@@ -225,8 +236,11 @@ const AddBook = () => {
                 {formik.errors.isbn}
               </p>
             ) : null}
-            <label htmlFor="description">Synopsis:</label>
+            <label htmlFor="description">Description:</label>
             <Field
+              as="textarea"
+              rows={4}
+              cols={50}
               {...formik.getFieldProps("description")}
               required
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
@@ -238,6 +252,8 @@ const AddBook = () => {
             ) : null}
             <label htmlFor="publishedDate">Publication Date:</label>
             <Field
+              as="input"
+              type="text"
               {...formik.getFieldProps("publishedDate")}
               required
               className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"

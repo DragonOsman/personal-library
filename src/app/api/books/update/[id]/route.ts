@@ -17,7 +17,7 @@ export const PUT = async (req: NextRequest,
 
   try {
     const [rows] = await dbConn.query<RowDataPacket[]>(
-      "SELECT books FROM library WHERE userId = ?",
+      "SELECT books FROM libraries WHERE userId = ?",
       [user.id]
     );
 
@@ -73,7 +73,7 @@ export const PUT = async (req: NextRequest,
 
     currentBooks[bookIndex] = updatedBook;
 
-    await dbConn.query("UPDATE library SET books = ? WHERE userId = ?",
+    await dbConn.query("UPDATE libraries SET books = ? WHERE userId = ?",
       [
         JSON.stringify(currentBooks),
         user.id
