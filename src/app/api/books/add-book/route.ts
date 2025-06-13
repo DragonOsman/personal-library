@@ -11,7 +11,18 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ status: 401, message: "Please log in first" });
   }
 
-  const {
+
+
+  let dbConn: PoolConnection | null= null;
+  try {
+    dbConn = await connectionPool.getConnection();
+    const [rows] = await dbConn.execute<RowDataPacket[]>(
+      "SELECT books FROM libraries WHERE userId = ?",
+      [user.id]
+    );
+    const libraryEntryExists = rows.length > 0 && rows[0] && rows[0].books !== null;
+
+    const {
     title,
     authors,
     publishedDate,
@@ -25,17 +36,11 @@ export const POST = async (req: NextRequest) => {
 
   // Validate truly required fields. Description is also required by the frontend form's Zod schema.
   if (!title || !authors || !Array.isArray(authors) || authors.length === 0 || !publishedDate || !isbn || !description) {
-    return NextResponse.json({ status: 400, message: "Missing required fields: title, authors, publishedDate, isbn, description are required." });
-  }
-
-  let dbConn: PoolConnection | null= null;
-  try {
-    dbConn = await connectionPool.getConnection();
-    const [rows] = await dbConn.execute<RowDataPacket[]>(
-      "SELECT books FROM libraries WHERE userId = ?",
-      [user.id]
+    return NextResponse.json(
+      { message: "Missing required fields: title, authors, publishedDate, isbn, description are required." },
+      { status: 400 }
     );
-    const libraryEntryExists = rows.length > 0 && rows[0] && rows[0].books !== null;
+  }
 
     const newBook: IBook = {
       id: randomUUID(),
@@ -67,7 +72,16 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ status: 200, message: "Book added successfully", book: newBook });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ status: 500, message: "Internal Server Error" });
+    let statusCode;
+    if (error instanceof Error) {
+      if (error.message.includes("unexpected error")) {
+        statusCode = 500;
+      } else if (error.message.includes("invalid")) {
+        statusCode = 400;
+      }
+    }
+    const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+    return NextResponse.json({ status: statusCode, message: errorMessage });
   } finally {
     if (dbConn) {
       dbConn.release();

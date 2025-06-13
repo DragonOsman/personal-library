@@ -90,10 +90,10 @@ async function handleUserCreated(dbConnection: PoolConnection, userData: UserJSO
   const userQuery = `
     INSERT INTO users (
       id, firstName, lastName, fullName, passwordEnabled,
-      primaryEmailAddress, emaiAddresses, createdAt, updatedAt,
+      primaryEmailAddress, emailAddresses, createdAt, updatedAt,
       externalAccounts, verifiedExternalAccounts, web3Wallets, primaryWeb3Wallet
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const userValues = [
