@@ -5,6 +5,27 @@ import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { BookContext, IBookContext, IBook } from "@/src/app/context/BookContext";
 
+interface GoogleApiVolumeInfo {
+  title: string;
+  authors?: string[];
+  publishedDate?: string;
+  description?: string;
+  industryIdentifiers?: Array<{ type: string; identifier: string }>;
+  pageCount?: number;
+  categories?: string[];
+  publisher?: string;
+  imageLinks?: {
+    thumbnail: string;
+    smallThumbnail?: string;
+  };
+  language?: string;
+}
+
+interface GoogleApiBookItem {
+  id?: string;
+  volumeInfo: GoogleApiVolumeInfo;
+}
+
 const OnboardingPage = () => {
   const { user } = useUser();
   const { books, setBooks } = useContext<IBookContext>(BookContext);
@@ -21,25 +42,33 @@ const OnboardingPage = () => {
 
     try {
       const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
-      const data = await response.json();
-      const books: IBook[] = data.items.map((item: any, index: number) => ({
-        id: index,
-        volumeInfo: {
-          ...item.volumeInfo,
-          publisher: item.volumeInfo.publisher || "Unknown Publisher",
-          description: item.volumeInfo.description || "No description available"
-        },
-        title: item.volumeInfo.title
-      }));
+      const data: { items: GoogleApiBookItem[] } = await response.json();
 
-      data.items.map((item: any) => setBooks([...books, {
-        id: item.volumeInfo.industryIdentifiers?.[0]?.identifier,
-        title: item.volumeInfo.title,
-        authors: item.volumeInfo.authors?.join(", ") || "Unknown Author",
-        isbn: item.volumeInfo.industryIdentifiers?.[0]?.identifier || "N/A",
-        publishedDate: item.volumeInfo.publishedDate,
-        description: item.volumeInfo.description || "No description available"
-      }]));
+      if (data.items && Array.isArray(data.items)) {
+        const newBooksFromSearch: IBook[] = data.items.map((item: GoogleApiBookItem): IBook => {
+          const isbnData = item.volumeInfo.industryIdentifiers?.find(id => (
+            id.type === "ISBN_13" || id.type === "ISBN_10"
+          ));
+          const isbn = isbnData?.identifier;
+
+          return {
+            id: item.id || isbn || `temp-id-${Math.random().toString(36).substring(2)}`,
+            title: item.volumeInfo.title,
+            authors: item.volumeInfo.authors || [],
+            publishedDate: item.volumeInfo.publishedDate || "Unknown Date",
+            description: item.volumeInfo.description || "No description available",
+            pageCount: item.volumeInfo.pageCount || 0,
+            categories: item.volumeInfo.categories || [],
+            imageLinks: item.volumeInfo.imageLinks,
+            language: item.volumeInfo.language,
+            isbn: isbn || "N/A",
+            publisher: item.volumeInfo.publisher || "Unknown Publisher"
+          };
+        });
+        setBooks(newBooksFromSearch);
+      } else {
+        setBooks([]);
+      }
     } catch (error) {
       console.error("Error fetching books:", error);
     }

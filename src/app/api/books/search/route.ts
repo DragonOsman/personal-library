@@ -30,4 +30,4 @@ export const GET = async (req: NextRequest) => {
     console.error(`An error occurred while fetching books: ${errorMessage}`, error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
-}
+};

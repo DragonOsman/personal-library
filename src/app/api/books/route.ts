@@ -2,6 +2,7 @@ import connectionPool from "@/src/app/lib/db";
 import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 import type { RowDataPacket, PoolConnection } from "mysql2/promise";
+import { IBook } from "@/src/app/context/BookContext";
 
 export const GET = async () => {
   const user = await currentUser();
@@ -24,7 +25,7 @@ export const GET = async () => {
       return NextResponse.json({ books: [] }, { status: 404 });
     }
 
-    let userBooks: any[] = [];
+    let userBooks: IBook[] = [];
 
     if (typeof rows[0].books === "string") {
       try {
@@ -47,11 +48,11 @@ export const GET = async () => {
     return NextResponse.json({ books: userBooks }, { status: 200});
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`Error fetching books for user ${user.fullName}: ${errorMessage}`, error)
+    console.error(`Error fetching books for user ${user.fullName}: ${errorMessage}`, error);
     return NextResponse.json({ message: "Failed to retrieve books from library" }, { status: 500 });
   } finally {
     if (dbConn) {
       dbConn.release();
     }
   }
-}
+};

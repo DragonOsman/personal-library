@@ -36,4 +36,3 @@ export const DELETE = async (req: NextRequest,
     }
   }
 };
-;

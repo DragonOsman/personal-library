@@ -3,8 +3,28 @@
 import { useState, useContext, useCallback, ChangeEvent, FormEvent } from "react";
 import { BookContext, IBook } from "@/src/app/context/BookContext";
 import { Formik, Form, Field } from "formik";
-import { z, ZodError } from "zod";
+import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+
+interface GoogleApiVolumeInfo {
+  title: string;
+  authors?: string[];
+  publishedDate?: string;
+  description?: string;
+  industryIdentifiers?: Array<{ type: string; identifier: string }>;
+  pageCount?: number;
+  categories?: string[];
+  imageLinks?: {
+    thumbnail: string;
+    smallThumbnail?: string;
+  };
+  language?: string;
+}
+
+interface GoogleApiBookItem {
+  id?: string;
+  volumeInfo: GoogleApiVolumeInfo;
+}
 
 const AddBook = () => {
   const [isbn, setIsbn] = useState("");
@@ -15,17 +35,16 @@ const AddBook = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const { books, setBooks } = useContext(BookContext);
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<GoogleApiVolumeInfo[]>([]);
 
   const uriEncodedTitle = encodeURIComponent(title);
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
   const baseUrl = process.env.NODE_ENV === "production" ?
     `${process.env.NEXT_PUBLIC_BASE_URLPROD}` :
     `${process.env.NEXT_PUBLIC_BASE_URLDEV}`
   ;
 
   // Renamed to be more specific for adding from search results
-  const handleAddBookFromSearch = async (volumeInfo: any) => {
+  const handleAddBookFromSearch = async (volumeInfo: GoogleApiVolumeInfo) => {
     if (window.confirm("Do you want to add this book to your library?")) {
       // Map Google Books API data to IBook structure
       const bookToAdd: Partial<IBook> = {
@@ -33,11 +52,11 @@ const AddBook = () => {
         authors: volumeInfo.authors || [],
         publishedDate: volumeInfo.publishedDate,
         description: volumeInfo.description,
-        isbn: volumeInfo.industryIdentifiers?.find((id: any) => id.type === "ISBN_13" || id.type === "ISBN_10")?.identifier,
+        isbn: volumeInfo.industryIdentifiers?.find((id: { type: string; identifier: string }) => id.type === "ISBN_13" || id.type === "ISBN_10")?.identifier,
         pageCount: volumeInfo.pageCount,
         categories: volumeInfo.categories,
         imageLinks: volumeInfo.imageLinks,
-        language: volumeInfo.language,
+        language: volumeInfo.language
       };
 
       // Basic validation for required fields (matching backend)
@@ -51,7 +70,7 @@ const AddBook = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(bookToAdd),
-          credentials: "include",
+          credentials: "include"
         });
 
         if (response.ok) {
@@ -99,7 +118,7 @@ const AddBook = () => {
         }
 
         if (data.items && data.items.length > 0) {
-          setSearchResults(data.items.map((item:any) => item.volumeInfo));
+          setSearchResults(data.items.map((item: GoogleApiBookItem) => item.volumeInfo));
         } else {
           setSearchResults([]);
           setError("No books found matching your search criteria.");
@@ -109,7 +128,7 @@ const AddBook = () => {
       console.error(`An error occurred while searching for books: ${err}`);
       setError(`An error occurred while searching for books: ${err instanceof Error ? err.message : String(err)}`);
     }
-  }, [apiKey, isbn, uriEncodedTitle, authors, books]);
+  }, [uriEncodedTitle, baseUrl]);
 
   const validationSchema = z.object({
     title: z.string().min(1, "Title is required"),
@@ -133,7 +152,7 @@ const AddBook = () => {
           ...values,
           authors: values.authors.includes(",") ?
             values.authors.split(",").map((author: string) => author.trim()) :
-            [values.authors.trim()],
+            [values.authors.trim()]
         }),
         credentials: "include"
       });
@@ -279,7 +298,7 @@ const AddBook = () => {
         <div className="search-results mt-4">
           <h2>Search Results</h2>
           <ul>
-            {searchResults.map((result: any, index) => (
+            {searchResults.map((result: GoogleApiVolumeInfo, index) => (
               <li key={index} className="mb-2 border-b pb-2">
                 <div>
                   <strong>{result.title}</strong> by {result.authors?.join(", ")}

@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { UserJSON, DeletedObjectJSON } from "@clerk/clerk-sdk-node"
+import { UserJSON, DeletedObjectJSON } from "@clerk/clerk-sdk-node";
 import { PoolConnection } from "mysql2/promise";
 import connectionPool from "@/src/app/lib/db";
 
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
       dbConnection.release();
     }
   }
-};
+}
 
 async function handleUserCreated(dbConnection: PoolConnection, userData: UserJSON) {
   const primaryEmail = getPrimaryEmailAddress(userData);
@@ -101,17 +101,26 @@ async function handleUserCreated(dbConnection: PoolConnection, userData: UserJSO
     userData.first_name || null,
     userData.last_name || null,
     constructedFullName,
-    userData.password_enabled,
+    userData.password_enabled || false,
     primaryEmail || null,
-    JSON.stringify(userData.email_addresses || []),
+    JSON.stringify(userData.email_addresses?.map(emailAddress => (
+      { id: emailAddress.id, emailAddress: emailAddress.email_address, verified: emailAddress.verification?.status === "verified" }
+    )) || []),
     new Date(userData.created_at),
     new Date(userData.updated_at),
-    JSON.stringify(userData.external_accounts || []),
-    // verifiedExternalAccounts - not directly in UserJSON, default to empty array
-    JSON.stringify([]),
-    JSON.stringify(userData.web3_wallets || []),
-    // primaryWeb3Wallet - not directly in UserJSON, default to null
-    JSON.stringify(null)
+    JSON.stringify(userData.external_accounts?.map(account => ({
+      id: account.id,
+      provider: account.provider, // Assuming 'provider' field exists or map accordingly
+      providerUserId: account.provider_user_id,
+      emailAddress: account.email_address,
+      firstName: account.first_name,
+      lastName: account.last_name,
+      imageUrl: account.image_url,
+      verified: account.verification?.status === "verified"
+    })) || []),
+    JSON.stringify(userData.external_accounts?.filter(account => account.verification?.status === "verified").map(acc => ({ id: acc.id, provider: acc.provider, emailAddress: acc.email_address })) || []),
+    JSON.stringify(userData.web3_wallets?.map(wallet => ({ id: wallet.id, web3Wallet: wallet.web3_wallet, verified: wallet.verification?.status === "verified" })) || []),
+    userData.primary_web3_wallet_id && userData.web3_wallets ? JSON.stringify(userData.web3_wallets.find(w => w.id === userData.primary_web3_wallet_id)) : null
   ];
 
   try {
@@ -124,7 +133,7 @@ async function handleUserCreated(dbConnection: PoolConnection, userData: UserJSO
 
 async function handleUserUpdated(dbConnection: PoolConnection, userData: UserJSON) {
   const primaryEmail = getPrimaryEmailAddress(userData);
-  const constructedFullName = `${userData.first_name || ""} ${userData.last_name || ""}`;
+  const constructedFullName = `${userData.first_name || ""} ${userData.last_name || ""}`.trim() || null;
 
   const updatedUserQuery = `
     UPDATE users
@@ -137,7 +146,9 @@ async function handleUserUpdated(dbConnection: PoolConnection, userData: UserJSO
       emailAddresses = ?,
       updatedAt = ?,
       externalAccounts = ?,
+      verifiedExternalAccounts = ?,
       web3Wallets = ?,
+      primaryWeb3Wallet = ?
     WHERE id = ?
   `;
 
@@ -145,12 +156,27 @@ async function handleUserUpdated(dbConnection: PoolConnection, userData: UserJSO
     userData.first_name || null,
     userData.last_name || null,
     constructedFullName,
-    userData.password_enabled,
+    userData.password_enabled || false,
     primaryEmail || null,
-    JSON.stringify(userData.email_addresses || []),
+    JSON.stringify(userData.email_addresses?.map(emailAddress => ({ id: emailAddress.id, emailAddress: emailAddress.email_address, verified: emailAddress.verification?.status === "verified" })) || []),
     new Date(userData.updated_at),
-    JSON.stringify(userData.external_accounts || []),
-    JSON.stringify(userData.web3_wallets || []),
+    JSON.stringify(userData.external_accounts?.map(account => ({
+      id: account.id,
+      provider: account.provider,
+      providerUserId: account.provider_user_id,
+      emailAddress: account.email_address,
+      firstName: account.first_name,
+      lastName: account.last_name,
+      imageUrl: account.image_url,
+      verified: account.verification?.status === "verified"
+    })) || []),
+    JSON.stringify(userData.external_accounts?.filter(account => account.verification?.status === "verified").map(
+      account => ({ id: account.id, provider: account.provider, emailAddress: account.email_address })) || []
+    ),
+    JSON.stringify(userData.web3_wallets?.map(wallet => (
+      { id: wallet.id, web3Wallet: wallet.web3_wallet, verified: wallet.verification?.status === "verified" }
+    )) || []),
+    userData.primary_web3_wallet_id && userData.web3_wallets ? JSON.stringify(userData.web3_wallets.find(w => w.id === userData.primary_web3_wallet_id)) : null,
     userData.id
   ];
 

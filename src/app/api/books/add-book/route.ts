@@ -8,19 +8,19 @@ import { IBook } from "@/src/app/context/BookContext";
 export const POST = async (req: NextRequest) => {
   const user = await currentUser();
   if (!user) {
-    return NextResponse.json({ status: 401, message: "Please log in first" });
+    return NextResponse.json({ message: "Please log in first" }, { status: 401 });
   }
 
-
-
-  let dbConn: PoolConnection | null= null;
+  let dbConn: PoolConnection | null = null;
   try {
     dbConn = await connectionPool.getConnection();
-    const [rows] = await dbConn.execute<RowDataPacket[]>(
+
+    // User is assumed to exist due to Clerk webhooks handling user creation.
+    const [libraryRows] = await dbConn.execute<RowDataPacket[]>(
       "SELECT books FROM libraries WHERE userId = ?",
       [user.id]
     );
-    const libraryEntryExists = rows.length > 0 && rows[0] && rows[0].books !== null;
+    const libraryEntryExists = libraryRows.length > 0 && libraryRows[0] && libraryRows[0].books !== null;
 
     const {
     title,
@@ -69,19 +69,37 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    return NextResponse.json({ status: 200, message: "Book added successfully", book: newBook });
+    return NextResponse.json({ message: "Book added successfully", book: newBook }, { status: 200 });
   } catch (error) {
-    console.error(error);
-    let statusCode;
-    if (error instanceof Error) {
-      if (error.message.includes("unexpected error")) {
-        statusCode = 500;
-      } else if (error.message.includes("invalid")) {
-        statusCode = 400;
-      }
+    console.error("Error in POST /api/books/add-book:", error);
+    let httpStatus = 500; // Default to Internal Server Error
+    let message = "An unexpected error occurred while adding the book.";
+
+    interface MySQLError extends Error {
+        errno?: number;
+        sqlMessage?: string;
+        code?: string;
     }
-    const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
-    return NextResponse.json({ status: statusCode, message: errorMessage });
+
+    const dbError = error as MySQLError;
+
+    if (dbError.errno || dbError.code) {
+        message = dbError.sqlMessage || dbError.message;
+        switch (dbError.errno) {
+            case 1452: // ER_NO_REFERENCED_ROW_2 (Foreign Key Constraint)
+                httpStatus = 400; // Or 500 if user sync is expected to be perfect
+                message = `Data integrity issue: ${dbError.sqlMessage || "Associated user record not found. Please ensure your profile is synced."}`;
+                break;
+            // Add other specific MySQL error codes as needed
+            default:
+                httpStatus = 500;
+                message = `Database error (${dbError.code || dbError.errno}): ${dbError.sqlMessage || dbError.message}`;
+        }
+    } else if (error instanceof Error) {
+        message = error.message;
+    }
+
+    return NextResponse.json({ message }, { status: httpStatus });
   } finally {
     if (dbConn) {
       dbConn.release();

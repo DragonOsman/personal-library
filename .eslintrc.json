@@ -44,6 +44,7 @@
     ],
     "semi": "error",
     "no-extra-semi": "error",
-    "comma-dangle": "error"
+    "comma-dangle": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

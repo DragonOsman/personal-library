@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { BookContext, IBookContext, IBook } from "../../context/BookContext";
+import { BookContext, IBookContext } from "../../context/BookContext";
 import { useContext, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -58,7 +58,7 @@ const ListBooksPage = () => {
           if (booksData && Array.isArray(booksData.books)) {
             setBooks(booksData.books);
           } else {
-            setBooks([])
+            setBooks([]);
           }
         } else {
           console.error(`Error fetching books: ${booksResponse.status}: ${booksResponse.statusText}`, booksData);
