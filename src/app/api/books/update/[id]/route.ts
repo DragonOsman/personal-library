@@ -1,31 +1,32 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse, NextRequest } from "next/server";
-import connectionPool from "@/src/app/lib/db";
-import { PoolConnection, RowDataPacket } from "mysql2/promise";
+import pool from "@/src/app/lib/db";
+import { PoolClient, QueryResult } from "pg";
 import { IBook } from "@/src/app/context/BookContext";
 
 export const PUT = async (req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) => {
   const bookId = (await params).id;
-  const dbConn: PoolConnection = await connectionPool.getConnection();
   const user = await currentUser();
+  let dbClient: PoolClient | null = null;
 
   if (!user) {
     return NextResponse.json({ status: 401, message: "Unauthorized"});
   }
 
   try {
-    const [rows] = await dbConn.query<RowDataPacket[]>(
+    dbClient = await pool.connect();
+    const result: QueryResult = await dbClient.query(
       "SELECT books FROM libraries WHERE userId = ?",
       [user.id]
     );
 
-    if (rows.length === 0 || !rows[0].books) {
+    if (result.rows.length === 0 || !result.rows[0].books) {
       return NextResponse.json({ status: 404, message: "Library not found" });
     }
 
-    const currentBooks: IBook[] = JSON.parse(rows[0].books as string);
+    const currentBooks: IBook[] = result.rows[0].books;
     const bookIndex = currentBooks.findIndex(book => book.id === bookId);
 
     if (bookIndex === -1) {
@@ -73,11 +74,8 @@ export const PUT = async (req: NextRequest,
 
     currentBooks[bookIndex] = updatedBook;
 
-    await dbConn.query("UPDATE libraries SET books = ? WHERE userId = ?",
-      [
-        JSON.stringify(currentBooks),
-        user.id
-      ]
+    await dbClient.query("UPDATE libraries SET books = $1 WHERE userId = $2",
+      [currentBooks, user.id]
     );
 
     return NextResponse.json({ status: 200, message: "Book updated successfully", book: updatedBook });
@@ -85,8 +83,8 @@ export const PUT = async (req: NextRequest,
     const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json({ status: 500, message: `Failed to update book: ${errorMessage}` });
   } finally {
-    if (dbConn) {
-      dbConn.release();
+    if (dbClient) {
+      dbClient.release();
     }
   }
 };

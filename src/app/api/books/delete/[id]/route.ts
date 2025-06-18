@@ -1,38 +1,47 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-import connectionPool from "@/src/app/lib/db";
-import { PoolConnection, RowDataPacket } from "mysql2/promise";
+import pool from "@/src/app/lib/db";
+import { PoolClient, QueryResult } from "pg";
+import { IBook } from "@/src/app/context/BookContext";
 
 export const DELETE = async (req: NextRequest,
   { params }: { params: Promise<{ id: string }> }) => {
   const user = await currentUser();
-  const id = (await params).id;
-  const dbConn: PoolConnection = await connectionPool.getConnection();
+  const bookId = (await params).id;
+  let dbClient: PoolClient | null= null;
 
   if (user) {
     try {
-      const [rows] = await dbConn.query<RowDataPacket[]>(
-        "SELECT books FROM libraries WHERE userId = ?",
+      dbClient = await pool.connect();
+      const result: QueryResult = await dbClient.query(
+        "SELECT books FROM libraries WHERE userId = $1",
         [user.id]
       );
-      const books = JSON.parse((rows as RowDataPacket[])[0].books);
-      const bookIndex = books.findIndex((book: { id: string }) => book.id === id);
+
+      if (result.rows.length === 0 || !result.rows[0].books) {
+        return NextResponse.json({ status: 404, message: "Library not found for user" });
+      }
+      const books: Array<IBook> = result.rows[0].books;
+      const bookIndex = books.findIndex((book: IBook) => book.id === bookId);
 
       if (bookIndex === -1) {
         return NextResponse.json({ status: 404, message: "Book not found" });
       }
 
       books.splice(bookIndex, 1);
-      await dbConn!.query("UPDATE libraries SET books = ? WHERE userId = ?",
-        [JSON.stringify(books), user.id]);
+      await dbClient.query("UPDATE libraries SET books = $1 WHERE userId = $2",
+        [books, user.id]
+      );
       return NextResponse.json({ status: 200, message: "Book deleted successfully" });
     } catch (err) {
       return NextResponse.json({
-        status: 501,
+        status: 500,
         message: `An unexpected error occurred: ${(err as Error).message}` }
       );
     } finally {
-      if (dbConn) dbConn.release();
+      if (dbClient) {
+        dbClient.release()
+      };
     }
   }
 };

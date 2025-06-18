@@ -1,9 +1,29 @@
-import connectionPool from "@/src/app/lib/db";
+import pool from "@/src/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
-import { PoolConnection, RowDataPacket } from "mysql2/promise";
+import { PoolClient, QueryResult } from "pg";
 import { randomUUID } from "crypto";
 import { IBook } from "@/src/app/context/BookContext";
+
+interface GoogleApiVolumeInfo {
+  title: string;
+  authors?: string[];
+  publishedDate?: string;
+  description?: string;
+  industryIdentifiers?: Array<{ type: string; identifier: string }>;
+  pageCount?: number;
+  categories?: string[];
+  imageLinks?: {
+    thumbnail: string;
+    smallThumbnail?: string;
+  };
+  language?: string;
+}
+
+interface GoogleApiBookItem {
+  id?: string;
+  volumeInfo: GoogleApiVolumeInfo;
+}
 
 export const POST = async (req: NextRequest) => {
   const user = await currentUser();
@@ -11,17 +31,11 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ message: "Please log in first" }, { status: 401 });
   }
 
-  let dbConn: PoolConnection | null = null;
+  let dbClient: PoolClient | null = null;
   try {
-    dbConn = await connectionPool.getConnection();
+    dbClient = await pool.connect();
 
-    // User is assumed to exist due to Clerk webhooks handling user creation.
-    const [libraryRows] = await dbConn.execute<RowDataPacket[]>(
-      "SELECT books FROM libraries WHERE userId = ?",
-      [user.id]
-    );
-    const libraryEntryExists = libraryRows.length > 0 && libraryRows[0] && libraryRows[0].books !== null;
-
+    const requestBody = await req.json();
     const {
     title,
     authors,
@@ -32,7 +46,7 @@ export const POST = async (req: NextRequest) => {
     categories,
     imageLinks,
     language
-  } = await req.json();
+  } = requestBody;
 
   // Validate truly required fields. Description is also required by the frontend form's Zod schema.
   if (!title || !authors || !Array.isArray(authors) || authors.length === 0 || !publishedDate || !isbn || !description) {
@@ -55,54 +69,35 @@ export const POST = async (req: NextRequest) => {
       language
     };
 
-    const newBookJson = JSON.stringify(newBook);
+    const libraryResult: QueryResult = await dbClient.query(
+      "SELECT books FROM libraries WHERE userId = $1",
+      [user.id]
+    );
 
-    if (libraryEntryExists) {
-      await dbConn.execute(
-        "UPDATE libraries SET books = JSON_ARRAY_APPEND(COALESCE(books, JSON_ARRAY()), '$', CAST(? AS JSON)) WHERE userId = ?",
-        [newBookJson, user.id]
-      );
-    } else {
-      await dbConn.execute(
-        "INSERT INTO libraries (userId, books) VALUES (?, JSON_ARRAY(CAST(? AS JSON)))",
-        [user.id, newBookJson]
-      );
+    let currentBooks: IBook[] = [];
+    if (libraryResult.rows.length > 0 && libraryResult.rows[0].books) {
+      currentBooks = libraryResult.rows[0].books;
     }
+    currentBooks.push(newBook);
+
+    await dbClient.query(`
+      INSERT INTO libraries (userId, books)
+      VALUES ($1, $2)
+      ON CONFLICT (userId) DO UPDATE
+      SET books = $2
+    `, [user.id, currentBooks]);
 
     return NextResponse.json({ message: "Book added successfully", book: newBook }, { status: 200 });
   } catch (error) {
-    console.error("Error in POST /api/books/add-book:", error);
-    let httpStatus = 500; // Default to Internal Server Error
-    let message = "An unexpected error occurred while adding the book.";
-
-    interface MySQLError extends Error {
-        errno?: number;
-        sqlMessage?: string;
-        code?: string;
-    }
-
-    const dbError = error as MySQLError;
-
-    if (dbError.errno || dbError.code) {
-        message = dbError.sqlMessage || dbError.message;
-        switch (dbError.errno) {
-            case 1452: // ER_NO_REFERENCED_ROW_2 (Foreign Key Constraint)
-                httpStatus = 400; // Or 500 if user sync is expected to be perfect
-                message = `Data integrity issue: ${dbError.sqlMessage || "Associated user record not found. Please ensure your profile is synced."}`;
-                break;
-            // Add other specific MySQL error codes as needed
-            default:
-                httpStatus = 500;
-                message = `Database error (${dbError.code || dbError.errno}): ${dbError.sqlMessage || dbError.message}`;
-        }
-    } else if (error instanceof Error) {
-        message = error.message;
-    }
-
-    return NextResponse.json({ message }, { status: httpStatus });
+    console.error(`Error in POST /api/books/add-book:${error}`);
+    const errorMessage = error instanceof Error ?
+      error.message :
+      "An unexpected error occurred"
+    ;
+    return NextResponse.json({ message: errorMessage }, { status: 500 });
   } finally {
-    if (dbConn) {
-      dbConn.release();
+    if (dbClient) {
+      dbClient.release();
     }
   }
 };

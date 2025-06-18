@@ -2,8 +2,8 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { UserJSON, DeletedObjectJSON } from "@clerk/clerk-sdk-node";
-import { PoolConnection } from "mysql2/promise";
-import connectionPool from "@/src/app/lib/db";
+import { PoolClient } from "pg";
+import pool from "@/src/app/lib/db";
 
 function getPrimaryEmailAddress(userData: UserJSON): string | undefined {
   if (userData.primary_email_address_id && userData.email_addresses) {
@@ -54,17 +54,17 @@ export async function POST(req: Request) {
   const userIdFromEvent = (event.data as UserJSON | DeletedObjectJSON).id;
   console.log(`Received webhook: ${eventType} for user ID: ${userIdFromEvent}`);
 
-  let dbConnection: PoolConnection | null = null;
+  let dbClient: PoolClient | null = null;
   try {
-    dbConnection = await connectionPool.getConnection();
+    dbClient = await pool.connect();
     if (eventType === "user.created") {
-      await handleUserCreated(dbConnection, event.data as unknown as UserJSON);
+      await handleUserCreated(dbClient, event.data as unknown as UserJSON);
       return new Response("User created successfully in DB", { status: 201 });
     } else if (eventType === "user.updated") {
-      await handleUserUpdated(dbConnection, event.data as unknown as UserJSON);
+      await handleUserUpdated(dbClient, event.data as unknown as UserJSON);
       return new Response("User updated successfully in DB", { status: 200 });
     } else if (eventType === "user.deleted") {
-      await handleUserDeleted(dbConnection, event.data as unknown as DeletedObjectJSON);
+      await handleUserDeleted(dbClient, event.data as unknown as DeletedObjectJSON);
       return new Response("User deleted successfully in DB", { status: 200 });
     }
     return new Response(
@@ -72,28 +72,26 @@ export async function POST(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error(`Error processing webhook event ${eventType}: ${error}`);
-    const errorMessage = error instanceof Error ? error.message : error;
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`Error processing webhook event ${eventType}: ${errorMessage}`, error);
     return new Response(`Error processing webhook event: ${errorMessage}`, { status: 500 });
   } finally {
-    if (dbConnection) {
-      dbConnection.release();
+    if (dbClient) {
+      dbClient.release();
     }
   }
 }
 
-async function handleUserCreated(dbConnection: PoolConnection, userData: UserJSON) {
+async function handleUserCreated(dbClient: PoolClient, userData: UserJSON) {
   const primaryEmail = getPrimaryEmailAddress(userData);
-  const constructedFullName = `${userData.first_name || ""} ${userData.last_name || ""}`
-    .trim() || null
-  ;
+  const constructedFullName = `${userData.first_name || ""} ${userData.last_name || ""}`.trim() || null;
   const userQuery = `
     INSERT INTO users (
       id, firstName, lastName, fullName, passwordEnabled,
       primaryEmailAddress, emailAddresses, createdAt, updatedAt,
       externalAccounts, verifiedExternalAccounts, web3Wallets, primaryWeb3Wallet
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
   `;
 
   const userValues = [
@@ -103,12 +101,15 @@ async function handleUserCreated(dbConnection: PoolConnection, userData: UserJSO
     constructedFullName,
     userData.password_enabled || false,
     primaryEmail || null,
-    JSON.stringify(userData.email_addresses?.map(emailAddress => (
-      { id: emailAddress.id, emailAddress: emailAddress.email_address, verified: emailAddress.verification?.status === "verified" }
-    )) || []),
+    userData.email_addresses?.map(emailAddress => ({
+      id: emailAddress.id,
+      emailAddress: emailAddress.email_address,
+      verified: emailAddress.verification?.status === "verified"
+    }
+  )) || [],
     new Date(userData.created_at),
     new Date(userData.updated_at),
-    JSON.stringify(userData.external_accounts?.map(account => ({
+    userData.external_accounts?.map(account => ({
       id: account.id,
       provider: account.provider, // Assuming 'provider' field exists or map accordingly
       providerUserId: account.provider_user_id,
@@ -117,39 +118,51 @@ async function handleUserCreated(dbConnection: PoolConnection, userData: UserJSO
       lastName: account.last_name,
       imageUrl: account.image_url,
       verified: account.verification?.status === "verified"
-    })) || []),
-    JSON.stringify(userData.external_accounts?.filter(account => account.verification?.status === "verified").map(acc => ({ id: acc.id, provider: acc.provider, emailAddress: acc.email_address })) || []),
-    JSON.stringify(userData.web3_wallets?.map(wallet => ({ id: wallet.id, web3Wallet: wallet.web3_wallet, verified: wallet.verification?.status === "verified" })) || []),
-    userData.primary_web3_wallet_id && userData.web3_wallets ? JSON.stringify(userData.web3_wallets.find(w => w.id === userData.primary_web3_wallet_id)) : null
+    })) || [],
+    userData.external_accounts?.filter(
+      account => account.verification?.status === "verified"
+    ).map(
+      account => ({ id: account.id, provider: account.provider, emailAddress: account.email_address })
+    ) || [],
+    userData.web3_wallets?.map(wallet =>
+      ({ id: wallet.id, web3Wallet: wallet.web3_wallet, verified: wallet.verification?.status === "verified" })
+    ) || [],
+    userData.primary_web3_wallet_id && userData.web3_wallets ? userData.web3_wallets.find(
+      wallet => wallet.id === userData.primary_web3_wallet_id
+    ) : null
   ];
 
   try {
-    await dbConnection.execute(userQuery, userValues);
+    await dbClient.query(userQuery, userValues);
     console.log(`User ${userData.first_name}, id ${userData.id} inserted in database`);
   } catch (error) {
     console.error(`Error inserting user in database: ${error}`);
+
+    // Re-throw to be caught by the main handler
+    throw error;
   }
 }
 
-async function handleUserUpdated(dbConnection: PoolConnection, userData: UserJSON) {
+async function handleUserUpdated(dbClient: PoolClient, userData: UserJSON) {
   const primaryEmail = getPrimaryEmailAddress(userData);
   const constructedFullName = `${userData.first_name || ""} ${userData.last_name || ""}`.trim() || null;
 
   const updatedUserQuery = `
     UPDATE users
     SET
-      firstName = ?,
-      lastName = ?,
-      fullName = ?,
-      passwordEnabled = ?,
-      primaryEmailAddress = ?,
-      emailAddresses = ?,
-      updatedAt = ?,
-      externalAccounts = ?,
-      verifiedExternalAccounts = ?,
-      web3Wallets = ?,
-      primaryWeb3Wallet = ?
-    WHERE id = ?
+      firstName = $1,
+      lastName = $2,
+      fullName = $3,
+      passwordEnabled = $4,
+      primaryEmailAddress = $5,
+      emailAddresses = $6,
+      updatedAt = $7,
+      externalAccounts = $8,
+      verifiedExternalAccounts = $9,
+      web3Wallets = $10,
+      primaryWeb3Wallet = $11
+      updatedAt = NOW()
+    WHERE id = $12
   `;
 
   const values = [
@@ -158,9 +171,14 @@ async function handleUserUpdated(dbConnection: PoolConnection, userData: UserJSO
     constructedFullName,
     userData.password_enabled || false,
     primaryEmail || null,
-    JSON.stringify(userData.email_addresses?.map(emailAddress => ({ id: emailAddress.id, emailAddress: emailAddress.email_address, verified: emailAddress.verification?.status === "verified" })) || []),
+    userData.email_addresses?.map(
+      emailAddress => ({
+        id: emailAddress.id,
+        emailAddress: emailAddress.email_address,
+        verified: emailAddress.verification?.status === "verified" }
+      )) || [],
     new Date(userData.updated_at),
-    JSON.stringify(userData.external_accounts?.map(account => ({
+    userData.external_accounts?.map(account => ({
       id: account.id,
       provider: account.provider,
       providerUserId: account.provider_user_id,
@@ -169,38 +187,52 @@ async function handleUserUpdated(dbConnection: PoolConnection, userData: UserJSO
       lastName: account.last_name,
       imageUrl: account.image_url,
       verified: account.verification?.status === "verified"
-    })) || []),
-    JSON.stringify(userData.external_accounts?.filter(account => account.verification?.status === "verified").map(
-      account => ({ id: account.id, provider: account.provider, emailAddress: account.email_address })) || []
-    ),
-    JSON.stringify(userData.web3_wallets?.map(wallet => (
-      { id: wallet.id, web3Wallet: wallet.web3_wallet, verified: wallet.verification?.status === "verified" }
-    )) || []),
-    userData.primary_web3_wallet_id && userData.web3_wallets ? JSON.stringify(userData.web3_wallets.find(w => w.id === userData.primary_web3_wallet_id)) : null,
+    })) || [],
+    userData.external_accounts?.filter(
+      account => account.verification?.status === "verified").map(
+      account => ({
+        id: account.id,
+        provider: account.provider,
+        emailAddress: account.email_address
+    })) || [],
+    userData.web3_wallets?.map(wallet => ({
+      id: wallet.id,
+      web3Wallet: wallet.web3_wallet,
+      verified: wallet.verification?.status === "verified"
+    }
+    )) || [],
+    userData.primary_web3_wallet_id && userData.web3_wallets ? userData.web3_wallets.find(
+      wallet => wallet.id === userData.primary_web3_wallet_id
+    ) : null,
     userData.id
   ];
 
   try {
-    await dbConnection.execute(updatedUserQuery, values);
+    await dbClient.query(updatedUserQuery, values);
     console.log(`User ${userData.first_name}, ${userData.id} updated in database`);
   } catch (error) {
     console.error(`Error updating user in database: ${error}`);
+
+    // Re-throw to the be caught by main handler
+    throw error;
   }
 }
 
-async function handleUserDeleted(dbConnection: PoolConnection, deletedUserData: DeletedObjectJSON) {
+async function handleUserDeleted(dbClient: PoolClient, deletedUserData: DeletedObjectJSON) {
   if (!deletedUserData.id) {
     console.warn("User deleted event received without user ID. Skipping deletion.");
     return;
   }
 
-  const deleteUserQuery = "DELETE FROM users WHERE id = ?";
+  const deleteUserQuery = "DELETE FROM users WHERE id = $1";
 
   try {
-    await dbConnection.execute(deleteUserQuery, [deletedUserData.id]);
+    await dbClient.query(deleteUserQuery, [deletedUserData.id]);
     console.log(`User with ID ${deletedUserData.id} deleted from database`);
   } catch (error) {
     console.error(`Error deleting user from database: ${error}`);
-  }
 
+    // Re-throw to be caught by the main handler
+    throw error;
+  }
 }

@@ -29,19 +29,38 @@ interface GoogleApiBookItem {
 const OnboardingPage = () => {
   const { user } = useUser();
   const { books, setBooks } = useContext<IBookContext>(BookContext);
+  const [searchResults, setSearchResults] = useState<IBook[]>([]);
+  const [selectedBooks, setSelectedBooks] = useState<IBook[]>([]);
   const [query, setQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>("");
 
   const handleAddBook = (book: IBook) => {
     setBooks([...books, book]);
   };
 
+  const handleToggleSelectBook = (book: IBook) => {
+    setSelectedBooks(prevSelectedBooks => {
+      if (prevSelectedBooks.find(b => b.id === book.id)) {
+        return prevSelectedBooks.filter(b => b.id !== book.id);
+      }
+      return [...prevSelectedBooks, book];
+    });
+  };
+
   const searchBooks = async () => {
     if (!query) {
+      setSearchResults([]);
+      setBooks([]);
       return;
     }
 
+    setIsLoading(true);
+    setError("");
+
+    const uriEncodedTitle = encodeURIComponent(query);
     try {
-      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
+      const response = await fetch(`/api/books/search?title=${uriEncodedTitle}`);
       const data: { items: GoogleApiBookItem[] } = await response.json();
 
       if (data.items && Array.isArray(data.items)) {
@@ -66,11 +85,51 @@ const OnboardingPage = () => {
           };
         });
         setBooks(newBooksFromSearch);
+        setSearchResults(newBooksFromSearch);
       } else {
         setBooks([]);
+        setSearchResults([]);
       }
     } catch (error) {
       console.error("Error fetching books:", error);
+      setError("Failed to fetch books. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleFinalizeSelection = async () => {
+    if (!user || selectedBooks.length === 0) {
+      alert("No books selected or user not logged in.");
+      return;
+    }
+
+    setIsLoading(true);
+    setError("");
+    try {
+      for (const book of selectedBooks) {
+        const response = await fetch("/api/books/add-book", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(book)
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || `Failed to add book: ${book.title}.`);
+        }
+      }
+      alert("Books added to library!");
+      setSelectedBooks([]);
+    } catch (error) {
+      console.error(`Error adding books to library: ${error}`);
+      setError(error instanceof Error ?
+        error.message :
+        "An unknown error occurred while adding books to library."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -90,6 +149,8 @@ const OnboardingPage = () => {
             />
             <button type="button" onClick={searchBooks}>Search</button>
           </div>
+          {isLoading && <p>Loading...</p>}
+          {error !== "" && <p className="text-red-500">{error}</p>}
           <div>
             {books.map((book) => (
               <div key={book.id}>
