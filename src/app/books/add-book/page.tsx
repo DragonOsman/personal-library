@@ -211,7 +211,7 @@ const AddBook = () => {
       >
         {formik => (
           <Form
-            onSubmit={(event: FormEvent<HTMLFormElement>) => { // Ensure Formik's handleSubmit is called
+            onSubmit={(event: FormEvent<HTMLFormElement>) => {
               event.preventDefault();
               formik.handleSubmit();
             }}

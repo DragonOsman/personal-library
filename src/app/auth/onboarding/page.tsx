@@ -4,6 +4,7 @@ import { useState, useContext } from "react";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { BookContext, IBookContext, IBook } from "@/src/app/context/BookContext";
+import bookImgFallback from "../../../public/images/book-composition-with-open-book_23-2147690555.jpg";
 
 interface GoogleApiVolumeInfo {
   title: string;
@@ -51,7 +52,6 @@ const OnboardingPage = () => {
   const searchBooks = async () => {
     if (!query) {
       setSearchResults([]);
-      setBooks([]);
       return;
     }
 
@@ -59,8 +59,12 @@ const OnboardingPage = () => {
     setError("");
 
     const uriEncodedTitle = encodeURIComponent(query);
+    const baseUrl = process.env.NODE_ENV === "production" ?
+    `${process.env.NEXT_PUBLIC_BASE_URLPROD}` :
+    `${process.env.NEXT_PUBLIC_BASE_URLDEV}`
+  ;
     try {
-      const response = await fetch(`/api/books/search?title=${uriEncodedTitle}`);
+      const response = await fetch(`${baseUrl}/api/books/search?title=${uriEncodedTitle}`);
       const data: { items: GoogleApiBookItem[] } = await response.json();
 
       if (data.items && Array.isArray(data.items)) {
@@ -84,10 +88,8 @@ const OnboardingPage = () => {
             publisher: item.volumeInfo.publisher || "Unknown Publisher"
           };
         });
-        setBooks(newBooksFromSearch);
         setSearchResults(newBooksFromSearch);
       } else {
-        setBooks([]);
         setSearchResults([]);
       }
     } catch (error) {
@@ -107,20 +109,13 @@ const OnboardingPage = () => {
     setIsLoading(true);
     setError("");
     try {
-      for (const book of selectedBooks) {
-        const response = await fetch("/api/books/add-book", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(book)
-        });
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || `Failed to add book: ${book.title}.`);
+      selectedBooks.map(book => {
+        if (books.find(b => b.id === book.id)) {
+          return;
         }
-      }
-      alert("Books added to library!");
+        handleAddBook(book);
+      });
+      alert("Books added to selectiion list!");
       setSelectedBooks([]);
     } catch (error) {
       console.error(`Error adding books to library: ${error}`);
@@ -152,16 +147,11 @@ const OnboardingPage = () => {
           {isLoading && <p>Loading...</p>}
           {error !== "" && <p className="text-red-500">{error}</p>}
           <div>
-            {books.map((book) => (
+            <h3>Search Results:</h3>
+            {searchResults.map((book) => (
               <div key={book.id}>
                 <Image
-                  src={book.imageLinks?.thumbnail || "../../book-composition-with-open-book_23-2147690555.jpg"}
-                  alt={book.title}
-                  width={128}
-                  height={192}
-                />
-                <Image
-                  src={book.imageLinks?.thumbnail || "../../book-composition-with-open-book_23-2147690555.jpg"}
+                  src={book.imageLinks?.thumbnail || bookImgFallback.src}
                   alt={book.title}
                   width={128}
                   height={192}
@@ -172,9 +162,11 @@ const OnboardingPage = () => {
                 <p>Description: {book.description || "No description available"}</p>
                 <button
                   type="button"
-                  onClick={() => handleAddBook(book)}
+                  onClick={() => {
+                    handleToggleSelectBook(book);
+                  }}
                 >
-                  Add to Library
+                  {`${selectedBooks.find(bookInput => bookInput.id === book.id) ? "Deselect" : "Select"} for Library`}
                 </button>
               </div>
             ))}
@@ -188,7 +180,8 @@ const OnboardingPage = () => {
           <div>
             <button
               type="button"
-              onClick={() => alert("Books added to library!")}
+              onClick={handleFinalizeSelection}
+              disabled={selectedBooks.length === 0 || isLoading}
             >
               Add Selected Books to Library
             </button>

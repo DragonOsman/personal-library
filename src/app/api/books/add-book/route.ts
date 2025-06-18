@@ -5,26 +5,6 @@ import { PoolClient, QueryResult } from "pg";
 import { randomUUID } from "crypto";
 import { IBook } from "@/src/app/context/BookContext";
 
-interface GoogleApiVolumeInfo {
-  title: string;
-  authors?: string[];
-  publishedDate?: string;
-  description?: string;
-  industryIdentifiers?: Array<{ type: string; identifier: string }>;
-  pageCount?: number;
-  categories?: string[];
-  imageLinks?: {
-    thumbnail: string;
-    smallThumbnail?: string;
-  };
-  language?: string;
-}
-
-interface GoogleApiBookItem {
-  id?: string;
-  volumeInfo: GoogleApiVolumeInfo;
-}
-
 export const POST = async (req: NextRequest) => {
   const user = await currentUser();
   if (!user) {

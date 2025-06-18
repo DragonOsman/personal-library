@@ -40,8 +40,8 @@ export const DELETE = async (req: NextRequest,
       );
     } finally {
       if (dbClient) {
-        dbClient.release()
-      };
+        dbClient.release();
+      }
     }
   }
 };
