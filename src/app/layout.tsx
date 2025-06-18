@@ -26,7 +26,7 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
             <meta name="description" content="Next.js app implementing an app for users to keep a list of books they own or have read." />
             <meta charSet="utf-8" />
             <meta name="keywords" content="Next.js, TypeScript, Library, Authentication, User Auth, Auth, MySQL" />
-            <link rel="icon" href="/favicon.ico" />
+            <link rel="icon" href="../../../favicon.ico" />
           </Head>
           <body className="antialiased bg-gradient-to-b from-background-500 to-background-700">
             <Header />
