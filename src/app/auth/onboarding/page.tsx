@@ -4,7 +4,7 @@ import { useState, useContext } from "react";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { BookContext, IBookContext, IBook } from "@/src/app/context/BookContext";
-import bookImgFallback from "/images/book-composition-with-open-book_23-2147690555.jpg";
+import bookImgFallback from "../../../../public/images/book-composition-with-open-book_23-2147690555.jpg";
 
 interface GoogleApiVolumeInfo {
   title: string;
