@@ -3,11 +3,11 @@ import { Pool } from "pg";
 const isProduction = process.env.NODE_ENV === "production";
 
 const pool = new Pool({
-  host: process.env.PGHOST,
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  database: process.env.PGDATABASE,
-  port: process.env.PGPORT ? parseInt(process.env.PGPORT) : 5432,
+  host: process.env.DATABASE_PGHOST,
+  user: process.env.DATABASE_PGUSER,
+  password: process.env.DATABASE_PGPASSWORD,
+  database: process.env.DATABASE_PGDATABASE,
+  port: process.env.DATABASE_PGPORT ? parseInt(process.env.DATABASE_PGPORT) : 5432,
   ssl: isProduction ? { rejectUnauthorized: false } : false,
   max: 10,
   idleTimeoutMillis: 30000,
