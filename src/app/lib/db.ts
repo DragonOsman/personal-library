@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import { neon } from "@neondatabase/serverless"
+import { neon } from "@neondatabase/serverless";
 
 const isProduction = process.env.NODE_ENV === "production";
 neon("postgres://neondb_owner:D8Amknrls7BR@ep-royal-firefly-a4ost6fl-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require", {
