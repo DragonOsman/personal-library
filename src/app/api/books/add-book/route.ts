@@ -46,8 +46,6 @@ export const POST = async (req: NextRequest) => {
       language
     };
 
-
-
     let dbClient: PoolClient | null = null;
     try {
       dbClient = await pool.connect();
