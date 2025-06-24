@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 import { randomUUID } from "crypto";
 import { IBook } from "@/src/app/context/BookContext";
-import { PoolClient } from "pg"
+import { PoolClient } from "pg";
 
 export const POST = async (req: NextRequest) => {
   const user = await currentUser();
