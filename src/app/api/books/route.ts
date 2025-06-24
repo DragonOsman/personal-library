@@ -14,7 +14,7 @@ export const GET = async () => {
   let dbClient: PoolClient | null = null;
   try {
     dbClient = await pool.connect();
-    const result = await pool.query(`
+    const result = await dbClient.query(`
         SELECT books FROM libraries WHERE userId = $1
       `,
       [userId]

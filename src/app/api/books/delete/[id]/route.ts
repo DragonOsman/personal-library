@@ -30,7 +30,7 @@ export const DELETE = async (req: NextRequest,
 
       books.splice(bookIndex, 1);
       await dbClient.query("UPDATE libraries SET books = $1 WHERE userId = $2",
-        [books, user.id]
+        [JSON.stringify(books), user.id]
       );
       return NextResponse.json({ status: 200, message: "Book deleted successfully" });
     } catch (err) {

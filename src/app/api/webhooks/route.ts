@@ -161,7 +161,6 @@ async function handleUserUpdated(dbClient: PoolClient, userData: UserJSON) {
       verifiedExternalAccounts = $9,
       web3Wallets = $10,
       primaryWeb3Wallet = $11
-      updatedAt = NOW()
     WHERE id = $12
   `;
 

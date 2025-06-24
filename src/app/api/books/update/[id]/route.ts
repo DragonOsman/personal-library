@@ -18,7 +18,7 @@ export const PUT = async (req: NextRequest,
   try {
     dbClient = await pool.connect();
     const result: QueryResult = await dbClient.query(
-      "SELECT books FROM libraries WHERE userId = ?",
+      "SELECT books FROM libraries WHERE userId = $1",
       [user.id]
     );
 
@@ -75,7 +75,7 @@ export const PUT = async (req: NextRequest,
     currentBooks[bookIndex] = updatedBook;
 
     await dbClient.query("UPDATE libraries SET books = $1 WHERE userId = $2",
-      [currentBooks, user.id]
+      [JSON.stringify(currentBooks), user.id]
     );
 
     return NextResponse.json({ status: 200, message: "Book updated successfully", book: updatedBook });
