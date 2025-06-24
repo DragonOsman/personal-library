@@ -35,42 +35,10 @@ export const PUT = async (req: NextRequest,
 
     const updates = await req.json();
 
-    const updatedBook: IBook = { ...currentBooks[bookIndex] };
-    if (updates.title !== undefined) {
-      updatedBook.title = updates.title;
-    }
-
-    if (updates.authors !== undefined) {
-      updatedBook.authors = Array.isArray(updates.authors) ? updates.authors : [updates.authors];
-    }
-
-    if (updates.description !== undefined) {
-      updatedBook.description = updates.description;
-    }
-
-    if (updates.isbn !== undefined) {
-      updatedBook.isbn = updates.isbn;
-    }
-
-    if (updates.publishedDate !== undefined) {
-      updatedBook.publishedDate = updates.publishedDate;
-    }
-
-    if (updates.pageCount !== undefined) {
-      updatedBook.pageCount = updates.pageCount;
-    }
-
-    if (updates.categories !== undefined) {
-      updatedBook.categories = updates.categories;
-    }
-
-    if (updates.imageLinks !== undefined) {
-      updatedBook.imageLinks = updates.imageLinks;
-    }
-
-    if (updates.language !== undefined) {
-      updatedBook.language = updates.language;
-    }
+    const updatedBook: IBook = {
+      ...currentBooks[bookIndex],
+      ...updates
+    };
 
     currentBooks[bookIndex] = updatedBook;
 
