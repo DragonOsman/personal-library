@@ -1,21 +1,11 @@
-import { Pool } from "pg";
-import { neon } from "@neondatabase/serverless";
-
-const isProduction = process.env.NODE_ENV === "production";
-neon(process.env.DATABASE_URL!, {
-  fullResults: true
-});
+import { Pool } from "@neondatabase/serverless";
 
 const pool = new Pool({
-  host: process.env.PGHOST,
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  database: process.env.PGDATABASE,
-  port: process.env.PGPORT ? parseInt(process.env.PGPORT) : 5432,
-  ssl: isProduction ? { rejectUnauthorized: false } : false,
-  max: 10,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000
+  connectionString: process.env.DATABASE_URL
+});
+
+pool.on("error", (err: Error) => {
+  console.error(`An an unexpected error occurred with the database connection: ${err}`);
 });
 
 export default pool;

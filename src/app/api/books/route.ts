@@ -1,8 +1,8 @@
 import pool from "@/src/app/lib/db";
 import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
-import type { PoolClient, QueryResult } from "pg";
 import { IBook } from "@/src/app/context/BookContext";
+import { PoolClient } from "pg";
 
 export const GET = async () => {
   const user = await currentUser();
@@ -14,8 +14,9 @@ export const GET = async () => {
   let dbClient: PoolClient | null = null;
   try {
     dbClient = await pool.connect();
-    const result: QueryResult = await dbClient.query(
-      `SELECT books FROM libraries WHERE userId = $1`,
+    const result = await pool.query(`
+        SELECT books FROM libraries WHERE userId = $1
+      `,
       [userId]
     );
 
@@ -29,25 +30,7 @@ export const GET = async () => {
       return NextResponse.json({ books: [] }, { status: 200 });
     }
 
-    let userBooks: IBook[] = [];
-
-    if (typeof result.rows[0].books === "string") {
-      try {
-        userBooks = JSON.parse(result.rows[0].books);
-        if (!Array.isArray(userBooks)) {
-          console.warn(`Parsed books data for user ${user.fullName} is not an array. Found:`, userBooks);
-          userBooks = [];
-        }
-      } catch (parseError) {
-        console.error(`Error parsing books JSON for user ${user.fullName}: ${parseError}.
-          Data:`, result.rows[0].books
-        );
-        return NextResponse.json({ message: "Error processing library data" }, { status: 500 });
-      }
-    } else {
-      console.warn(`Unexpected type for books data for user ${user.fullName}: ${typeof result.rows[0].books}.`);
-      userBooks = [];
-    }
+    const userBooks: IBook[] = result.rows[0].books || [];
 
     return NextResponse.json({ books: userBooks }, { status: 200});
   } catch (error) {
