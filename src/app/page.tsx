@@ -1,5 +1,6 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { SignIn } from "@clerk/nextjs";
+import BookList from "@/src/app/books/list-books/page";
 
 const Page = async () => {
   const user = await currentUser();
@@ -7,13 +8,10 @@ const Page = async () => {
     return <SignIn />;
   } else {
     return (
-      <h1>Welcome, {user.fullName}</h1>
-      /*
-
-      The books list will be displayed here once the functionality has
-      been added in.
-
-      */
+      <div className="Homepage">
+        <h1>Welcome, {user.fullName}</h1>
+        <BookList />
+      </div>
     );
   }
 };

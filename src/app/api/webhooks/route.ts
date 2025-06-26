@@ -4,6 +4,7 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { UserJSON, DeletedObjectJSON } from "@clerk/clerk-sdk-node";
 import { PoolClient } from "pg";
 import pool from "@/src/app/lib/db";
+import { NextResponse } from "next/server";
 
 function getPrimaryEmailAddress(userData: UserJSON): string | undefined {
   if (userData.primary_email_address_id && userData.email_addresses) {
@@ -65,6 +66,7 @@ export async function POST(req: Request) {
       return new Response("User updated successfully in DB", { status: 200 });
     } else if (eventType === "user.deleted") {
       await handleUserDeleted(dbClient, event.data as unknown as DeletedObjectJSON);
+      NextResponse.redirect("/");
       return new Response("User deleted successfully in DB", { status: 200 });
     }
     return new Response(
