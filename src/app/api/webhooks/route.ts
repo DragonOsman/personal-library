@@ -4,7 +4,6 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { UserJSON, DeletedObjectJSON } from "@clerk/clerk-sdk-node";
 import { PoolClient } from "pg";
 import pool from "@/src/app/lib/db";
-import { NextResponse } from "next/server";
 
 function getPrimaryEmailAddress(userData: UserJSON): string | undefined {
   if (userData.primary_email_address_id && userData.email_addresses) {
@@ -66,7 +65,6 @@ export async function POST(req: Request) {
       return new Response("User updated successfully in DB", { status: 200 });
     } else if (eventType === "user.deleted") {
       await handleUserDeleted(dbClient, event.data as unknown as DeletedObjectJSON);
-      NextResponse.redirect("/");
       return new Response("User deleted successfully in DB", { status: 200 });
     }
     return new Response(
@@ -84,17 +82,9 @@ export async function POST(req: Request) {
   }
 }
 
-async function handleUserCreated(dbClient: PoolClient, userData: UserJSON) {
+function getUserValues(userData: UserJSON) {
   const primaryEmail = getPrimaryEmailAddress(userData);
   const constructedFullName = `${userData.first_name || ""} ${userData.last_name || ""}`.trim() || null;
-  const userQuery = `
-    INSERT INTO users (
-      id, firstName, lastName, fullName, passwordEnabled,
-      primaryEmailAddress, emailAddresses, createdAt, updatedAt,
-      externalAccounts, verifiedExternalAccounts, web3Wallets, primaryWeb3Wallet
-    )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-  `;
 
   const userValues = [
     userData.id,
@@ -134,6 +124,21 @@ async function handleUserCreated(dbClient: PoolClient, userData: UserJSON) {
     ) : null
   ];
 
+  return userValues;
+}
+
+async function handleUserCreated(dbClient: PoolClient, userData: UserJSON) {
+  const userQuery = `
+    INSERT INTO users (
+      id, firstName, lastName, fullName, passwordEnabled,
+      primaryEmailAddress, emailAddresses, createdAt, updatedAt,
+      externalAccounts, verifiedExternalAccounts, web3Wallets, primaryWeb3Wallet
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+  `;
+
+  const userValues = getUserValues(userData);
+
   try {
     await dbClient.query(userQuery, userValues);
     console.log(`User ${userData.first_name}, id ${userData.id} inserted in database`);
@@ -146,9 +151,6 @@ async function handleUserCreated(dbClient: PoolClient, userData: UserJSON) {
 }
 
 async function handleUserUpdated(dbClient: PoolClient, userData: UserJSON) {
-  const primaryEmail = getPrimaryEmailAddress(userData);
-  const constructedFullName = `${userData.first_name || ""} ${userData.last_name || ""}`.trim() || null;
-
   const updatedUserQuery = `
     UPDATE users
     SET
@@ -166,50 +168,10 @@ async function handleUserUpdated(dbClient: PoolClient, userData: UserJSON) {
     WHERE id = $12
   `;
 
-  const values = [
-    userData.first_name || null,
-    userData.last_name || null,
-    constructedFullName,
-    userData.password_enabled || false,
-    primaryEmail || null,
-    userData.email_addresses?.map(
-      emailAddress => ({
-        id: emailAddress.id,
-        emailAddress: emailAddress.email_address,
-        verified: emailAddress.verification?.status === "verified" }
-      )) || [],
-    new Date(userData.updated_at),
-    userData.external_accounts?.map(account => ({
-      id: account.id,
-      provider: account.provider,
-      providerUserId: account.provider_user_id,
-      emailAddress: account.email_address,
-      firstName: account.first_name,
-      lastName: account.last_name,
-      imageUrl: account.image_url,
-      verified: account.verification?.status === "verified"
-    })) || [],
-    userData.external_accounts?.filter(
-      account => account.verification?.status === "verified").map(
-      account => ({
-        id: account.id,
-        provider: account.provider,
-        emailAddress: account.email_address
-    })) || [],
-    userData.web3_wallets?.map(wallet => ({
-      id: wallet.id,
-      web3Wallet: wallet.web3_wallet,
-      verified: wallet.verification?.status === "verified"
-    }
-    )) || [],
-    userData.primary_web3_wallet_id && userData.web3_wallets ? userData.web3_wallets.find(
-      wallet => wallet.id === userData.primary_web3_wallet_id
-    ) : null,
-    userData.id
-  ];
+  const userValues = getUserValues(userData);
 
   try {
-    await dbClient.query(updatedUserQuery, values);
+    await dbClient.query(updatedUserQuery, userValues);
     console.log(`User ${userData.first_name}, ${userData.id} updated in database`);
   } catch (error) {
     console.error(`Error updating user in database: ${error}`);

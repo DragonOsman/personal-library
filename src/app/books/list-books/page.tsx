@@ -2,8 +2,10 @@
 "use client";
 
 import { BookContext, IBookContext } from "../../context/BookContext";
-import { useContext, useEffect, useMemo } from "react";
-import Image from "next/image";
+import type { IBook } from "../../context/BookContext";
+import { useContext, useEffect, useState, useCallback } from "react";
+import NextImage from "next/image";
+import bookImgFallback from "../../../../public/images/book-composition-with-open-book_23-2147690555.jpg";
 import Link from "next/link";
 
 declare global {
@@ -14,13 +16,14 @@ declare global {
 
 const ListBooksPage = () => {
   const { books, setBooks } = useContext<IBookContext>(BookContext);
+  const [bookData, setBookData] = useState<Record<string, any>[]>([]);
   const baseURL = `${process.env.NODE_ENV === "production" ?
     `${process.env.NEXT_PUBLIC_BASE_URLPROD}` :
     `${process.env.NEXT_PUBLIC_BASE_URLDEV}`}`
   ;
 
-  const handleDelete = async (id: string) => {
-    const response = await fetch(`${baseURL}/api/books/delete/:${id}`, {
+  const handleDelete = useCallback(async (id: string) => {
+    const response = await fetch(`${baseURL}/api/books/delete/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -28,20 +31,19 @@ const ListBooksPage = () => {
       credentials: "include"
     });
     if (response.ok) {
-      console.log("Book deleted successfully");
+      setBooks(books.filter((book: IBook) => book.id !== id));
     }
-  };
+  }, [baseURL, books, setBooks]);
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const booksResponse = await fetch(`${baseURL}/api/books/`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
+  const fetchBooks = useCallback(async () => {
+    try {
+      const booksResponse = await fetch(`${baseURL}/api/books/`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
         const booksData = await booksResponse.json();
         if (booksResponse.ok) {
           try {
@@ -67,53 +69,47 @@ const ListBooksPage = () => {
         console.error(`An error occurred when getting book list or parsing JSON: ${err}`);
         setBooks([]);
       }
-    };
-
-    fetchBooks();
   }, [baseURL, setBooks]);
 
-  const dataArray = useMemo(() => {
-    const arr: Record<string, any>[] = [];
-    return arr;
-  }, []);
+  useEffect(() => {
+    fetchBooks();
+  }, [fetchBooks]);
 
   useEffect(() => {
     const fetchBookData = async () => {
       try {
-        for (const book of books) {
-          const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn=${book.isbn}`, {
+        const bookResultPromises: Promise<IBook>[] = books.map(async (book: IBook): Promise<IBook> => {
+          return fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn=${book.isbn}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json"
             }
-          });
+          }).then(response => response.json()).catch((error: Error) => (
+            console.error(`Error fetching book data for ISBN ${book.isbn}: ${error.message}`)
+          ));
+        });
 
-          if (response.ok) {
-            try {
-              const data = await response.json();
-              dataArray.push(data);
-            } catch (err) {
-              console.log(`An error occurred when getting json data from response: ${err}`);
-            }
-          }
-        }
-      } catch (err) {
-        console.log(`An error occurred when getting book data: ${err}`);
+        const bookResults = await Promise.all(bookResultPromises);
+        setBookData(bookResults);
+      } catch (error) {
+        console.error(`Error fetching book data: ${error}`);
       }
     };
 
     fetchBookData();
-  }, [books, dataArray]);
+  }, [books]);
 
   return (
     <div className="list-books flex justify-items-center items-center flex-col">
-      {dataArray.length > 0 && books.length > 0 ? (
-        dataArray.map((data: Record<string, any>, index: number) => (
-          books.map((book) => (
+      {bookData.length > 0 && books.length > 0 ? (
+        books.map((book, index) => {
+          const currentBookData = bookData[index];
+          const imgUrl = currentBookData?.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
+          return (
             <div key={book.id} className="book">
               <p>{book.title}</p>
-              <Image
-                src={data.items[index].volumeInfo.imageLinks.thumbnail}
+              <NextImage
+                src={imgUrl || bookImgFallback}
                 alt={book.title}
                 width={128}
                 height={192}
@@ -125,14 +121,14 @@ const ListBooksPage = () => {
                 Delete
               </button>
               <Link
-                href={`${baseURL}/books/update-book/:${book.id!}`}
+                href={`/books/update-book/${book.id!}`}
                 className="p-5 color"
               >
                 Edit Book
               </Link>
             </div>
-          ))
-        ))
+          );
+        })
       ) : (
         <>
           <p>No book data available.</p>

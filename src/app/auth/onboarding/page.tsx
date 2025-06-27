@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useContext } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { BookContext, IBookContext, IBook } from "@/src/app/context/BookContext";
@@ -29,6 +30,7 @@ interface GoogleApiBookItem {
 
 const OnboardingPage = () => {
   const { user } = useUser();
+  const router = useRouter();
   const { books, setBooks } = useContext<IBookContext>(BookContext);
   const [searchResults, setSearchResults] = useState<IBook[]>([]);
   const [selectedBooks, setSelectedBooks] = useState<IBook[]>([]);
@@ -182,12 +184,14 @@ const OnboardingPage = () => {
               type="button"
               onClick={handleFinalizeSelection}
               disabled={selectedBooks.length === 0 || isLoading}
+              className="bg-blue-500 text-white p-2 rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               Add Selected Books to Library
             </button>
             <button
               type="button"
-              onClick={() => alert("You can add books later.")}
+              onClick={() => router.push("/")}
+              className="bg-blue-500 text-white p-2 rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               I&apos;ll do it later
             </button>
