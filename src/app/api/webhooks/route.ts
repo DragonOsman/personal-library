@@ -82,7 +82,18 @@ export async function POST(req: Request) {
   }
 }
 
-function getUserValues(userData: UserJSON) {
+async function handleUserCreated(dbClient: PoolClient, userData: UserJSON) {
+  const userQuery = `
+    INSERT INTO users (
+      id, firstName, lastName, fullName, passwordEnabled,
+      primaryEmailAddress, emailAddresses, verifiedEmailAddresses, createdAt, updatedAt,
+      externalAccounts, verifiedExternalAccounts, web3Wallets, primaryWeb3Wallet
+    )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+	    ON CONFLICT (id) DO NOTHING;
+    `
+  ;
+
   const primaryEmail = getPrimaryEmailAddress(userData);
   const constructedFullName = `${userData.first_name || ""} ${userData.last_name || ""}`.trim() || null;
 
@@ -124,21 +135,6 @@ function getUserValues(userData: UserJSON) {
     ) : null
   ];
 
-  return userValues;
-}
-
-async function handleUserCreated(dbClient: PoolClient, userData: UserJSON) {
-  const userQuery = `
-    INSERT INTO users (
-      id, firstName, lastName, fullName, passwordEnabled,
-      primaryEmailAddress, emailAddresses, createdAt, updatedAt,
-      externalAccounts, verifiedExternalAccounts, web3Wallets, primaryWeb3Wallet
-    )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-  `;
-
-  const userValues = getUserValues(userData);
-
   try {
     await dbClient.query(userQuery, userValues);
     console.log(`User ${userData.first_name}, id ${userData.id} inserted in database`);
@@ -152,7 +148,7 @@ async function handleUserCreated(dbClient: PoolClient, userData: UserJSON) {
 
 async function handleUserUpdated(dbClient: PoolClient, userData: UserJSON) {
   const updatedUserQuery = `
-    UPDATE users
+   UPDATE users
     SET
       firstName = $1,
       lastName = $2,
@@ -160,15 +156,55 @@ async function handleUserUpdated(dbClient: PoolClient, userData: UserJSON) {
       passwordEnabled = $4,
       primaryEmailAddress = $5,
       emailAddresses = $6,
-      updatedAt = $7,
-      externalAccounts = $8,
-      verifiedExternalAccounts = $9,
-      web3Wallets = $10,
-      primaryWeb3Wallet = $11
-    WHERE id = $12
+      verifiedEmailAddresses = $7,
+      updatedAt = $8,
+      externalAccounts = $9,
+      verifiedExternalAccounts = $10,
+      web3Wallets = $11,
+      primaryWeb3Wallet = $12
+    WHERE id = $13
   `;
 
-  const userValues = getUserValues(userData);
+  const primaryEmail = getPrimaryEmailAddress(userData);
+  const constructedFullName = `${userData.first_name || ""} ${userData.last_name || ""}`.trim() || null;
+
+  const userValues = [
+    userData.id,
+    userData.first_name || null,
+    userData.last_name || null,
+    constructedFullName,
+    userData.password_enabled || false,
+    primaryEmail || null,
+    userData.email_addresses?.map(emailAddress => ({
+      id: emailAddress.id,
+      emaillAddress: emailAddress.email_address
+    })),
+    userData.email_addresses?.filter(emailAddress => ({
+      verified: emailAddress.verification?.status === "verified"
+    }
+  )) || [],
+    new Date(userData.updated_at),
+    userData.external_accounts?.map(account => ({
+      id: account.id,
+      provider: account.provider, // Assuming 'provider' field exists or map accordingly
+      providerUserId: account.provider_user_id,
+      emailAddress: account.email_address,
+      firstName: account.first_name,
+      lastName: account.last_name,
+      imageUrl: account.image_url
+    })) || [],
+    userData.external_accounts?.filter(
+      account => account.verification?.status === "verified"
+    ).map(
+      account => ({ id: account.id, provider: account.provider, emailAddress: account.email_address })
+    ) || [],
+    userData.web3_wallets?.map(wallet =>
+      ({ id: wallet.id, web3Wallet: wallet.web3_wallet, verified: wallet.verification?.status === "verified" })
+    ) || [],
+    userData.primary_web3_wallet_id && userData.web3_wallets ? userData.web3_wallets.find(
+      wallet => wallet.id === userData.primary_web3_wallet_id
+    ) : null
+  ];
 
   try {
     await dbClient.query(updatedUserQuery, userValues);
