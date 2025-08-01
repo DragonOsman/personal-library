@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
   passwordEnabled BOOLEAN,
   primaryEmailAddress VARCHAR(255),
   emailAddresses JSONB,
+  verifiedEmailAddresses JSONB,
   createdAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
   updatedAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
   externalAccounts JSONB,
