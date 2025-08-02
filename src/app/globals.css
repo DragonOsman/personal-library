@@ -169,18 +169,24 @@ main {
   max-width: 600px;
 }
 
-.AddBook input[type="text"], .UpdateBook input[type="text"] {
+.AddBook input[type="text"],
+.UpdateBook input[type="text"],
+.OnboardingPage input[type="text"]{
   color: #000;
   margin-bottom: 5px;
   margin-left: 2px;
   margin-right: 2px;
 }
 
-.AddBook input[type="submit"], .UpdateBook input[type="submit"] {
+.AddBook input[type="submit"],
+.UpdateBook input[type="submit"],
+.OnboardingPage input[type="submit"] {
   margin-bottom: 3px;
 }
 
-.AddBook .searchBooks {
+.AddBook .searchBooks,
+.UpdateBook .searchBooks,
+.OnboardingPage .searchBooks{
   margin-bottom: 5px;
 }
 

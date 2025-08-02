@@ -131,7 +131,7 @@ const OnboardingPage = () => {
   };
 
   return (
-    <div>
+    <div className="OnboardingPage p-4">
       <h1>Welcome to the Onboarding Page</h1>
       {user ? (
         <div>
@@ -143,6 +143,9 @@ const OnboardingPage = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search for books"
+              id="searchBooks"
+              name="searchBooks"
+              className="border p-2 rounded searchBooks"
             />
             <button type="button" onClick={searchBooks}>Search</button>
           </div>
