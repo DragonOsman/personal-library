@@ -43,3 +43,5 @@ certificates
 /src/generated/prisma
 
 .vercel
+
+/src/generated/prisma

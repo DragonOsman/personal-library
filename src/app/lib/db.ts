@@ -1,11 +1,5 @@
-import { Pool } from "@neondatabase/serverless";
+import { PrismaClient } from "../../generated/prisma";
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
-});
+const prisma = new PrismaClient();
 
-pool.on("error", (err: Error) => {
-  console.error(`An an unexpected error occurred with the database connection: ${err}`);
-});
-
-export default pool;
+export default prisma;

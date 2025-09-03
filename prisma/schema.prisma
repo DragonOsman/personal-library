@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model libraries {
+  id     String  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId String? @unique @db.VarChar(255)
+  books  Json?
+}
+
+model users {
+  id             String    @id @db.VarChar(255) @default(uuid())
+  fullName       String?   @db.VarChar(255)
+  email          String?   @unique @db.VarChar(255)
+  emailVerified  DateTime? @db.Timestamptz(6)
+  image          String?
+  avatarSource   String?  // optional: "gravatar" | "generated" | "uploaded"
+  hashedPassword String?   @db.VarChar(255)
+  createdAt      DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime? @default(now()) @db.Timestamptz(6)
+  role           String?   @default("USER") @db.VarChar(50)
+}
+
+model accounts {
+  id                String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId            String  @db.VarChar(255)
+  type              String  @db.VarChar(50)
+  provider          String  @db.VarChar(255)
+  providerAccountId String  @db.VarChar(255)
+  refreshToken      String?
+  accessToken       String?
+  expiresAt         Int?
+  tokenType         String? @db.VarChar(50)
+  scope             String? @db.VarChar(255)
+  idToken           String?
+  sessionState      String? @db.VarChar(255)
+
+  @@unique([provider, providerAccountId])
+}
+
+model sessions {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sessionToken String   @unique @db.VarChar(255)
+  userId       String   @db.VarChar(255)
+  expires      DateTime @db.Timestamptz(6)
+}
+
+model verificationTokens {
+  identifier String   @db.VarChar(255)
+  token      String   @unique @db.VarChar(255)
+  expires    DateTime @db.Timestamptz(6)
+
+  @@id([identifier, token])
+}

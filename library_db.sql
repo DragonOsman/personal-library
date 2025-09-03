@@ -1,34 +1,49 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE IF NOT EXISTS users (
-  id VARCHAR(255) PRIMARY KEY,
-  firstName VARCHAR(255),
-  lastName VARCHAR(255),
-  fullName VARCHAR(255),
-  passwordEnabled BOOLEAN,
-  primaryEmailAddress VARCHAR(255),
-  emailAddresses JSONB,
-  verifiedEmailAddresses JSONB,
-  createdAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-  updatedAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-  externalAccounts JSONB,
-  verifiedExternalAccounts JSONB,
-  web3Wallets JSONB,
-  primaryWeb3Wallet JSONB
+CREATE TABLE users (
+  id VARCHAR(255) PRIMARY KEY DEFAULT gen_random_uuid(),
+  "fullName" VARCHAR(255),
+  email VARCHAR(255) UNIQUE,
+  "emailVerified" TIMESTAMPTZ(6),
+  image TEXT,
+  "avatarSource" VARCHAR(50),
+  "hashedPassword" VARCHAR(255),
+  "createdAt" TIMESTAMPTZ(6) DEFAULT now(),
+  "updatedAt" TIMESTAMPTZ(6) DEFAULT now(),
+  role VARCHAR(50) DEFAULT 'USER'
 );
 
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updatedAt = NOW();
-  RETURN NEW;
-END;
-$$ language "plpgsql";
+CREATE TABLE IF NOT EXISTS accounts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  userId VARCHAR(255) NOT NULL,
+  type VARCHAR(50) NOT NULL,
+  provider VARCHAR(255) NOT NULL,
+  providerAccountId VARCHAR(255) NOT NULL,
+  refreshToken TEXT,
+  accessToken TEXT,
+  expiresAt INTEGER,
+  tokenType VARCHAR(50),
+  scope VARCHAR(255),
+  idToken TEXT,
+  sessionState VARCHAR(255),
+  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
+  UNIQUE (provider, providerAccountId)
+);
 
-CREATE TRIGGER update_users_updated_at
-BEFORE UPDATE ON users
-FOR EACH ROW
-EXECUTE FUNCTION update_updated_at_column();
+CREATE TABLE IF NOT EXISTS sessions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  sessionToken VARCHAR(255) UNIQUE NOT NULL,
+  userId VARCHAR(255) NOT NULL,
+  expires TIMESTAMPTZ NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS verificationTokens (
+  identifier VARCHAR(255) NOT NULL,
+  token VARCHAR(255) UNIQUE NOT NULL,
+  expires TIMESTAMPTZ NOT NULL,
+  PRIMARY KEY (identifier, token)
+);
 
 CREATE TABLE IF NOT EXISTS libraries (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
