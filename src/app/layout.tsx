@@ -2,6 +2,7 @@ import { ReactNode, FC } from "react";
 import Head from "next/head";
 import Header from "./components/Header";
 import BookContextProvider from "./context/BookContext";
+import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
@@ -16,10 +17,10 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
           <link rel="icon" href="/public/images/favicon.ico" />
         </Head>
         <body className="antialiased bg-gradient-to-b from-background-500 to-background-700">
-          <Header />
-          <>
+          <SessionProvider>
+            <Header />
             <main>{children}</main>
-          </>
+          </SessionProvider>
         </body>
       </html>
     </BookContextProvider>

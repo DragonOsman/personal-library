@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import type { PrismaClient } from "@prisma/client";
 import prisma from "./app/lib/db";
-import Prisma from "prisma";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -23,13 +23,13 @@ const emailServerPort = process.env.EMAIL_SERVER_PORT
 const emailServerUser = process.env.EMAIL_SERVER_USER || "";
 const emailServerPassword = process.env.EMAIL_SERVER_PASSWORD || "";
 const emailFrom = process.env.EMAIL_FROM || "";
-const prismaClient = prisma;
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(Prisma),
+  adapter: PrismaAdapter(prisma as unknown as PrismaClient),
   session: {
     strategy: "jwt"
   },
+  secret: process.env.AUTH_SECRET,
   providers: [
     GitHubProvider({
       clientId: githubClientId,
@@ -51,7 +51,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        const user = await prismaClient.users.findUnique({
+        const user = await prisma.users.findUnique({
           where: { email: credentials.email as string }
         });
         if (!user || !user.hashedPassword) {
@@ -90,5 +90,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
       }
     })
-  ]
+  ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub ?? "";
+
+        if (token) {
+          session.user.id = token.id as string;
+        }
+      }
+
+      return session;
+    }
+  }
 });
