@@ -5,6 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 
 const Header = () => {
@@ -15,14 +16,14 @@ const Header = () => {
   const handleToggle = () => setIsOpen(!isOpen);
 
   return (
-    <header className="bg-white shadow-md">
+    <header className="bg-black color-white shadow-md">
       <div className="container mx-auto flex items-center justify-between p-4">
         <Link href="/" className="flex items-center">
           <Image src={logo} alt="Logo" width={120} height={60} />
         </Link>
         <div className="md:hidden">
-          <span
-            role="button"
+          <button
+            type="button"
             tabIndex={0}
             aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
             onClick={handleToggle}
@@ -32,36 +33,72 @@ const Header = () => {
             className="text-2xl cursor-pointer"
           >
             {isOpen ? <FaTimes /> : <FaBars />}
-          </span>
+          </button>
         </div>
-        <div className="navbar-container">
-          <nav className="navbar">
-            <ul>
+        <div className={`${isOpen ? "block" : "hidden"}`}>
+          <nav className="w-full md:block md:w-auto top-0 left-0 absolute">
+            <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
               {isAuthenticated ? (
                 <>
                   <li className="nav-item nav-link">
-                    <Link href="/">Home</Link>
+                    <Link
+                      href="/"
+                      className="block py-2 md:py-0"
+                    >
+                      Home
+                    </Link>
                   </li>
                   <li className="nav-item nav-link">
-                    <Link href="/profile">Profile</Link>
+                    <Link
+                      href="/profile"
+                      className="block py-2 md:py-0"
+                    >
+                      Profile
+                    </Link>
                   </li>
                   <li className="nav-item nav-link">
-                    <Link href="/api/auth/signout">Sign Out</Link>
+                    <button
+                      onClick={() => signOut()}
+                      className="block py-2 md:py-0 text-left w-full"
+                      type="button"
+                    >
+                      Sign Out
+                    </button>
                   </li>
                   <li className="nav-item nav-link">
-                    <Link href="/books/add-book">Add a Book</Link>
+                    <Link
+                      href="/books/add-book"
+                      className="block py-2 md:py-0"
+                    >
+                      Add a Book
+                    </Link>
                   </li>
                   <li className="nav-item nav-link">
-                    <Link href="/books/list-books">List Books</Link>
+                    <Link
+                      href="/books/list-books"
+                      className="block py-2 md:py-0"
+                    >
+                      List Books
+                    </Link>
                   </li>
                 </>
               ) : (
                 <>
                   <li className="nav-item nav-link">
-                    <Link href="/signin">Sign In</Link>
+                    <Link
+                      href="/signin"
+                      className="block py-2 md:py-0"
+                    >
+                      Sign In
+                    </Link>
                   </li>
                   <li className="nav-item nav-link">
-                    <Link href="/signup">Sign Up</Link>
+                    <Link
+                      href="/signup"
+                      className="block py-2 md:py-0"
+                    >
+                      Sign Up
+                    </Link>
                   </li>
                 </>
               )}
