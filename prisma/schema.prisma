@@ -10,48 +10,111 @@ datasource db {
 
 model libraries {
   id     String  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  userId String? @unique @db.VarChar(255)
+  userid String? @unique @db.VarChar(255)
   books  Json?
 }
 
 model users {
-  id             String    @id @db.VarChar(255) @default(uuid())
-  fullName       String?   @db.VarChar(255)
+  id             String    @id @default(uuid()) @db.VarChar(255)
+  firstname      String?   @db.VarChar(255)
+  lastname       String?   @db.VarChar(255)
+  fullname       String?   @db.VarChar(255)
   email          String?   @unique @db.VarChar(255)
-  emailVerified  DateTime? @db.Timestamptz(6)
+  emailverified  DateTime? @db.Timestamptz(6)
   image          String?
-  avatarSource   String?  // optional: "gravatar" | "generated" | "uploaded"
-  hashedPassword String?   @db.VarChar(255)
-  createdAt      DateTime? @default(now()) @db.Timestamptz(6)
-  updatedAt      DateTime? @default(now()) @db.Timestamptz(6)
+  hashedpassword String?   @db.VarChar(255)
+  createdat      DateTime? @default(now()) @db.Timestamptz(6)
+  updatedat      DateTime? @default(now()) @db.Timestamptz(6)
   role           String?   @default("USER") @db.VarChar(50)
 }
 
 model accounts {
   id                String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId            String  @db.VarChar(255)
+  userid            String  @db.VarChar(255)
   type              String  @db.VarChar(50)
+  provider          String  @db.VarChar(255)
+  provideraccountid String  @db.VarChar(255)
+  refreshtoken      String?
+  accesstoken       String?
+  expiresat         Int?
+  tokentype         String? @db.VarChar(50)
+  scope             String? @db.VarChar(255)
+  idtoken           String?
+  sessionstate      String? @db.VarChar(255)
+
+  @@unique([provider, provideraccountid])
+}
+
+model sessions {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sessiontoken String   @unique @db.VarChar(255)
+  userid       String   @db.VarChar(255)
+  expires      DateTime @db.Timestamptz(6)
+}
+
+model Account {
+  id                String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId            String  @db.Uuid
+  type              String  @db.VarChar(255)
   provider          String  @db.VarChar(255)
   providerAccountId String  @db.VarChar(255)
   refreshToken      String?
   accessToken       String?
   expiresAt         Int?
-  tokenType         String? @db.VarChar(50)
-  scope             String? @db.VarChar(255)
+  tokenType         String? @db.VarChar(255)
+  scope             String?
   idToken           String?
-  sessionState      String? @db.VarChar(255)
+  sessionState      String?
+  User              User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
 
-  @@unique([provider, providerAccountId])
+  @@unique([provider, providerAccountId], map: "account_provider")
 }
 
-model sessions {
+model Book {
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title     String  @db.VarChar(255)
+  author    String  @db.VarChar(255)
+  libraryId String  @db.Uuid
+  Library   Library @relation(fields: [libraryId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_book_library")
+}
+
+model Library {
+  id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId String @db.Uuid
+  name   String @db.VarChar(255)
+  Book   Book[]
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_library_user")
+}
+
+model Session {
   id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   sessionToken String   @unique @db.VarChar(255)
-  userId       String   @db.VarChar(255)
+  userId       String   @db.Uuid
   expires      DateTime @db.Timestamptz(6)
+  User         User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_session_user")
 }
 
-model verificationTokens {
+model User {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String?   @db.VarChar(255)
+  email         String?   @unique @db.VarChar(255)
+  emailVerified DateTime? @db.Timestamptz(6)
+  createdAt     DateTime? @default(now()) @db.Timestamptz(6)
+  image         String?
+  Account       Account[]
+  Library       Library[]
+  Session       Session[]
+}
+
+model VerificationToken {
+  identifier String   @db.VarChar(255)
+  token      String   @unique @db.VarChar(255)
+  expires    DateTime @db.Timestamptz(6)
+
+  @@id([identifier, token])
+}
+
+model verificationtokens {
   identifier String   @db.VarChar(255)
   token      String   @unique @db.VarChar(255)
   expires    DateTime @db.Timestamptz(6)

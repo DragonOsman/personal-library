@@ -1,53 +1,63 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE users (
-  id VARCHAR(255) PRIMARY KEY DEFAULT gen_random_uuid(),
-  "fullName" VARCHAR(255),
+-- schema.sql
+CREATE TABLE "User" (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name VARCHAR(255),
   email VARCHAR(255) UNIQUE,
-  "emailVerified" TIMESTAMPTZ(6),
-  image TEXT,
-  "avatarSource" VARCHAR(50),
-  "hashedPassword" VARCHAR(255),
-  "createdAt" TIMESTAMPTZ(6) DEFAULT now(),
-  "updatedAt" TIMESTAMPTZ(6) DEFAULT now(),
-  role VARCHAR(50) DEFAULT 'USER'
+  "emailVerified" TIMESTAMPTZ,
+  "createdAt" TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+  image TEXT
 );
 
-CREATE TABLE IF NOT EXISTS accounts (
+CREATE TABLE "Account" (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  userId VARCHAR(255) NOT NULL,
-  type VARCHAR(50) NOT NULL,
+  "userId" UUID NOT NULL,
+  type VARCHAR(255) NOT NULL,
   provider VARCHAR(255) NOT NULL,
-  providerAccountId VARCHAR(255) NOT NULL,
-  refreshToken TEXT,
-  accessToken TEXT,
-  expiresAt INTEGER,
-  tokenType VARCHAR(50),
-  scope VARCHAR(255),
-  idToken TEXT,
-  sessionState VARCHAR(255),
-  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
-  UNIQUE (provider, providerAccountId)
+  "providerAccountId" VARCHAR(255) NOT NULL,
+  "refreshToken" TEXT,
+  "accessToken" TEXT,
+  "expiresAt" INTEGER,
+  "tokenType" VARCHAR(255),
+  scope TEXT,
+  "idToken" TEXT,
+  "sessionState" TEXT,
+
+  CONSTRAINT fk_user FOREIGN KEY("userId") REFERENCES "User"(id) ON DELETE CASCADE,
+  CONSTRAINT account_provider UNIQUE (provider, "providerAccountId")
 );
 
-CREATE TABLE IF NOT EXISTS sessions (
+CREATE TABLE "Session" (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  sessionToken VARCHAR(255) UNIQUE NOT NULL,
-  userId VARCHAR(255) NOT NULL,
+  "sessionToken" VARCHAR(255) UNIQUE NOT NULL,
+  "userId" UUID NOT NULL,
   expires TIMESTAMPTZ NOT NULL,
-  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+
+  CONSTRAINT fk_session_user FOREIGN KEY("userId") REFERENCES "User"(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS verificationTokens (
+CREATE TABLE "Library" (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  "userId" UUID NOT NULL,
+  name VARCHAR(255) NOT NULL,
+
+  CONSTRAINT fk_library_user FOREIGN KEY("userId") REFERENCES "User"(id) ON DELETE CASCADE
+);
+
+CREATE TABLE "Book" (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title VARCHAR(255) NOT NULL,
+  author VARCHAR(255) NOT NULL,
+  "libraryId" UUID NOT NULL,
+
+  CONSTRAINT fk_book_library FOREIGN KEY("libraryId") REFERENCES "Library"(id) ON DELETE CASCADE
+);
+
+CREATE TABLE "VerificationToken" (
   identifier VARCHAR(255) NOT NULL,
-  token VARCHAR(255) UNIQUE NOT NULL,
+  token VARCHAR(255) NOT NULL UNIQUE,
   expires TIMESTAMPTZ NOT NULL,
-  PRIMARY KEY (identifier, token)
-);
 
-CREATE TABLE IF NOT EXISTS libraries (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  userId VARCHAR(255) UNIQUE,
-  books JSONB,
-  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+  PRIMARY KEY (identifier, token)
 );
