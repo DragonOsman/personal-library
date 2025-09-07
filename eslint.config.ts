@@ -19,7 +19,7 @@ export default [
       react,
       "jsx-a11y": jsxA11y,
       "react-hooks": reactHooks,
-      "@next/next": nextPlugin,
+      "@next/next": nextPlugin
     },
     languageOptions: {
       parser: tseslint.parser,
@@ -30,10 +30,10 @@ export default [
           jsx: true,
           arrowFunctions: true,
           destructuring: true,
-          templateStrings: true,
+          templateStrings: true
         },
-        projectService: true,
-      },
+        projectService: true
+      }
     },
     rules: {
       yoda: "error",
@@ -48,12 +48,12 @@ export default [
       semi: "error",
       "no-extra-semi": "error",
       "comma-dangle": "error",
-      "react-hooks/exhaustive-deps": "warn",
+      "react-hooks/exhaustive-deps": "warn"
     },
     settings: {
       react: {
-        version: "detect",
-      },
-    },
-  },
+        version: "detect"
+      }
+    }
+  }
 ];
