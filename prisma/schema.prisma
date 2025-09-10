@@ -103,6 +103,7 @@ model User {
   image         String?
   Account       Account[]
   Library       Library[]
+  Password      Password?
   Session       Session[]
 }
 
@@ -120,4 +121,10 @@ model verificationtokens {
   expires    DateTime @db.Timestamptz(6)
 
   @@id([identifier, token])
+}
+
+model Password {
+  email String @id @db.VarChar(255)
+  hash  String @db.VarChar(255)
+  User  User   @relation(fields: [email], references: [email], onDelete: Cascade, onUpdate: NoAction, map: "fk_password_user")
 }

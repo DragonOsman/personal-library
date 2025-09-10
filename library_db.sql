@@ -61,3 +61,10 @@ CREATE TABLE "VerificationToken" (
 
   PRIMARY KEY (identifier, token)
 );
+
+CREATE TABLE "Password" (
+  email VARCHAR(255) PRIMARY KEY,
+  hash  VARCHAR(255) NOT NULL,
+
+  CONSTRAINT fk_password_user FOREIGN KEY(email) REFERENCES "User"(email) ON DELETE CASCADE
+);

@@ -7,7 +7,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import Nodemailer from "next-auth/providers/nodemailer";
 import { createTransport } from "nodemailer";
-import bcrypt from "bcryptjs";
+import { verifyOtp, verifyPassword } from "./app/lib/auth-utils";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -23,6 +23,7 @@ const emailServerPort = process.env.EMAIL_SERVER_PORT
 const emailServerUser = process.env.EMAIL_SERVER_USER || "";
 const emailServerPassword = process.env.EMAIL_SERVER_PASSWORD || "";
 const emailFrom = process.env.EMAIL_FROM || "";
+
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma as unknown as PrismaClient),
@@ -43,27 +44,37 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "text", value: "Enter your email" },
-        password: { label: "Password", type: "password", value: "Enter your password" }
+        password: { label: "Password", type: "password", value: "Enter your password" },
+        otp: { label: "OTP", type: "text", value: "Enter your OTP (if applicable)" }
       },
       async authorize(credentials) {
-        const creds = credentials as { email: string; password: string };
         if (!credentials.email || !credentials.password) {
           return null;
         }
 
-        const user = await prisma.users.findUnique({
-          where: { email: credentials.email as string }
-        });
-        if (!user || !user.hashedPassword) {
-          return null;
+        const email = credentials.email as string;
+        const user = await prisma.user.findUnique({ where: { email } });
+
+        if (!user) {
+          throw new Error("No user found with the given email");
         }
 
-        const isValid = await bcrypt.compare(
-          credentials.password as string,
-          user.hashedPassword
-        );
+        if (credentials.password) {
+          const isPasswordValid = await verifyPassword(email, credentials.password);
+          if (!isPasswordValid) {
+            return null;
+          }
+        }
 
-        return isValid ? user : null;
+        if (credentials.otp) {
+          const isOtpValid = await verifyOtp(email, credentials.otp);
+          if (!isOtpValid) {
+            return null;
+          }
+        }
+        return {
+          id: user.id, email: user.email, name: user.name
+        };
       }
     }),
     Nodemailer({
@@ -91,21 +102,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
     })
   ],
+  pages: {
+    signIn: "/auth/signin",
+    verifyRequest: "/auth/verify",
+    error: "/auth/error"
+  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
       }
 
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.sub ?? "";
-
-        if (token) {
-          session.user.id = token.id as string;
-        }
+        session.user.id = token.id as string;
+        session.user.email = token.email as string;
+        session.user.name = token.name as string;
       }
 
       return session;
