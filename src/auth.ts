@@ -145,7 +145,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (user) {
           type BookFromQuery = typeof user.books[number];
 
-          function mapPrismaBookToIBook(book: BookFromQuery): IBook {
+          const mapPrismaBookToIBook = (book: BookFromQuery): IBook => {
             return {
               id: book.id,
               title: book.title,
@@ -160,7 +160,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               imageLinks: undefined,
               language: "English"
             };
-          }
+          };
 
           session.user.id = user.id;
           session.user.name = user.name;
