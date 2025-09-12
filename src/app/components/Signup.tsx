@@ -19,12 +19,11 @@ const signUpUser = async (formData: FormData) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await prisma.users.create({
+  const user = await prisma.user.create({
     data: {
       id: crypto.randomUUID(),
       email,
-      fullName: fullName,
-      hashedPassword: hashedPassword
+      name: fullName
     }
   });
   return { success: true, message: "User registered successfully", user };
@@ -33,7 +32,7 @@ const signUpUser = async (formData: FormData) => {
 export function SignUp() {
   const [error, setError] = useState<string>("");
   const validationSchema = zod.object({
-    fullName: zod.string().min(2).max(50),
+    name: zod.string().min(2).max(50),
     email: zod.string().email(),
     password: zod.string().min(6).max(11),
     confirmPassword: zod.string().min(6).max(11)
@@ -44,10 +43,10 @@ export function SignUp() {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-white dark:bg-gray-800">
       <Formik
-        initialValues={{ fullName: "", email: "", password: "", confirmPassword: "" }}
+        initialValues={{ name: "", email: "", password: "", confirmPassword: "" }}
         validationSchema={toFormikValidationSchema(validationSchema)}
-        onSubmit={async (values, { setSubmitting }) => {
-          const res = await signUpUser(new FormData(Object.entries(values) as any));
+        onSubmit={async (values) => {
+          const res = await signUpUser(new FormData(Object.entries(values) as unknown as HTMLFormElement));
           if (res?.success) {
             const signInRes = await signIn("credentials", {
               redirect: false,
@@ -68,15 +67,15 @@ export function SignUp() {
           <div className="SignUpContainer w-full max-w-md flex flex-col flex-1 justify-center">
             <form className="SignUp flex flex-col gap-4" onSubmit={handleSubmit}>
               <div className="fullNameGroup">
-                <label htmlFor="fullName">Full Name:</label>
+                <label htmlFor="name">Full Name:</label>
                 <input
-                  id="fullName"
+                  id="name"
                   type="text"
-                  {...getFieldProps("fullName")}
+                  {...getFieldProps("name")}
                   className="border rounded p-2 w-full"
                 />
-                {touched.fullName && errors.fullName && (
-                  <div className="text-red-500 text-sm">{errors.fullName}</div>
+                {touched.name && errors.name && (
+                  <p className="text-red-500 text-sm">{errors.name}</p>
                 )}
               </div>
               <div className="emailGroup">
@@ -88,7 +87,7 @@ export function SignUp() {
                   className="border rounded p-2 w-full"
                 />
                 {touched.email && errors.email && (
-                  <div className="text-red-500 text-sm">{errors.email}</div>
+                  <p className="text-red-500 text-sm">{errors.email}</p>
                 )}
               </div>
               <div className="passwordGroup">
@@ -100,7 +99,7 @@ export function SignUp() {
                   className="border rounded p-2 w-full"
                 />
                 {touched.password && errors.password && (
-                  <div className="text-red-500 text-sm">{errors.password}</div>
+                  <p className="text-red-500 text-sm">{errors.password}</p>
                 )}
               </div>
               <div className="confirmPasswordGroup">
@@ -112,13 +111,13 @@ export function SignUp() {
                   className="border rounded p-2 w-full"
                 />
                 {touched.confirmPassword && errors.confirmPassword && (
-                  <div className="text-red-500 text-sm">{errors.confirmPassword}</div>
+                  <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
                 )}
               </div>
 
               {error && <div className="text-red-500 text-sm">{error}</div>}
               {status && (
-                <div className="text-red-500 text-sm">{status.msg}</div>
+                <p className="text-red-500 text-sm">{status.msg}</p>
               )}
 
               <button

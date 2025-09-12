@@ -40,7 +40,7 @@ export function SignIn() {
             method="post"
           >
             {status && status.msg && (
-              <div className="text-red-500 text-sm">{status.msg}</div>
+              <p className="text-red-500 text-sm">{status.msg}</p>
             )}
             <div className="emailGroup">
               <label htmlFor="email">Email:</label>
@@ -51,7 +51,7 @@ export function SignIn() {
                 className="border rounded p-2 w-full"
               />
               {touched.email && errors.email && (
-                <div className="text-red-500 text-sm">{errors.email}</div>
+                <p className="text-red-500 text-sm">{errors.email}</p>
               )}
             </div>
             <div className="passwordGroup">
@@ -63,7 +63,7 @@ export function SignIn() {
                 className="border rounded p-2 w-full"
               />
               {touched.password && errors.password && (
-                <div className="text-red-500 text-sm">{errors.password}</div>
+                <p className="text-red-500 text-sm">{errors.password}</p>
               )}
             </div>
 
