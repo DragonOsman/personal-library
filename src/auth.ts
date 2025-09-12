@@ -8,8 +8,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import Nodemailer from "next-auth/providers/nodemailer";
 import { createTransport } from "nodemailer";
 import { verifyOtp, verifyPassword } from "./app/lib/auth-utils";
-import dotenv from "dotenv";
-dotenv.config();
+import { IBook } from "./app/context/BookContext";
 
 const githubClientId = process.env.GITHUB_CLIENT_ID || "";
 const githubClientSecret = process.env.GITHUB_CLIENT_SECRET || "";
@@ -24,6 +23,18 @@ const emailServerUser = process.env.EMAIL_SERVER_USER || "";
 const emailServerPassword = process.env.EMAIL_SERVER_PASSWORD || "";
 const emailFrom = process.env.EMAIL_FROM || "";
 
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email: string;
+      image?: string | null;
+      hasPassword?: boolean;
+      books?: IBook[];
+    }
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma as unknown as PrismaClient),
@@ -60,14 +71,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         if (credentials.password) {
-          const isPasswordValid = await verifyPassword(email, credentials.password);
+          const isPasswordValid = await verifyPassword(email, credentials.password as string);
           if (!isPasswordValid) {
             return null;
           }
         }
 
         if (credentials.otp) {
-          const isOtpValid = await verifyOtp(email, credentials.otp);
+          const isOtpValid = await verifyOtp(email, credentials.otp as string);
           if (!isOtpValid) {
             return null;
           }
@@ -109,19 +120,56 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
+      // Add user info to token on sign in
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
       }
-
       return token;
     },
     async session({ session, token }) {
+      // Use token to populate session.user
       if (session.user) {
         session.user.id = token.id as string;
+        session.user.name = token.name as string | undefined;
         session.user.email = token.email as string;
-        session.user.name = token.name as string;
+      }
+
+      if (session.user && session.user.email) {
+        const user = await prisma.user.findUnique({
+          where: { email: session.user.email },
+          include: { books: true, password: true }
+        });
+
+        if (user) {
+          type BookFromQuery = typeof user.books[number];
+
+          function mapPrismaBookToIBook(book: BookFromQuery): IBook {
+            return {
+              id: book.id,
+              title: book.title,
+              authors: book.author ? [book.author] : [],
+              isbn: book.isbn ? book.isbn : "",
+              publishedDate: (new Date()).toString(),
+              description: undefined,
+              pageCount: undefined,
+              categories: undefined,
+              averageRating: undefined,
+              ratingsCount: undefined,
+              imageLinks: undefined,
+              language: "English"
+            };
+          }
+
+          session.user.id = user.id;
+          session.user.name = user.name;
+          session.user.email = user.email;
+          session.user.emailVerified = user.emailVerified;
+          session.user.image = user.image;
+          session.user.hasPassword = !!user.password;
+          session.user.books = user.books.map(mapPrismaBookToIBook);
+        }
       }
 
       return session;
