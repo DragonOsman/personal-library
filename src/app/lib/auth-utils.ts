@@ -3,8 +3,8 @@ import prisma from "./db";
 import { randomInt } from "crypto";
 import { redis } from "./redis";
 
-export const verifyPassword = async (email: string, password: string) => {
-  const record = await prisma.password.findUnique({ where: { email } });
+export const verifyPassword = async (userId: string, password: string) => {
+  const record = await prisma.password.findUnique({ where: { userId } });
 
   if (!record) {
     return false;
