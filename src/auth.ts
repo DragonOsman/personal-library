@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { PrismaClient } from "@prisma/client";
 import prisma from "./app/lib/db";
+import type { User } from "./generated/prisma";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -30,9 +31,19 @@ declare module "next-auth" {
       name?: string | null;
       email: string;
       image?: string | null;
+      lastLoginAt?: number;
+      mfaEnabled?: boolean;
       hasPassword?: boolean;
       books?: IBook[];
     }
+  }
+
+  interface JWT {
+    id: string;
+    email: string;
+    name?: string | null;
+    mfaEnabled?: boolean;
+    lastLoginAt?: number;
   }
 }
 
@@ -119,13 +130,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: "/auth/error"
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       // Add user info to token on sign in
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
+        token.lastLoginAt = Date.now();
+        token.mfaEnabled = (user as User).mfaEnabled ?? false;
       }
+
+      if (trigger === "signIn") {
+        token.lastLoginAt = Date.now();
+      }
+
       return token;
     },
     async session({ session, token }) {
@@ -134,6 +152,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.id = token.id as string;
         session.user.name = token.name as string | undefined;
         session.user.email = token.email as string;
+        session.user.mfaEnabled = token.mfaEnabled as boolean | undefined;
+        session.user.lastLoginAt = token.lastLoginAt as number | undefined;
       }
 
       if (session.user && session.user.email) {

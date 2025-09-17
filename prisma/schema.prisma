@@ -25,6 +25,7 @@ model User {
   email         String    @unique @db.VarChar(255)
   emailVerified DateTime? @db.Timestamptz(6)
   image         String?
+  mfaEnabled    Boolean   @default(false)
   books         Book[]
   password      Password?
 }
