@@ -47,6 +47,33 @@ declare module "next-auth" {
   }
 }
 
+export type BookFromQuery = {
+    id: string;
+    title: string;
+    author: string;
+    isbn: string | null;
+    userId: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export const mapPrismaBookToIBook = (book: BookFromQuery): IBook => {
+  return {
+    id: book.id,
+    title: book.title,
+    authors: book.author ? [book.author] : [],
+    isbn: book.isbn ? book.isbn : "",
+    publishedDate: (new Date()).toString(),
+    description: undefined,
+    pageCount: undefined,
+    categories: undefined,
+    averageRating: undefined,
+    ratingsCount: undefined,
+    imageLinks: undefined,
+    language: "English"
+  };
+};
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma as unknown as PrismaClient),
   session: {
@@ -163,25 +190,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
 
         if (user) {
-          type BookFromQuery = typeof user.books[number];
-
-          const mapPrismaBookToIBook = (book: BookFromQuery): IBook => {
-            return {
-              id: book.id,
-              title: book.title,
-              authors: book.author ? [book.author] : [],
-              isbn: book.isbn ? book.isbn : "",
-              publishedDate: (new Date()).toString(),
-              description: undefined,
-              pageCount: undefined,
-              categories: undefined,
-              averageRating: undefined,
-              ratingsCount: undefined,
-              imageLinks: undefined,
-              language: "English"
-            };
-          };
-
           session.user.id = user.id;
           session.user.name = user.name;
           session.user.email = user.email;
