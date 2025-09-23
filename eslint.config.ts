@@ -5,6 +5,7 @@ import react from "eslint-plugin-react";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import reactHooks from "eslint-plugin-react-hooks";
 import nextPlugin from "@next/eslint-plugin-next";
+import globals from "globals";
 
 export default [
   // Base JS recommended rules
@@ -33,6 +34,11 @@ export default [
           templateStrings: true
         },
         projectService: true
+      },
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+        ...globals.es2021
       }
     },
     rules: {
