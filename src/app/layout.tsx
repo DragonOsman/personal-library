@@ -19,7 +19,9 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
         <body className="antialiased bg-gradient-to-b from-background-500 to-background-700">
           <SessionProvider>
             <Header />
-            <main>{children}</main>
+            <main>
+              {children}
+            </main>
           </SessionProvider>
         </body>
       </html>
