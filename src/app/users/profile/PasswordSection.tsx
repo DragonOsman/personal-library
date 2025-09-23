@@ -2,29 +2,17 @@
 
 import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import prisma from "../../lib/db";
-import bcrypt from "bcryptjs";
 import zod from "zod";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
 
-export const PasswordSection = () => {
+const PasswordSection = () => {
   const validationSchema = zod.object({
-    currentPassword: zod.string().min(6).max(11),
-    newPassword: zod.string().min(6).max(11),
-    confirmPassword: zod.string().min(6).max(11)
+    currentPassword: zod.string().min(6).max(100),
+    newPassword: zod.string().min(6).max(100),
+    confirmPassword: zod.string().min(6).max(100)
   }).refine(data => data.newPassword === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"]
   });
-
-  const {data: session} = useSession();
-  const [success, setSuccess] = useState<string | null>(null);
-
-  if (session?.user) {
-    return null;
-  }
-  const userId = session?.user?.id;
 
   return (
     <section id="password">
@@ -32,7 +20,7 @@ export const PasswordSection = () => {
       <Formik
         initialValues={{ currentPassword: "", newPassword: "", confirmPassword: "" }}
         validationSchema={toFormikValidationSchema(validationSchema)}
-        onSubmit={async (values, { setErrors, setSubmitting }) => {
+        onSubmit={async (values, { setErrors, setSubmitting, setStatus }) => {
           setSubmitting(true);
 
           try {
@@ -45,10 +33,10 @@ export const PasswordSection = () => {
             });
 
             if (response.ok) {
-              setSuccess("Password changed successfully");
+              setStatus({ msg: "Password changed successfully" });
             } else {
-              const data = await response.json();
-              setErrors({ currentPassword: data.error ?? "Password change failed" });
+              const resData = await response.json();
+              setStatus({ msg: resData.message ?? "Password change failed" });
             }
           } catch {
             setErrors({ currentPassword: "Unexpected error" });
@@ -97,11 +85,11 @@ export const PasswordSection = () => {
             >
               {isSubmitting ? "Changing password..." : "Change password"}
             </button>
-
-            {success && <p className="text-green-500 text-sm">{success}</p>}
           </Form>
         )}
       </Formik>
     </section>
   );
 };
+
+export default PasswordSection;
