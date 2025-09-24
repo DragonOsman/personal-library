@@ -1,49 +1,44 @@
-import { currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-import pool from "@/src/app/lib/db";
-import { PoolClient, QueryResult } from "pg";
-import { IBook } from "@/src/app/context/BookContext";
+import prisma from "@/src/app/lib/db";
+import { auth } from "@/src/auth";
 
 export const DELETE = async (req: NextRequest,
   { params }: { params: Promise<{ id: string }> }) => {
-  const user = await currentUser();
+  const session = await auth();
+
+  if (!session) {
+    return NextResponse.json({ message: "Please log in first" }, { status: 401 });
+  }
+  const user = session.user;
   const bookId = (await params).id;
-  let dbClient: PoolClient | null= null;
 
   if (!user) {
     return NextResponse.json({ message: "Please log in first" }, { status: 401 });
   }
 
   try {
-    dbClient = await pool.connect();
-    const result: QueryResult = await dbClient.query(
-      "SELECT books FROM libraries WHERE userId = $1",
-      [user.id]
-    );
+    const books = await prisma.book.findMany({
+      where: { userId: user.id }
+    });
 
-    if (result.rows.length === 0 || !result.rows[0].books) {
+    if (books.length === 0 || !books) {
       return NextResponse.json({ status: 404, message: "Library not found for user" });
     }
-    const books: Array<IBook> = result.rows[0].books;
-    const bookIndex = books.findIndex((book: IBook) => book.id === bookId);
+    const bookIndex = books.findIndex((book) => book.id === bookId);
 
     if (bookIndex === -1) {
       return NextResponse.json({ status: 404, message: "Book not found" });
     }
 
       books.splice(bookIndex, 1);
-      await dbClient.query("UPDATE libraries SET books = $1 WHERE userId = $2",
-        [JSON.stringify(books), user.id]
-      );
+      await prisma.book.delete({
+        where: { id: bookId }
+      });
       return NextResponse.json({ status: 200, message: "Book deleted successfully" });
     } catch (err) {
       return NextResponse.json({
         status: 500,
         message: `An unexpected error occurred: ${(err as Error).message}` }
       );
-    } finally {
-      if (dbClient) {
-        dbClient.release();
-      }
     }
 };
