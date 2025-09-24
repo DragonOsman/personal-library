@@ -5,8 +5,8 @@ import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { signIn } from "../../auth";
 import { signUpUser } from "../actions/signUpUser";
-
 import zod from "zod";
+
 export function SignUp() {
   const [error, setError] = useState<string>("");
   const validationSchema = zod.object({
