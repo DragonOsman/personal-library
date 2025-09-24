@@ -4,31 +4,9 @@ import { Formik } from "formik";
 import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { signIn } from "../../auth";
-import prisma  from "../lib/db";
-import bcrypt from "bcryptjs";
+import { signUpUser } from "../actions/signUpUser";
+
 import zod from "zod";
-
-const signUpUser = async (formData: FormData) => {
-  "use server";
-
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  const fullName = formData.get("fullName") as string;
-  if (!email || !password || !fullName) {
-    throw new Error("Missing required fields");
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await prisma.user.create({
-    data: {
-      id: crypto.randomUUID(),
-      email,
-      name: fullName
-    }
-  });
-  return { success: true, message: "User registered successfully", user };
-};
-
 export function SignUp() {
   const [error, setError] = useState<string>("");
   const validationSchema = zod.object({
@@ -46,21 +24,31 @@ export function SignUp() {
         initialValues={{ name: "", email: "", password: "", confirmPassword: "" }}
         validationSchema={toFormikValidationSchema(validationSchema)}
         onSubmit={async (values) => {
-          const res = await signUpUser(new FormData(Object.entries(values) as unknown as HTMLFormElement));
-          if (res?.success) {
-            const signInRes = await signIn("credentials", {
-              redirect: false,
-              email: values.email,
-              password: values.password
-            });
-            if (signInRes?.error) {
-              setError("Sign in after registration failed");
+          const formData = new FormData();
+          formData.append("fullName", values.name);
+          formData.append("email", values.email);
+          formData.append("password", values.password);
+          try {
+            const res = await signUpUser(formData);
+
+            if (res?.success) {
+              const signInRes = await signIn("credentials", {
+                redirect: false,
+                email: values.email,
+                password: values.password
+              });
+              if (signInRes?.error) {
+                setError("Sign in after registration failed");
+              } else {
+                window.location.href = "/";
+              }
             } else {
-              window.location.href = "/";
+              setError(res?.message || "Registration failed");
             }
-          } else {
-            setError(res?.message || "Registration failed");
+          } catch (err: unknown) {
+            setError(`An error occurred: ${(err as Error).message}`);
           }
+
         }}
       >
         {({ handleSubmit, getFieldProps, touched, errors, status, isSubmitting }) => (
