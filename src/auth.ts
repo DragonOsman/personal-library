@@ -2,7 +2,6 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { PrismaClient } from "@prisma/client";
 import prisma from "./app/lib/db";
-import type { User } from "./generated/prisma";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -23,29 +22,6 @@ const emailServerPort = process.env.EMAIL_SERVER_PORT
 const emailServerUser = process.env.EMAIL_SERVER_USER || "";
 const emailServerPassword = process.env.EMAIL_SERVER_PASSWORD || "";
 const emailFrom = process.env.EMAIL_FROM || "";
-
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string;
-      name?: string | null;
-      email: string;
-      image?: string | null;
-      lastLoginAt?: number;
-      mfaEnabled?: boolean;
-      hasPassword?: boolean;
-      books?: IBook[];
-    }
-  }
-
-  interface JWT {
-    id: string;
-    email: string;
-    name?: string | null;
-    mfaEnabled?: boolean;
-    lastLoginAt?: number;
-  }
-}
 
 export type BookFromQuery = {
     id: string;
@@ -158,13 +134,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async jwt({ token, user, trigger }) {
-      // Add user info to token on sign in
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
+        token.image = user.image;
         token.lastLoginAt = Date.now();
-        token.mfaEnabled = (user as User).mfaEnabled ?? false;
+        token.mfaEnabled = user.mfaEnabled ?? false;
       }
 
       if (trigger === "signIn") {
@@ -174,30 +150,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      // Use token to populate session.user
       if (session.user) {
         session.user.id = token.id as string;
         session.user.name = token.name as string | undefined;
+        session.user.image = token.image as string | null | undefined;
         session.user.email = token.email as string;
         session.user.mfaEnabled = token.mfaEnabled as boolean | undefined;
         session.user.lastLoginAt = token.lastLoginAt as number | undefined;
-      }
-
-      if (session.user && session.user.email) {
-        const user = await prisma.user.findUnique({
-          where: { email: session.user.email },
-          include: { books: true, password: true }
-        });
-
-        if (user) {
-          session.user.id = user.id;
-          session.user.name = user.name;
-          session.user.email = user.email;
-          session.user.emailVerified = user.emailVerified;
-          session.user.image = user.image;
-          session.user.hasPassword = !!user.password;
-          session.user.books = user.books.map(mapPrismaBookToIBook);
-        }
       }
 
       return session;

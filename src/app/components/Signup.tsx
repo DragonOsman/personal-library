@@ -7,7 +7,7 @@ import { signIn } from "../../auth";
 import { signUpUser } from "../actions/signUpUser";
 import zod from "zod";
 
-export function SignUp() {
+export default function SignUp() {
   const [error, setError] = useState<string>("");
   const validationSchema = zod.object({
     name: zod.string().min(2).max(50),

@@ -5,7 +5,7 @@ import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import zod from "zod";
 
-export function SignIn() {
+export default function SignIn() {
   const validationSchema = zod.object({
     email: zod.string().email(),
     password: zod.string().min(6).max(11)

@@ -1,16 +1,16 @@
 import BookList from "@/src/app/books/list-books/page";
 import { auth } from "@/src/auth";
-import SignIn from "@/src/app/components/Signin";
+import Signin from "@/src/app/components/Signin";
 
 const Page = async () => {
   const session = await auth();
   if (!session) {
-    return <SignIn />;
+    return <Signin />;
   }
 
   const user = session.user;
   if (!user) {
-    return <SignIn />;
+    return <Signin />;
   } else {
     return (
       <div className="Homepage">
