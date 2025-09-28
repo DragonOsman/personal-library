@@ -2,20 +2,24 @@
 
 import { Formik } from "formik";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { signIn } from "../../auth";
 import { signUpUser } from "../actions/signUpUser";
-import zod from "zod";
+import { z } from "zod";
 
 export default function SignUp() {
   const [error, setError] = useState<string>("");
-  const validationSchema = zod.object({
-    name: zod.string().min(2).max(50),
-    email: zod.string().email(),
-    password: zod.string().min(6).max(11),
-    confirmPassword: zod.string().min(6).max(11)
+  const router = useRouter();
+
+  const validationSchema = z.object({
+    name: z.string().min(2).max(50),
+    email: z.string().email(),
+    password: z.string().min(6).max(11),
+    confirmPassword: z.string().min(6).max(11)
   }).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match"
+    message: "Passwords do not match",
+    path: ["confirmPassword"]
   });
 
   return (
@@ -40,7 +44,7 @@ export default function SignUp() {
               if (signInRes?.error) {
                 setError("Sign in after registration failed");
               } else {
-                location.href = "/";
+                router.push("/");
               }
             } else {
               setError(res?.message || "Registration failed");

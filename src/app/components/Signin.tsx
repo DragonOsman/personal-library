@@ -3,12 +3,12 @@
 import { signIn } from "../../auth";
 import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import zod from "zod";
+import { z } from "zod";
 
 export default function SignIn() {
-  const validationSchema = zod.object({
-    email: zod.string().email(),
-    password: zod.string().min(6).max(11)
+  const validationSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(6).max(11)
   });
 
   return (
@@ -92,7 +92,7 @@ export default function SignIn() {
           title="GitHub SignIn"
           type="button"
           onClick={() => signIn("github")}
-          className="bg-black-500 text-white p-2 rounded hover:bg-black-600"
+          className="bg-gray-900 text-white p-2 rounded hover:bg-black-600"
         >
           Sign in with GitHub
         </button>
