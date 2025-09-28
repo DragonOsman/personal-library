@@ -40,7 +40,7 @@ export default function SignUp() {
               if (signInRes?.error) {
                 setError("Sign in after registration failed");
               } else {
-                window.location.href = "/";
+                location.href = "/";
               }
             } else {
               setError(res?.message || "Registration failed");
