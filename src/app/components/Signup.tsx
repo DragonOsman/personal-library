@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { signIn } from "../../auth";
+import { signIn } from "next-auth/react";
 import { signUpUser } from "../actions/signUpUser";
 import { z } from "zod";
 

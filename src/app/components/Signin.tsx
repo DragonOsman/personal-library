@@ -3,6 +3,7 @@
 import { signIn } from "../../auth";
 import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 
 export default function SignIn() {
@@ -10,6 +11,8 @@ export default function SignIn() {
     email: z.string().email(),
     password: z.string().min(6).max(11)
   });
+
+  const router = useRouter();
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-white dark:bg-gray-800">
@@ -27,7 +30,7 @@ export default function SignIn() {
             console.error(res.error);
             setErrors({ email: "Invalid email or password" });
           } else {
-            window.location.href = "/";
+            router.push("/");
           }
 
           setSubmitting(false);
