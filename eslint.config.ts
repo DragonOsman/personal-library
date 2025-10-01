@@ -10,6 +10,9 @@ import globals from "globals";
 export default [
   // Base JS recommended rules
   js.configs.recommended,
+  {
+    ignores: ["src/generated/prisma/**"]
+  },
 
   // TypeScript recommended rules
   ...tseslint.configs.recommended,
