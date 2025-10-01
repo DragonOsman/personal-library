@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "../../auth";
+import { signIn } from "next-auth/react";
 import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useRouter } from "next/navigation";
