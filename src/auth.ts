@@ -17,21 +17,20 @@ const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET || "";
 const emailServerHost = process.env.EMAIL_SERVER_HOST || "";
 const emailServerPort = process.env.EMAIL_SERVER_PORT
   ? parseInt(process.env.EMAIL_SERVER_PORT)
-  : 0
-;
+  : 0;
 const emailServerUser = process.env.EMAIL_SERVER_USER || "";
 const emailServerPassword = process.env.EMAIL_SERVER_PASSWORD || "";
 const emailFrom = process.env.EMAIL_FROM || "";
 
 export type BookFromQuery = {
-    id: string;
-    title: string;
-    author: string;
-    isbn: string | null;
-    userId: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
+  id: string;
+  title: string;
+  author: string;
+  isbn: string | null;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 export const mapPrismaBookToIBook = (book: BookFromQuery): IBook => {
   return {
@@ -39,7 +38,7 @@ export const mapPrismaBookToIBook = (book: BookFromQuery): IBook => {
     title: book.title,
     authors: book.author ? [book.author] : [],
     isbn: book.isbn ? book.isbn : "",
-    publishedDate: (new Date()).toString(),
+    publishedDate: new Date().toString(),
     description: undefined,
     pageCount: undefined,
     categories: undefined,
@@ -68,9 +67,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "text", value: "Enter your email" },
-        password: { label: "Password", type: "password", value: "Enter your password" },
-        otp: { label: "OTP", type: "text", value: "Enter your OTP (if applicable)" }
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+        otp: { label: "OTP", type: "text" }
       },
       async authorize(credentials) {
         if (!credentials.email || !credentials.password) {
@@ -85,7 +84,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         if (credentials.password) {
-          const isPasswordValid = await verifyPassword(email, credentials.password as string);
+          const isPasswordValid = await verifyPassword(
+            email,
+            credentials.password as string
+          );
           if (!isPasswordValid) {
             return null;
           }
@@ -97,8 +99,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return null;
           }
         }
+
         return {
-          id: user.id, email: user.email, name: user.name
+          id: user.id,
+          email: user.email,
+          name: user.name
         };
       }
     }),
@@ -113,7 +118,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       },
       from: emailFrom,
-      maxAge: 10 * 60, // Magic link valid for 10 minutes
+      maxAge: 10 * 60,
       sendVerificationRequest: async ({ identifier, url, provider }) => {
         const { host } = new URL(url);
         const transport = createTransport(provider.server);
