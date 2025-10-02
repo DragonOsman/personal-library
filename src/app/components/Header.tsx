@@ -19,7 +19,7 @@ const Header = () => {
     <header className="bg-black color-white shadow-md">
       <div className="container mx-auto flex items-center justify-between p-4">
         <Link href="/" className="flex items-center">
-          <Image src={logo} alt="Logo" width={120} height={60} />
+          <Image src={logo} alt="Logo" width={50} height={50} />
         </Link>
         <div className="md:hidden">
           <button

@@ -78,6 +78,9 @@ export default function SignIn() {
             >
               {isSubmitting ? "Signing in..." : "Sign In"}
             </button>
+            <p className="note">
+              Don't have an account? <a href="/auth/signup" title="sign up">Sign up</a>.
+            </p>
           </Form>
         )}
       </Formik>
