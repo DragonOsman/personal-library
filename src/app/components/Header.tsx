@@ -36,7 +36,7 @@ const Header = () => {
           </button>
         </div>
         <div className={`${isOpen ? "block" : "hidden"}`}>
-          <nav className="w-full md:block md:w-auto top-0 left-0 absolute">
+          <nav className="w-full md:block md:w-auto">
             <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
               {isAuthenticated ? (
                 <>

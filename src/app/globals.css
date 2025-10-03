@@ -104,13 +104,10 @@ header img {
 
 header nav {
   margin-left: auto;
+  margin-right: 20px;
   text-align: right;
   align-self: center;
-  margin-top: -1px;
-}
-
-nav img {
-  margin-top: -1;
+  position: absolute;
 }
 
 .sign-in-button,
