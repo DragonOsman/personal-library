@@ -104,15 +104,15 @@ header img {
 
 header nav {
   margin-left: auto;
-  margin-right: 4ch;
+  margin-right: 40px;
   text-align: right;
   align-self: center;
   position: absolute;
-  margin-top: -4px;
+  margin-top: 1px;
 }
 
 header .logo {
-  margin-top: -4px;
+  margin-top: 1px;
 }
 
 .sign-in-button,
