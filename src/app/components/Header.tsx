@@ -1,113 +1,100 @@
 "use client";
 
 import logo from "../../../public/images/logo.png";
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { signOut } from "next-auth/react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
-const Header = () => {
+export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
 
-  const handleToggle = () => setIsOpen(!isOpen);
+  const handleToggle = () => setIsOpen(s => !s);
 
   return (
-    <header className="bg-black color-white shadow-md">
-      <div className="container mx-auto flex items-center justify-between p-4">
-        <Link href="/" className="flex items-center">
-          <Image src={logo} alt="Logo" width={50} height={50} className="logo" />
+    <header className="fixed top-0 left-0 w-full h-20 bg-[#2e2f33] z-50 shadow-md">
+      <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-3">
+          <Image
+            src={logo}
+            alt="Logo"
+            width={50}
+            height={50}
+            className="w-12 h-12 object-contain"
+            priority
+          />
+          <span className="hidden sm:inline text-white font-semibold">Personal Library</span>
         </Link>
-        <div className="md:hidden">
-          <button
-            type="button"
-            tabIndex={0}
-            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-            onClick={handleToggle}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") handleToggle();
-            }}
-            className="text-2xl cursor-pointer"
-          >
-            {isOpen ? <FaTimes /> : <FaBars />}
-          </button>
-        </div>
-        <div className={`${isOpen ? "block" : "hidden"}`}>
-          <nav className="w-full md:block md:w-auto">
-            <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
-              {isAuthenticated ? (
-                <>
-                  <li className="nav-item nav-link">
-                    <Link
-                      href="/"
-                      className="block py-2 md:py-0"
-                    >
-                      Home
-                    </Link>
-                  </li>
-                  <li className="nav-item nav-link">
-                    <Link
-                      href="/profile"
-                      className="block py-2 md:py-0"
-                    >
-                      Profile
-                    </Link>
-                  </li>
-                  <li className="nav-item nav-link">
-                    <button
-                      onClick={() => signOut()}
-                      className="block py-2 md:py-0 text-left w-full"
-                      type="button"
-                    >
-                      Sign Out
-                    </button>
-                  </li>
-                  <li className="nav-item nav-link">
-                    <Link
-                      href="/books/add-book"
-                      className="block py-2 md:py-0"
-                    >
-                      Add a Book
-                    </Link>
-                  </li>
-                  <li className="nav-item nav-link">
-                    <Link
-                      href="/books/list-books"
-                      className="block py-2 md:py-0"
-                    >
-                      List Books
-                    </Link>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li className="nav-item nav-link">
-                    <Link
-                      href="/signin"
-                      className="block py-2 md:py-0"
-                    >
-                      Sign In
-                    </Link>
-                  </li>
-                  <li className="nav-item nav-link">
-                    <Link
-                      href="/signup"
-                      className="block py-2 md:py-0"
-                    >
-                      Sign Up
-                    </Link>
-                  </li>
-                </>
-              )}
-            </ul>
-          </nav>
-        </div>
+
+        <button
+          type="button"
+          className="md:hidden text-white text-2xl p-2"
+          aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+          onClick={handleToggle}
+        >
+          {isOpen ? <FaTimes /> : <FaBars />}
+        </button>
+
+        <nav
+          className={`${
+            isOpen
+              ? "absolute top-full left-0 w-full bg-[#2e2f33] md:static md:bg-transparent"
+              : "hidden md:block"
+          } md:block`}
+        >
+          <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
+            {isAuthenticated ? (
+              <>
+                <li>
+                  <Link href="/" className="block text-white py-2 md:py-0 px-3 rounded hover:bg-slate-700">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/profile" className="block text-white py-2 md:py-0 px-3 rounded hover:bg-slate-700">
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="w-full text-left px-3 py-2 rounded bg-[#287098] text-white hover:bg-[#205979] md:w-auto md:inline-block"
+                    type="button"
+                  >
+                    Sign Out
+                  </button>
+                </li>
+                <li>
+                  <Link href="/books/add-book" className="block text-white py-2 md:py-0 px-3 rounded hover:bg-slate-700">
+                    Add a Book
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/books/list-books" className="block text-white py-2 md:py-0 px-3 rounded hover:bg-slate-700">
+                    List Books
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link href="/signin" className="block text-white py-2 md:py-0 px-3 rounded hover:bg-slate-700">
+                    Sign In
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/signup" className="block text-white py-2 md:py-0 px-3 rounded hover:bg-slate-700">
+                    Sign Up
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
+        </nav>
       </div>
     </header>
   );
-};
-
-export default Header;
+}
