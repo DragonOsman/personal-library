@@ -2,186 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 :root {
   --color-primary: #37383c;
   --color-secondary: #287098;
   --color-text: #fff;
 }
 
-html {
-  background-image: linear-gradient(to bottom right, #28292d, #105e86);
+* {
+  @apply m-0 p-0 box-border;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: #d9f0ff;
-  font-family: Arial, Helvetica, 'Helvetica Neue', sans-serif;
-  margin-bottom: 1rem;
-}
-
-h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-}
-
-h2 {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-h3 {
-  font-size: 1.75rem;
-  font-weight: bold;
-}
-
-h4 {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-h5 {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-h6 {
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-body {
-  color: var(--color-text);
-  font-family: Arial, Helvetica, 'Helvetica Neue', sans-serif;
-  font-size: 17px;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-}
-
-a {
-  text-decoration: none;
-}
-
-a.text {
-  color: var(--color-secondary);
-}
-
-header a.nav-link {
-  color: var(--color-text);
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-.sign-in-button,
-.sign-up-button,
-.sign-out-button,
-.nav-link {
-  background-color: var(--color-secondary);
-  color: var(--color-text);
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 1rem;
-}
-
-.sign-in-button:hover,
-.sign-up-button:hover,
-.sign-out-button:hover,
-.nav-link:hover {
-  background-color: #19191b;
-  color: var(--color-secondary)
-}
-
-main {
-  margin-top: 80px;
-}
-
-.AddBook,
-.UpdateBook {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #03124e;
-  margin-right: 15px;
-  margin-left: 15px;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 600px;
-}
-
-.AddBook input[type="text"],
-.UpdateBook input[type="text"],
-.OnboardingPage input[type="text"]{
-  color: #000;
-  margin-bottom: 5px;
-  margin-left: 2px;
-  margin-right: 2px;
-}
-
-.AddBook input[type="submit"],
-.UpdateBook input[type="submit"] {
-  margin-bottom: 3px;
-}
-
-.AddBook .searchBooks,
-.UpdateBook .searchBooks,
-.searchBooks{
-  margin-bottom: 5px;
-}
-
-@media screen and (max-width: 768px) {
+@layer base {
   body {
-    font-size: 15px;
+    @apply text-[17px] text-[var(--color-text)] font-sans flex flex-col min-h-screen text-center items-center justify-center bg-gradient-main mt-20;
   }
 
-  h1 {
-    font-size: 2rem;
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-[#d9f0ff] font-sans font-bold mb-4;
   }
 
-  h2 {
-    font-size: 1.75rem;
+  h1 { @apply text-[2.5rem] lg:text-5xl md:text-4xl sm:text-3xl xs:text-2xl; }
+  h2 { @apply text-4xl lg:text-[2.25rem] md:text-3xl sm:text-2xl xs:text-xl; }
+  h3 { @apply text-3xl lg:text-[1.875rem] md:text-2xl sm:text-xl xs:text-lg; }
+  h4 { @apply text-2xl lg:text-xl md:text-lg sm:text-base xs:text-sm; }
+  h5 { @apply text-xl lg:text-lg md:text-base sm:text-sm xs:text-xs; }
+  h6 { @apply text-lg lg:text-base md:text-sm sm:text-xs xs:text-[0.75rem]; }
+
+  a {
+    @apply no-underline transition-colors duration-200;
   }
 
-  h3 {
-    font-size: 1.5rem;
+  a.text {
+    @apply text-[var(--color-secondary)];
   }
 
-  h4 {
-    font-size: 1.25rem;
+  header a.nav-link {
+    @apply text-[var(--color-text)];
   }
 
-  h5 {
-    font-size: 1rem;
+  a:hover {
+    @apply underline;
   }
 
-  h6 {
-    font-size: 0.875rem;
+  main {
+    @apply mt-20;
   }
+}
 
+@layer components {
+  /* Buttons & Nav Links */
+  .btn-nav,
   .sign-in-button,
   .sign-up-button,
-  .sign-out-button {
-    padding: 0.4rem 0.8rem;
+  .sign-out-button,
+  .nav-link {
+    @apply bg-[var(--color-secondary)] text-[var(--color-text)] px-4 py-2 rounded-md cursor-pointer ml-4 transition-colors duration-200 hover:bg-[#19191b] hover:text-[var(--color-secondary)];
   }
 
-  .header-container {
-    flex-direction: column;
+  /* Book forms */
+  .AddBook,
+  .UpdateBook {
+    @apply flex flex-col items-center bg-[#03124e] mx-[15px] rounded-[10px] w-full max-w-[600px];
   }
 
-  header nav {
-    margin-left: 0;
-    text-align: center;
+  .AddBook input[type="text"],
+  .UpdateBook input[type="text"],
+  .OnboardingPage input[type="text"] {
+    @apply text-black mb-[5px] mx-[2px];
+  }
+
+  .AddBook input[type="submit"],
+  .UpdateBook input[type="submit"] {
+    @apply mb-[3px];
+  }
+
+  .AddBook .searchBooks,
+  .UpdateBook .searchBooks,
+  .searchBooks {
+    @apply mb-[5px];
   }
 }

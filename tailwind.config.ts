@@ -9,8 +9,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        primary: "var(--color-primary)",
+        secondary: "var(--color-secondary)",
+        text: "var(--color-text)",
         background: "var(--color-primary)",
         foreground: "var(--color-secondary)"
+      },
+      backgroundImage: {
+        "gradient-main": "linear-gradient(to bottom right, #28292d, #105e86)"
+      },
+      fontFamily: {
+        sans: ["Arial", "Helvetica", "'Helvetica Neue'", "sans-serif"]
+      },
+      spacing: {
+        18: "4.5rem" // optional helper between 16 and 20
       }
     },
     screens: {
