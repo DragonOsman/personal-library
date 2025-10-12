@@ -120,6 +120,9 @@ export default function SignUp() {
               >
                 {isSubmitting ? "Signing up..." : "Sign Up"}
               </button>
+              <p className="note">
+                Already have an account? <a href="/auth/signin" title="sign in">Sign in</a>.
+              </p>
             </form>
             <hr className="divider my-6" />
             <div className="socialSignIn flex flex-col gap-4">
@@ -147,9 +150,6 @@ export default function SignUp() {
               >
                 Sign in with Email
               </button>
-              <p className="note">
-                Already have an account? <a href="/auth/signin" title="sign in">Sign in</a>.
-              </p>
             </div>
           </div>
         )}
