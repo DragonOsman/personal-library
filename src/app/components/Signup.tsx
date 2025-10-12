@@ -147,6 +147,9 @@ export default function SignUp() {
               >
                 Sign in with Email
               </button>
+              <p className="note">
+                Already have an account? <a href="/auth/signin" title="sign in">Sign in</a>.
+              </p>
             </div>
           </div>
         )}
