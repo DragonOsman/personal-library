@@ -44,6 +44,10 @@
     @apply underline cursor-pointer text-[var(--color-secondary)];
   }
 
+  p.note {
+    @apply text-sm;
+  }
+
   main {
     @apply mt-20 bg-white text-[var(--color-primary)];
   }
