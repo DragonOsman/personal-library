@@ -45,7 +45,7 @@
   }
 
   p.note {
-    @apply text-sm;
+    @apply text-sm text-black;
   }
 
   main {
