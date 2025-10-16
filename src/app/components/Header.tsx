@@ -73,7 +73,7 @@ export default function Header() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/books/list-books" className="block text-white py-2 md:py-0 px-3 rounded hover:bg-slate-700">
+                  <Link href="/books/list-books" className="block text-white py-20 md:py-0 px-20 rounded hover:bg-slate-700">
                     List Books
                   </Link>
                 </li>
@@ -81,12 +81,12 @@ export default function Header() {
             ) : (
               <>
                 <li>
-                  <Link href="/signin" className="block text-white py-2 md:py-0 px-3 rounded hover:bg-slate-700">
+                  <Link href="/auth/signin" className="block text-white py-20 md:py-0 px-20 md:py-0 rounded hover:bg-slate-700">
                     Sign In
                   </Link>
                 </li>
                 <li>
-                  <Link href="/signup" className="block text-white py-2 md:py-0 px-3 rounded hover:bg-slate-700">
+                  <Link href="/auth/signup" className="block text-white py-20 md:py-0 px-20 rounded hover:bg-slate-700">
                     Sign Up
                   </Link>
                 </li>
