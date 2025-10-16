@@ -49,26 +49,26 @@ export default function Header() {
             {isAuthenticated ? (
               <>
                 <li>
-                  <Link href="/" className="block text-white py-2 md:py-0 px-3 rounded hover:bg-slate-700">
+                  <Link href="/" className="block text-white py-20 px-20 md:py-0 md:px-0 rounded hover:bg-slate-700">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link href="/profile" className="block text-white py-2 md:py-0 px-3 rounded hover:bg-slate-700">
+                  <Link href="/profile" className="block text-white py-20 md:py-0 px-20 rounded hover:bg-slate-700">
                     Profile
                   </Link>
                 </li>
                 <li>
                   <button
                     onClick={() => signOut({ callbackUrl: "/" })}
-                    className="w-full text-left px-3 py-2 rounded bg-[#287098] text-white hover:bg-[#205979] md:w-auto md:inline-block"
+                    className="w-full text-left px-20 py-20 md:py-0 rounded bg-[#287098] text-white hover:bg-[#205979] md:w-auto md:inline-block"
                     type="button"
                   >
                     Sign Out
                   </button>
                 </li>
                 <li>
-                  <Link href="/books/add-book" className="block text-white py-2 md:py-0 px-3 rounded hover:bg-slate-700">
+                  <Link href="/books/add-book" className="block text-white py-20 md:py-0 px-20 rounded hover:bg-slate-700">
                     Add a Book
                   </Link>
                 </li>

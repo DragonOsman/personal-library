@@ -15,7 +15,7 @@ export default function SignIn() {
   const router = useRouter();
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-white dark:bg-gray-800">
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-white">
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={toFormikValidationSchema(validationSchema)}
