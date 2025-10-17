@@ -49,31 +49,31 @@ export default function Header() {
             {isAuthenticated ? (
               <>
                 <li>
-                  <Link href="/" className="block text-white py-10 px-10 md:py-0 md:px-0 rounded bg-secondary hover:bg-primary">
+                  <Link href="/" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link href="/profile" className="block text-white py-10 md:py-0 px-10 rounded bg-secondary hover:bg-primary">
+                  <Link href="/profile" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                     Profile
                   </Link>
                 </li>
                 <li>
                   <button
                     onClick={() => signOut({ callbackUrl: "/" })}
-                    className="w-full text-left px-10 py-10 md:py-0 rounded bg-[#287098] text-white hover:bg-[#205979] md:w-auto md:inline-block"
+                    className="w-full text-left p-15 md:p-2 rounded bg-[#287098] text-white hover:bg-[#205979] md:w-auto md:inline-block"
                     type="button"
                   >
                     Sign Out
                   </button>
                 </li>
                 <li>
-                  <Link href="/books/add-book" className="block text-white py-10 md:py-0 px-10 rounded bg-secondary hover:bg-primary">
+                  <Link href="/books/add-book" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                     Add a Book
                   </Link>
                 </li>
                 <li>
-                  <Link href="/books/list-books" className="block text-white py-10 md:py-0 px-10 rounded bg-secondary hover:bg-primary">
+                  <Link href="/books/list-books" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                     List Books
                   </Link>
                 </li>
@@ -81,12 +81,12 @@ export default function Header() {
             ) : (
               <>
                 <li>
-                  <Link href="/auth/signin" className="block text-white py-10 md:py-0 px-10 md:py-0 rounded bg-secondary hover:bg-primary">
+                  <Link href="/auth/signin" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                     Sign In
                   </Link>
                 </li>
                 <li>
-                  <Link href="/auth/signup" className="block text-white py-10 md:py-0 px-10 rounded bg-secondary hover:bg-primary">
+                  <Link href="/auth/signup" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                     Sign Up
                   </Link>
                 </li>
