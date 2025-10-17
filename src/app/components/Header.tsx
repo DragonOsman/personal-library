@@ -49,12 +49,12 @@ export default function Header() {
             {isAuthenticated ? (
               <>
                 <li>
-                  <Link href="/" className="block text-white py-20 px-20 md:py-0 md:px-0 rounded hover:bg-slate-700">
+                  <Link href="/" className="block text-white py-20 px-20 md:py-0 md:px-0 rounded bg-secondary hover:bg-primary">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link href="/profile" className="block text-white py-20 md:py-0 px-20 rounded hover:bg-slate-700">
+                  <Link href="/profile" className="block text-white py-20 md:py-0 px-20 rounded bg-secondary hover:bg-primary">
                     Profile
                   </Link>
                 </li>
@@ -68,12 +68,12 @@ export default function Header() {
                   </button>
                 </li>
                 <li>
-                  <Link href="/books/add-book" className="block text-white py-20 md:py-0 px-20 rounded hover:bg-slate-700">
+                  <Link href="/books/add-book" className="block text-white py-20 md:py-0 px-20 rounded bg-secondary hover:bg-primary">
                     Add a Book
                   </Link>
                 </li>
                 <li>
-                  <Link href="/books/list-books" className="block text-white py-20 md:py-0 px-20 rounded hover:bg-slate-700">
+                  <Link href="/books/list-books" className="block text-white py-20 md:py-0 px-20 rounded bg-secondary hover:bg-primary">
                     List Books
                   </Link>
                 </li>
@@ -81,12 +81,12 @@ export default function Header() {
             ) : (
               <>
                 <li>
-                  <Link href="/auth/signin" className="block text-white py-20 md:py-0 px-20 md:py-0 rounded hover:bg-slate-700">
+                  <Link href="/auth/signin" className="block text-white py-20 md:py-0 px-20 md:py-0 rounded bg-secondary hover:bg-primary">
                     Sign In
                   </Link>
                 </li>
                 <li>
-                  <Link href="/auth/signup" className="block text-white py-20 md:py-0 px-20 rounded hover:bg-slate-700">
+                  <Link href="/auth/signup" className="block text-white py-20 md:py-0 px-20 rounded bg-secondary hover:bg-primary">
                     Sign Up
                   </Link>
                 </li>
