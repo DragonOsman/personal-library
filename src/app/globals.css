@@ -14,7 +14,7 @@
 
 @layer base {
   body {
-    @apply text-[17px] text-[var(--color-primary)] font-sans flex flex-col min-h-screen text-center items-center justify-center bg-gradient-main mt-10;
+    @apply text-[17px] text-[var(--color-primary)] font-sans flex flex-col min-h-screen text-center items-center justify-center bg-gradient-main mt-5;
   }
 
   h1, h2, h3, h4, h5, h6 {
