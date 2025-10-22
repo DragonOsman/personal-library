@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint --ext .js,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
-    "dev-https": "next dev --experimental-https --turbopack"
+    "dev-https": "next dev --experimental-https --turbopack",
+    "test": "jest"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
