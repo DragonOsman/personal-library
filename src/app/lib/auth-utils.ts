@@ -14,19 +14,6 @@ export const verifyPassword = async (userId: string, password: string) => {
   return isValid;
 };
 
-export const verifyOtp = async (email: string, otp: string) => {
-  const key = `otp:${email}`;
-  const stored = await redis.get<string>(key);
-
-  if (!stored || stored !== otp) {
-    return false;
-  }
-
-  // enforce one-time use
-  await redis.del(key);
-  return true;
-};
-
 export const generateAndStoreOtp = async (email: string) => {
   const otp = String(randomInt(100000, 999999));
   await redis.set(`otp:${email}`, otp, { ex: 5 * 60 }); // expire in 5 minutes
