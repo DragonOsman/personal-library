@@ -7,8 +7,9 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import Nodemailer from "next-auth/providers/nodemailer";
 import { createTransport } from "nodemailer";
-import { verifyOtp, verifyPassword } from "./app/lib/auth-utils";
+import { verifyPassword } from "./app/lib/auth-utils";
 import { IBook } from "./app/context/BookContext";
+import { authenticator } from "otplib";
 
 const githubClientId = process.env.GITHUB_CLIENT_ID || "";
 const githubClientSecret = process.env.GITHUB_CLIENT_SECRET || "";
@@ -69,7 +70,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       credentials: {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
-        otp: { label: "OTP", type: "text" }
+        otp: { label: "OTP (if required)", type: "text", optional: true }
       },
       async authorize(credentials) {
         if (!credentials.email || !credentials.password) {
@@ -77,28 +78,36 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         const email = credentials.email as string;
+        const password = credentials.password as string;
+        const otp = credentials.otp as string | undefined;
         const user = await prisma.user.findUnique({ where: { email } });
 
         if (!user) {
           throw new Error("No user found with the given email");
         }
 
-        if (credentials.password) {
+        if (password) {
           const isPasswordValid = await verifyPassword(
             email,
-            credentials.password as string
+            password
           );
           if (!isPasswordValid) {
             return null;
           }
         }
 
-        if (credentials.otp) {
-          const isOtpValid = await verifyOtp(email, credentials.otp as string);
-          if (!isOtpValid) {
-            return null;
+        if (user.mfaEnabled) {
+          if (otp) {
+            if (!otp) {
+              throw new Error("MFA code required");
+            }
+            const isOtpValid = authenticator.check(otp, user.mfaSecret!);
+            if (!isOtpValid) {
+              throw new Error("Invalid MFA code");
+            }
           }
         }
+
 
         return {
           id: user.id,

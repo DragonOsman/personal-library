@@ -25,6 +25,12 @@ export const signUpUser = async (formData: FormData) => {
       }
     }
   });
+  await prisma.password.create({
+    data: {
+      userId: user.id,
+      hash: hashedPassword
+    }
+  });
 
   return { success: true, message: "User registered successfully", user };
 };
