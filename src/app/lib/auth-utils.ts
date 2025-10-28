@@ -4,13 +4,13 @@ import { randomInt } from "crypto";
 import { redis } from "./redis";
 
 export const verifyPassword = async (userId: string, password: string) => {
-  const record = await prisma.password.findUnique({ where: { userId } });
+  const passwordRecord = await prisma.password.findUnique({ where: { userId } });
 
-  if (!record) {
+  if (!passwordRecord) {
     return false;
   }
 
-  const isValid = await bcrypt.compare(password, record.hash);
+  const isValid = await bcrypt.compare(password, passwordRecord.hash);
   return isValid;
 };
 
