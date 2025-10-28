@@ -6,9 +6,9 @@ import bcrypt from "bcryptjs";
 export const signUpUser = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  const fullName = formData.get("fullName") as string;
+  const name = formData.get("name") as string;
 
-  if (!email || !password || !fullName) {
+  if (!email || !password || !name) {
     throw new Error("Missing required fields");
   }
 
@@ -17,7 +17,7 @@ export const signUpUser = async (formData: FormData) => {
     data: {
       id: crypto.randomUUID(),
       email,
-      name: fullName,
+      name,
       password: {
         create: {
           hash: hashedPassword
