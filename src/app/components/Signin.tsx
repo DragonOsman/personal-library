@@ -9,7 +9,7 @@ import { z } from "zod";
 export default function SignIn() {
   const validationSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(6).max(11)
+    password: z.string().min(8).max(100)
   });
 
   const router = useRouter();

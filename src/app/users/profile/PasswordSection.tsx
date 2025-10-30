@@ -6,9 +6,15 @@ import zod from "zod";
 
 const PasswordSection = () => {
   const validationSchema = zod.object({
-    currentPassword: zod.string().min(6).max(100),
-    newPassword: zod.string().min(6).max(100),
-    confirmPassword: zod.string().min(6).max(100)
+    currentPassword: zod.string().min(8).max(100),
+    newPassword: zod.string().min(8).max(100)
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+      ),
+    confirmPassword: zod.string().min(8).max(100)
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+      )
   }).refine(data => data.newPassword === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"]
