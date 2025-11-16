@@ -37,5 +37,7 @@
     "src/generated/prisma/**/*",
     ".stylelintrc.json"
   ],
-  "exclude": ["node_modules", ".next", "dist", "coverage", "build"]
+  "exclude": ["node_modules", ".next", "dist", "coverage", "build"]//,
+  //"references": [{ "path": "./cypress/tsconfig.json" }],
+  //"files": []
 }
