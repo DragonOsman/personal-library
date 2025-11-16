@@ -36,12 +36,19 @@ export default [
           destructuring: true,
           templateStrings: true
         },
-        projectService: true
+        projectService: true,
+        allowDefaultProject: true
       },
       globals: {
         ...globals.node,
         ...globals.browser,
-        ...globals.es2021
+        ...globals.es2021,
+        "Cypress": true,
+        "cy": true,
+        "before": true,
+        "after": true,
+        "describe": true,
+        "it": true
       }
     },
     rules: {
