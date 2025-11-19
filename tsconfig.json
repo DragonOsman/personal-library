@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["node", "jest", "@testing-library/jest-dom", "next-auth"]
+    "types": ["next-auth"]
   },
   "include": [
     "next-env.d.ts",
