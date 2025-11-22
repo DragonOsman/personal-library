@@ -29,6 +29,35 @@ model User {
   mfaSecret     String?
   books         Book[]
   password      Password?
+  autoMergeAuth Boolean   @default(false)
+  Account       Account[]
+}
+
+model Account {
+  id                String @id @default(cuid())
+  userId            String
+  provider          String
+  providerAccountId String
+  type              String
+  refreshToken     String?
+  accessToken      String?
+  scope             String?
+  tokenType        String?
+  expiresAt        Int?
+  User              User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model PendingAccountLink {
+  id         String   @id @default(cuid())
+  email      String
+  provider   String
+  providerId String
+  createdAt  DateTime @default(now())
+  token      String   @unique
+  // optional: store provider profile info (json) or fields you need
+  profileJson Json?
 }
 
 model Password {
