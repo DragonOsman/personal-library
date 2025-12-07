@@ -4,6 +4,7 @@ import prisma from "../../lib/db";
 import PasswordSection from "./PasswordSection";
 import BookSection from "./BooksSection";
 import MfaSection from "./MfaSection";
+import OAuthSection from "./OAuthSection";
 
 export const ProfilePage = async () => {
   const session = await auth();
@@ -31,6 +32,7 @@ export const ProfilePage = async () => {
       </section>
 
       <MfaSection enabled={user.mfaEnabled} />
+      <OAuthSection />
       <PasswordSection />
       <BookSection books={user.books} />
     </>
