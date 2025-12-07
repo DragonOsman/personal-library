@@ -173,13 +173,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account, profile }) {
-      const email = normalizeEmail(user.email ?? "");
       let linkingUserId: string | null = null;
 
-      if (account?.state) {
+      if (typeof account?.state === "string") {
         try {
           const parsed = JSON.parse(account.state as string);
-          linkingUserId = parsed.linkingUserId || null;
+          linkingUserId = typeof parsed.linkingUserId === "string" ? parsed.linkingUserId : null;
         } catch {
           linkingUserId = null;
         }
@@ -212,6 +211,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
 
+      const email = normalizeEmail(user.email ?? "");
       if (!email) {
         return false;
       }
