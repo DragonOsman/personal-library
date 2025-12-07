@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import type { PrismaClient } from "@prisma/client";
 import prisma from "./app/lib/db";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
@@ -33,6 +32,27 @@ export type BookFromQuery = {
   updatedAt: Date;
 };
 
+const normalizeEmail = (email: string) => email.trim().toLowerCase();
+
+const findUserMatchingEmail = async (email: string) => {
+  const normalizedEmail = normalizeEmail(email);
+
+  const user = await prisma.user.findUnique({
+    where: { email: normalizedEmail }
+  });
+
+  if (user) {
+    return user;
+  }
+
+  const altEmail = await prisma.alternateEmail.findUnique({
+    where: { email: normalizedEmail },
+    include: { User: true }
+  });
+
+  return altEmail?.User ?? null;
+};
+
 export const mapPrismaBookToIBook = (book: BookFromQuery): IBook => {
   return {
     id: book.id,
@@ -51,7 +71,8 @@ export const mapPrismaBookToIBook = (book: BookFromQuery): IBook => {
 };
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(prisma as unknown as PrismaClient),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  adapter: PrismaAdapter(prisma as any),
   session: {
     strategy: "jwt"
   },
@@ -73,14 +94,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         otp: { label: "OTP (if required)", type: "text", optional: true }
       },
       async authorize(credentials) {
-        if (!credentials.email || !credentials.password) {
-          return null;
+        if (!credentials?.email || !credentials.password) {
+          throw new Error("Missing email or password");
         }
 
-        const email = credentials.email as string;
+        const email = normalizeEmail(credentials.email as string);
         const password = credentials.password as string;
         const otp = credentials.otp as string | undefined;
-        const user = await prisma.user.findUnique({ where: { email } });
+        const user = await findUserMatchingEmail(email);
 
         if (!user) {
           throw new Error("No user found with the given email");
@@ -92,7 +113,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             password
           );
           if (!isPasswordValid) {
-            return null;
+            throw new Error("Invalid email or password");
           }
         }
 
@@ -108,11 +129,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         }
 
-
         return {
           id: user.id,
-          email: user.email,
-          name: user.name
+          email: user.email!,
+          emailVerified: user.emailVerified,
+          name: user.name,
+          image: user.image,
+          mfaEnabled: user.mfaEnabled ?? null,
+          mfaSecret: user.mfaSecret ?? null,
+          autoMergeAuth: user.autoMergeAuth ?? null
         };
       }
     }),
@@ -147,6 +172,113 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: "/auth/error"
   },
   callbacks: {
+    async signIn({ user, account, profile }) {
+      const email = normalizeEmail(user.email ?? "");
+      let linkingUserId: string | null = null;
+
+      if (account?.state) {
+        try {
+          const parsed = JSON.parse(account.state as string);
+          linkingUserId = parsed.linkingUserId || null;
+        } catch {
+          linkingUserId = null;
+        }
+
+        if (linkingUserId) {
+          const existingAccount = await prisma.account.findFirst({
+            where: {
+              provider: account.provider,
+              providerAccountId: account.providerAccountId
+            }
+          });
+
+          if (!existingAccount) {
+            await prisma.account.create({
+              data: {
+                userId: linkingUserId,
+                type: account.type,
+                provider: account.provider,
+                providerAccountId: account.providerAccountId,
+                refreshToken: account.refresh_token,
+                accessToken: account.access_token,
+                expiresAt: account.expires_at,
+                tokenType: account.token_type,
+                scope: account.scope
+              }
+            });
+          }
+
+          return false;
+        }
+      }
+
+      if (!email) {
+        return false;
+      }
+
+      // Check main email
+      let existingUser = await findUserMatchingEmail(email);
+
+      // Check alternate email table
+      if (!existingUser) {
+        const alt = await prisma.alternateEmail.findUnique({
+          where: { email: email },
+          include: { User: true }
+        });
+
+        if (alt?.User) {
+          existingUser = alt.User;
+        }
+      }
+
+      if (!existingUser) {
+        const emailEntry = await prisma.email.findUnique({
+          where: { email: email },
+          include: { user: true }
+        });
+
+        if (emailEntry?.user) {
+          existingUser = emailEntry.user;
+        }
+      }
+
+      // ==============================
+      // CASE A: USER ALREADY EXISTS
+      // ==============================
+      if (existingUser) {
+        user.id = existingUser.id;
+
+        // --- ensure Email[] table contains this email ---
+        await prisma.email.upsert({
+          where: { email: email },
+          create: {
+            email: email,
+            userId: existingUser.id
+          },
+          update: { userId: existingUser.id }
+        });
+
+        return true;
+      }
+
+      // =================================
+      // CASE B: CREATE A NEW USER
+      // =================================
+      const newUser = await prisma.user.create({
+        data: {
+          email: email,
+          name: user.name,
+          image: user.image
+        }
+      });
+
+      if (!newUser) {
+        return false;
+      }
+
+    user.id = newUser.id;
+    return true;
+  },
     async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id;
@@ -154,7 +286,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.name = user.name;
         token.image = user.image;
         token.lastLoginAt = Date.now();
-        token.mfaEnabled = user.mfaEnabled ?? false;
+
+        const otherUserObj = await prisma.user.findUnique({
+          where: { id: user.id },
+          select: { mfaEnabled: true }
+        });
+
+        token.mfaEnabled = otherUserObj?.mfaEnabled ?? false;
       }
 
       if (trigger === "signIn") {
