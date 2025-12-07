@@ -211,15 +211,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
 
-      const email = normalizeEmail(user.email ?? "");
+      const email = normalizeEmail((user.email ?? "") || (profile?.email ?? ""));
       if (!email) {
         return false;
       }
 
-      // Check main email
       let existingUser = await findUserMatchingEmail(email);
 
-      // Check alternate email table
       if (!existingUser) {
         const alt = await prisma.alternateEmail.findUnique({
           where: { email: email },
@@ -242,13 +240,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
 
-      // ==============================
-      // CASE A: USER ALREADY EXISTS
-      // ==============================
       if (existingUser) {
         user.id = existingUser.id;
 
-        // --- ensure Email[] table contains this email ---
         await prisma.email.upsert({
           where: { email: email },
           create: {
@@ -261,14 +255,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return true;
       }
 
-      // =================================
-      // CASE B: CREATE A NEW USER
-      // =================================
       const newUser = await prisma.user.create({
         data: {
           email: email,
-          name: user.name,
-          image: user.image
+          name: user.name || profile?.name || null,
+          image: user.image || profile?.picture || null
         }
       });
 
@@ -276,9 +267,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return false;
       }
 
-    user.id = newUser.id;
-    return true;
-  },
+      user.id = newUser.id;
+      return true;
+    },
     async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id;
