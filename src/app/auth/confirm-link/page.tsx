@@ -1,16 +1,21 @@
 "use client";
 import { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-const ConfirmLinkPage = () => {
-  const params = useSearchParams();
+const ConfirmLinkPage = ({
+  searchParams
+}: {
+  searchParams: { token?: string };
+}) => {
   const router = useRouter();
-  const token = params.get("token");
+  const token = searchParams?.token ?? "";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const confirm = async () => {
-    if (!token) {
+    // `!token.trim()` ensures it's not empty after trimming whitespace
+    if (typeof token !== "string" || !token.trim()) {
+      setError("Invalid or missing token");
       return;
     }
     setLoading(true);
