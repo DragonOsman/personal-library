@@ -171,9 +171,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
 
       const providerEmail = normalizeEmail(user.email || "");
-      if (!providerEmail) {
-        return false;
-      }
 
       const existingUser = await findUserMatchingEmail(providerEmail);
       if (existingUser) {
@@ -200,7 +197,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         data: {
           email: providerEmail,
           name: user.name || profile?.name || null,
-          image: user.image || profile?.picture || null
+          image: user.image || profile?.picture || null,
+          emails: {
+            create: {
+              email: providerEmail
+            }
+          }
         }
       });
 
