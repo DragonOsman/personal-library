@@ -335,7 +335,7 @@ export type AccountCreateInput = {
   scope?: string | null
   tokenType?: string | null
   expiresAt?: number | null
-  User: Prisma.UserCreateNestedOneWithoutAccountInput
+  User: Prisma.UserCreateNestedOneWithoutAccountsInput
 }
 
 export type AccountUncheckedCreateInput = {
@@ -361,7 +361,7 @@ export type AccountUpdateInput = {
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tokenType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expiresAt?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  User?: Prisma.UserUpdateOneRequiredWithoutAccountNestedInput
+  User?: Prisma.UserUpdateOneRequiredWithoutAccountsNestedInput
 }
 
 export type AccountUncheckedUpdateInput = {

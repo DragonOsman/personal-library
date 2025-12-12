@@ -9,6 +9,7 @@ import { createTransport } from "nodemailer";
 import { verifyPassword } from "./app/lib/auth-utils";
 import { IBook } from "./app/context/BookContext";
 import { authenticator } from "otplib";
+import { randomBytes } from "crypto";
 
 const githubClientId = process.env.GITHUB_CLIENT_ID || "";
 const githubClientSecret = process.env.GITHUB_CLIENT_SECRET || "";
@@ -38,19 +39,11 @@ const findUserMatchingEmail = async (email: string) => {
   const normalizedEmail = normalizeEmail(email);
 
   const user = await prisma.user.findUnique({
-    where: { email: normalizedEmail }
-  });
-
-  if (user) {
-    return user;
-  }
-
-  const altEmail = await prisma.alternateEmail.findUnique({
     where: { email: normalizedEmail },
-    include: { User: true }
+    include: { emails: true }
   });
 
-  return altEmail?.User ?? null;
+  return user ?? null;
 };
 
 export const mapPrismaBookToIBook = (book: BookFromQuery): IBook => {
@@ -173,104 +166,48 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account, profile }) {
-      let linkingUserId: string | null = null;
-
-      if (typeof account?.state === "string") {
-        try {
-          const parsed = JSON.parse(account.state as string);
-          linkingUserId = typeof parsed.linkingUserId === "string" ? parsed.linkingUserId : null;
-        } catch {
-          linkingUserId = null;
-        }
-
-        if (linkingUserId) {
-          const existingAccount = await prisma.account.findFirst({
-            where: {
-              provider: account.provider,
-              providerAccountId: account.providerAccountId
-            }
-          });
-
-          if (!existingAccount) {
-            await prisma.account.create({
-              data: {
-                userId: linkingUserId,
-                type: account.type,
-                provider: account.provider,
-                providerAccountId: account.providerAccountId,
-                refreshToken: account.refresh_token,
-                accessToken: account.access_token,
-                expiresAt: account.expires_at,
-                tokenType: account.token_type,
-                scope: account.scope
-              }
-            });
-          }
-
-          return false;
-        }
+      if (!account?.provider) {
+        return true;
       }
 
-      const email = normalizeEmail((user.email ?? "") || (profile?.email ?? ""));
-      if (!email) {
+      const providerEmail = normalizeEmail(user.email || "");
+      if (!providerEmail) {
         return false;
       }
 
-      let existingUser = await findUserMatchingEmail(email);
-
-      if (!existingUser) {
-        const alt = await prisma.alternateEmail.findUnique({
-          where: { email: email },
-          include: { User: true }
-        });
-
-        if (alt?.User) {
-          existingUser = alt.User;
-        }
-      }
-
-      if (!existingUser) {
-        const emailEntry = await prisma.email.findUnique({
-          where: { email: email },
-          include: { user: true }
-        });
-
-        if (emailEntry?.user) {
-          existingUser = emailEntry.user;
-        }
-      }
-
+      const existingUser = await findUserMatchingEmail(providerEmail);
       if (existingUser) {
-        user.id = existingUser.id;
+        const emailExists = existingUser.emails?.some(eAddr => normalizeEmail(eAddr.email) === providerEmail);
+        if (emailExists && existingUser.autoMergeAuth) {
+          return true;
+        }
 
-        await prisma.email.upsert({
-          where: { email: email },
-          create: {
-            email: email,
-            userId: existingUser.id
-          },
-          update: { userId: existingUser.id }
+        const token = randomBytes(32).toString("hex");
+        await prisma.pendingAccountLink.create({
+          data: {
+            email: providerEmail,
+            provider: account.provider,
+            providerId: account.providerAccountId,
+            token,
+            profileJson: JSON.stringify(profile)
+          }
         });
 
-        return true;
+        return `/auth/confirm-link?token=${token}`;
       }
 
       const newUser = await prisma.user.create({
         data: {
-          email: email,
+          email: providerEmail,
           name: user.name || profile?.name || null,
           image: user.image || profile?.picture || null
         }
       });
 
-      if (!newUser) {
-        return false;
-      }
-
       user.id = newUser.id;
       return true;
     },
-    async jwt({ token, user, trigger }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
@@ -284,10 +221,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
 
         token.mfaEnabled = otherUserObj?.mfaEnabled ?? false;
-      }
-
-      if (trigger === "signIn") {
-        token.lastLoginAt = Date.now();
       }
 
       return token;

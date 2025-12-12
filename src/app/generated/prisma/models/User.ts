@@ -209,8 +209,7 @@ export type UserWhereInput = {
   emails?: Prisma.EmailListRelationFilter
   books?: Prisma.BookListRelationFilter
   password?: Prisma.XOR<Prisma.PasswordNullableScalarRelationFilter, Prisma.PasswordWhereInput> | null
-  Account?: Prisma.AccountListRelationFilter
-  alternateEmails?: Prisma.AlternateEmailListRelationFilter
+  accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
 }
 
@@ -226,8 +225,7 @@ export type UserOrderByWithRelationInput = {
   emails?: Prisma.EmailOrderByRelationAggregateInput
   books?: Prisma.BookOrderByRelationAggregateInput
   password?: Prisma.PasswordOrderByWithRelationInput
-  Account?: Prisma.AccountOrderByRelationAggregateInput
-  alternateEmails?: Prisma.AlternateEmailOrderByRelationAggregateInput
+  accounts?: Prisma.AccountOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
 }
 
@@ -246,8 +244,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   emails?: Prisma.EmailListRelationFilter
   books?: Prisma.BookListRelationFilter
   password?: Prisma.XOR<Prisma.PasswordNullableScalarRelationFilter, Prisma.PasswordWhereInput> | null
-  Account?: Prisma.AccountListRelationFilter
-  alternateEmails?: Prisma.AlternateEmailListRelationFilter
+  accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
 }, "id" | "email">
 
@@ -291,8 +288,7 @@ export type UserCreateInput = {
   emails?: Prisma.EmailCreateNestedManyWithoutUserInput
   books?: Prisma.BookCreateNestedManyWithoutUserInput
   password?: Prisma.PasswordCreateNestedOneWithoutUserInput
-  Account?: Prisma.AccountCreateNestedManyWithoutUserInput
-  alternateEmails?: Prisma.AlternateEmailCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
 }
 
@@ -308,8 +304,7 @@ export type UserUncheckedCreateInput = {
   emails?: Prisma.EmailUncheckedCreateNestedManyWithoutUserInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutUserInput
   password?: Prisma.PasswordUncheckedCreateNestedOneWithoutUserInput
-  Account?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  alternateEmails?: Prisma.AlternateEmailUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -325,8 +320,7 @@ export type UserUpdateInput = {
   emails?: Prisma.EmailUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUpdateManyWithoutUserNestedInput
   password?: Prisma.PasswordUpdateOneWithoutUserNestedInput
-  Account?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  alternateEmails?: Prisma.AlternateEmailUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
 }
 
@@ -342,8 +336,7 @@ export type UserUncheckedUpdateInput = {
   emails?: Prisma.EmailUncheckedUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutUserNestedInput
   password?: Prisma.PasswordUncheckedUpdateOneWithoutUserNestedInput
-  Account?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  alternateEmails?: Prisma.AlternateEmailUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -454,18 +447,18 @@ export type UserUpdateOneRequiredWithoutEmailsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEmailsInput, Prisma.UserUpdateWithoutEmailsInput>, Prisma.UserUncheckedUpdateWithoutEmailsInput>
 }
 
-export type UserCreateNestedOneWithoutAccountInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAccountInput, Prisma.UserUncheckedCreateWithoutAccountInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountInput
+export type UserCreateNestedOneWithoutAccountsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutAccountNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAccountInput, Prisma.UserUncheckedCreateWithoutAccountInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountInput
-  upsert?: Prisma.UserUpsertWithoutAccountInput
+export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountsInput
+  upsert?: Prisma.UserUpsertWithoutAccountsInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAccountInput, Prisma.UserUpdateWithoutAccountInput>, Prisma.UserUncheckedUpdateWithoutAccountInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAccountsInput, Prisma.UserUpdateWithoutAccountsInput>, Prisma.UserUncheckedUpdateWithoutAccountsInput>
 }
 
 export type UserCreateNestedOneWithoutPasswordInput = {
@@ -480,20 +473,6 @@ export type UserUpdateOneRequiredWithoutPasswordNestedInput = {
   upsert?: Prisma.UserUpsertWithoutPasswordInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPasswordInput, Prisma.UserUpdateWithoutPasswordInput>, Prisma.UserUncheckedUpdateWithoutPasswordInput>
-}
-
-export type UserCreateNestedOneWithoutAlternateEmailsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAlternateEmailsInput, Prisma.UserUncheckedCreateWithoutAlternateEmailsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAlternateEmailsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutAlternateEmailsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutAlternateEmailsInput, Prisma.UserUncheckedCreateWithoutAlternateEmailsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAlternateEmailsInput
-  upsert?: Prisma.UserUpsertWithoutAlternateEmailsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAlternateEmailsInput, Prisma.UserUpdateWithoutAlternateEmailsInput>, Prisma.UserUncheckedUpdateWithoutAlternateEmailsInput>
 }
 
 export type UserCreateNestedOneWithoutSessionsInput = {
@@ -521,8 +500,7 @@ export type UserCreateWithoutBooksInput = {
   autoMergeAuth?: boolean
   emails?: Prisma.EmailCreateNestedManyWithoutUserInput
   password?: Prisma.PasswordCreateNestedOneWithoutUserInput
-  Account?: Prisma.AccountCreateNestedManyWithoutUserInput
-  alternateEmails?: Prisma.AlternateEmailCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
 }
 
@@ -537,8 +515,7 @@ export type UserUncheckedCreateWithoutBooksInput = {
   autoMergeAuth?: boolean
   emails?: Prisma.EmailUncheckedCreateNestedManyWithoutUserInput
   password?: Prisma.PasswordUncheckedCreateNestedOneWithoutUserInput
-  Account?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  alternateEmails?: Prisma.AlternateEmailUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -569,8 +546,7 @@ export type UserUpdateWithoutBooksInput = {
   autoMergeAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emails?: Prisma.EmailUpdateManyWithoutUserNestedInput
   password?: Prisma.PasswordUpdateOneWithoutUserNestedInput
-  Account?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  alternateEmails?: Prisma.AlternateEmailUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
 }
 
@@ -585,8 +561,7 @@ export type UserUncheckedUpdateWithoutBooksInput = {
   autoMergeAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emails?: Prisma.EmailUncheckedUpdateManyWithoutUserNestedInput
   password?: Prisma.PasswordUncheckedUpdateOneWithoutUserNestedInput
-  Account?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  alternateEmails?: Prisma.AlternateEmailUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -601,8 +576,7 @@ export type UserCreateWithoutEmailsInput = {
   autoMergeAuth?: boolean
   books?: Prisma.BookCreateNestedManyWithoutUserInput
   password?: Prisma.PasswordCreateNestedOneWithoutUserInput
-  Account?: Prisma.AccountCreateNestedManyWithoutUserInput
-  alternateEmails?: Prisma.AlternateEmailCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
 }
 
@@ -617,8 +591,7 @@ export type UserUncheckedCreateWithoutEmailsInput = {
   autoMergeAuth?: boolean
   books?: Prisma.BookUncheckedCreateNestedManyWithoutUserInput
   password?: Prisma.PasswordUncheckedCreateNestedOneWithoutUserInput
-  Account?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  alternateEmails?: Prisma.AlternateEmailUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -649,8 +622,7 @@ export type UserUpdateWithoutEmailsInput = {
   autoMergeAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
   books?: Prisma.BookUpdateManyWithoutUserNestedInput
   password?: Prisma.PasswordUpdateOneWithoutUserNestedInput
-  Account?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  alternateEmails?: Prisma.AlternateEmailUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
 }
 
@@ -665,12 +637,11 @@ export type UserUncheckedUpdateWithoutEmailsInput = {
   autoMergeAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
   books?: Prisma.BookUncheckedUpdateManyWithoutUserNestedInput
   password?: Prisma.PasswordUncheckedUpdateOneWithoutUserNestedInput
-  Account?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  alternateEmails?: Prisma.AlternateEmailUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutAccountInput = {
+export type UserCreateWithoutAccountsInput = {
   id?: string
   name?: string | null
   email?: string | null
@@ -682,11 +653,10 @@ export type UserCreateWithoutAccountInput = {
   emails?: Prisma.EmailCreateNestedManyWithoutUserInput
   books?: Prisma.BookCreateNestedManyWithoutUserInput
   password?: Prisma.PasswordCreateNestedOneWithoutUserInput
-  alternateEmails?: Prisma.AlternateEmailCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutAccountInput = {
+export type UserUncheckedCreateWithoutAccountsInput = {
   id?: string
   name?: string | null
   email?: string | null
@@ -698,27 +668,26 @@ export type UserUncheckedCreateWithoutAccountInput = {
   emails?: Prisma.EmailUncheckedCreateNestedManyWithoutUserInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutUserInput
   password?: Prisma.PasswordUncheckedCreateNestedOneWithoutUserInput
-  alternateEmails?: Prisma.AlternateEmailUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutAccountInput = {
+export type UserCreateOrConnectWithoutAccountsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutAccountInput, Prisma.UserUncheckedCreateWithoutAccountInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
 }
 
-export type UserUpsertWithoutAccountInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutAccountInput, Prisma.UserUncheckedUpdateWithoutAccountInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutAccountInput, Prisma.UserUncheckedCreateWithoutAccountInput>
+export type UserUpsertWithoutAccountsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAccountsInput, Prisma.UserUncheckedUpdateWithoutAccountsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutAccountInput = {
+export type UserUpdateToOneWithWhereWithoutAccountsInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutAccountInput, Prisma.UserUncheckedUpdateWithoutAccountInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAccountsInput, Prisma.UserUncheckedUpdateWithoutAccountsInput>
 }
 
-export type UserUpdateWithoutAccountInput = {
+export type UserUpdateWithoutAccountsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -730,11 +699,10 @@ export type UserUpdateWithoutAccountInput = {
   emails?: Prisma.EmailUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUpdateManyWithoutUserNestedInput
   password?: Prisma.PasswordUpdateOneWithoutUserNestedInput
-  alternateEmails?: Prisma.AlternateEmailUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutAccountInput = {
+export type UserUncheckedUpdateWithoutAccountsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -746,7 +714,6 @@ export type UserUncheckedUpdateWithoutAccountInput = {
   emails?: Prisma.EmailUncheckedUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutUserNestedInput
   password?: Prisma.PasswordUncheckedUpdateOneWithoutUserNestedInput
-  alternateEmails?: Prisma.AlternateEmailUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -761,8 +728,7 @@ export type UserCreateWithoutPasswordInput = {
   autoMergeAuth?: boolean
   emails?: Prisma.EmailCreateNestedManyWithoutUserInput
   books?: Prisma.BookCreateNestedManyWithoutUserInput
-  Account?: Prisma.AccountCreateNestedManyWithoutUserInput
-  alternateEmails?: Prisma.AlternateEmailCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
 }
 
@@ -777,8 +743,7 @@ export type UserUncheckedCreateWithoutPasswordInput = {
   autoMergeAuth?: boolean
   emails?: Prisma.EmailUncheckedCreateNestedManyWithoutUserInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutUserInput
-  Account?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  alternateEmails?: Prisma.AlternateEmailUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -809,8 +774,7 @@ export type UserUpdateWithoutPasswordInput = {
   autoMergeAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emails?: Prisma.EmailUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUpdateManyWithoutUserNestedInput
-  Account?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  alternateEmails?: Prisma.AlternateEmailUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
 }
 
@@ -825,88 +789,7 @@ export type UserUncheckedUpdateWithoutPasswordInput = {
   autoMergeAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emails?: Prisma.EmailUncheckedUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutUserNestedInput
-  Account?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  alternateEmails?: Prisma.AlternateEmailUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutAlternateEmailsInput = {
-  id?: string
-  name?: string | null
-  email?: string | null
-  emailVerified?: Date | string | null
-  image?: string | null
-  mfaEnabled?: boolean
-  mfaSecret?: string | null
-  autoMergeAuth?: boolean
-  emails?: Prisma.EmailCreateNestedManyWithoutUserInput
-  books?: Prisma.BookCreateNestedManyWithoutUserInput
-  password?: Prisma.PasswordCreateNestedOneWithoutUserInput
-  Account?: Prisma.AccountCreateNestedManyWithoutUserInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutAlternateEmailsInput = {
-  id?: string
-  name?: string | null
-  email?: string | null
-  emailVerified?: Date | string | null
-  image?: string | null
-  mfaEnabled?: boolean
-  mfaSecret?: string | null
-  autoMergeAuth?: boolean
-  emails?: Prisma.EmailUncheckedCreateNestedManyWithoutUserInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutUserInput
-  password?: Prisma.PasswordUncheckedCreateNestedOneWithoutUserInput
-  Account?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutAlternateEmailsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutAlternateEmailsInput, Prisma.UserUncheckedCreateWithoutAlternateEmailsInput>
-}
-
-export type UserUpsertWithoutAlternateEmailsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutAlternateEmailsInput, Prisma.UserUncheckedUpdateWithoutAlternateEmailsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutAlternateEmailsInput, Prisma.UserUncheckedCreateWithoutAlternateEmailsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutAlternateEmailsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutAlternateEmailsInput, Prisma.UserUncheckedUpdateWithoutAlternateEmailsInput>
-}
-
-export type UserUpdateWithoutAlternateEmailsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mfaEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  autoMergeAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emails?: Prisma.EmailUpdateManyWithoutUserNestedInput
-  books?: Prisma.BookUpdateManyWithoutUserNestedInput
-  password?: Prisma.PasswordUpdateOneWithoutUserNestedInput
-  Account?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutAlternateEmailsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mfaEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  mfaSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  autoMergeAuth?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  emails?: Prisma.EmailUncheckedUpdateManyWithoutUserNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutUserNestedInput
-  password?: Prisma.PasswordUncheckedUpdateOneWithoutUserNestedInput
-  Account?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -922,8 +805,7 @@ export type UserCreateWithoutSessionsInput = {
   emails?: Prisma.EmailCreateNestedManyWithoutUserInput
   books?: Prisma.BookCreateNestedManyWithoutUserInput
   password?: Prisma.PasswordCreateNestedOneWithoutUserInput
-  Account?: Prisma.AccountCreateNestedManyWithoutUserInput
-  alternateEmails?: Prisma.AlternateEmailCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -938,8 +820,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   emails?: Prisma.EmailUncheckedCreateNestedManyWithoutUserInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutUserInput
   password?: Prisma.PasswordUncheckedCreateNestedOneWithoutUserInput
-  Account?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  alternateEmails?: Prisma.AlternateEmailUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -970,8 +851,7 @@ export type UserUpdateWithoutSessionsInput = {
   emails?: Prisma.EmailUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUpdateManyWithoutUserNestedInput
   password?: Prisma.PasswordUpdateOneWithoutUserNestedInput
-  Account?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  alternateEmails?: Prisma.AlternateEmailUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -986,8 +866,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   emails?: Prisma.EmailUncheckedUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutUserNestedInput
   password?: Prisma.PasswordUncheckedUpdateOneWithoutUserNestedInput
-  Account?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  alternateEmails?: Prisma.AlternateEmailUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -998,16 +877,14 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
 export type UserCountOutputType = {
   emails: number
   books: number
-  Account: number
-  alternateEmails: number
+  accounts: number
   sessions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   emails?: boolean | UserCountOutputTypeCountEmailsArgs
   books?: boolean | UserCountOutputTypeCountBooksArgs
-  Account?: boolean | UserCountOutputTypeCountAccountArgs
-  alternateEmails?: boolean | UserCountOutputTypeCountAlternateEmailsArgs
+  accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
 }
 
@@ -1038,15 +915,8 @@ export type UserCountOutputTypeCountBooksArgs<ExtArgs extends runtime.Types.Exte
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountAccountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AccountWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountAlternateEmailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AlternateEmailWhereInput
 }
 
 /**
@@ -1069,8 +939,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   emails?: boolean | Prisma.User$emailsArgs<ExtArgs>
   books?: boolean | Prisma.User$booksArgs<ExtArgs>
   password?: boolean | Prisma.User$passwordArgs<ExtArgs>
-  Account?: boolean | Prisma.User$AccountArgs<ExtArgs>
-  alternateEmails?: boolean | Prisma.User$alternateEmailsArgs<ExtArgs>
+  accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -1113,8 +982,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   emails?: boolean | Prisma.User$emailsArgs<ExtArgs>
   books?: boolean | Prisma.User$booksArgs<ExtArgs>
   password?: boolean | Prisma.User$passwordArgs<ExtArgs>
-  Account?: boolean | Prisma.User$AccountArgs<ExtArgs>
-  alternateEmails?: boolean | Prisma.User$alternateEmailsArgs<ExtArgs>
+  accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1127,8 +995,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     emails: Prisma.$EmailPayload<ExtArgs>[]
     books: Prisma.$BookPayload<ExtArgs>[]
     password: Prisma.$PasswordPayload<ExtArgs> | null
-    Account: Prisma.$AccountPayload<ExtArgs>[]
-    alternateEmails: Prisma.$AlternateEmailPayload<ExtArgs>[]
+    accounts: Prisma.$AccountPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1537,8 +1404,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   emails<T extends Prisma.User$emailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   books<T extends Prisma.User$booksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$booksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   password<T extends Prisma.User$passwordArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordArgs<ExtArgs>>): Prisma.Prisma__PasswordClient<runtime.Types.Result.GetResult<Prisma.$PasswordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  Account<T extends Prisma.User$AccountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$AccountArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  alternateEmails<T extends Prisma.User$alternateEmailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$alternateEmailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlternateEmailPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2032,9 +1898,9 @@ export type User$passwordArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * User.Account
+ * User.accounts
  */
-export type User$AccountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Account
    */
@@ -2053,30 +1919,6 @@ export type User$AccountArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.AccountScalarFieldEnum | Prisma.AccountScalarFieldEnum[]
-}
-
-/**
- * User.alternateEmails
- */
-export type User$alternateEmailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the AlternateEmail
-   */
-  select?: Prisma.AlternateEmailSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the AlternateEmail
-   */
-  omit?: Prisma.AlternateEmailOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AlternateEmailInclude<ExtArgs> | null
-  where?: Prisma.AlternateEmailWhereInput
-  orderBy?: Prisma.AlternateEmailOrderByWithRelationInput | Prisma.AlternateEmailOrderByWithRelationInput[]
-  cursor?: Prisma.AlternateEmailWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.AlternateEmailScalarFieldEnum | Prisma.AlternateEmailScalarFieldEnum[]
 }
 
 /**

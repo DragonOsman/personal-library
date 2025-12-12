@@ -48,11 +48,6 @@ export type PendingAccountLink = Prisma.PendingAccountLinkModel
  */
 export type Password = Prisma.PasswordModel
 /**
- * Model AlternateEmail
- * 
- */
-export type AlternateEmail = Prisma.AlternateEmailModel
-/**
  * Model Session
  * 
  */

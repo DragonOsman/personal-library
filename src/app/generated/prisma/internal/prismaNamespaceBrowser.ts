@@ -57,7 +57,6 @@ export const ModelName = {
   Account: 'Account',
   PendingAccountLink: 'PendingAccountLink',
   Password: 'Password',
-  AlternateEmail: 'AlternateEmail',
   Session: 'Session',
   VerificationToken: 'VerificationToken'
 } as const
@@ -149,16 +148,6 @@ export const PasswordScalarFieldEnum = {
 } as const
 
 export type PasswordScalarFieldEnum = (typeof PasswordScalarFieldEnum)[keyof typeof PasswordScalarFieldEnum]
-
-
-export const AlternateEmailScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  email: 'email',
-  verifiedAt: 'verifiedAt'
-} as const
-
-export type AlternateEmailScalarFieldEnum = (typeof AlternateEmailScalarFieldEnum)[keyof typeof AlternateEmailScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {

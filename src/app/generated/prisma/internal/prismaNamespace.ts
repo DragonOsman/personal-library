@@ -390,7 +390,6 @@ export const ModelName = {
   Account: 'Account',
   PendingAccountLink: 'PendingAccountLink',
   Password: 'Password',
-  AlternateEmail: 'AlternateEmail',
   Session: 'Session',
   VerificationToken: 'VerificationToken'
 } as const
@@ -408,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "book" | "user" | "email" | "account" | "pendingAccountLink" | "password" | "alternateEmail" | "session" | "verificationToken"
+    modelProps: "book" | "user" | "email" | "account" | "pendingAccountLink" | "password" | "session" | "verificationToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -856,80 +855,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    AlternateEmail: {
-      payload: Prisma.$AlternateEmailPayload<ExtArgs>
-      fields: Prisma.AlternateEmailFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.AlternateEmailFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlternateEmailPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.AlternateEmailFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlternateEmailPayload>
-        }
-        findFirst: {
-          args: Prisma.AlternateEmailFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlternateEmailPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.AlternateEmailFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlternateEmailPayload>
-        }
-        findMany: {
-          args: Prisma.AlternateEmailFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlternateEmailPayload>[]
-        }
-        create: {
-          args: Prisma.AlternateEmailCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlternateEmailPayload>
-        }
-        createMany: {
-          args: Prisma.AlternateEmailCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.AlternateEmailCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlternateEmailPayload>[]
-        }
-        delete: {
-          args: Prisma.AlternateEmailDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlternateEmailPayload>
-        }
-        update: {
-          args: Prisma.AlternateEmailUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlternateEmailPayload>
-        }
-        deleteMany: {
-          args: Prisma.AlternateEmailDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.AlternateEmailUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.AlternateEmailUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlternateEmailPayload>[]
-        }
-        upsert: {
-          args: Prisma.AlternateEmailUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlternateEmailPayload>
-        }
-        aggregate: {
-          args: Prisma.AlternateEmailAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateAlternateEmail>
-        }
-        groupBy: {
-          args: Prisma.AlternateEmailGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AlternateEmailGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.AlternateEmailCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AlternateEmailCountAggregateOutputType> | number
-        }
-      }
-    }
     Session: {
       payload: Prisma.$SessionPayload<ExtArgs>
       fields: Prisma.SessionFieldRefs
@@ -1190,16 +1115,6 @@ export const PasswordScalarFieldEnum = {
 export type PasswordScalarFieldEnum = (typeof PasswordScalarFieldEnum)[keyof typeof PasswordScalarFieldEnum]
 
 
-export const AlternateEmailScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  email: 'email',
-  verifiedAt: 'verifiedAt'
-} as const
-
-export type AlternateEmailScalarFieldEnum = (typeof AlternateEmailScalarFieldEnum)[keyof typeof AlternateEmailScalarFieldEnum]
-
-
 export const SessionScalarFieldEnum = {
   id: 'id',
   sessionToken: 'sessionToken',
@@ -1443,7 +1358,6 @@ export type GlobalOmitConfig = {
   account?: Prisma.AccountOmit
   pendingAccountLink?: Prisma.PendingAccountLinkOmit
   password?: Prisma.PasswordOmit
-  alternateEmail?: Prisma.AlternateEmailOmit
   session?: Prisma.SessionOmit
   verificationToken?: Prisma.VerificationTokenOmit
 }

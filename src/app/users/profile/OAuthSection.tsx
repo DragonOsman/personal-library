@@ -24,7 +24,8 @@ const OAuthSection = () => {
 
   return (
     <div className="oauthSection flex flex-col gap-4">
-      {googleSignInBtn}
+      {
+      googleSignInBtn}
       {githubSignInBtn}
     </div>
   );
