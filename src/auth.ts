@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthConfig } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "./app/lib/db";
 import GitHubProvider from "next-auth/providers/github";
@@ -63,7 +63,7 @@ export const mapPrismaBookToIBook = (book: BookFromQuery): IBook => {
   };
 };
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const authOptions: NextAuthConfig = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   adapter: PrismaAdapter(prisma as any),
   session: {
@@ -240,4 +240,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     }
   }
-});
+};
+
+export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);
