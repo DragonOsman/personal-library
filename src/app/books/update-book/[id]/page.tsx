@@ -9,25 +9,16 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 const UpdateBookPage = ({
   params
 }: {
-  params: Promise<{ id: string }>
+  params: { id: string }
 }) => {
   const [id, setId] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const { books, setBooks } = useContext(BookContext);
 
-  const baseUrl = process.env.NODE_ENV ?
-    process.env.NEXT_PUBLIC_BASE_URLPROD :
-    process.env.NEXT_PUBLIC_BASE_URLDEV
-  ;
-
   useEffect(() => {
-    const initId = async () => {
-      const newId = (await params).id;
-      setId(newId);
-    };
-
-    initId();
+    const newId = params.id;
+    setId(newId);
   }, [params]);
 
   const initialValues = {
@@ -50,7 +41,7 @@ const UpdateBookPage = ({
   const onSubmit = async (values: typeof initialValues & { id: string }) => {
     console.log("Form data", values);
     try {
-      const response = await fetch(`${baseUrl}/api/books/update/${values.id}`, {
+      const response = await fetch(`/api/books/update/${values.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

@@ -35,45 +35,6 @@ const ListBooksPage = () => {
     }
   }, [baseURL, books, setBooks]);
 
-  const fetchBooks = useCallback(async () => {
-    try {
-      const booksResponse = await fetch(`${baseURL}/api/books/`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-        const booksData = await booksResponse.json();
-        if (booksResponse.ok) {
-          try {
-            if (booksData && Array.isArray(booksData.books)) {
-              setBooks(booksData.books);
-            } else {
-              console.warn("Fetched books data is not in the expected format:", booksData);
-              setBooks([]);
-            }
-          } catch (err) {
-            console.log(`An error occurred while extracting json data from response: ${err}`);
-          }
-        } else if (booksResponse.status === 404) {
-          if (booksData && Array.isArray(booksData.books)) {
-            setBooks(booksData.books);
-          } else {
-            setBooks([]);
-          }
-        } else {
-          console.error(`Error fetching books: ${booksResponse.status}: ${booksResponse.statusText}`, booksData);
-        }
-      } catch (err) {
-        console.error(`An error occurred when getting book list or parsing JSON: ${err}`);
-        setBooks([]);
-      }
-  }, [baseURL, setBooks]);
-
-  useEffect(() => {
-    fetchBooks();
-  }, [fetchBooks]);
 
   useEffect(() => {
     const fetchBookData = async () => {

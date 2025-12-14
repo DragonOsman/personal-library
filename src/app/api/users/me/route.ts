@@ -1,0 +1,31 @@
+import { NextResponse } from "next/server";
+import { auth } from "@/src/auth";
+import prisma from "@/src/app/lib/db";
+
+export const GET = async () => {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      emails: true,
+      image: true,
+      mfaEnabled: true,
+      autoMergeAuth: true,
+      accounts:{
+        select: {
+          provider: true,
+          providerAccountId: true
+        }
+      }
+    }
+  });
+
+  return NextResponse.json(user);
+};

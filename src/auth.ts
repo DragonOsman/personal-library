@@ -7,7 +7,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import Nodemailer from "next-auth/providers/nodemailer";
 import { createTransport } from "nodemailer";
 import { verifyPassword } from "./app/lib/auth-utils";
-import { IBook } from "./app/context/BookContext";
 import { authenticator } from "otplib";
 import { randomBytes } from "crypto";
 
@@ -23,16 +22,6 @@ const emailServerUser = process.env.EMAIL_SERVER_USER || "";
 const emailServerPassword = process.env.EMAIL_SERVER_PASSWORD || "";
 const emailFrom = process.env.EMAIL_FROM || "";
 
-export type BookFromQuery = {
-  id: string;
-  title: string;
-  author: string;
-  isbn: string | null;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
 const normalizeEmail = (email: string) => email.trim().toLowerCase();
 
 const findUserMatchingEmail = async (email: string) => {
@@ -44,23 +33,6 @@ const findUserMatchingEmail = async (email: string) => {
   });
 
   return user ?? null;
-};
-
-export const mapPrismaBookToIBook = (book: BookFromQuery): IBook => {
-  return {
-    id: book.id,
-    title: book.title,
-    authors: book.author ? [book.author] : [],
-    isbn: book.isbn ? book.isbn : "",
-    publishedDate: new Date().toString(),
-    description: undefined,
-    pageCount: undefined,
-    categories: undefined,
-    averageRating: undefined,
-    ratingsCount: undefined,
-    imageLinks: undefined,
-    language: "English"
-  };
 };
 
 export const authOptions: NextAuthConfig = {

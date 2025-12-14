@@ -3,22 +3,17 @@
 import { useContext, useEffect, useState } from "react";
 import { BookContext } from "@/src/app/context/BookContext";
 
-const DeleteBookPage = ({ params }: { params: Promise<{ id: string }> }) => {
+const DeleteBookPage = ({ params }: { params: { id: string } }) => {
   const { books, setBooks } = useContext(BookContext);
   const [id, setId] = useState("");
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
-    const initId = async () => {
-      const newId = (await params).id;
-      setId(newId);
-    };
-
-    initId();
+    const newId = params.id;
+    setId(newId);
   }, [params]);
 
   const handleDelete = async () => {
-    const response = await fetch(`${baseUrl}/api/books/delete/:${id}`, {
+    const response = await fetch(`/api/books/delete/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"

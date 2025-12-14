@@ -16,7 +16,7 @@ export const GET = async () => {
 
   try {
     const books = await prisma.book.findMany({
-      where: { userId: userId }
+      where: { userId }
     });
 
     if (books.length === 0) {

@@ -2,6 +2,7 @@ import { ReactNode, FC } from "react";
 import Head from "next/head";
 import Header from "./components/Header";
 import BookContextProvider from "./context/BookContext";
+import UserProvider from "./context/UserContext";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 
@@ -20,10 +21,12 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
           className="mt-20 text-[17px] flex flex-col min-h-screen text-center items-center justify-center text-[color:var(--color-text)] font-sans"
         >
           <SessionProvider>
-            <Header />
-            <main>
-              {children}
-            </main>
+            <UserProvider>
+              <Header />
+              <main className="flex flex-1 w-full items-center justify-center p-4">
+                {children}
+              </main>
+            </UserProvider>
           </SessionProvider>
         </body>
       </html>
