@@ -40,8 +40,10 @@ export const POST = async (req: NextRequest) => {
       const newBook: IBook = {
         id: randomUUID(),
         title,
+        author: authors[0],
         authors: Array.isArray(authors) ? authors : [authors],
         publishedDate,
+        userId: user.id,
         isbn,
         description,
         pageCount,
@@ -53,8 +55,10 @@ export const POST = async (req: NextRequest) => {
     try {
       await prisma.book.create({
         data: {
-          ...newBook,
-          author: newBook.authors.join(", "),
+          id: newBook.id,
+          title: newBook.title,
+          author: newBook.author,
+          isbn: newBook.isbn,
           userId: user.id
         }
       });
