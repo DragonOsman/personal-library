@@ -1,5 +1,6 @@
+"use client";
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { IBook } from "./BookContext";
 import { useSession } from "next-auth/react";
 
 type Account = {
