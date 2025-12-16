@@ -21,7 +21,9 @@ export const metadata: Metadata = {
     "PostgreSQL",
     "Books"
   ],
-  icons: "/images/favicon.ico"
+  icons: {
+    icon: "/images/favicon.ico"
+  }
 };
 
 export const viewport: Viewport = {
