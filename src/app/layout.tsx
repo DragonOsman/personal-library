@@ -1,5 +1,4 @@
 import { ReactNode, FC } from "react";
-import Head from "next/head";
 import { Metadata, Viewport } from "next";
 import Header from "./components/Header";
 import BookContextProvider from "./context/BookContext";
