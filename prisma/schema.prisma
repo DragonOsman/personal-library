@@ -8,15 +8,25 @@ datasource db {
 }
 
 model Book {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title     String   @db.VarChar(255)
-  author    String   @db.VarChar(255)
-  isbn      String?  @db.VarChar(255)
-  userId    String   @db.Uuid
-  createdAt DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime @default(now()) @db.Timestamptz(6)
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_book_user")
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title         String   @db.VarChar(255)
+  author        String   @db.VarChar(255)
+  isbn          String?  @db.VarChar(255)
+  publishedDate String   @db.VarChar(50)
+  description   String
+
+  pageCount     Int?
+  categories    String[]
+  language      String?
+  thumbnail     String?
+
+  userId        String   @db.Uuid
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  User          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 
 model User {
   id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
