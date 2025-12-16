@@ -1,6 +1,6 @@
 import { ReactNode, FC } from "react";
 import Head from "next/head";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import Header from "./components/Header";
 import BookContextProvider from "./context/BookContext";
 import UserProvider from "./context/UserContext";
@@ -23,6 +23,11 @@ export const metadata: Metadata = {
     "Books"
   ],
   icons: "/images/favicon.ico"
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1.0
 };
 
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
