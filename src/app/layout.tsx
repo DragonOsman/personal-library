@@ -7,6 +7,7 @@ import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://personal-library-wmjc.vercel.app"),
   title: "DragonOsman Personal Library App",
   description: "Next.js app implementing an app for users to keep a list of books they own or have read.",
   keywords: [
