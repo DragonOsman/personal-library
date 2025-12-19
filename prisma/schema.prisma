@@ -8,17 +8,20 @@ datasource db {
 }
 
 model Book {
-  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title         String   @db.VarChar(255)
-  author        String   @db.VarChar(255)
-  isbn          String?  @db.VarChar(255)
-  publishedDate String   @db.VarChar(50)
-  description   String
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title           String   @db.VarChar(255)
+  author          String   @db.VarChar(255)
+  isbn            String   @db.VarChar(255)
+  publishedDate   String   @db.VarChar(50)
+  description     String
 
-  pageCount     Int?
-  categories    String[]
-  language      String?
-  thumbnail     String?
+  authors         String[]
+  pageCount       Int?
+  categories      String[]
+  language        String?
+  imageLinks      Json?
+  averageRating   Float?
+  ratingsCount    Int?
 
   userId        String   @db.Uuid
   createdAt     DateTime @default(now())
