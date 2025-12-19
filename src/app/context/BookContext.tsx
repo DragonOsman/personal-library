@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, ReactNode, useState, useEffect } from "react";
-import { mapPrismaBookToIBook } from "../lib/book-mapping";
 
 export interface IBook {
   id: string;
@@ -15,7 +14,7 @@ export interface IBook {
   categories?: string[];
   averageRating?: number;
   ratingsCount?: number;
-  userId: string;
+  userId?: string;
   imageLinks?: {
     smallThumbnail?: string;
     thumbnail?: string;
@@ -24,6 +23,72 @@ export interface IBook {
   updatedAt?: Date | null | undefined;
   createdAt?: Date | null | undefined;
   isbn?: string | null | undefined;
+}
+
+export const BOOK_CATEGORIES = [
+  "Fiction",
+  "Nonfiction",
+  "Science Fiction",
+  "Fantasy",
+  "Mystery",
+  "Thriller",
+  "Romance",
+  "Horror",
+  "Historical Fiction",
+  "Biography",
+  "Autobiography",
+  "History",
+  "Philosophy",
+  "Psychology",
+  "Self-Help",
+  "Business",
+  "Economics",
+  "Politics",
+  "Religion",
+  "Spirituality",
+  "Science",
+  "Technology",
+  "Computers",
+  "Programming",
+  "Mathematics",
+  "Engineering",
+  "Medicine",
+  "Health",
+  "Fitness",
+  "Education",
+  "Reference",
+  "Language",
+  "Art",
+  "Photography",
+  "Music",
+  "Film",
+  "Design",
+  "Comics & Graphic Novels",
+  "Manga",
+  "Poetry",
+  "Drama",
+  "Children",
+  "Young Adult",
+  "Travel",
+  "Cooking",
+  "Food & Drink",
+  "Crafts & Hobbies",
+  "Sports",
+  "Nature"
+];
+
+export interface BookFormValues {
+  title: string;
+  authors: string;
+  description: string;
+  isbn: string;
+  publishedDate: string;
+  categories: string[];
+  pageCount?: number;
+  averageRating?: number;
+  ratingsCount?: number;
+  thumbnail?: string;
+  smallThumbnail?: string;
 }
 
 export interface IBookContext {
@@ -55,7 +120,7 @@ const BookProvider = ({ children }: IBookProviderProps) => {
         });
         if (res.ok) {
           const data = await res.json();
-          setBooks(data?.books?.map(mapPrismaBookToIBook) ?? []);
+          setBooks(data?.books ?? []);
         } else {
           throw new Error(`Failed to fetch books: ${res.status}`);
         }
