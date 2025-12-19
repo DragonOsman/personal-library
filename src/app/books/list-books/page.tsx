@@ -17,13 +17,9 @@ declare global {
 const ListBooksPage = () => {
   const { books, setBooks } = useContext<IBookContext>(BookContext);
   const [bookData, setBookData] = useState<Record<string, any>[]>([]);
-  const baseURL = `${process.env.NODE_ENV === "production" ?
-    `${process.env.NEXT_PUBLIC_BASE_URLPROD}` :
-    `${process.env.NEXT_PUBLIC_BASE_URLDEV}`}`
-  ;
 
   const handleDelete = useCallback(async (id: string) => {
-    const response = await fetch(`${baseURL}/api/books/delete/${id}`, {
+    const response = await fetch(`/api/books/delete/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -33,8 +29,7 @@ const ListBooksPage = () => {
     if (response.ok) {
       setBooks(books.filter((book: IBook) => book.id !== id));
     }
-  }, [baseURL, books, setBooks]);
-
+  }, [books, setBooks]);
 
   useEffect(() => {
     const fetchBookData = async () => {
@@ -61,43 +56,45 @@ const ListBooksPage = () => {
   }, [books]);
 
   return (
-    <div className="list-books flex justify-items-center items-center flex-col">
-      {bookData.length > 0 && books.length > 0 ? (
-        books.map((book, index) => {
-          const currentBookData = bookData[index];
-          const imgUrl = currentBookData?.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
-          return (
-            <div key={book.id} className="book">
-              <p>{book.title}</p>
-              <NextImage
-                src={imgUrl || bookImgFallback}
-                alt={book.title}
-                width={128}
-                height={192}
-              />
-              <button
-                type="button"
-                onClick={() => handleDelete(book.id!)}
-              >
-                Delete
-              </button>
-              <Link
-                href={`/books/update-book/${book.id!}`}
-                className="p-5 color"
-              >
-                Edit Book
-              </Link>
-            </div>
-          );
-        })
-      ) : (
-        <>
-          <p>No book data available.</p>
-          <p>
-            Click <Link className="text" href="/books/add-book">here</Link> to search for and add books to your library
-          </p>
-        </>
-      )}
+    <div className="list-books flex justify-center">
+      <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm">
+        {bookData.length > 0 && books.length > 0 ? (
+          books.map((book, index) => {
+            const currentBookData = bookData[index];
+            const imgUrl = currentBookData?.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
+            return (
+              <div key={book.id} className="book">
+                <p>{book.title}</p>
+                <NextImage
+                  src={imgUrl || bookImgFallback}
+                  alt={book.title}
+                  width={128}
+                  height={192}
+                />
+                <button
+                  type="button"
+                  onClick={() => handleDelete(book.id!)}
+                >
+                  Delete
+                </button>
+                <Link
+                  href={`/books/update-book/${book.id!}`}
+                  className="p-5 color"
+                >
+                  Edit Book
+                </Link>
+              </div>
+            );
+          })
+        ) : (
+          <>
+            <p>No book data available.</p>
+            <p>
+              Click <Link className="text" href="/books/add-book">here</Link> to search for and add books to your library
+            </p>
+          </>
+        )}
+      </div>
     </div>
   );
 };

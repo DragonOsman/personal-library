@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useContext, useEffect, FormEvent } from "react";
-import { BookContext } from "@/src/app/context/BookContext";
+import { BookContext, IBook, BookFormValues, BOOK_CATEGORIES } from "@/src/app/context/BookContext";
+import { BaseBookSchema } from "../../BookSchemaZod";
 import { Formik, Form, Field } from "formik";
-import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 const UpdateBookPage = ({
@@ -21,36 +21,63 @@ const UpdateBookPage = ({
     setId(newId);
   }, [params]);
 
-  const initialValues = {
-    id,
+  const initialValues: BookFormValues = {
     title: "",
     authors: "",
     description: "",
     isbn: "",
-    publishedDate: ""
+    publishedDate: "",
+    categories : [],
+    averageRating: 0,
+    ratingsCount: 0,
+    pageCount: 0,
+    thumbnail: "",
+    smallThumbnail: ""
   };
 
-  const validationSchema = z.object({
-    title: z.string().min(1, "Title is required"),
-    authors: z.string().min(1, "One or more Author(s) is/are required"),
-    description: z.string().min(1, "Description is required"),
-    publishedDate: z.string().min(1, "Publication date must be after January 1, 1450 and be in valid format"),
-    isbn: z.string().min(10, "ISBN must be at least 10 characters long")
-  });
+  const normalizeAuthors = (input: string) => {
+    const parts = input
+      .split(",")
+      .map(part => part.trim())
+      .filter(Boolean)
+    ;
 
-  const onSubmit = async (values: typeof initialValues & { id: string }) => {
+    return {
+      author: parts[0],
+      authors: parts.length > 1 ? parts : []
+    };
+  };
+
+  const onSubmit = async (values: BookFormValues) => {
     console.log("Form data", values);
+
+    const { author, authors } = normalizeAuthors(values.authors);
+
+    const payload: Partial<IBook> = {
+      title: values.title,
+      author,
+      authors,
+      description: values.description,
+      isbn: values.isbn,
+      publishedDate: values.publishedDate,
+      categories: values.categories,
+      pageCount: values.pageCount,
+      averageRating: values.averageRating,
+      ratingsCount: values.ratingsCount,
+      imageLinks: {
+        thumbnail: values.thumbnail,
+        smallThumbnail: values.smallThumbnail
+      }
+    };
+
     try {
-      const response = await fetch(`/api/books/update/${values.id}`, {
+      const response = await fetch(`/api/books/update/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          ...values,
-          authors: values.authors.includes(",") ?
-            values.authors.split(",").map((author: string) => author.trim()) :
-            [values.authors.trim()]
+          ...payload
         }),
         credentials: "include"
       });
@@ -75,96 +102,142 @@ const UpdateBookPage = ({
   };
 
   return (
-    <div className="UpdateBook">
-      <h1>Update A Book</h1>
-        <>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={toFormikValidationSchema(validationSchema)}
-            onSubmit={onSubmit}
-          >
-            {({ isSubmitting, handleSubmit, getFieldProps, errors, touched }) => (
-              <Form
-                onSubmit={(e: FormEvent<HTMLFormElement>) => {
-                  e.preventDefault();
-                  handleSubmit();
-                }}
+    <div className="UpdateBook flex justify-center">
+      <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm">
+        <h1>Update A Book</h1>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={toFormikValidationSchema(BaseBookSchema)}
+          onSubmit={onSubmit}
+        >
+          {({ isSubmitting, handleSubmit, errors, touched }) => (
+            <Form
+              onSubmit={(e: FormEvent<HTMLFormElement>) => {
+                e.preventDefault();
+                handleSubmit();
+              }}
+            >
+              <label htmlFor="title">Title:</label>
+              <Field
+                as="input"
+                type="text"
+                name="title"
+                required
+                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
+              />
+              {errors.title && touched.title ? (
+                <p className="text-sm text-red-400">
+                  {errors.title}
+                </p>
+              ) : null}
+              <label htmlFor="author">Author(s) <span>(comma-separated)</span>:</label>
+              <Field
+                as="input"
+                type="text"
+                name="authors"
+                required
+                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
+              />
+              {errors.authors && touched.authors ? (
+                <p className="text-sm text-red-400">
+                  {errors.authors}
+                </p>
+              ) : null}
+              <label htmlFor="isbn">ISBN:</label>
+              <Field
+                as="input"
+                type="text"
+                name="isbn"
+                required
+                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
+              />
+              {errors.isbn && touched.isbn ? (
+                <p className="text-sm text-red-400">
+                  {errors.isbn}
+                </p>
+              ) : null}
+              <label htmlFor="description">Description:</label>
+              <Field
+                as="textarea"
+                rows={4}
+                cols={50}
+                name="description"
+                required
+                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
+              />
+              {errors.description && touched.description ? (
+                <p className="text-sm text-red-400">
+                  {errors.description}
+                </p>
+              ) : null}
+              <label htmlFor="publishedDate">Publication Date:</label>
+              <Field
+                as="input"
+                type="text"
+                name="publishedDate"
+                required
+                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
+              />
+              {errors.publishedDate && touched.publishedDate ? (
+                <p className="text-sm text-red-400">
+                  {errors.publishedDate}
+                </p>
+              ) : null}
+              <label htmlFor="categories">Categories (select at least one):</label>
+              <Field
+                as="select"
+                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
+                name="categories"
+                multiple
               >
-                <label htmlFor="title">Title:</label>
-                <Field
-                  as="input"
-                  type="text"
-                  {...getFieldProps("title")}
-                  required
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                {errors.title && touched.title ? (
-                  <p className="text-sm text-red-400">
-                    {errors.title}
-                  </p>
-                ) : null}
-                <label htmlFor="author">Author:</label>
-                <Field
-                  as="input"
-                  type="text"
-                  {...getFieldProps("authors")}
-                  required
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                {errors.authors && touched.authors ? (
-                  <p className="text-sm text-red-400">
-                    {errors.authors}
-                  </p>
-                ) : null}
-                <label htmlFor="isbn">ISBN:</label>
-                <Field
-                  as="input"
-                  type="text"
-                  {...getFieldProps("isbn")}
-                  required
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                {errors.isbn && touched.isbn ? (
-                  <p className="text-sm text-red-400">
-                    {errors.isbn}
-                  </p>
-                ) : null}
-                <label htmlFor="description">Description:</label>
-                <Field
-                  as="textarea"
-                  rows={4}
-                  cols={50}
-                  {...getFieldProps("description")}
-                  required
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                {errors.description && touched.description ? (
-                  <p className="text-sm text-red-400">
-                    {errors.description}
-                  </p>
-                ) : null}
-                <label htmlFor="publicationDate">Publication Date:</label>
-                <Field
-                  as="input"
-                  type="text"
-                  {...getFieldProps("publishedDate")}
-                  required
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                {errors.publishedDate && touched.publishedDate ? (
-                  <p className="text-sm text-red-400">
-                    {errors.publishedDate}
-                  </p>
-                ) : null}
-                <button type="submit" disabled={isSubmitting}>
-                  Update Book
-                </button>
-                {error !== "" && <p>{error}</p>}
-                {message !== ""&& <p className="text-green-500">{message}</p>}
-              </Form>
-            )}
-          </Formik>
-        </>
+                {BOOK_CATEGORIES.map(category => (
+                  <option value={`${category}`} key={category}>{category}</option>
+                ))}
+              </Field>
+              <label htmlFor="pageCount">Page Count:</label>
+              <Field
+                as="input"
+                type="number"
+                name="pageCount"
+                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
+              />
+              <label htmlFor="averageRating">Average rating:</label>
+              <Field
+                as="input"
+                type="number"
+                name="averageRating"
+                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
+              />
+              <label htmlFor="ratingsCount">Ratings count:</label>
+              <Field
+                as="input"
+                type="number"
+                name="ratingsCount"
+                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
+              />
+              <label htmlFor="thumbnial">Thumbnail URL:</label>
+              <Field
+                as="input"
+                type="text"
+                name="thumbnail"
+                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
+              />
+              <label htmlFor="smallThumbnail">Small thumbnail URL:</label>
+              <Field
+                as="input"
+                type="text"
+                name="smallThumbnail"
+                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
+              />
+              <button type="submit" disabled={isSubmitting}>
+                Update Book
+              </button>
+              {error !== "" && <p>{error}</p>}
+              {message !== ""&& <p className="text-green-500">{message}</p>}
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 };
