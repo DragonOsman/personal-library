@@ -26,7 +26,9 @@ export const POST = async (req: NextRequest) => {
       pageCount,
       categories,
       imageLinks,
-      language
+      language,
+      averageRating,
+      ratingsCount
     } = requestBody;
 
     // Validate truly required fields. Description is also required by the frontend form's Zod schema.
@@ -37,29 +39,27 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-      const newBook: IBook = {
-        id: randomUUID(),
-        title,
-        author: authors[0],
-        authors: Array.isArray(authors) ? authors : [authors],
-        publishedDate,
-        userId: user.id,
-        isbn,
-        description,
-        pageCount,
-        categories,
-        imageLinks,
-        language
-      };
+    const newBook = {
+      id: randomUUID(),
+      title,
+      author: authors[0],
+      authors: authors.length > 1 ? authors : [],
+      userId: user.id,
+      isbn,
+      publishedDate,
+      description,
+      pageCount: (pageCount !== undefined || pageCount !== null) ? pageCount : undefined,
+      categories: (categories !== "" || categories !== undefined || categories !== null) ? categories : undefined,
+      language: (language !== "" || language !== undefined || language !== null) ? language : undefined,
+      imageLinks: (imageLinks !== undefined || imageLinks !== null) ? imageLinks : undefined,
+      averageRating: (averageRating !== undefined || averageRating !== null) ? averageRating : undefined,
+      ratingsCount: (ratingsCount !== undefined || ratingsCount !== null) ? ratingsCount : undefined
+    };
 
     try {
       await prisma.book.create({
         data: {
-          id: newBook.id,
-          title: newBook.title,
-          author: newBook.author,
-          isbn: newBook.isbn,
-          userId: user.id
+          ...newBook
         }
       });
     } catch (transactionError) {

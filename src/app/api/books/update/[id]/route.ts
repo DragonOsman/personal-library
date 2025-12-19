@@ -3,46 +3,59 @@ import prisma from "@/src/app/lib/db";
 import { auth } from "@/src/auth";
 
 export const PUT = async (req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) => {
-  const bookId = (await params).id;
+  const bookId = params.id;
   const session = await auth();
   const user = session?.user;
 
   if (!user) {
     return NextResponse.json({ status: 401, message: "Unauthorized"});
   }
+  const userId = session?.user.id;
 
   try {
-    const books = await prisma.book.findMany({
-      where: { userId: user.id }
+    await prisma.book.findUnique({
+      where: {
+        id: bookId,
+        userId
+      }
     });
-
-    if (books.length === 0) {
-      return NextResponse.json({ status: 404, message: "No books found" });
-    } else if (!books) {
-      return NextResponse.json({ status: 500, message: "Failed to retrieve books" });
-    }
-
-    const currentBooks = books;
-    const bookIndex = currentBooks.findIndex(book => book.id === bookId);
-
-    if (bookIndex === -1) {
-      return NextResponse.json({ status: 404, message: "Book not found" });
-    }
-
     const updates = await req.json();
+    const allowedFields = [
+      "title",
+      "author",
+      "authors",
+      "isbn",
+      "description",
+      "publishedDate",
+      "pageCount",
+      "categories",
+      "language",
+      "averageRating",
+      "ratingsCount"
+    ];
+    const data: Record<string, unknown> = {};
 
-    const updatedBook = {
-      ...currentBooks[bookIndex],
-      ...updates
-    };
+    for (const field of allowedFields) {
+      if (updates[field] !== undefined) {
+        data[field] = updates[field];
+      }
+    }
 
-    currentBooks[bookIndex] = updatedBook;
+    if (Object.keys(data).length === 0) {
+      return NextResponse.json(
+        { message: "No valid fields to update" },
+        { status: 400 }
+      );
+    }
 
-    await prisma.book.update({
-      where: { id: bookId },
-      data: updatedBook
+    const updatedBook = await prisma.book.update({
+      where: {
+        id: bookId,
+        userId
+      },
+      data
     });
 
     return NextResponse.json({ status: 200, message: "Book updated successfully", book: updatedBook });
