@@ -145,7 +145,7 @@ export default function SignUp() {
                   title="GitHub SignIn"
                   type="button"
                   onClick={() => signIn("github")}
-                  className="bg-red-500 text-white p-2 rounded hover:bg-black-600"
+                  className="bg-gray-900 text-white p-2 rounded hover:bg-black-600"
                 >
                   Sign in with GitHub
                 </button>
@@ -153,7 +153,7 @@ export default function SignUp() {
                   type="button"
                   title="Email SignIn"
                   onClick={() => signIn("email")}
-                  className="bg-red-500 text-white p-2 rounded hover:bg-green-600"
+                  className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
                 >
                   Sign in with Email
                 </button>
