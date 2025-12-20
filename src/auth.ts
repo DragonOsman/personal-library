@@ -10,10 +10,10 @@ import { verifyPassword } from "./app/lib/auth-utils";
 import { authenticator } from "otplib";
 import { randomBytes } from "crypto";
 
-const githubClientId = process.env.GITHUB_CLIENT_ID || "";
-const githubClientSecret = process.env.GITHUB_CLIENT_SECRET || "";
-const googleClientId = process.env.GOOGLE_CLIENT_ID || "";
-const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET || "";
+const githubClientId = process.env.AUTH_GITHUB_ID || "";
+const githubClientSecret = process.env.AUTH_GITHUB_SECRET || "";
+const googleClientId = process.env.AUTH_GOOGLE_ID || "";
+const googleClientSecret = process.env.AUTH_GOOGLE_SECRET || "";
 const emailServerHost = process.env.EMAIL_SERVER_HOST || "";
 const emailServerPort = process.env.EMAIL_SERVER_PORT
   ? parseInt(process.env.EMAIL_SERVER_PORT)
