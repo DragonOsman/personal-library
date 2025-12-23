@@ -19,8 +19,9 @@ export const GET = async () => {
       where: { userId }
     });
 
+    // Don't treat an empty book list as an error
     if (books.length === 0) {
-      return NextResponse.json({ message: "No books found in your library" }, { status: 404 });
+      return NextResponse.json({ message: "No books found in your library" }, { status: 200 });
     } else if (!books) {
       return NextResponse.json({ message: "Failed to retrieve books from library" }, { status: 500 });
     }

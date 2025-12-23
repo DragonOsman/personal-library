@@ -4,8 +4,12 @@ import prisma from "@/src/app/lib/db";
 
 export const GET = async () => {
   const session = await auth();
-  if (!session?.user?.id) {
+  if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!session.user?.id) {
+    return NextResponse.json({ error: "User ID not found in session" }, { status: 400 });
   }
 
   const user = await prisma.user.findUnique({
