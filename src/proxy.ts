@@ -1,4 +1,9 @@
 import NextAuth from "next-auth";
 import authConfig from "./auth.config";
+import { GetServerSidePropsContext } from "next";
 
-export const { auth: proxy } = NextAuth(authConfig);
+const { auth } = NextAuth(authConfig);
+
+export function proxy(req: GetServerSidePropsContext) {
+  return auth(req);
+}
