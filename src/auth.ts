@@ -1,8 +1,7 @@
 import NextAuth, { NextAuthConfig } from "next-auth";
+import authConfig from "./auth.config";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "./app/lib/db";
-import GitHubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import Nodemailer from "next-auth/providers/nodemailer";
 import { createTransport } from "nodemailer";
@@ -10,10 +9,6 @@ import { verifyPassword } from "./app/lib/auth-utils";
 import { authenticator } from "otplib";
 import { randomBytes } from "crypto";
 
-const githubClientId = process.env.AUTH_GITHUB_ID || "";
-const githubClientSecret = process.env.AUTH_GITHUB_SECRET || "";
-const googleClientId = process.env.AUTH_GOOGLE_ID || "";
-const googleClientSecret = process.env.AUTH_GOOGLE_SECRET || "";
 const emailServerHost = process.env.EMAIL_SERVER_HOST || "";
 const emailServerPort = process.env.EMAIL_SERVER_PORT
   ? parseInt(process.env.EMAIL_SERVER_PORT)
@@ -38,19 +33,9 @@ const findUserMatchingEmail = async (email: string) => {
 export const authOptions: NextAuthConfig = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   adapter: PrismaAdapter(prisma as any),
-  session: {
-    strategy: "jwt"
-  },
-  secret: process.env.AUTH_SECRET,
+  ...authConfig,
   providers: [
-    GitHubProvider({
-      clientId: githubClientId,
-      clientSecret: githubClientSecret
-    }),
-    GoogleProvider({
-      clientId: googleClientId,
-      clientSecret: googleClientSecret
-    }),
+    ...authConfig.providers,
     CredentialsProvider({
       name: "Credentials",
       credentials: {
