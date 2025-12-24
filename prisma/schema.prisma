@@ -60,16 +60,18 @@ model Account {
   id                String  @id @default(cuid())
   userId            String  @db.Uuid
   provider          String
-  providerAccountId String
-  type              String
-  refreshToken      String?
-  accessToken       String?
+  providerAccountId String  @map("provider_account_id")
+  refreshToken      String? @map("refresh_token")
+  accessToken       String? @map("access_token")
   scope             String?
-  tokenType         String?
-  expiresAt         Int?
+  tokenType         String? @map("token_type")
+  expiresAt         Int?    @map("expires_at")
+  idToken           String? @map("id_token")
+  sessionState      String? @map("session_state")
   User              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
 model PendingAccountLink {
