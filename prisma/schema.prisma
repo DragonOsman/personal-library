@@ -48,10 +48,10 @@ model User {
 }
 
 model Email {
-  id     String @id @default(cuid())
+  id     String  @id @default(cuid())
   email  String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.Uuid
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String? @db.Uuid
 
   @@unique([email])
 }
@@ -63,6 +63,7 @@ model Account {
   providerAccountId String  @map("provider_account_id")
   refreshToken      String? @map("refresh_token")
   accessToken       String? @map("access_token")
+  type              String
   scope             String?
   tokenType         String? @map("token_type")
   expiresAt         Int?    @map("expires_at")
