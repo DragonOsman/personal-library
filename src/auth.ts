@@ -123,48 +123,53 @@ export const authOptions: NextAuthConfig = {
   },
   callbacks: {
     async signIn({ user, account, profile }) {
-      if (!account?.provider) {
-        return true;
-      }
-
-      const providerEmail = normalizeEmail(user.email || "");
-
-      const existingUser = await findUserMatchingEmail(providerEmail);
-      if (existingUser) {
-        const emailExists = existingUser.emails?.some(eAddr => normalizeEmail(eAddr.email) === providerEmail);
-        if (emailExists && existingUser.autoMergeAuth) {
+      try {
+        if (!account?.provider) {
           return true;
         }
 
-        const token = randomBytes(32).toString("hex");
-        await prisma.pendingAccountLink.create({
+        const providerEmail = normalizeEmail(user.email || "");
+
+        const existingUser = await findUserMatchingEmail(providerEmail);
+        if (existingUser) {
+          const emailExists = existingUser.emails?.some(eAddr => normalizeEmail(eAddr.email) === providerEmail);
+          if (emailExists && existingUser.autoMergeAuth) {
+            return true;
+          }
+
+          const token = randomBytes(32).toString("hex");
+          await prisma.pendingAccountLink.create({
+            data: {
+              email: providerEmail,
+              provider: account.provider,
+              providerId: account.providerAccountId,
+              token,
+              profileJson: JSON.stringify(profile)
+            }
+          });
+
+          return `/auth/confirm-link?token=${token}`;
+        }
+
+        const newUser = await prisma.user.create({
           data: {
             email: providerEmail,
-            provider: account.provider,
-            providerId: account.providerAccountId,
-            token,
-            profileJson: JSON.stringify(profile)
+            name: user.name || profile?.name || null,
+            image: user.image || profile?.picture || null,
+            emails: {
+              create: {
+                email: providerEmail
+              }
+            }
           }
         });
 
-        return `/auth/confirm-link?token=${token}`;
+        user.id = newUser.id;
+        return true;
+      } catch (error) {
+        console.error("Error in signIn callback:", error);
       }
-
-      const newUser = await prisma.user.create({
-        data: {
-          email: providerEmail,
-          name: user.name || profile?.name || null,
-          image: user.image || profile?.picture || null,
-          emails: {
-            create: {
-              email: providerEmail
-            }
-          }
-        }
-      });
-
-      user.id = newUser.id;
-      return true;
+      return false;
     },
     async jwt({ token, user }) {
       if (user) {
