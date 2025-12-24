@@ -69,7 +69,7 @@ model Account {
   expiresAt         Int?    @map("expires_at")
   idToken           String? @map("id_token")
   sessionState      String? @map("session_state")
-  User              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
