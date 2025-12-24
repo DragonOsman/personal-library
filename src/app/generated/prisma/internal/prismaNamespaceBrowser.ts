@@ -89,6 +89,8 @@ export const BookScalarFieldEnum = {
   categories: 'categories',
   language: 'language',
   imageLinks: 'imageLinks',
+  averageRating: 'averageRating',
+  ratingsCount: 'ratingsCount',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

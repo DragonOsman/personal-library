@@ -28,10 +28,14 @@ export type AggregateBook = {
 
 export type BookAvgAggregateOutputType = {
   pageCount: number | null
+  averageRating: number | null
+  ratingsCount: number | null
 }
 
 export type BookSumAggregateOutputType = {
   pageCount: number | null
+  averageRating: number | null
+  ratingsCount: number | null
 }
 
 export type BookMinAggregateOutputType = {
@@ -43,6 +47,8 @@ export type BookMinAggregateOutputType = {
   description: string | null
   pageCount: number | null
   language: string | null
+  averageRating: number | null
+  ratingsCount: number | null
   userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -57,6 +63,8 @@ export type BookMaxAggregateOutputType = {
   description: string | null
   pageCount: number | null
   language: string | null
+  averageRating: number | null
+  ratingsCount: number | null
   userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -74,6 +82,8 @@ export type BookCountAggregateOutputType = {
   categories: number
   language: number
   imageLinks: number
+  averageRating: number
+  ratingsCount: number
   userId: number
   createdAt: number
   updatedAt: number
@@ -83,10 +93,14 @@ export type BookCountAggregateOutputType = {
 
 export type BookAvgAggregateInputType = {
   pageCount?: true
+  averageRating?: true
+  ratingsCount?: true
 }
 
 export type BookSumAggregateInputType = {
   pageCount?: true
+  averageRating?: true
+  ratingsCount?: true
 }
 
 export type BookMinAggregateInputType = {
@@ -98,6 +112,8 @@ export type BookMinAggregateInputType = {
   description?: true
   pageCount?: true
   language?: true
+  averageRating?: true
+  ratingsCount?: true
   userId?: true
   createdAt?: true
   updatedAt?: true
@@ -112,6 +128,8 @@ export type BookMaxAggregateInputType = {
   description?: true
   pageCount?: true
   language?: true
+  averageRating?: true
+  ratingsCount?: true
   userId?: true
   createdAt?: true
   updatedAt?: true
@@ -129,6 +147,8 @@ export type BookCountAggregateInputType = {
   categories?: true
   language?: true
   imageLinks?: true
+  averageRating?: true
+  ratingsCount?: true
   userId?: true
   createdAt?: true
   updatedAt?: true
@@ -233,6 +253,8 @@ export type BookGroupByOutputType = {
   categories: string[]
   language: string | null
   imageLinks: runtime.JsonValue | null
+  averageRating: number | null
+  ratingsCount: number | null
   userId: string
   createdAt: Date
   updatedAt: Date
@@ -273,6 +295,8 @@ export type BookWhereInput = {
   categories?: Prisma.StringNullableListFilter<"Book">
   language?: Prisma.StringNullableFilter<"Book"> | string | null
   imageLinks?: Prisma.JsonNullableFilter<"Book">
+  averageRating?: Prisma.FloatNullableFilter<"Book"> | number | null
+  ratingsCount?: Prisma.IntNullableFilter<"Book"> | number | null
   userId?: Prisma.UuidFilter<"Book"> | string
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
@@ -291,6 +315,8 @@ export type BookOrderByWithRelationInput = {
   categories?: Prisma.SortOrder
   language?: Prisma.SortOrderInput | Prisma.SortOrder
   imageLinks?: Prisma.SortOrderInput | Prisma.SortOrder
+  averageRating?: Prisma.SortOrderInput | Prisma.SortOrder
+  ratingsCount?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -312,6 +338,8 @@ export type BookWhereUniqueInput = Prisma.AtLeast<{
   categories?: Prisma.StringNullableListFilter<"Book">
   language?: Prisma.StringNullableFilter<"Book"> | string | null
   imageLinks?: Prisma.JsonNullableFilter<"Book">
+  averageRating?: Prisma.FloatNullableFilter<"Book"> | number | null
+  ratingsCount?: Prisma.IntNullableFilter<"Book"> | number | null
   userId?: Prisma.UuidFilter<"Book"> | string
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
@@ -330,6 +358,8 @@ export type BookOrderByWithAggregationInput = {
   categories?: Prisma.SortOrder
   language?: Prisma.SortOrderInput | Prisma.SortOrder
   imageLinks?: Prisma.SortOrderInput | Prisma.SortOrder
+  averageRating?: Prisma.SortOrderInput | Prisma.SortOrder
+  ratingsCount?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -355,6 +385,8 @@ export type BookScalarWhereWithAggregatesInput = {
   categories?: Prisma.StringNullableListFilter<"Book">
   language?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
   imageLinks?: Prisma.JsonNullableWithAggregatesFilter<"Book">
+  averageRating?: Prisma.FloatNullableWithAggregatesFilter<"Book"> | number | null
+  ratingsCount?: Prisma.IntNullableWithAggregatesFilter<"Book"> | number | null
   userId?: Prisma.UuidWithAggregatesFilter<"Book"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Book"> | Date | string
@@ -372,6 +404,8 @@ export type BookCreateInput = {
   categories?: Prisma.BookCreatecategoriesInput | string[]
   language?: string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: number | null
+  ratingsCount?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   User: Prisma.UserCreateNestedOneWithoutBooksInput
@@ -389,6 +423,8 @@ export type BookUncheckedCreateInput = {
   categories?: Prisma.BookCreatecategoriesInput | string[]
   language?: string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: number | null
+  ratingsCount?: number | null
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -406,6 +442,8 @@ export type BookUpdateInput = {
   categories?: Prisma.BookUpdatecategoriesInput | string[]
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingsCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   User?: Prisma.UserUpdateOneRequiredWithoutBooksNestedInput
@@ -423,6 +461,8 @@ export type BookUncheckedUpdateInput = {
   categories?: Prisma.BookUpdatecategoriesInput | string[]
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingsCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -440,6 +480,8 @@ export type BookCreateManyInput = {
   categories?: Prisma.BookCreatecategoriesInput | string[]
   language?: string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: number | null
+  ratingsCount?: number | null
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -457,6 +499,8 @@ export type BookUpdateManyMutationInput = {
   categories?: Prisma.BookUpdatecategoriesInput | string[]
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingsCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -473,6 +517,8 @@ export type BookUncheckedUpdateManyInput = {
   categories?: Prisma.BookUpdatecategoriesInput | string[]
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingsCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -498,6 +544,8 @@ export type BookCountOrderByAggregateInput = {
   categories?: Prisma.SortOrder
   language?: Prisma.SortOrder
   imageLinks?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  ratingsCount?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -505,6 +553,8 @@ export type BookCountOrderByAggregateInput = {
 
 export type BookAvgOrderByAggregateInput = {
   pageCount?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  ratingsCount?: Prisma.SortOrder
 }
 
 export type BookMaxOrderByAggregateInput = {
@@ -516,6 +566,8 @@ export type BookMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   pageCount?: Prisma.SortOrder
   language?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  ratingsCount?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -530,6 +582,8 @@ export type BookMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   pageCount?: Prisma.SortOrder
   language?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  ratingsCount?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -537,6 +591,8 @@ export type BookMinOrderByAggregateInput = {
 
 export type BookSumOrderByAggregateInput = {
   pageCount?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  ratingsCount?: Prisma.SortOrder
 }
 
 export type BookListRelationFilter = {
@@ -581,6 +637,14 @@ export type BookUpdatecategoriesInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -641,6 +705,8 @@ export type BookCreateWithoutUserInput = {
   categories?: Prisma.BookCreatecategoriesInput | string[]
   language?: string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: number | null
+  ratingsCount?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -657,6 +723,8 @@ export type BookUncheckedCreateWithoutUserInput = {
   categories?: Prisma.BookCreatecategoriesInput | string[]
   language?: string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: number | null
+  ratingsCount?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -702,6 +770,8 @@ export type BookScalarWhereInput = {
   categories?: Prisma.StringNullableListFilter<"Book">
   language?: Prisma.StringNullableFilter<"Book"> | string | null
   imageLinks?: Prisma.JsonNullableFilter<"Book">
+  averageRating?: Prisma.FloatNullableFilter<"Book"> | number | null
+  ratingsCount?: Prisma.IntNullableFilter<"Book"> | number | null
   userId?: Prisma.UuidFilter<"Book"> | string
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
@@ -719,6 +789,8 @@ export type BookCreateManyUserInput = {
   categories?: Prisma.BookCreatecategoriesInput | string[]
   language?: string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: number | null
+  ratingsCount?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -735,6 +807,8 @@ export type BookUpdateWithoutUserInput = {
   categories?: Prisma.BookUpdatecategoriesInput | string[]
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingsCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -751,6 +825,8 @@ export type BookUncheckedUpdateWithoutUserInput = {
   categories?: Prisma.BookUpdatecategoriesInput | string[]
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingsCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -767,6 +843,8 @@ export type BookUncheckedUpdateManyWithoutUserInput = {
   categories?: Prisma.BookUpdatecategoriesInput | string[]
   language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingsCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -785,6 +863,8 @@ export type BookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   categories?: boolean
   language?: boolean
   imageLinks?: boolean
+  averageRating?: boolean
+  ratingsCount?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -803,6 +883,8 @@ export type BookSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   categories?: boolean
   language?: boolean
   imageLinks?: boolean
+  averageRating?: boolean
+  ratingsCount?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -821,6 +903,8 @@ export type BookSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   categories?: boolean
   language?: boolean
   imageLinks?: boolean
+  averageRating?: boolean
+  ratingsCount?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -839,12 +923,14 @@ export type BookSelectScalar = {
   categories?: boolean
   language?: boolean
   imageLinks?: boolean
+  averageRating?: boolean
+  ratingsCount?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "author" | "isbn" | "publishedDate" | "description" | "authors" | "pageCount" | "categories" | "language" | "imageLinks" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["book"]>
+export type BookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "author" | "isbn" | "publishedDate" | "description" | "authors" | "pageCount" | "categories" | "language" | "imageLinks" | "averageRating" | "ratingsCount" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["book"]>
 export type BookInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -872,6 +958,8 @@ export type $BookPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     categories: string[]
     language: string | null
     imageLinks: runtime.JsonValue | null
+    averageRating: number | null
+    ratingsCount: number | null
     userId: string
     createdAt: Date
     updatedAt: Date
@@ -1310,6 +1398,8 @@ export interface BookFieldRefs {
   readonly categories: Prisma.FieldRef<"Book", 'String[]'>
   readonly language: Prisma.FieldRef<"Book", 'String'>
   readonly imageLinks: Prisma.FieldRef<"Book", 'Json'>
+  readonly averageRating: Prisma.FieldRef<"Book", 'Float'>
+  readonly ratingsCount: Prisma.FieldRef<"Book", 'Int'>
   readonly userId: Prisma.FieldRef<"Book", 'String'>
   readonly createdAt: Prisma.FieldRef<"Book", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Book", 'DateTime'>
