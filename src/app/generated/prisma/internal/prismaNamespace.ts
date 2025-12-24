@@ -1092,12 +1092,14 @@ export const AccountScalarFieldEnum = {
   userId: 'userId',
   provider: 'provider',
   providerAccountId: 'providerAccountId',
-  type: 'type',
   refreshToken: 'refreshToken',
   accessToken: 'accessToken',
+  type: 'type',
   scope: 'scope',
   tokenType: 'tokenType',
-  expiresAt: 'expiresAt'
+  expiresAt: 'expiresAt',
+  idToken: 'idToken',
+  sessionState: 'sessionState'
 } as const
 
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]

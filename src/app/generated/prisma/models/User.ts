@@ -411,6 +411,11 @@ export type UserMinOrderByAggregateInput = {
   autoMergeAuth?: Prisma.SortOrder
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type UserCreateNestedOneWithoutBooksInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutBooksInput, Prisma.UserUncheckedCreateWithoutBooksInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutBooksInput
@@ -439,10 +444,12 @@ export type UserCreateNestedOneWithoutEmailsInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutEmailsNestedInput = {
+export type UserUpdateOneWithoutEmailsNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutEmailsInput, Prisma.UserUncheckedCreateWithoutEmailsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutEmailsInput
   upsert?: Prisma.UserUpsertWithoutEmailsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEmailsInput, Prisma.UserUpdateWithoutEmailsInput>, Prisma.UserUncheckedUpdateWithoutEmailsInput>
 }
