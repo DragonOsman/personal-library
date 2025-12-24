@@ -168,8 +168,8 @@ export const authOptions: NextAuthConfig = {
         return true;
       } catch (error) {
         console.error("Error in signIn callback:", error);
+        return "/auth/error?error=CallbackError";
       }
-      return true;
     },
     async jwt({ token, user }) {
       if (user) {
