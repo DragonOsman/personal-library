@@ -158,13 +158,13 @@ export type PasswordWhereInput = {
   NOT?: Prisma.PasswordWhereInput | Prisma.PasswordWhereInput[]
   userId?: Prisma.UuidFilter<"Password"> | string
   hash?: Prisma.StringFilter<"Password"> | string
-  User?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type PasswordOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   hash?: Prisma.SortOrder
-  User?: Prisma.UserOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type PasswordWhereUniqueInput = Prisma.AtLeast<{
@@ -173,7 +173,7 @@ export type PasswordWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PasswordWhereInput[]
   NOT?: Prisma.PasswordWhereInput | Prisma.PasswordWhereInput[]
   hash?: Prisma.StringFilter<"Password"> | string
-  User?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "userId">
 
 export type PasswordOrderByWithAggregationInput = {
@@ -194,7 +194,7 @@ export type PasswordScalarWhereWithAggregatesInput = {
 
 export type PasswordCreateInput = {
   hash: string
-  User: Prisma.UserCreateNestedOneWithoutPasswordInput
+  user: Prisma.UserCreateNestedOneWithoutPasswordInput
 }
 
 export type PasswordUncheckedCreateInput = {
@@ -204,7 +204,7 @@ export type PasswordUncheckedCreateInput = {
 
 export type PasswordUpdateInput = {
   hash?: Prisma.StringFieldUpdateOperationsInput | string
-  User?: Prisma.UserUpdateOneRequiredWithoutPasswordNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutPasswordNestedInput
 }
 
 export type PasswordUncheckedUpdateInput = {
@@ -315,19 +315,19 @@ export type PasswordUncheckedUpdateWithoutUserInput = {
 export type PasswordSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   hash?: boolean
-  User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["password"]>
 
 export type PasswordSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   hash?: boolean
-  User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["password"]>
 
 export type PasswordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
   hash?: boolean
-  User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["password"]>
 
 export type PasswordSelectScalar = {
@@ -337,19 +337,19 @@ export type PasswordSelectScalar = {
 
 export type PasswordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "hash", ExtArgs["result"]["password"]>
 export type PasswordInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type PasswordIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type PasswordIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $PasswordPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Password"
   objects: {
-    User: Prisma.$UserPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     userId: string
@@ -748,7 +748,7 @@ readonly fields: PasswordFieldRefs;
  */
 export interface Prisma__PasswordClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  User<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
