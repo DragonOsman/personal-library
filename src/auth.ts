@@ -24,7 +24,7 @@ const findUserMatchingEmail = async (email: string) => {
 
   const user = await prisma.user.findUnique({
     where: { email: normalizedEmail },
-    include: { emails: true }
+    include: { emails: true, accounts: true }
   });
 
   return user ?? null;
@@ -128,11 +128,20 @@ export const authOptions: NextAuthConfig = {
           return true;
         }
 
-        const providerEmail = normalizeEmail(user.email || "");
+        const providedEmail = normalizeEmail(user.email || "");
 
-        const existingUser = await findUserMatchingEmail(providerEmail);
+        const existingUser = await findUserMatchingEmail(providedEmail);
         if (existingUser) {
-          const emailExists = existingUser.emails?.some(eAddr => normalizeEmail(eAddr.email) === providerEmail);
+          const providerAlreadyLinked = existingUser.accounts?.some(acc => (
+            acc.provider === account.provider
+            || acc.providerAccountId === account.providerAccountId
+          ));
+
+          if (providerAlreadyLinked || existingUser.autoMergeAuth) {
+            return true;
+          }
+
+          const emailExists = existingUser.emails?.some(eAddr => normalizeEmail(eAddr.email) === providedEmail);
           if (emailExists && existingUser.autoMergeAuth) {
             return true;
           }
@@ -140,7 +149,7 @@ export const authOptions: NextAuthConfig = {
           const token = randomBytes(32).toString("hex");
           await prisma.pendingAccountLink.create({
             data: {
-              email: providerEmail,
+              email: providedEmail,
               provider: account.provider,
               providerId: account.providerAccountId,
               token,
@@ -153,12 +162,12 @@ export const authOptions: NextAuthConfig = {
 
         const newUser = await prisma.user.create({
           data: {
-            email: providerEmail,
+            email: providedEmail,
             name: user.name || profile?.name || null,
             image: user.image || profile?.picture || null,
             emails: {
               create: {
-                email: providerEmail
+                email: providedEmail
               }
             }
           }
