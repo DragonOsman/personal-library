@@ -44,7 +44,7 @@ const ConfirmLinkPage = ({
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h1 className="text-xl font-bold mb-4 text-primary-600">Confirm Account Linking</h1>
+      <h1 className="text-xl font-bold mb-4 text-brand-primary">Confirm Account Linking</h1>
       <p className="mb-4">We detected that you already have an account. Do you want to link this provider to your existing account?</p>
         {error && <p className="text-red-500 mb-4">{error}</p>}
       <div className="flex gap-4">

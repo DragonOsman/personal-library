@@ -9,11 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "var(--color-primary)",
-        secondary: "var(--color-secondary)",
-        text: "var(--color-text)",
-        background: "var(--color-primary)",
-        foreground: "var(--color-secondary)"
+        brand: {
+          primary: "var(--color-brand-primary)",
+          secondary: "var(--color-brand-secondary)",
+          text: "var(--color-brand-text)",
+          background: "var(--color-brand-primary)",
+          foreground: "var(--color-brand-secondary)"
+        }
       },
       backgroundImage: {
         "gradient-main": "linear-gradient(to bottom right, #28292d, #105e86)"

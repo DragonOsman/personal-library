@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #37383c;
-  --color-secondary: #287098;
-  --color-text: #fff;
+  --color-brand-primary: #37383c;
+  --color-brand-secondary: #287098;
+  --color-brand-text: #fff;
 }
 
 * {
@@ -14,7 +14,7 @@
 
 @layer base {
   body {
-    @apply text-[17px] text-[var(--color-primary)] font-sans min-h-screen text-center bg-gradient-main;
+    @apply text-[17px] text-[var(--color-brand-primary)] font-sans min-h-screen text-center bg-gradient-main;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -33,15 +33,15 @@
   }
 
   a.text {
-    @apply text-[var(--color-secondary)];
+    @apply text-[var(--color-brand-secondary)];
   }
 
   header a.nav-link {
-    @apply text-[var(--color-text)];
+    @apply text-[var(--color-brand-text)];
   }
 
   a:hover {
-    @apply underline cursor-pointer text-[var(--color-secondary)];
+    @apply underline cursor-pointer text-[var(--color-brand-secondary)];
   }
 
   p.note {
@@ -49,7 +49,7 @@
   }
 
   main {
-    @apply mt-0.5 text-[var(--color-primary)];
+    @apply mt-0.5 text-[var(--color-brand-primary)];
   }
 }
 
@@ -60,7 +60,7 @@
   .sign-up-button,
   .sign-out-button,
   .nav-link {
-    @apply bg-[var(--color-secondary)] text-[var(--color-text)] px-4 py-2 rounded-md cursor-pointer ml-4 transition-colors duration-200 hover:bg-[#19191b] hover:text-[var(--color-secondary)];
+    @apply bg-[var(--color-brand-secondary)] text-[var(--color-brand-text)] px-4 py-2 rounded-md cursor-pointer ml-4 transition-colors duration-200 hover:bg-[#19191b] hover:text-[var(--color-brand-secondary)];
   }
 
   /* Book forms */

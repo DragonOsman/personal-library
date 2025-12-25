@@ -42,7 +42,7 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
           <BookContextProvider>
             <UserProvider>
               <Header />
-              <main className="flex flex-1 items-center justify-center p-4 bg-white">
+              <main className="flex flex-1 items-center justify-center p-4 bg-white mx-10">
                 <div className="w-full max-w-3xl">
                   {children}
                 </div>
