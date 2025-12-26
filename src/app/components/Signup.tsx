@@ -36,7 +36,7 @@ export default function SignUp() {
           validationSchema={toFormikValidationSchema(validationSchema)}
           onSubmit={async (values) => {
             const formData = new FormData();
-            formData.append("fullName", values.name);
+            formData.append("name", values.name);
             formData.append("email", values.email);
             formData.append("password", values.password);
             try {
