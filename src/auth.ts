@@ -130,23 +130,39 @@ export const authOptions: NextAuthConfig = {
 
         const providedEmail = normalizeEmail(user.email || "");
 
+        // --- PATH 1: USER IS ALREADY LOGGED IN (Linking from Profile) ---
+        // In Auth.js v5, if user.id is present here, they have an active session
+        if (user.id) {
+          const existingAccount = await prisma.account.findUnique({
+            where: {
+              provider_providerAccountId: {
+                provider: account.provider,
+                providerAccountId: account.providerAccountId
+              }
+            }
+          });
+
+          if (existingAccount) {
+            if (existingAccount.userId !== user.id) {
+              throw new Error(`This ${account.provider} account is already linked to another user.`);
+            }
+            return true;
+          }
+          return true;
+        }
+
         const existingUser = await findUserMatchingEmail(providedEmail);
+
         if (existingUser) {
-          const providerAlreadyLinked = existingUser.accounts?.some(acc => (
-            acc.provider === account.provider
-            || acc.providerAccountId === account.providerAccountId
-          ));
+          const providerAlreadyLinked = existingUser.accounts?.some(
+            acc => acc.provider === account.provider
+          );
 
           if (providerAlreadyLinked || existingUser.autoMergeAuth) {
             return true;
           }
 
-          const emailExists = existingUser.emails?.some(eAddr => normalizeEmail(eAddr.email) === providedEmail);
-          if (emailExists && existingUser.autoMergeAuth) {
-            return true;
-          }
-
-          const token = randomBytes(32).toString("hex");
+          const token = randomBytes(20).toString("hex");
           await prisma.pendingAccountLink.create({
             data: {
               email: providedEmail,
@@ -156,14 +172,17 @@ export const authOptions: NextAuthConfig = {
               profileJson: JSON.stringify(profile)
             }
           });
-
           return `/auth/confirm-link?token=${token}`;
+        }
+
+        if (account.provider === "credentials") {
+          return "/auth/signup";
         }
 
         const newUser = await prisma.user.create({
           data: {
             email: providedEmail,
-            name: user.name || profile?.name || null,
+            name: user.name || profile?.name || "",
             image: user.image || profile?.picture || null,
             emails: {
               create: {
@@ -172,7 +191,6 @@ export const authOptions: NextAuthConfig = {
             }
           }
         });
-
         user.id = newUser.id;
         return true;
       } catch (error) {
