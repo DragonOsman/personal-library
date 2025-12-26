@@ -138,6 +138,7 @@ export const authOptions: NextAuthConfig = {
         }
 
         const providerAlreadyLinked = existingUser.accounts?.some(acc => acc.provider === account.provider);
+        console.log("DEBUG: Existing User found?", !!existingUser, existingUser);
         if (providerAlreadyLinked) {
           return true;
         }
