@@ -3,7 +3,9 @@ import { auth } from "../../../../auth";
 import prisma from "../../../lib/db";
 
 export const POST = async (req: NextRequest) => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: req.headers
+  });
 
   if (!session?.user && !session?.user.id) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
