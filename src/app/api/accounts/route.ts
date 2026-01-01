@@ -3,7 +3,9 @@ import prisma from "@/src/app/lib/db";
 import { auth } from "@/src/auth";
 
 export const GET = async (req: NextRequest) => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: req.headers
+  });
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -16,7 +18,9 @@ export const GET = async (req: NextRequest) => {
 };
 
 export const DELETE = async (req: NextRequest) => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: req.headers
+  });
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
