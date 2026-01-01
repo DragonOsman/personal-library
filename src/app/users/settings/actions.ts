@@ -1,9 +1,14 @@
 "use server";
 import { auth } from "@/src/auth";
 import prisma from "@/src/app/lib/db";
+import { NextRequest } from "next/server";
+
+const request: NextRequest = {} as NextRequest; // Placeholder for request object
 
 export const updateAutoMerge = async (flag: boolean) => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: request.headers
+  });
   if (!session?.user?.id) {
     return { success: false };
   }
@@ -17,7 +22,9 @@ export const updateAutoMerge = async (flag: boolean) => {
 };
 
 export const addAlternateEmail = async (email: string) => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+      headers: request.headers
+    });
   if (!session?.user?.id) {
     return { success: false, message: "Unauthorized" };
   }
@@ -43,7 +50,9 @@ export const addAlternateEmail = async (email: string) => {
 };
 
 export const unlinkProvider = async (provider: string) => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: request.headers
+  });
   if (!session?.user?.id) {
     return { success: false, message: "Unauthorized" };
   }
