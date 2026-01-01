@@ -1,9 +1,12 @@
 import BookList from "@/src/app/books/list-books/page";
 import { auth } from "@/src/auth";
 import Signin from "@/src/app/components/Signin";
+import { NextRequest } from "next/server";
 
-const Page = async () => {
-  const session = await auth();
+const Page = async (req: NextRequest) => {
+  const session = await auth.api.getSession({
+    headers: req.headers
+  });
   if (!session) {
     return <Signin />;
   }
