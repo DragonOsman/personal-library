@@ -6,7 +6,9 @@ export const PUT = async (req: NextRequest,
   { params }: { params: { id: string } }
 ) => {
   const bookId = params.id;
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: req.headers
+  });
   const user = session?.user;
 
   if (!user) {

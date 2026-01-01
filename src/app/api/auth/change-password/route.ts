@@ -4,15 +4,12 @@ import prisma from "../../../../app/lib/db";
 import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: req.headers
+  });
 
   if (!session || !session.user || !session.user.email) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-  const MAX_SESSION_AGE = 10 * 60 * 1000;  // 10 minutes
-  const lastAuth = session.user.lastLoginAt;
-  if (lastAuth && Date.now() - new Date(lastAuth).getTime() > MAX_SESSION_AGE) {
-    return NextResponse.json({ message: "Re-authentication required" }, { status: 401 });
   }
 
   const { currentPassword, newPassword } = await req.json();

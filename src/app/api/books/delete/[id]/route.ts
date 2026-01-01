@@ -4,7 +4,9 @@ import { auth } from "@/src/auth";
 
 export const DELETE = async (req: NextRequest,
   { params }: { params: { id: string } }) => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: req.headers
+  });
 
   if (!session) {
     return NextResponse.json({ message: "Please log in first" }, { status: 401 });

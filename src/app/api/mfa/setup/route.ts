@@ -4,7 +4,10 @@ import { authenticator } from "otplib";
 import QRCode from "qrcode";
 
 export async function POST(req: Request) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: req.headers
+  });
+
   if (!session?.user?.email) {
     return new Response("Unauthorized", { status: 401 });
   }

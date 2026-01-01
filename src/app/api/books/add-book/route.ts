@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { IBook } from "@/src/app/context/BookContext";
 import prisma from "@/src/app/lib/db";
 import { auth } from "@/src/auth";
 
 export const POST = async (req: NextRequest) => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: req.headers
+  });
   if (!session) {
     return NextResponse.json({ message: "Please log in first" }, { status: 401 });
   }
