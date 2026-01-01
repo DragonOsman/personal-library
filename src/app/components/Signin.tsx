@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { authClient } from "@/auth-client";
 import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useRouter } from "next/navigation";
@@ -18,13 +18,13 @@ export default function SignIn() {
     <div className="flex justify-center">
       <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm">
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={{ email: "", password: "", rememberMe: false }}
           validationSchema={toFormikValidationSchema(validationSchema)}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
-            const res = await signIn("credentials", {
-              redirect: false,
+            const res = await authClient.signIn.email({
               email: values.email,
-              password: values.password
+              password: values.password,
+              rememberMe: values.rememberMe
             });
 
             if (res?.error) {
@@ -69,6 +69,12 @@ export default function SignIn() {
                 {touched.password && errors.password && (
                   <p className="text-red-500 text-sm">{errors.password}</p>
                 )}
+                <input
+                  id="rememberMe"
+                  className="m-2"
+                  {...getFieldProps("rememberMe")}
+                  type="checkbox"
+                />
               </div>
 
               <button
@@ -90,7 +96,9 @@ export default function SignIn() {
           <button
             title="Google SignIn"
             type="button"
-            onClick={() => signIn("google")}
+            onClick={() => authClient.signIn.social({
+              provider: "google"
+            })}
             className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
           >
             Sign in with Google
@@ -98,18 +106,12 @@ export default function SignIn() {
           <button
             title="GitHub SignIn"
             type="button"
-            onClick={() => signIn("github")}
+            onClick={() => authClient.signIn.social({
+              provider: "github"
+            })}
             className="bg-gray-900 text-white p-2 rounded hover:bg-black-600"
           >
             Sign in with GitHub
-          </button>
-          <button
-            type="button"
-            title="Email SignIn"
-            onClick={() => signIn("email")}
-            className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
-          >
-            Sign in with Email
           </button>
         </div>
       </div>
