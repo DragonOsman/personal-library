@@ -1,6 +1,6 @@
 "use client";
 
-import { authClient } from "@/auth-client";
+import { authClient } from "@/src/auth-client";
 
 const SignOut = () => {
   const handleSignOut = async () => {
