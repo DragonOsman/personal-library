@@ -27,7 +27,8 @@ export const signupSchema = zod.object({
 
 export const signinSchema = zod.object({
   email: zod.string().email("Invalid email address"),
-  password: zod.string().min(8).max(100)
+  password: zod.string().min(8).max(100),
+  rememberMe: zod.boolean().optional()
 });
 
 export const changePasswordSchema = zod.object({

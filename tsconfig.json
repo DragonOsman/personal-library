@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["next-auth"]
+    "types": ["better-auth"]
   },
   "include": [
     "next-env.d.ts",

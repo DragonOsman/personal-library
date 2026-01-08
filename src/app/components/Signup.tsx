@@ -2,59 +2,35 @@
 
 import { Formik } from "formik";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { signIn } from "next-auth/react";
-import { signUpUser } from "../actions/signUpUser";
-import { z } from "zod";
+import { authClient } from "@/src/auth-client";
+import { signupSchema } from "@/src/utils/validation";
 
 export default function SignUp() {
   const [error, setError] = useState<string>("");
-  const router = useRouter();
-
-  const validationSchema = z.object({
-    name: z.string().min(2).max(50),
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(8).max(100)
-      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
-      ),
-    confirmPassword: z.string().min(8).max(100)
-      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,100}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
-      )
-  }).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"]
-  });
+  const [success, setSuccess] = useState<string>("");
 
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm">
         <Formik
           initialValues={{ name: "", email: "", password: "", confirmPassword: "" }}
-          validationSchema={toFormikValidationSchema(validationSchema)}
+          validationSchema={toFormikValidationSchema(signupSchema)}
           onSubmit={async (values) => {
-            const formData = new FormData();
-            formData.append("name", values.name);
-            formData.append("email", values.email);
-            formData.append("password", values.password);
             try {
-              const res = await signUpUser(formData);
+              const { data, error } = await authClient.signUp.email({
+                name: values.name,
+                email: values.email,
+                password: values.password,
+                callbackURL: "/"
+              });
 
-              if (res?.success) {
-                const signInRes = await signIn("credentials", {
-                  redirect: false,
-                  email: values.email,
-                  password: values.password
-                });
-                if (signInRes?.error) {
-                  setError("Sign in after registration failed");
-                } else {
-                  router.push("/");
-                }
-              } else {
-                setError(res?.message || "Registration failed");
+              if (data && data.user) {
+                setSuccess("Registration successful! Redirecting to profile page...");
+                setError("");
+              } else if (error) {
+                setError(error.message || "Registration failed");
+                setSuccess("");
               }
             } catch (err: unknown) {
               setError(`An error occurred: ${(err as Error).message}`);
@@ -114,9 +90,12 @@ export default function SignUp() {
                   )}
                 </div>
 
-                {error && <div className="text-red-500 text-sm">{error}</div>}
+                {error !== "" && <div className="text-red-500 text-sm">{error}</div>}
                 {status && (
                   <p className="text-red-500 text-sm">{status.msg}</p>
+                )}
+                {success && (
+                  <p className="text-green-500 text-sm">{success}</p>
                 )}
 
                 <button
@@ -136,7 +115,9 @@ export default function SignUp() {
                 <button
                   title="Google SignIn"
                   type="button"
-                  onClick={() => signIn("google")}
+                  onClick={() => authClient.signIn.social({
+                    provider: "google"
+                  })}
                   className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
                 >
                   Sign in with Google
@@ -144,7 +125,9 @@ export default function SignUp() {
                 <button
                   title="GitHub SignIn"
                   type="button"
-                  onClick={() => signIn("github")}
+                  onClick={() => authClient.signIn.social({
+                    provider: "github"
+                  })}
                   className="bg-gray-900 text-white p-2 rounded hover:bg-black-600"
                 >
                   Sign in with GitHub
@@ -152,7 +135,19 @@ export default function SignUp() {
                 <button
                   type="button"
                   title="Email SignIn"
-                  onClick={() => signIn("email")}
+                  onClick={async () => {
+                    const magicLinkOptions = {
+                      email: getFieldProps("email").value,
+                      callbackURL: "/users/profile"
+                    };
+                    const { error: err, data } = await authClient.signIn.magicLink(magicLinkOptions);
+                    if (err) {
+                      setError("Failed to send magic link");
+                    }
+                    if (data && data.status) {
+                      alert("Link sent to  your email");
+                    }
+                  }}
                   className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
                 >
                   Sign in with Email

@@ -284,7 +284,7 @@ export type BookWhereInput = {
   AND?: Prisma.BookWhereInput | Prisma.BookWhereInput[]
   OR?: Prisma.BookWhereInput[]
   NOT?: Prisma.BookWhereInput | Prisma.BookWhereInput[]
-  id?: Prisma.UuidFilter<"Book"> | string
+  id?: Prisma.StringFilter<"Book"> | string
   title?: Prisma.StringFilter<"Book"> | string
   author?: Prisma.StringFilter<"Book"> | string
   isbn?: Prisma.StringFilter<"Book"> | string
@@ -374,7 +374,7 @@ export type BookScalarWhereWithAggregatesInput = {
   AND?: Prisma.BookScalarWhereWithAggregatesInput | Prisma.BookScalarWhereWithAggregatesInput[]
   OR?: Prisma.BookScalarWhereWithAggregatesInput[]
   NOT?: Prisma.BookScalarWhereWithAggregatesInput | Prisma.BookScalarWhereWithAggregatesInput[]
-  id?: Prisma.UuidWithAggregatesFilter<"Book"> | string
+  id?: Prisma.StringWithAggregatesFilter<"Book"> | string
   title?: Prisma.StringWithAggregatesFilter<"Book"> | string
   author?: Prisma.StringWithAggregatesFilter<"Book"> | string
   isbn?: Prisma.StringWithAggregatesFilter<"Book"> | string
@@ -759,7 +759,7 @@ export type BookScalarWhereInput = {
   AND?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
   OR?: Prisma.BookScalarWhereInput[]
   NOT?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
-  id?: Prisma.UuidFilter<"Book"> | string
+  id?: Prisma.StringFilter<"Book"> | string
   title?: Prisma.StringFilter<"Book"> | string
   author?: Prisma.StringFilter<"Book"> | string
   isbn?: Prisma.StringFilter<"Book"> | string

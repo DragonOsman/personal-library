@@ -8,43 +8,42 @@ datasource db {
 }
 
 model Book {
-  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title           String   @db.VarChar(255)
-  author          String   @db.VarChar(255)
-  isbn            String   @db.VarChar(255)
-  publishedDate   String   @db.VarChar(50)
-  description     String
+  id            String @id @default(cuid())
+  title         String @db.VarChar(255)
+  author        String @db.VarChar(255)
+  isbn          String @db.VarChar(255)
+  publishedDate String @db.VarChar(50)
+  description   String
 
-  authors         String[]
-  pageCount       Int?
-  categories      String[]
-  language        String?
-  imageLinks      Json?
-  averageRating   Float?
-  ratingsCount    Int?
+  authors       String[]
+  pageCount     Int?
+  categories    String[]
+  language      String?
+  imageLinks    Json?
+  averageRating Float?
+  ratingsCount  Int?
 
-  userId        String   @db.Uuid
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  userId    String   @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-
 model User {
-  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name            String?          @db.VarChar(255)
-  email           String?          @unique @db.VarChar(255)
-  emails          Email[]
-  emailVerified   DateTime?        @db.Timestamptz(6)
-  image           String?
-  mfaEnabled      Boolean          @default(false)
-  mfaSecret       String?
-  books           Book[]
-  password        Password?
-  autoMergeAuth   Boolean          @default(false)
-  accounts        Account[]
-  sessions        Session[]
+  id               String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String?     @db.VarChar(255)
+  email            String?     @unique @db.VarChar(255)
+  emails           Email[]
+  emailVerified    Boolean     @default(false)
+  image            String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  twoFactorEnabled Boolean?    @default(false)
+  sessions         Session[]
+  accounts         Account[]
+  twofactors       TwoFactor[]
+  books            Book[]
 }
 
 model Email {
@@ -56,56 +55,62 @@ model Email {
   @@unique([email])
 }
 
-model Account {
-  id                String  @id @default(cuid())
-  userId            String  @db.Uuid
-  provider          String
-  providerAccountId String  @map("provider_account_id")
-  refreshToken      String? @map("refresh_token")
-  accessToken       String? @map("access_token")
-  type              String
-  scope             String?
-  tokenType         String? @map("token_type")
-  expiresAt         Int?    @map("expires_at")
-  idToken           String? @map("id_token")
-  sessionState      String? @map("session_state")
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-  @@map("accounts")
-}
-
-model PendingAccountLink {
-  id          String   @id @default(cuid())
-  email       String
-  provider    String
-  providerId  String
-  createdAt   DateTime @default(now())
-  token       String   @unique
-  // optional: store provider profile info (json) or fields you need
-  profileJson Json?
-}
-
-model Password {
-  userId String @id @db.Uuid
-  hash   String @db.VarChar(255)
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_password_user")
-}
-
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String   @db.Uuid
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String    @db.Uuid
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
   @@index([userId])
+  @@map("account")
 }
 
-model VerificationToken {
+model Verification {
+  id         String   @id @default(cuid())
   identifier String
-  token      String   @unique
-  expires    DateTime
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  @@unique([identifier, token])
+  @@index([identifier])
+  @@map("verification")
+}
+
+model TwoFactor {
+  id          String @id @default(cuid())
+  secret      String
+  backupCodes String
+  userId      String @db.Uuid
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([secret])
+  @@index([userId])
+  @@map("twoFactor")
 }

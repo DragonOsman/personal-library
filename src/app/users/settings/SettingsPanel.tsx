@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useUser } from "../../context/UserContext";
-import { updateAutoMerge, addAlternateEmail, unlinkProvider } from "./actions";
 
 const sections = [
   { id: "profile", title: "Profile" },

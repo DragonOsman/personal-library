@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import prisma from "./app/lib/db";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { magicLink, twoFactor, emailOTP } from "better-auth/plugins";
+import { nextCookies } from "better-auth/next-js";
 import { createTransport } from "nodemailer";
 
 const emailServerHost = process.env.EMAIL_SERVER_HOST || "";
@@ -42,29 +43,16 @@ export const auth = betterAuth({
     sendOnSignIn: true,
     requireVerifiedEmail: true
   },
-  database: {
-    provider: "postgresql",
-    client: prisma,
-    adapter: prismaAdapter(prisma, {
-      provider: "postgresql",
-      usePlural: true,
-      transaction: true
-    }),
-    clientOptions: {
-      logger: {
-        log: (level: number, message: string) => {
-          console.log(`[BetterAuth][${level}] ${message}`);
-        },
-        minLevel: 2,
-        maxLevel: 4
-      },
-      schema: "public",
-      schemaFilePath: "prisma/schema.prisma"
+  database: prismaAdapter(prisma, {
+    provider: "postgresql"
+  }),
+  advanced: {
+    database: {
+      generateId: "uuid"
     }
   },
   emailAndPassword: {
     enabled: true,
-    changePasswordTokenLength: 32,
     requireEmailVerification: true
   },
   socialProviders: {
@@ -79,9 +67,17 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
     }
   },
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google", "github"],
+      allowDifferentEmails: true
+    }
+  },
   plugins: [
+    nextCookies(),
     magicLink({
-      sendMagicLink: async ({ email, token, url }) => {
+      sendMagicLink: async ({ email, url, token }) => {
         const transport = createTransport({
           host: emailServerHost,
           port: emailServerPort,
@@ -91,77 +87,53 @@ export const auth = betterAuth({
             pass: emailServerPassword
           }
         });
-        const linkWithToken = `${url}?token=${encodeURIComponent(token)}`;
         const info = await transport.sendMail({
           from: emailFrom,
           to: email,
           subject: "Your Magic Sign-In Link",
-          text: `Click the link to sign in: ${linkWithToken}\n\nOr enter this token: ${token}`,
-          html: `<p>Click the link to sign in: <a href="${linkWithToken}">${linkWithToken}</a></p><p>Or enter this token: <strong>${token}</strong></p>`
+          text: `Click the link to sign in: ${url}\n\nOr enter this token: ${token}`,
+          html: `<p>Click the link to sign in: <a href="${url}">${url}</a></p><p>Or enter this token: <strong>${token}</strong></p>`
         });
         console.log("Magic link email sent: %s", info.messageId);
       }
     }),
-    twoFactor(),
+    twoFactor({
+      otpOptions: {
+        async sendOTP({ user, otp }) {
+          await sendEmail({
+            to: user.email,
+            subject: "Your 2FA Code",
+            text: `Your verification code is: ${otp}`
+          });
+        }
+      }
+    }),
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
+        const transport = createTransport({
+          host: emailServerHost,
+          port: emailServerPort,
+          secure: emailServerPort === 456,
+          auth: {
+            user: emailServerUser,
+            pass: emailServerPassword
+          }
+        });
+
+        let subject = "Your verifiction code";
         if (type === "sign-in") {
-          const transport = createTransport({
-            host: emailServerHost,
-            port: emailServerPort,
-            secure: emailServerPort === 465,
-            auth: {
-              user: emailServerUser,
-              pass: emailServerPassword
-            }
-          });
-          const info = await transport.sendMail({
-            from: emailFrom,
-            to: email,
-            subject: "Your One-Time Password (OTP)",
-            text: `Your OTP is: ${otp}`,
-            html: `<p>Your OTP is: <strong>${otp}</strong></p>`
-          });
-          console.log("OTP email sent: %s", info.messageId);
-        } else if (type === "email-verification") {
-          // Handle email verification OTP if needed
-          const transport = createTransport({
-            host: emailServerHost,
-            port: emailServerPort,
-            secure: emailServerPort === 465,
-            auth: {
-              user: emailServerUser,
-              pass: emailServerPassword
-            }
-          });
-          const info = await transport.sendMail({
-            from: emailFrom,
-            to: email,
-            subject: "Your Email Verification OTP",
-            text: `Your email verification OTP is: ${otp}`,
-            html: `<p>Your email verification OTP is: <strong>${otp}</strong></p>`
-          });
-          console.log("Email verification OTP sent: %s", info.messageId);
+          subject = "Your sign-in code";
         } else if (type === "forget-password") {
-          // Handle password reset OTP if needed
-          const transport = createTransport({
-            host: emailServerHost,
-            port: emailServerPort,
-            secure: emailServerPort === 465,
-            auth: {
-              user: emailServerUser,
-              pass: emailServerPassword
-            }
-          });
-          const info = await transport.sendMail({
-            from: emailFrom,
-            to: email,
-            subject: "Your Password Reset OTP",
-            text: `Your password reset OTP is: ${otp}`,
-            html: `<p>Your password reset OTP is: <strong>${otp}</strong></p>`
-          });
-          console.log("Password reset OTP email sent: %s", info.messageId);
+          subject = "Your password reset code";
         }
+        const text = `${subject} is: ${otp}.`;
+
+        await transport.sendMail({
+          from: emailFrom,
+          to: email,
+          subject,
+          text
+        });
       }
     })
   ]

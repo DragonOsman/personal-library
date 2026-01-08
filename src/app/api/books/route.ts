@@ -1,10 +1,11 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { headers } from "next/headers";
 import prisma from "../../lib/db";
 import { auth } from "../../../auth";
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   const session = await auth.api.getSession({
-    headers: req.headers
+    headers: await headers()
   });
   if (!session) {
     return NextResponse.json({ message: "Please log in first" }, { status: 401 });

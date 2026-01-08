@@ -55,27 +55,22 @@ export type User = Prisma.UserModel
  */
 export type Email = Prisma.EmailModel
 /**
- * Model Account
- * 
- */
-export type Account = Prisma.AccountModel
-/**
- * Model PendingAccountLink
- * 
- */
-export type PendingAccountLink = Prisma.PendingAccountLinkModel
-/**
- * Model Password
- * 
- */
-export type Password = Prisma.PasswordModel
-/**
  * Model Session
  * 
  */
 export type Session = Prisma.SessionModel
 /**
- * Model VerificationToken
+ * Model Account
  * 
  */
-export type VerificationToken = Prisma.VerificationTokenModel
+export type Account = Prisma.AccountModel
+/**
+ * Model Verification
+ * 
+ */
+export type Verification = Prisma.VerificationModel
+/**
+ * Model TwoFactor
+ * 
+ */
+export type TwoFactor = Prisma.TwoFactorModel

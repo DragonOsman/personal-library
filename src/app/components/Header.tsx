@@ -5,14 +5,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { signOut, useSession } from "next-auth/react";
+import { authClient } from "@/src/auth-client";
+import SignOut from "./Signout";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session, status } = useSession();
-  const isAuthenticated = status === "authenticated";
-
+  const { data } = authClient.useSession();
   const handleToggle = () => setIsOpen(s => !s);
+
+  let isAuthenticated: boolean = false;
+  if (data && data.session && data.user) {
+    isAuthenticated = true;
+  }
 
   return (
     <header className="fixed top-0 left-0 w-full h-20 bg-[#2e2f33] z-50 shadow-md">
@@ -54,18 +58,12 @@ export default function Header() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/profile" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
+                  <Link href="/users/profile" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                     Profile
                   </Link>
                 </li>
                 <li>
-                  <button
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                    className="w-full text-left p-15 md:p-2 rounded bg-[#287098] text-white hover:bg-[#205979] md:w-auto md:inline-block"
-                    type="button"
-                  >
-                    Sign Out
-                  </button>
+                  <SignOut />
                 </li>
                 <li>
                   <Link href="/books/add-book" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
