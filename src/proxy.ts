@@ -1,9 +1,10 @@
 import { auth } from "./auth";
+import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-export const middleware = async (request: NextRequest) => {
+export const proxy = async (request: NextRequest) => {
   const session = await auth.api.getSession({
-    headers: request.headers
+    headers: await headers()
   });
 
   if (!session) {
@@ -13,5 +14,6 @@ export const middleware = async (request: NextRequest) => {
 };
 
 export const config = {
+  runtime: "nodejs",
   matcher: ["/", "/users/profile", "/books/:path*"]
 };
