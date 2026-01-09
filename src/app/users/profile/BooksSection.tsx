@@ -1,5 +1,5 @@
 "use client";
-import { BookContext } from "../../context/BookContext";
+import { BookContext } from "@/src/app/context/BookContext";
 import { useContext } from "react";
 
 const BooksSection = () => {
