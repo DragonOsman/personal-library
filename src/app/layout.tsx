@@ -2,7 +2,6 @@ import { ReactNode, FC } from "react";
 import { Metadata, Viewport } from "next";
 import Header from "./components/Header";
 import BookContextProvider from "./context/BookContext";
-import UserProvider from "./context/UserContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -38,14 +37,12 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
         className="mt-20 text-[17px] min-h-screen text-center text-[color:var(--color-text)] font-sans"
       >
         <BookContextProvider>
-          <UserProvider>
-            <Header />
-            <main className="flex flex-1 items-center justify-center p-4 bg-white mx-10">
-              <div className="w-full max-w-3xl">
-                {children}
-              </div>
-            </main>
-          </UserProvider>
+          <Header />
+          <main className="flex flex-1 items-center justify-center p-4 bg-white mx-10">
+            <div className="w-full max-w-3xl">
+              {children}
+            </div>
+          </main>
         </BookContextProvider>
       </body>
     </html>
