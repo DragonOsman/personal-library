@@ -1,35 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { BookContext, IBookContext } from "../../context/BookContext";
-import type { IBook } from "../../context/BookContext";
-import { useContext, useEffect, useState, useCallback } from "react";
+import { BookContext, IBookContext } from "@/src/app/context/BookContext";
+import DeleteBook from "@/src/app/components/DeleteBook";
+import type { IBook } from "@/src/app/context/BookContext";
+import { useContext, useEffect, useState } from "react";
 import NextImage from "next/image";
-import bookImgFallback from "../../../../public/images/book-composition-with-open-book_23-2147690555.jpg";
+import bookImgFallback from "@/src/public/images/book-composition-with-open-book_23-2147690555.jpg";
 import Link from "next/link";
 
 declare global {
   interface Window {
-    google: any;
+    google?: {
+      accounts: {
+        id: {
+          initialize: (config: any) => void;
+          prompt: (callback?: (notification: any) => void) => void;
+        };
+      };
+    } | undefined;
   }
 }
 
 const ListBooksPage = () => {
-  const { books, setBooks } = useContext<IBookContext>(BookContext);
+  const { books } = useContext<IBookContext>(BookContext);
   const [bookData, setBookData] = useState<Record<string, any>[]>([]);
-
-  const handleDelete = useCallback(async (id: string) => {
-    const response = await fetch(`/api/books/delete/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "include"
-    });
-    if (response.ok) {
-      setBooks(books.filter((book: IBook) => book.id !== id));
-    }
-  }, [books, setBooks]);
 
   useEffect(() => {
     const fetchBookData = async () => {
@@ -71,12 +66,7 @@ const ListBooksPage = () => {
                   width={128}
                   height={192}
                 />
-                <button
-                  type="button"
-                  onClick={() => handleDelete(book.id!)}
-                >
-                  Delete
-                </button>
+                <DeleteBook id={book.id} />
                 <Link
                   href={`/books/update-book/${book.id!}`}
                   className="p-5 color"

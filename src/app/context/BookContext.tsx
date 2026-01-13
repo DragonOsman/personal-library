@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, ReactNode, useState, useEffect } from "react";
+import { createContext, ReactNode, useState, useEffect, Dispatch, SetStateAction } from "react";
+
 
 export interface IBook {
   id: string;
@@ -91,14 +92,16 @@ export interface BookFormValues {
   smallThumbnail?: string;
 }
 
+
+
 export interface IBookContext {
   books: IBook[];
-  setBooks: (books: IBook[]) => void;
+  setBooks: Dispatch<SetStateAction<IBook[]>>;
 }
 
 export const BookContext = createContext<IBookContext>({
   books: [],
-  setBooks: (books: IBook[]) => {}
+  setBooks: () => {}
 });
 
 interface IBookProviderProps {
