@@ -1,16 +1,60 @@
 "use client";
-import { signIn } from "next-auth/react";
-import { useUser } from "../../context/UserContext";
+import { authClient } from "@/src/auth-client";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
-const OAuthSection = () => {
-  const { user } = useUser();
-  if (!user) {
+interface Account {
+  id: string;
+  providerId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  accountId: string;
+  userId: string;
+  scopes: string[];
+}
+
+const OAuthSection = async () => {
+  const [error, setError] = useState("");
+  const { data: session } = authClient.useSession();
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [successMessage, setSuccessMessage] = useState("");
+  const router = useRouter();
+  if (!session || !session.session || !session.user) {
+    alert("Please sign in first");
+    router.push("/auth/signin");
     return null;
   }
-  const account = user.accounts?.find(acc => acc.userId === user.id);
+
+  const getAccountId = (provider: string) => {
+    const account = accounts.find(account => account.providerId === provider);
+    return account?.id || "";
+  };
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        const userAccounts = await authClient.listAccounts();
+        const { data, error } = userAccounts;
+        if (data) {
+          setAccounts(data);
+        } else if (error) {
+          const { code, message, status, statusText } = error;
+          if ((code && code !== "") && (message && message !== "") && status > 0 && statusText !== "") {
+            setError(`Failed to fetch account data.
+              Error code: ${code} - ${message} (${status}: ${statusText})`
+            );
+          }
+        }
+      } catch (error) {
+        setError(`Failed to fetch account data: ${error}`);
+      }
+    };
+
+    fetchAccounts();
+  },[]);
 
   const isLinked = (provider: string) => {
-    return user.accounts?.some(acc => acc.provider === provider);
+    return accounts.some(acc => acc.providerId === provider);
   };
 
   const handleUnlink = async (provider: string, accountId: string) => {
@@ -18,18 +62,28 @@ const OAuthSection = () => {
       return;
     }
 
-    const res = await fetch("/api/accounts", {
-      method: "DELETE",
-      body: JSON.stringify({ provider, providerAccountId: accountId })
+    const { data, error } = await authClient.unlinkAccount({
+      providerId: provider,
+      accountId
     });
 
-    if (res.ok) {
-      window.location.reload();
+    if (data && data.status) {
+      setSuccessMessage("Account unlinked successfully");
+    } else if (error) {
+      const { code, message, status, statusText } = error;
+      if ((code && code !== "") && (message && message !== "") && status > 0 && statusText !== "") {
+        setError(`Failed to fetch account data.
+          Error code: ${code} - ${message} (${status}: ${statusText})`
+        );
+      }
+      setSuccessMessage("Could not unlink account");
     }
   };
 
   return (
     <div className="oauthSection flex flex-col gap-4">
+      {error !== "" && <p className="text-red-500">{error}</p>}
+      {successMessage !== "" && <p className="text-green-300">{successMessage}</p>}
       {/* Google */}
       {isLinked("google") ? (
         <div className="flex items-center justify-between border rounded p-3">
@@ -38,7 +92,7 @@ const OAuthSection = () => {
           <button
             type="button"
             title="Unlink Google"
-            onClick={() => handleUnlink("google", account!.providerAccountId! )}
+            onClick={() => handleUnlink("google", getAccountId("google"))}
             className="text-red-500 text-xs hover:underline"
           >
             Unlink Google
@@ -48,7 +102,9 @@ const OAuthSection = () => {
         <button
           type="button"
           title="Connect Google"
-          onClick={() => signIn("google")}
+          onClick={() => authClient.signIn.social({
+            provider: "google"
+          })}
           className="w-full flex items-center justify-center py-2 px-4 border rounded-md bg-white font-medium hover:bg-gray-50"
         >
           Connect Google
@@ -63,7 +119,7 @@ const OAuthSection = () => {
           <button
             type="button"
             title="Unlink GitHub"
-            onClick={() => handleUnlink("github", account!.providerAccountId! )}
+            onClick={() => handleUnlink("github", getAccountId("github") )}
             className="text-red-500 text-xs hover:underline"
           >
             Unlink GitHub
@@ -73,7 +129,9 @@ const OAuthSection = () => {
         <button
           type="button"
           title="Connect GitHub"
-          onClick={() => signIn("github")}
+          onClick={() => authClient.signIn.social({
+            provider: "github"
+          })}
           className="w-full flex items-center justify-center py-2 px-4 border rounded-md bg-white font-medium hover:bg-gray-50"
         >
           Connect GitHub

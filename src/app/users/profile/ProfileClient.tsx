@@ -1,22 +1,25 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUser } from "../../context/UserContext";
+import { authClient } from "@/src/auth-client";
 import PasswordSection from "./PasswordSection";
 import BooksSection from "./BooksSection";
-import MfaSection from "./MfaSection";
+import TwoFASection from "./TwoFASection";
 import OAuthSection from "./OAuthSection";
 
 export default function ProfileClientPage() {
-  const { user, loading } = useUser();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const { data: session } = authClient.useSession();
+
+  const toggleLoading = () => setLoading(!loading);
 
   // Redirect unauthenticated users
   useEffect(() => {
-    if (!loading && !user) {
+    if (!session?.session && !session?.user) {
       router.push("/auth/signin");
     }
-  }, [loading, router, user]);
+  }, [router, session?.session, session?.user]);
 
   if (loading) {
     return (
@@ -26,7 +29,7 @@ export default function ProfileClientPage() {
     );
   }
 
-  if (!user) {
+  if (!session?.user) {
     // redirect in progress
     return null;
   }
@@ -34,15 +37,15 @@ export default function ProfileClientPage() {
   return (
     <>
       <h1 className="text-2xl font-bold">Profile</h1>
-
+      {toggleLoading}
       <section className="mt-4">
         <h2 className="text-lg font-semibold">
-          Welcome{user.name ? `, ${user.name}` : ""}
+          Welcome{session?.user.name ? `, ${session?.user.name}` : ""}
         </h2>
-        <p>Email: {user.email}</p>
+        <p>Email: {session?.user.email}</p>
       </section>
 
-      <MfaSection enabled={user.mfaEnabled ?? false} />
+      <TwoFASection enabled={session?.user.twoFactorEnabled ?? false} />
       <OAuthSection />
       <PasswordSection />
       <BooksSection />

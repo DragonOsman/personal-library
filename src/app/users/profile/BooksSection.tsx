@@ -1,9 +1,19 @@
 "use client";
 import { BookContext } from "@/src/app/context/BookContext";
+import DeleteBook from "../../components/DeleteBook";
+import { useRouter } from "next/router";
+import { authClient } from "@/src/auth-client";
 import { useContext } from "react";
 
 const BooksSection = () => {
   const { books } = useContext(BookContext);
+  const { data: session } = authClient.useSession();
+  const router = useRouter();
+
+  if (!session?.session && !session?.user) {
+    alert("Please sign in first");
+    router.push("/auth/signin");
+  }
 
   return (
     <section id="books" className="space-y-4">
@@ -19,6 +29,7 @@ const BooksSection = () => {
                 <p className="text-gray-700">Author: {book.authors.join(", ")}</p>
               )}
               {book.isbn && <p className="text-gray-700">ISBN: {book.isbn}</p>}
+              <DeleteBook id={book.id} />
             </li>
           ))}
         </ul>
