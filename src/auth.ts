@@ -120,11 +120,13 @@ export const auth = betterAuth({
           }
         });
 
-        let subject = "Your verifiction code";
+        let subject = "";
         if (type === "sign-in") {
           subject = "Your sign-in code";
         } else if (type === "forget-password") {
           subject = "Your password reset code";
+        } else if (type === "email-verification") {
+          subject = "Your verifiction code";
         }
         const text = `${subject} is: ${otp}.`;
 
