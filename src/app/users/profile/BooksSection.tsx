@@ -1,6 +1,6 @@
 "use client";
 import { BookContext } from "@/src/app/context/BookContext";
-import DeleteBook from "../../components/DeleteBook";
+import DeleteBook from "@/src/app/components/DeleteBook";
 import { useRouter } from "next/router";
 import { authClient } from "@/src/auth-client";
 import { useContext } from "react";
