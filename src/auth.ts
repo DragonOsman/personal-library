@@ -32,6 +32,20 @@ async function sendEmail(options: {
 }
 
 export const auth = betterAuth({
+  user: {
+    changeEmail: {
+      enabled: true
+    },
+    additionalFields: {
+      alternateEmails: {
+        type: "string[]",
+        required: false,
+        nullable: true,
+        default: null,
+        input: true
+      }
+    }
+  },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
       void sendEmail({

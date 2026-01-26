@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { authClient } from "@/src/auth-client";
 import { passwordField } from "@/src/utils/validation";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const PasswordSection = () => {
   const router = useRouter();
@@ -19,7 +19,7 @@ const PasswordSection = () => {
   }
 
   return (
-    <section id="password">
+    <div>
       <h2 className="text-xl font-semibold">Change Password</h2>
       {message !== "" && <h3>{message}</h3>}
       {errorMessage !== "" && <p>{errorMessage}</p>}
@@ -96,7 +96,7 @@ const PasswordSection = () => {
           </Form>
         )}
       </Formik>
-    </section>
+    </div>
   );
 };
 

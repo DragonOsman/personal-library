@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/router";
 import Image from "next/image";
 import QRCode from "qrcode";
 import { authClient } from "@/src/auth-client";
@@ -15,19 +14,12 @@ interface TwoFASectionProps {
 }
 
 const TwoFASection = ({ enabled }: TwoFASectionProps) => {
-  const router = useRouter();
   const [isEnabled, setIsEnabled] = useState(enabled);
   const [password, setPassword] = useState("");
   const [qrcodeURL, setQrCodeURL] = useState("");
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
   const [error, setError] = useState("");
   const [showVerification, setShowVerification] = useState(false);
-  const { data: session } = authClient.useSession();
-
-  if (!session || !session.session || !session.user) {
-    alert("Please sign in first");
-    router.push("/auth/signin");
-  }
 
   const verifyTotp = async (code: string) => {
     const verificationResult = await authClient.twoFactor.verifyTotp({
@@ -97,7 +89,7 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
   ;
 
   return (
-    <section id="mfa" className="space-y-4">
+    <div className="space-y-4">
       <h2 className="text-xl font-semibold">Two-factor Authentication</h2>
       <p className="text-gray-700">
         2FA is currently <strong>{isEnabled ? "enabled" : "disabled"}</strong>.
@@ -222,7 +214,7 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
           </Formik>
         </div>
       )}
-    </section>
+    </div>
   );
 };
 

@@ -1,66 +1,130 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useUser } from "../../context/UserContext";
+import { authClient } from "@/src/auth-client";
+import { updateProfile, linkedAccounts, unlinkAccount } from "./helpers";
 
 const sections = [
   { id: "profile", title: "Profile" },
-  { id: "security", title: "Security" },
+  { id: "authentication", title: "Authentication" },
   { id: "emails", title: "Emails" },
   { id: "linkedAccounts", title: "Linked Accounts" }
 ];
 
+type sectionId = (typeof sections)[number]["id"];
+
+interface Account {
+  id: string;
+  providerId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  accountId: string;
+  userId: string;
+  scopes: string[];
+}
+
 export default function SettingsPanel() {
-  const { user, setUser } = useUser();
-  const [activeSection, setActiveSection] = useState(sections[0].id);
-  const [autoMerge, setAutoMerge] = useState(user?.autoMergeAuth ?? false);
+  const { data, error, isPending } = authClient.useSession();
+  const [activeSection, setActiveSection] = useState<sectionId>(sections[0].id);
   const [loading, setLoading] = useState(false);
   const [newEmail, setNewEmail] = useState("");
+  const [name, setName] = useState("");
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [status, setStatus] = useState<string>("");
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  if (error) {
+    const { message, status, statusText } = error;
+    if ((message && message !== "") && status > 0 && statusText !== "") {
+      return <p>{`Error: ${message} (${status}: ${statusText})`}</p>;
+    }
+  }
+  if (!data || !data.session || !data.user) {
+    setLoading(true);
+    return <p>Loading...</p>;
+  }
+  const { user } = data;
+  const fullUser = user as typeof user & { alternateEmails ? : string[] };
 
   useEffect(() => {
-    if (user?.autoMergeAuth !== undefined) {
-      setAutoMerge(user.autoMergeAuth!);
-    }
-  }, [user]);
+    const fetchLinkedAccounts = async () => {
+      if (!user && !fullUser) {
+        return;
+      }
 
-  const handleAutoMergeChange = async (flag: boolean) => {
-    if (!user) {
+      try {
+        const accountsData = await linkedAccounts();
+        setAccounts(accountsData);
+      } catch (err) {
+        console.error(`Failed to fetch linked accounts: ${err}`);
+      }
+    };
+
+    fetchLinkedAccounts();
+  }, [user, fullUser]);
+
+  useEffect(() => {
+    if (!user && !fullUser) {
       return;
     }
+    setName(user.name ?? "");
+  }, [user, fullUser]);
+
+  if (isPending) {
+    setStatus("Loading session...");
     setLoading(true);
-    const res = await updateAutoMerge(flag);
-    if (res.success) {
-      setUser({ ...user, autoMergeAuth: flag });
-      setAutoMerge(flag);
+  }
+
+  if (error) {
+    setErrorMsg(`Error: ${error.message}`);
+  }
+
+  if (!user && !fullUser) {
+    setErrorMsg("Not authenticated.");
+  }
+
+  const handleProfileSave = async (name: string) => {
+    setLoading(true);
+    try {
+      await updateProfile({ name });
+      setStatus("Profile updated successfully.");
+    } catch (err) {
+      setErrorMsg(`Failed to update profile: ${err}`);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  const handleAddEmail = async () => {
-    if (!newEmail.trim() || !user) {
+  const handleChangeEmail = async () => {
+    if (!newEmail.trim() || !user || !fullUser) {
       return;
     }
     setLoading(true);
-    const res = await addAlternateEmail(newEmail.trim());
-    if (res.success) {
-      setUser({ ...user, emails: [...user.emails, {email: newEmail.trim()}] });
+    try {
+      await authClient.changeEmail({ newEmail: newEmail.trim() });
+      setStatus("Alternate email added successfully.");
       setNewEmail("");
+    } catch (err) {
+      setErrorMsg(`Failed to add alternate email: ${err}`);
     }
     setLoading(false);
   };
 
-  const handleUnlinkProvider = async (provider: string) => {
-    if (!user) {
+  const handleUnlinkAccount = async (providerId: string, accountId: string) => {
+    if (!user && !fullUser) {
       return;
     }
     setLoading(true);
-    const res = await unlinkProvider(provider);
-    if (res.success) {
-      setUser({
-        ...user,
-        accounts: user.accounts?.filter(acc => acc.provider !== provider)
-      });
+    try {
+      const result = await unlinkAccount(providerId, accountId);
+      if (result && result.status) {
+        setStatus(`Unlinked account from ${providerId} successfully.`);
+        setAccounts(prev => prev.filter(acc => acc.id !== accountId));
+      }
+    } catch (err) {
+      setErrorMsg(`Failed to unlink account from ${providerId}: ${err}`);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -93,19 +157,29 @@ export default function SettingsPanel() {
           </div>
         )}
 
-        {activeSection === "security" && (
-          <div className="flex gap-4 flex-col">
-            <label htmlFor="merge-toggle" className="flex items-items gap-2">
+        {activeSection === "authentication" && (
+          <div className="flex flex-col gap-4">
+            <div>
+              <label htmlFor="name" className="block mb-1 font-medium">
+                Name
+              </label>
               <input
-                type="checkbox"
-                name="merge-toggle"
-                id="merge-toggle"
-                title="Merge Toggle"
-                onChange={event => handleAutoMergeChange(event.target.checked)}
-                disabled={loading}
-                checked={autoMerge}
+                type="text"
+                id="name"
+                className="border p-2 w-64 rounded"
+                value={name}
+                onChange={e => setName(e.target.value)}
               />
-            </label>
+            </div>
+            <button
+              type="button"
+              className="px-4 py-2 bg-blue-500 text-white rounded disabled-opacity-50"
+              title="Save Profile"
+              onClick={() => handleProfileSave(name)}
+              disabled={loading}
+            >
+              Save Profile
+            </button>
           </div>
         )}
 
@@ -126,15 +200,15 @@ export default function SettingsPanel() {
                 type="button"
                 className="ml-2 px-4 py-2 bg-blue-500 text-white rounded disabled-opacity-50"
                 title="Add Email"
-                onClick={handleAddEmail}
+                onClick={handleChangeEmail}
                 disabled={loading || !newEmail.trim()}
               >
-                Add
+                Change
               </button>
             </div>
             <ul className="mt-2 space-y-1">
-              {user?.emails?.map(record => (
-                <li key={record.email}>{record.email}</li>
+              {fullUser.alternateEmails?.map(email => (
+                <li key={email}>{email}</li>
               ))}
             </ul>
           </div>
@@ -142,23 +216,25 @@ export default function SettingsPanel() {
 
         {activeSection === "linkedAccounts" && (
           <div className="flex flex-col gap-4">
-            {user?.accounts?.map(acc => (
-              <div key={acc.provider} className="flex items-center justify-between">
-                <span>{acc.provider}</span>
+            {accounts.map(acc => (
+              <div key={acc.providerId} className="flex items-center justify-between">
+                <span>{acc.providerId}</span>
                 <button
                   type="button"
                   className="px-2 py-1 bg-red-500 text-white rounded disabled-opacity-50"
                   title="Unlink Provider"
-                  onClick={() => handleUnlinkProvider(acc.provider)}
+                  onClick={() => handleUnlinkAccount(acc.providerId, acc.id)}
                   disabled={loading}
                 >
                   Unlink
                 </button>
               </div>
             ))}
-            {!user?.accounts?.length && <p>No linked accounts.</p>}
+            {!accounts.length && <p>No linked accounts.</p>}
           </div>
         )}
+        {status && <p className="mt-4 text-green-600">{status}</p>}
+        {errorMsg && <p className="mt-4 text-red-600">{errorMsg}</p>}
       </div>
     </div>
   );

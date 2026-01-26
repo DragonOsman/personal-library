@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/src/auth-client";
+import ProfileSideBar from "./ProfileSideBar";
 import PasswordSection from "./PasswordSection";
 import BooksSection from "./BooksSection";
 import TwoFASection from "./TwoFASection";
@@ -36,19 +37,28 @@ export default function ProfileClientPage() {
 
   return (
     <>
-      <h1 className="text-2xl font-bold">Profile</h1>
+      <h1 className="text-2xl font-bold mb-6">Profile</h1>
       {toggleLoading}
-      <section className="mt-4">
-        <h2 className="text-lg font-semibold">
-          Welcome{session?.user.name ? `, ${session?.user.name}` : ""}
-        </h2>
-        <p>Email: {session?.user.email}</p>
-      </section>
+      <div className="flex gap-8">
+        <ProfileSideBar />
 
-      <TwoFASection enabled={session?.user.twoFactorEnabled ?? false} />
-      <OAuthSection />
-      <PasswordSection />
-      <BooksSection />
+        <div className="flex-1 space-y-12">
+          <section id="overview" className="space-y-2">
+            <h2 className="text-lg font-semibold">
+              Welcome{session?.user.name ? `, ${session?.user.name}` : ""}
+            </h2>
+            <p>Email: {session?.user.email}</p>
+          </section>
+
+          <section id="authentication" className="space-y-10">
+            <TwoFASection enabled={session?.user.twoFactorEnabled ?? false} />
+            <OAuthSection />
+            <PasswordSection />
+          </section>
+
+          <BooksSection />
+        </div>
+      </div>
     </>
   );
 }

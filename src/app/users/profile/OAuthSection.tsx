@@ -1,6 +1,5 @@
 "use client";
 import { authClient } from "@/src/auth-client";
-import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 interface Account {
@@ -15,15 +14,8 @@ interface Account {
 
 const OAuthSection = async () => {
   const [error, setError] = useState("");
-  const { data: session } = authClient.useSession();
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [successMessage, setSuccessMessage] = useState("");
-  const router = useRouter();
-  if (!session || !session.session || !session.user) {
-    alert("Please sign in first");
-    router.push("/auth/signin");
-    return null;
-  }
 
   const getAccountId = (provider: string) => {
     const account = accounts.find(account => account.providerId === provider);

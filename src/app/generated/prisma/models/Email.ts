@@ -207,7 +207,7 @@ export type EmailScalarWhereWithAggregatesInput = {
 export type EmailCreateInput = {
   id?: string
   email: string
-  user?: Prisma.UserCreateNestedOneWithoutEmailsInput
+  user?: Prisma.UserCreateNestedOneWithoutAlternateEmailsInput
 }
 
 export type EmailUncheckedCreateInput = {
@@ -219,7 +219,7 @@ export type EmailUncheckedCreateInput = {
 export type EmailUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  user?: Prisma.UserUpdateOneWithoutEmailsNestedInput
+  user?: Prisma.UserUpdateOneWithoutAlternateEmailsNestedInput
 }
 
 export type EmailUncheckedUpdateInput = {
