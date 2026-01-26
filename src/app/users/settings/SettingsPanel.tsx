@@ -82,7 +82,7 @@ export default function SettingsPanel() {
     setErrorMsg("Not authenticated.");
   }
 
-  const handleProfileSave = async (name: string) => {
+  const handleProfileSave = async () => {
     setLoading(true);
     try {
       await updateProfile({ name });
@@ -175,7 +175,7 @@ export default function SettingsPanel() {
               type="button"
               className="px-4 py-2 bg-blue-500 text-white rounded disabled-opacity-50"
               title="Save Profile"
-              onClick={() => handleProfileSave(name)}
+              onClick={handleProfileSave}
               disabled={loading}
             >
               Save Profile
