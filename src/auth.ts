@@ -12,6 +12,7 @@ const emailServerPort = process.env.EMAIL_SERVER_PORT
 const emailServerUser = process.env.EMAIL_SERVER_USER || "";
 const emailServerPassword = process.env.EMAIL_SERVER_PASSWORD || "";
 const emailFrom = process.env.EMAIL_FROM || "";
+const baseURL = process.env.BETTER_AUTH_URL || "";
 
 async function sendEmail(options: {
   to: string,
@@ -32,6 +33,7 @@ async function sendEmail(options: {
 }
 
 export const auth = betterAuth({
+  baseURL,
   user: {
     changeEmail: {
       enabled: true
