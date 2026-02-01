@@ -6,7 +6,7 @@ import DeleteBook from "@/src/app/components/DeleteBook";
 import type { IBook } from "@/src/app/context/BookContext";
 import { useContext, useEffect, useState } from "react";
 import NextImage from "next/image";
-import bookImgFallback from "@/src/public/images/book-composition-with-open-book_23-2147690555.jpg";
+import bookImgFallback from "@/public/images/book-composition-with-open-book_23-2147690555.jpg";
 import Link from "next/link";
 
 declare global {
