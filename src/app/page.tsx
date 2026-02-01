@@ -1,6 +1,6 @@
 import BookList from "@/src/app/books/list-books/page";
 
-const Page = async () => {
+const Page = () => {
   return (
     <div className="Homepage">
       <h1>Welcome</h1>
