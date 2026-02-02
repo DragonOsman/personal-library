@@ -38,16 +38,41 @@ export default function SettingsPanel() {
       return <p>{`Error: ${message} (${status}: ${statusText})`}</p>;
     }
   }
-  if (!data || !data.session || !data.user) {
-    setLoading(true);
-    return <p>Loading...</p>;
-  }
-  const { user } = data;
+
+  const user = data?.user;
+  useEffect(() => {
+    if (!data || !data.user) {
+      setStatus("Loading...");
+    }
+  }, [data]);
+
   const fullUser = user as typeof user & { alternateEmails ? : string[] };
 
   useEffect(() => {
+    if (!user) {
+      setErrorMsg("Not authenticated.");
+    }
+    setName(user?.name ?? "");
+  }, [user]);
+
+  useEffect(() => {
+    if (isPending) {
+      setStatus("Loading session...");
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [isPending]);
+
+  useEffect(() => {
+    if (error) {
+      setErrorMsg(`Error: ${error.message || "Session error"}`);
+    }
+  }, [error]);
+
+  useEffect(() => {
     const fetchLinkedAccounts = async () => {
-      if (!user && !fullUser) {
+      if (!user) {
         return;
       }
 
@@ -60,27 +85,7 @@ export default function SettingsPanel() {
     };
 
     fetchLinkedAccounts();
-  }, [user, fullUser]);
-
-  useEffect(() => {
-    if (!user && !fullUser) {
-      return;
-    }
-    setName(user.name ?? "");
-  }, [user, fullUser]);
-
-  if (isPending) {
-    setStatus("Loading session...");
-    setLoading(true);
-  }
-
-  if (error) {
-    setErrorMsg(`Error: ${error.message}`);
-  }
-
-  if (!user && !fullUser) {
-    setErrorMsg("Not authenticated.");
-  }
+  }, [user]);
 
   const handleProfileSave = async () => {
     setLoading(true);
@@ -95,7 +100,7 @@ export default function SettingsPanel() {
   };
 
   const handleChangeEmail = async () => {
-    if (!newEmail.trim() || !user || !fullUser) {
+    if (!newEmail.trim() || !user) {
       return;
     }
     setLoading(true);
@@ -110,7 +115,7 @@ export default function SettingsPanel() {
   };
 
   const handleUnlinkAccount = async (providerId: string, accountId: string) => {
-    if (!user && !fullUser) {
+    if (!user) {
       return;
     }
     setLoading(true);
@@ -200,7 +205,7 @@ export default function SettingsPanel() {
                 type="button"
                 className="ml-2 px-4 py-2 bg-blue-500 text-white rounded disabled-opacity-50"
                 title="Add Email"
-                onClick={handleChangeEmail}
+                onClick={() => handleChangeEmail()}
                 disabled={loading || !newEmail.trim()}
               >
                 Change
