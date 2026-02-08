@@ -7,7 +7,8 @@ const sections = [
   { id: "profile", title: "Profile" },
   { id: "authentication", title: "Authentication" },
   { id: "emails", title: "Emails" },
-  { id: "linkedAccounts", title: "Linked Accounts" }
+  { id: "linkedAccounts", title: "Linked Accounts" },
+  { id: "danger", title: "Danger Zone" }
 ];
 
 type sectionId = (typeof sections)[number]["id"];
@@ -178,7 +179,7 @@ export default function SettingsPanel() {
             </div>
             <button
               type="button"
-              className="px-4 py-2 bg-blue-500 text-white rounded disabled-opacity-50"
+              className="btn btn-success px-4 py-2 bg-blue-500 text-white rounded disabled-opacity-50"
               title="Save Profile"
               onClick={handleProfileSave}
               disabled={loading}
@@ -236,6 +237,18 @@ export default function SettingsPanel() {
               </div>
             ))}
             {!accounts.length && <p>No linked accounts.</p>}
+          </div>
+        )}
+        {activeSection === "danger" && (
+          <div className="flex flex-col-gap-4">
+            <button
+              type="button"
+              className="btn btn-error"
+              title="delete account"
+              onClick={() => authClient.deleteUser()}
+            >
+              Delete Account
+            </button>
           </div>
         )}
         {status && <p className="mt-4 text-green-600">{status}</p>}

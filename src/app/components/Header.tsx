@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { authClient } from "@/src/auth-client";
-import SignOut from "./Signout";
+import UserButton from "./UserButton";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,52 +45,49 @@ export default function Header() {
         <nav
           className={`${
             isOpen
-              ? "absolute top-full left-0 w-full bg-[#2e2f33] md:static md:bg-transparent"
+              ? "navbar absolute top-full left-0 w-full bg-[#2e2f33] md:static md:bg-transparent"
               : "hidden md:block"
           } md:block`}
         >
-          <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
-            {isAuthenticated ? (
-              <>
-                <li>
-                  <Link href="/" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/users/profile" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
-                    Profile
-                  </Link>
-                </li>
-                <li>
-                  <SignOut />
-                </li>
-                <li>
-                  <Link href="/books/add-book" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
-                    Add a Book
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/books/list-books" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
-                    List Books
-                  </Link>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <Link href="/auth/signin" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
-                    Sign In
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/auth/signup" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
-                    Sign Up
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
+          <div className="navbar-start">
+            <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
+              {isAuthenticated ? (
+                <>
+                  <li>
+                    <Link href="/" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary hover:link-hover">
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/books/add-book" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary hover:link-hover">
+                      Add a Book
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/books/list-books" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary hover:link-hover">
+                      List Books
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <Link href="/auth/signin" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary hover:link-hover">
+                      Sign In
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/auth/signup" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary hover:link-hover">
+                      Sign Up
+                    </Link>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
+          <div className="navbar-end">
+            {isAuthenticated && <UserButton />}
+          </div>
         </nav>
       </div>
     </header>

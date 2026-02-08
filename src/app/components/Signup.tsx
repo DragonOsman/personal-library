@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { authClient } from "@/src/auth-client";
 import { signupSchema } from "@/src/utils/validation";
+import {  FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
 
 export default function SignUp() {
   const [error, setError] = useState<string>("");
@@ -107,7 +108,7 @@ export default function SignUp() {
                   {isSubmitting ? "Signing up..." : "Sign Up"}
                 </button>
                 <p className="note">
-                  Already have an account? <a href="/auth/signin" title="sign in">Sign in</a>.
+                  Already have an account? <a href="/auth/signin" className="link hover:link-hover" title="sign in">Sign in</a>.
                 </p>
               </form>
               <hr className="divider my-6" />
@@ -120,7 +121,7 @@ export default function SignUp() {
                   })}
                   className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
                 >
-                  Sign in with Google
+                  <FaGoogle /> Sign in with Google
                 </button>
                 <button
                   title="GitHub SignIn"
@@ -130,7 +131,7 @@ export default function SignUp() {
                   })}
                   className="bg-gray-900 text-white p-2 rounded hover:bg-black-600"
                 >
-                  Sign in with GitHub
+                  <FaGithub /> Sign in with GitHub
                 </button>
                 <button
                   type="button"
@@ -150,7 +151,7 @@ export default function SignUp() {
                   }}
                   className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
                 >
-                  Sign in with Email
+                  <FaEnvelope /> Sign in with Email
                 </button>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { ReactNode, FC } from "react";
+import { ReactNode } from "react";
 import { Metadata, Viewport } from "next";
 import Header from "./components/Header";
 import BookContextProvider from "./context/BookContext";
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "Authentication",
     "User Auth",
     "Auth",
-    "Auth.js",
+    "Better Auth",
     "PostgreSQL",
     "Books"
   ],
@@ -30,7 +30,11 @@ export const viewport: Viewport = {
   initialScale: 1.0
 };
 
-const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en-us">
       <body

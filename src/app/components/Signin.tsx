@@ -6,6 +6,7 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signinSchema } from "@/src/utils/validation";
+import {  FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
 
 export default function SignIn() {
   const [error, setError] = useState<string>("");
@@ -84,7 +85,7 @@ export default function SignIn() {
                   {isSubmitting ? "Signing in..." : "Sign In"}
                 </button>
                 <p className="note">
-                  Don't have an account? <a href="/auth/signup" title="sign up">Sign up</a>.
+                  Don't have an account? <a href="/auth/signup" className="link hover:link-hover" title="sign up">Sign up</a>.
                 </p>
                 {status && status.msg && status.msg !== "" && (
                   <p className="text-red-500 text-sm">{status.msg}</p>
@@ -103,7 +104,7 @@ export default function SignIn() {
                   })}
                   className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
                 >
-                  Sign in with Google
+                  <FaGoogle /> Sign in with Google
                 </button>
                 <button
                   title="GitHub SignIn"
@@ -113,7 +114,7 @@ export default function SignIn() {
                   })}
                   className="bg-gray-900 text-white p-2 rounded hover:bg-black-600"
                 >
-                  Sign in with GitHub
+                  <FaGithub /> Sign in with GitHub
                 </button>
                 <button
                   title="Email SignIn"
@@ -122,9 +123,9 @@ export default function SignIn() {
                     email: values.email,
                     callbackURL: "/users/profile"
                   })}
-                  className="bg-gray-900 text-white p-2 rounded hover:bg-black-600"
+                  className="bg-green-500 text-white p-2 rounded hover:bg-black-600"
                 >
-                  Sign in with Email
+                  <FaEnvelope /> Sign in with Email
                 </button>
               </div>
             </>
