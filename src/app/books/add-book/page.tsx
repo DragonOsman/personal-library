@@ -5,6 +5,19 @@ import { BookContext, IBook, BookFormValues, BOOK_CATEGORIES } from "@/src/app/c
 import { BaseBookSchema } from "../BookSchemaZod";
 import { Formik, Form, Field } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import { getRouteTitle, getRouteKeywords } from "@/src/app/lib/routeTitles";
+import { Metadata } from "next";
+
+export const generateMetadata = (): Metadata => {
+  const pathname = "/books/add-book";
+  const title = getRouteTitle(pathname);
+  const keywords = getRouteKeywords(pathname);
+
+  return {
+    title,
+    keywords
+  };
+};
 
 interface GoogleApiVolumeInfo {
   title: string;

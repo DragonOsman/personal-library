@@ -1,12 +1,14 @@
 "use client";
 
-import logo from "../../../public/images/logo.png";
+import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { authClient } from "@/src/auth-client";
 import UserButton from "./UserButton";
+import { getRouteTitle } from "@/src/app/lib/routeTitles";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +19,9 @@ export default function Header() {
   if (data && data.session && data.user) {
     isAuthenticated = true;
   }
+
+  const pathname = usePathname();
+  const fullTitle = getRouteTitle(pathname);
 
   return (
     <header className="fixed top-0 left-0 w-full h-20 bg-[#2e2f33] z-50 shadow-md">
@@ -30,7 +35,6 @@ export default function Header() {
             className="w-12 h-12 object-contain"
             priority
           />
-          <span className="hidden sm:inline text-white font-semibold">Personal Library</span>
         </Link>
 
         <button
@@ -84,6 +88,9 @@ export default function Header() {
                 </>
               )}
             </ul>
+          </div>
+          <div className="navbar-center">
+            <h1 className="font-semibold">{fullTitle}</h1>
           </div>
           <div className="navbar-end">
             {isAuthenticated && <UserButton />}

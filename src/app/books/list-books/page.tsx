@@ -8,6 +8,19 @@ import { useContext, useEffect, useState } from "react";
 import NextImage from "next/image";
 import bookImgFallback from "@/public/images/book-composition-with-open-book_23-2147690555.jpg";
 import Link from "next/link";
+import { Metadata } from "next";
+import { getRouteTitle, getRouteKeywords } from "@/src/app/lib/routeTitles";
+
+export const generateMetadata = (): Metadata => {
+  const pathname = "/books/list-books";
+  const title = getRouteTitle(pathname);
+  const keywords = getRouteKeywords(pathname);
+
+  return {
+    title,
+    keywords
+  };
+};
 
 declare global {
   interface Window {

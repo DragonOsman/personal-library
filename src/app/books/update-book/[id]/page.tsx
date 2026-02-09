@@ -5,6 +5,26 @@ import { BookContext, IBook, BookFormValues, BOOK_CATEGORIES } from "@/src/app/c
 import { BaseBookSchema } from "../../BookSchemaZod";
 import { Formik, Form, Field } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import { getRouteTitle, getRouteKeywords } from "@/src/app/lib/routeTitles";
+import { Metadata } from "next";
+
+interface generateMetadataProps {
+  params: {
+    id: string;
+  };
+}
+
+export const generateMetadata = ({ params }: generateMetadataProps): Metadata => {
+  const id = params.id;
+  const pathname = `/books/update/${id}`;
+  const title = getRouteTitle(pathname);
+  const keywords = getRouteKeywords(pathname);
+
+  return {
+    title,
+    keywords
+  };
+};
 
 const UpdateBookPage = ({
   params
