@@ -1,5 +1,3 @@
-"use client";
-
 import AddBookContent from "@/src/app/components/AddBookContent";
 import { Metadata } from "next";
 import { getRouteTitle, getRouteKeywords } from "@/src/app/lib/routeTitles";
