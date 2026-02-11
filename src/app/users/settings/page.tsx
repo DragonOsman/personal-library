@@ -13,10 +13,6 @@ export const generateMetadata = (): Metadata => {
   };
 };
 
-const SettingsPageContent = () => {
-  return <SettingsPanel />;
-};
-
 export default function SettingsPage() {
-  return <SettingsPageContent />;
+  return <SettingsPanel />;
 }

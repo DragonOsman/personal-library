@@ -16,7 +16,7 @@ export const generateMetadata = (): Metadata => {
 const Page = () => {
   return (
     <div className="Homepage">
-      <h1>Welcome</h1>
+      <h1>Welcome to the Personal Library App</h1>
       <BookList />
     </div>
   );

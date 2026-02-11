@@ -135,17 +135,18 @@ export default function SettingsPanel() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
+      <h2>User Settings Panel</h2>
       <nav className="w-64 bg-white border-4 p">
         <ul className="space-y-2">
-          {sections.map(sec => (
+          {sections.map(section => (
             <li
               className={`cursor-pointer px-2 py-1 rounded ${
-                activeSection === sec.id ? "text-blue-600 font-semibold" : "text-gray-700"
+                activeSection === section.id ? "text-blue-600 font-semibold" : "text-gray-700"
               }`}
-              key={sec.id}
-              onClick={() => setActiveSection(sec.id)}
+              key={section.id}
+              onClick={() => setActiveSection(section.id)}
             >
-              {sec.title}
+              {section.title}
             </li>
           ))}
         </ul>
