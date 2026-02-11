@@ -94,7 +94,7 @@ export default function Header() {
           </div>
         </nav>
       </div>
-      <h1 className="mb-7 bg-[#2e2f33]">{fullTitle}</h1>
+      <h1 className="mb-7 text-white bg-[#2e2f33]">{fullTitle}</h1>
     </header>
   );
 }

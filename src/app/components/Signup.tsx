@@ -103,7 +103,7 @@ export default function SignUp() {
                   type="submit"
                   title="Submit"
                   disabled={isSubmitting}
-                  className="bg-blue-500 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-600"
+                  className="bg-blue-600 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-600"
                 >
                   {isSubmitting ? "Signing up..." : "Sign Up"}
                 </button>
@@ -119,7 +119,7 @@ export default function SignUp() {
                   onClick={() => authClient.signIn.social({
                     provider: "google"
                   })}
-                  className="bg-red-500 text-white items-center p-2 rounded hover:bg-red-600"
+                  className="bg-red-600 text-white items-center p-2 rounded hover:bg-red-600"
                 >
                   <FaGoogle className="inline-block" /> Sign in with Google
                 </button>
@@ -149,7 +149,7 @@ export default function SignUp() {
                       alert("Link sent to  your email");
                     }
                   }}
-                  className="bg-green-500 text-white items-center p-2 rounded hover:bg-green-600"
+                  className="bg-green-600 text-white items-center p-2 rounded hover:bg-green-600"
                 >
                   <FaEnvelope className="inline-block" /> Sign in with Email
                 </button>
