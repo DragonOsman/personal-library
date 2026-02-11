@@ -53,6 +53,7 @@ const ListBooksContent = () => {
   return (
     <div className="list-books flex justify-center">
       <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm">
+        <h1 className="text-black">Book List</h1>
         {bookData.length > 0 && books.length > 0 ? (
           books.map((book, index) => {
             const currentBookData = bookData[index];

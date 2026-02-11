@@ -135,7 +135,7 @@ export default function SettingsPanel() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <h2>User Settings Panel</h2>
+      <h1 className="text-white">User Settings Panel</h1>
       <nav className="w-64 bg-white border-4 p">
         <ul className="space-y-2">
           {sections.map(section => (

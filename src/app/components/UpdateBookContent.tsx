@@ -104,7 +104,7 @@ const UpdateBookContent = ({
   return (
     <div className="UpdateBook flex justify-center">
       <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm">
-        <h1>Update A Book</h1>
+        <h1 className="text-black">Update A Book</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={toFormikValidationSchema(BaseBookSchema)}

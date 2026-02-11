@@ -15,6 +15,7 @@ export default function SignIn() {
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm">
+        <h1 className="text-black">Sign In</h1>
         <Formik
           initialValues={{ email: "", password: "", rememberMe: false }}
           validationSchema={toFormikValidationSchema(signinSchema)}

@@ -195,7 +195,7 @@ const AddBookPageContent = () => {
   return (
     <div className="AddBook flex justify-center">
       <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm">
-        <h1>Add a New Book</h1>
+        <h1 className="text-black">Add a New Book</h1>
         <form
           onSubmit={async (event: FormEvent<HTMLFormElement>) => {
             event.preventDefault();
