@@ -2,7 +2,6 @@
 
 import { createContext, ReactNode, useState, useEffect, Dispatch, SetStateAction } from "react";
 
-
 export interface IBook {
   id: string;
   title: string;
@@ -91,8 +90,6 @@ export interface BookFormValues {
   thumbnail?: string;
   smallThumbnail?: string;
 }
-
-
 
 export interface IBookContext {
   books: IBook[];
