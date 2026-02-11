@@ -51,10 +51,6 @@
 
 @layer components {
   /* Buttons & Nav Links */
-  .btn-nav,
-  .sign-in-button,
-  .sign-up-button,
-  .sign-out-button,
   .nav-link {
     @apply bg-[var(--color-brand-secondary)] text-[var(--color-brand-text)] px-4 py-2 rounded-md cursor-pointer ml-4 transition-colors duration-200 hover:bg-[#19191b] hover:text-[var(--color-brand-secondary)];
   }
