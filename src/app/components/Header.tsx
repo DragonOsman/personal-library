@@ -89,14 +89,12 @@ export default function Header() {
               )}
             </ul>
           </div>
-          <div className="navbar-center">
-            <h1 className="font-semibold">{fullTitle}</h1>
-          </div>
           <div className="navbar-end">
             {isAuthenticated && <UserButton />}
           </div>
         </nav>
       </div>
+      <h1>{fullTitle}</h1>
     </header>
   );
 }
