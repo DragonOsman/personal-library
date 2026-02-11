@@ -96,7 +96,7 @@ export default function SignIn() {
                 )}
               </Form>
               <hr className="divider my-6" />
-              <div className="socialSignIn flex flex-col gap-4 items-center">
+              <div className="socialSignIn flex flex-col gap-4">
                 <button
                   title="Google SignIn"
                   type="button"
@@ -105,7 +105,7 @@ export default function SignIn() {
                   })}
                   className="bg-red-500 items-center text-white p-2 rounded hover:bg-red-600"
                 >
-                  <FaGoogle /> Sign in with Google
+                  <FaGoogle className="inline-block" /> Sign in with Google
                 </button>
                 <button
                   title="GitHub SignIn"
@@ -115,7 +115,7 @@ export default function SignIn() {
                   })}
                   className="bg-gray-900 items-center text-white p-2 rounded hover:bg-black-600"
                 >
-                  <FaGithub /> Sign in with GitHub
+                  <FaGithub className="inline-block" /> Sign in with GitHub
                 </button>
                 <button
                   title="Email SignIn"
@@ -126,7 +126,7 @@ export default function SignIn() {
                   })}
                   className="bg-green-500 items-center text-white p-2 rounded hover:bg-black-600"
                 >
-                  <FaEnvelope /> Sign in with Email
+                  <FaEnvelope className="inline-block" /> Sign in with Email
                 </button>
               </div>
             </>

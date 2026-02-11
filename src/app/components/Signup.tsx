@@ -112,7 +112,7 @@ export default function SignUp() {
                 </p>
               </form>
               <hr className="divider my-6" />
-              <div className="socialSignIn flex flex-col gap-4 items-center">
+              <div className="socialSignIn flex flex-col gap-4">
                 <button
                   title="Google SignIn"
                   type="button"
@@ -121,7 +121,7 @@ export default function SignUp() {
                   })}
                   className="bg-red-500 text-white items-center p-2 rounded hover:bg-red-600"
                 >
-                  <FaGoogle /> Sign in with Google
+                  <FaGoogle className="inline-block" /> Sign in with Google
                 </button>
                 <button
                   title="GitHub SignIn"
@@ -131,7 +131,7 @@ export default function SignUp() {
                   })}
                   className="bg-gray-900 text-white p-2 items-center rounded hover:bg-black-600"
                 >
-                  <FaGithub /> Sign in with GitHub
+                  <FaGithub className="inline-block" /> Sign in with GitHub
                 </button>
                 <button
                   type="button"
@@ -151,7 +151,7 @@ export default function SignUp() {
                   }}
                   className="bg-green-500 text-white items-center p-2 rounded hover:bg-green-600"
                 >
-                  <FaEnvelope /> Sign in with Email
+                  <FaEnvelope className="inline-block" /> Sign in with Email
                 </button>
               </div>
             </div>
