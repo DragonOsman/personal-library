@@ -36,10 +36,6 @@
     @apply text-[var(--color-brand-secondary)];
   }
 
-  header a.nav-link {
-    @apply text-[var(--color-brand-text)];
-  }
-
   a:hover {
     @apply underline cursor-pointer text-[var(--color-brand-secondary)];
   }
@@ -70,8 +66,7 @@
   }
 
   .AddBook input[type="text"],
-  .UpdateBook input[type="text"],
-  .OnboardingPage input[type="text"] {
+  .UpdateBook input[type="text"] {
     @apply text-black mb-[5px] mx-[2px];
   }
 
