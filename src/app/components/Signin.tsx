@@ -95,7 +95,7 @@ export default function SignIn() {
                 )}
               </Form>
               <hr className="divider my-6" />
-              <div className="socialSignIn flex flex-col gap-4">
+              <div className="socialSignIn flex flex-col gap-4 items-center">
                 <button
                   title="Google SignIn"
                   type="button"
