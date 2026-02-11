@@ -104,7 +104,7 @@ export default function SignUp() {
                   type="submit"
                   title="Submit"
                   disabled={isSubmitting}
-                  className="bg-blue-600 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-600"
+                  className="bg-blue-600 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-800"
                 >
                   {isSubmitting ? "Signing up..." : "Sign Up"}
                 </button>
@@ -120,7 +120,7 @@ export default function SignUp() {
                   onClick={() => authClient.signIn.social({
                     provider: "google"
                   })}
-                  className="bg-red-600 text-white items-center p-2 rounded hover:bg-red-600"
+                  className="bg-red-600 text-white items-center p-2 rounded hover:bg-red-800"
                 >
                   <FaGoogle className="inline-block" /> Sign in with Google
                 </button>
@@ -130,7 +130,7 @@ export default function SignUp() {
                   onClick={() => authClient.signIn.social({
                     provider: "github"
                   })}
-                  className="bg-gray-900 text-white p-2 items-center rounded hover:bg-black-600"
+                  className="bg-gray-700 text-white p-2 items-center rounded hover:bg-black-900"
                 >
                   <FaGithub className="inline-block" /> Sign in with GitHub
                 </button>
@@ -150,7 +150,7 @@ export default function SignUp() {
                       alert("Link sent to  your email");
                     }
                   }}
-                  className="bg-green-700 text-white items-center p-2 rounded hover:bg-green-600"
+                  className="bg-green-700 text-white items-center p-2 rounded hover:bg-green-800"
                 >
                   <FaEnvelope className="inline-block" /> Sign in with Email
                 </button>
