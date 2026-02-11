@@ -55,34 +55,21 @@ export default function Header() {
         >
           <div className="navbar-start">
             <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
-              {isAuthenticated ? (
+              {isAuthenticated && (
                 <>
                   <li>
-                    <Link href="/" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary hover:link-hover">
+                    <Link href="/" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                       Home
                     </Link>
                   </li>
                   <li>
-                    <Link href="/books/add-book" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary hover:link-hover">
+                    <Link href="/books/add-book" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                       Add a Book
                     </Link>
                   </li>
                   <li>
-                    <Link href="/books/list-books" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary hover:link-hover">
+                    <Link href="/books/list-books" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                       List Books
-                    </Link>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li>
-                    <Link href="/auth/signin" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary hover:link-hover">
-                      Sign In
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/auth/signup" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary hover:link-hover">
-                      Sign Up
                     </Link>
                   </li>
                 </>
@@ -90,7 +77,21 @@ export default function Header() {
             </ul>
           </div>
           <div className="navbar-end">
-            {isAuthenticated && <UserButton />}
+            {isAuthenticated ?
+              <UserButton /> :
+              <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
+                <li>
+                    <Link href="/auth/signin" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
+                      Sign In
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/auth/signup" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
+                      Sign Up
+                    </Link>
+                  </li>
+              </ul>
+            }
           </div>
         </nav>
       </div>
