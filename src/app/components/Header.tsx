@@ -53,17 +53,17 @@ export default function Header() {
               {isAuthenticated && (
                 <>
                   <li>
-                    <Link href="/" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
+                    <Link href="/" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                       Home
                     </Link>
                   </li>
                   <li>
-                    <Link href="/books/add-book" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
+                    <Link href="/books/add-book" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                       Add a Book
                     </Link>
                   </li>
                   <li>
-                    <Link href="/books/list-books" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
+                    <Link href="/books/list-books" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                       List Books
                     </Link>
                   </li>
@@ -76,12 +76,12 @@ export default function Header() {
               <UserButton /> :
               <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
                 <li>
-                    <Link href="/auth/signin" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
+                    <Link href="/auth/signin" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                       Sign In
                     </Link>
                   </li>
                   <li>
-                    <Link href="/auth/signup" className="link block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
+                    <Link href="/auth/signup" className="block text-white p-15 md:p-2 rounded bg-secondary hover:bg-primary">
                       Sign Up
                     </Link>
                   </li>
