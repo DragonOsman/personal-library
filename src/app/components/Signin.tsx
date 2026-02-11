@@ -124,7 +124,7 @@ export default function SignIn() {
                     email: values.email,
                     callbackURL: "/users/profile"
                   })}
-                  className="bg-green-600 items-center text-white p-2 rounded hover:bg-black-600"
+                  className="bg-green-700 items-center text-white p-2 rounded hover:bg-black-600"
                 >
                   <FaEnvelope className="inline-block" /> Sign in with Email
                 </button>

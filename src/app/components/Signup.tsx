@@ -149,7 +149,7 @@ export default function SignUp() {
                       alert("Link sent to  your email");
                     }
                   }}
-                  className="bg-green-600 text-white items-center p-2 rounded hover:bg-green-600"
+                  className="bg-green-700 text-white items-center p-2 rounded hover:bg-green-600"
                 >
                   <FaEnvelope className="inline-block" /> Sign in with Email
                 </button>
