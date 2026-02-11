@@ -68,6 +68,7 @@ export default function SignIn() {
                   {touched.password && errors.password && (
                     <p className="text-red-500 text-sm">{errors.password}</p>
                   )}
+                  Remember Me
                   <input
                     id="rememberMe"
                     className="m-2"
