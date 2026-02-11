@@ -102,7 +102,7 @@ export default function SignIn() {
                   onClick={() => authClient.signIn.social({
                     provider: "google"
                   })}
-                  className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
+                  className="bg-red-500 items-center text-white p-2 rounded hover:bg-red-600"
                 >
                   <FaGoogle /> Sign in with Google
                 </button>
@@ -112,7 +112,7 @@ export default function SignIn() {
                   onClick={() => authClient.signIn.social({
                     provider: "github"
                   })}
-                  className="bg-gray-900 text-white p-2 rounded hover:bg-black-600"
+                  className="bg-gray-900 items-center text-white p-2 rounded hover:bg-black-600"
                 >
                   <FaGithub /> Sign in with GitHub
                 </button>
@@ -123,7 +123,7 @@ export default function SignIn() {
                     email: values.email,
                     callbackURL: "/users/profile"
                   })}
-                  className="bg-green-500 text-white p-2 rounded hover:bg-black-600"
+                  className="bg-green-500 items-center text-white p-2 rounded hover:bg-black-600"
                 >
                   <FaEnvelope /> Sign in with Email
                 </button>

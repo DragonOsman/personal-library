@@ -119,7 +119,7 @@ export default function SignUp() {
                   onClick={() => authClient.signIn.social({
                     provider: "google"
                   })}
-                  className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
+                  className="bg-red-500 text-white items-center p-2 rounded hover:bg-red-600"
                 >
                   <FaGoogle /> Sign in with Google
                 </button>
@@ -129,7 +129,7 @@ export default function SignUp() {
                   onClick={() => authClient.signIn.social({
                     provider: "github"
                   })}
-                  className="bg-gray-900 text-white p-2 rounded hover:bg-black-600"
+                  className="bg-gray-900 text-white p-2 items-center rounded hover:bg-black-600"
                 >
                   <FaGithub /> Sign in with GitHub
                 </button>
@@ -149,7 +149,7 @@ export default function SignUp() {
                       alert("Link sent to  your email");
                     }
                   }}
-                  className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
+                  className="bg-green-500 text-white items-center p-2 rounded hover:bg-green-600"
                 >
                   <FaEnvelope /> Sign in with Email
                 </button>
