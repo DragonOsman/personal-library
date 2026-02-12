@@ -24,11 +24,11 @@ export default function SignUp() {
                 name: values.name,
                 email: values.email,
                 password: values.password,
-                callbackURL: "/"
+                callbackURL: "/auth/signin"
               });
 
               if (data && data.user) {
-                setSuccess("Registration successful! Redirecting to profile page...");
+                setSuccess("Registration successful! Redirecting to login page...");
                 setError("");
               } else if (error) {
                 setError(error.message || "Registration failed");

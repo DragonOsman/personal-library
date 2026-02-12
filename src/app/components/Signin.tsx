@@ -30,6 +30,12 @@ export default function SignIn() {
               console.error(error);
               if (error.message) {
                 setError(error.message);
+                if (error.status === 403 && error.message.includes("email not verified")) {
+                  await authClient.sendVerificationEmail({
+                    email: values.email,
+                    callbackURL: "/"
+                  });
+                }
               }
             } else if (data && data.user) {
               router.push("/");

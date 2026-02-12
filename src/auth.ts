@@ -42,7 +42,6 @@ export const auth = betterAuth({
       alternateEmails: {
         type: "string[]",
         required: false,
-        nullable: true,
         default: null,
         input: true
       }
@@ -56,8 +55,7 @@ export const auth = betterAuth({
         text: `Click here to verify your email: ${url}`
       });
     },
-    sendOnSignIn: true,
-    requireVerifiedEmail: true
+    sendOnSignUp: true
   },
   database: prismaAdapter(prisma, {
     provider: "postgresql"
