@@ -119,6 +119,7 @@ export const auth = betterAuth({
       otpOptions: {
         async sendOTP({ user, otp }) {
           await sendEmail({
+            from: emaiFrom,
             to: user.email,
             subject: "Your 2FA Code",
             text: `Your verification code is: ${otp}`
