@@ -15,6 +15,7 @@ const emailFrom = process.env.EMAIL_FROM || "";
 const baseURL = process.env.BETTER_AUTH_URL || "";
 
 async function sendEmail(options: {
+  from: string,
   to: string,
   subject: string,
   text: string
@@ -22,10 +23,14 @@ async function sendEmail(options: {
   const transport = createTransport({
     host: emailServerHost,
     port: emailServerPort,
-    secure: emailServerPort === 465
+    secure: true,
+    auth: {
+      user: emailServerUser,
+      pass: emailServerPassword
+    }
   });
   await transport.sendMail({
-    from: emailFrom,
+    from: options.from,
     to: options.to,
     subject: options.subject,
     text: options.text
@@ -49,7 +54,8 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
-      void sendEmail({
+      await sendEmail({
+        from: emailFrom,
         to: user.email,
         subject: "Verify your email address",
         text: `Click here to verify your email: ${url}`
