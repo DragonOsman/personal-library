@@ -52,7 +52,6 @@ export const auth = betterAuth({
         throw new Error("Failed to send verification email. Please try again.");
       } else if (result.accepted.includes(user.email)) {
         console.log("Verification email sent");
-        throw new Error("Verification email sent! Please check your inbox.");
       }
     },
     sendOnSignUp: true
@@ -102,7 +101,6 @@ export const auth = betterAuth({
           throw new Error("Failed to send magic link. Please try again.");
         } else if (result.accepted.includes(email)) {
           console.log("Magic link email sent:", result.accepted.length > 0 ? result.accepted[0] : "Unknown recipient");
-          throw new Error("Magic link sent! Please check your inbox.");
         }
       }
     }),
@@ -122,7 +120,6 @@ export const auth = betterAuth({
             throw new Error("Failed to send 2FA code. Please try again.");
           } else if (result.accepted.includes(user.email)) {
             console.log("2FA email sent:", result.accepted.length > 0 ? result.accepted[0] : "Unknown recipient");
-            throw new Error("2FA code sent! Please check your inbox.");
           }
         }
       }
@@ -153,7 +150,6 @@ export const auth = betterAuth({
           throw new Error("Failed to send OTP code. Please try again.");
         } else if (result.accepted.includes(email)) {
           console.log("OTP email sent:", email);
-          throw new Error("OTP code sent! Please check your inbox.");
         }
       }
     })
