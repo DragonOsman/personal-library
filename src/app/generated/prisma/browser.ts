@@ -33,6 +33,11 @@ export type User = Prisma.UserModel
  */
 export type Email = Prisma.EmailModel
 /**
+ * Model EmailEvent
+ * 
+ */
+export type EmailEvent = Prisma.EmailEventModel
+/**
  * Model Session
  * 
  */

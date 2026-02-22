@@ -11,6 +11,7 @@
 export type * from './models/Book'
 export type * from './models/User'
 export type * from './models/Email'
+export type * from './models/EmailEvent'
 export type * from './models/Session'
 export type * from './models/Account'
 export type * from './models/Verification'

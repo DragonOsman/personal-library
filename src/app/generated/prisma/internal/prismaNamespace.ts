@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.2.0
- * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
+ * Prisma Client JS version: 7.4.1
+ * Query Engine version: 55ae170b1ced7fc6ed07a15f110549408c501bb3
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.2.0",
-  engine: "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3"
+  client: "7.4.1",
+  engine: "55ae170b1ced7fc6ed07a15f110549408c501bb3"
 }
 
 /**
@@ -387,6 +387,7 @@ export const ModelName = {
   Book: 'Book',
   User: 'User',
   Email: 'Email',
+  EmailEvent: 'EmailEvent',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "book" | "user" | "email" | "session" | "account" | "verification" | "twoFactor"
+    modelProps: "book" | "user" | "email" | "emailEvent" | "session" | "account" | "verification" | "twoFactor"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -629,6 +630,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.EmailCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.EmailCountAggregateOutputType> | number
+        }
+      }
+    }
+    EmailEvent: {
+      payload: Prisma.$EmailEventPayload<ExtArgs>
+      fields: Prisma.EmailEventFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EmailEventFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailEventPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EmailEventFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailEventPayload>
+        }
+        findFirst: {
+          args: Prisma.EmailEventFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailEventPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EmailEventFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailEventPayload>
+        }
+        findMany: {
+          args: Prisma.EmailEventFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailEventPayload>[]
+        }
+        create: {
+          args: Prisma.EmailEventCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailEventPayload>
+        }
+        createMany: {
+          args: Prisma.EmailEventCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EmailEventCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailEventPayload>[]
+        }
+        delete: {
+          args: Prisma.EmailEventDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailEventPayload>
+        }
+        update: {
+          args: Prisma.EmailEventUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailEventPayload>
+        }
+        deleteMany: {
+          args: Prisma.EmailEventDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EmailEventUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EmailEventUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailEventPayload>[]
+        }
+        upsert: {
+          args: Prisma.EmailEventUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EmailEventPayload>
+        }
+        aggregate: {
+          args: Prisma.EmailEventAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEmailEvent>
+        }
+        groupBy: {
+          args: Prisma.EmailEventGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EmailEventGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EmailEventCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EmailEventCountAggregateOutputType> | number
         }
       }
     }
@@ -1012,6 +1087,17 @@ export const EmailScalarFieldEnum = {
 export type EmailScalarFieldEnum = (typeof EmailScalarFieldEnum)[keyof typeof EmailScalarFieldEnum]
 
 
+export const EmailEventScalarFieldEnum = {
+  id: 'id',
+  resendId: 'resendId',
+  type: 'type',
+  email: 'email',
+  createdAt: 'createdAt'
+} as const
+
+export type EmailEventScalarFieldEnum = (typeof EmailEventScalarFieldEnum)[keyof typeof EmailEventScalarFieldEnum]
+
+
 export const SessionScalarFieldEnum = {
   id: 'id',
   expiresAt: 'expiresAt',
@@ -1288,6 +1374,7 @@ export type GlobalOmitConfig = {
   book?: Prisma.BookOmit
   user?: Prisma.UserOmit
   email?: Prisma.EmailOmit
+  emailEvent?: Prisma.EmailEventOmit
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit

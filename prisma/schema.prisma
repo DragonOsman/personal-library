@@ -55,6 +55,14 @@ model Email {
   @@unique([email])
 }
 
+model EmailEvent {
+  id        String   @id @default(cuid())
+  resendId  String
+  type      String
+  email     String?
+  createdAt DateTime @default(now())
+}
+
 model Session {
   id        String   @id @default(cuid())
   expiresAt DateTime
