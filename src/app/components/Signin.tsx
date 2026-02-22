@@ -93,6 +93,15 @@ export default function SignIn() {
                   {isSubmitting ? "Signing in..." : "Sign In"}
                 </button>
                 <p className="note">
+                  <a
+                    href="/auth/reset-password"
+                    className="link hover:link-hover"
+                    title="reset password"
+                  >
+                    Forgot your password?
+                  </a>
+                </p>
+                <p className="note">
                   Don't have an account? <a href="/auth/signup" className="link hover:link-hover" title="sign up">Sign up</a>.
                 </p>
                 {status && status.msg && status.msg !== "" && (
