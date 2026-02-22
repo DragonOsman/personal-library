@@ -3,7 +3,7 @@ import prisma from "./app/lib/db";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { magicLink, twoFactor, emailOTP } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
-import Nodemailer from "nodemailer";
+import nodemailer from "nodemailer";
 
 const emailServerUser = process.env.EMAIL_SERVER_USER || "";
 const emailServerHost = process.env.EMAIL_SERVER_HOST || "";
@@ -12,7 +12,7 @@ const emailFrom = process.env.EMAIL_FROM || "";
 const emailServerPassword = process.env.EMAIL_SERVER_PASSWORD || "";
 const baseURL = process.env.BETTER_AUTH_URL || "";
 
-const transporter = Nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
   host: emailServerHost,
   port: emailServerPort,
   secure: true,
