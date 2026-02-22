@@ -15,7 +15,7 @@ export const passwordField = zod
 
 export const signupSchema = zod.object({
   name: zod.string().min(2, "Name is too short").max(100, "Name is too long"),
-  email: zod.string().email("Invalid email address"),
+  email: zod.email("Invalid email address"),
   password: passwordField,
   confirmPassword: passwordField
 })
@@ -26,7 +26,7 @@ export const signupSchema = zod.object({
 ;
 
 export const signinSchema = zod.object({
-  email: zod.string().email("Invalid email address"),
+  email: zod.email("Invalid email address"),
   password: zod.string().min(8).max(100),
   rememberMe: zod.boolean().optional()
 });
@@ -41,3 +41,17 @@ export const changePasswordSchema = zod.object({
     path: ["confirmNewPassword"]
   })
 ;
+
+export const resetPasswordSchema = zod.object({
+  password: passwordField,
+  confirmPassword: passwordField
+})
+  .refine(data => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"]
+  })
+;
+
+export const requestPasswordReset =  zod.object({
+  email: zod.email("Invalid email address")
+});
