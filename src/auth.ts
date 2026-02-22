@@ -66,7 +66,23 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true
+    requireEmailVerification: true,
+    sendResetPassword: async ({ user, url, token }) => {
+      const result = await transporter.sendMail({
+        from: emailFrom,
+        to: user.email,
+        subject: "Reset your password",
+        html: `<p>Click the link to reset your password: <a href="${url}">${url}</a></p><p>Or use this token: ${token}</p>`,
+        text: `Click the link to reset your password: ${url} Or use this token: ${token}`
+      });
+
+      if (result.rejected.includes(user.email)) {
+        console.error("Failed to send reset password email:", result.rejected.length > 0 ? result.rejected[0] : "Unknown error");
+        throw new Error("Failed to send reset password email. Please try again.");
+      } else if (result.accepted.includes(user.email)) {
+        console.log("Reset password email sent:", result.accepted.length > 0 ? result.accepted[0] : "Unknown recipient");
+      }
+    }
   },
   socialProviders: {
     github: {
