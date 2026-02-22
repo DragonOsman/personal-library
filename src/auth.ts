@@ -7,7 +7,7 @@ import nodemailer from "nodemailer";
 
 const emailServerUser = process.env.EMAIL_SERVER_USER || "";
 const emailServerHost = process.env.EMAIL_SERVER_HOST || "";
-const emailServerPort = parseInt(process.env.EMAIL_SERVER_PORT || "587", 10);
+const emailServerPort = parseInt(process.env.EMAIL_SERVER_PORT || "465");
 const emailFrom = process.env.EMAIL_FROM || "";
 const emailServerPassword = process.env.EMAIL_SERVER_PASSWORD || "";
 const baseURL = process.env.BETTER_AUTH_URL || "";
