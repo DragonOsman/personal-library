@@ -1,3 +1,5 @@
+"use client";
+
 import { authClient } from "@/src/auth-client";
 import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
