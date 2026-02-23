@@ -94,7 +94,7 @@ export default function SignIn() {
                 </button>
                 <p className="note">
                   <a
-                    href="/auth/reset-password"
+                    href="/auth/reset-password-request"
                     className="link hover:link-hover"
                     title="reset password"
                   >
