@@ -54,7 +54,9 @@ export const auth = betterAuth({
         console.log("Verification email sent");
       }
     },
-    sendOnSignUp: true
+    sendOnSignUp: true,
+    requireEmailVerification: true,
+    autoSignInAfterVerification: true
   },
   database: prismaAdapter(prisma, {
     provider: "postgresql"
@@ -66,7 +68,6 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true,
     sendResetPassword: async ({ user, url, token }) => {
       const result = await transporter.sendMail({
         from: emailFrom,
