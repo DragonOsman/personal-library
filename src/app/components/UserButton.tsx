@@ -40,6 +40,8 @@ const UserButton = () => {
             : `https://ui-avatars.com/api/?name=${encodeURIComponent(data.user.name ?? "User")}`
           }
           alt={data?.user.name || "User Avatar"}
+          height={32}
+          width={32}
           className="w-8 h-8 rounded-full"
         />
         <p>{data?.user.name}</p>
