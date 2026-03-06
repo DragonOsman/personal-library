@@ -37,7 +37,7 @@ const UserButton = () => {
         <Image
           src={data.user.image && data.user.image !== ""
             ? data.user.image
-            : "https://ui-avatars.com/api/?name=User&background=random"
+            : `https://ui-avatars.com/api/?name=${encodeURIComponent(data.user.name ?? "User")}`
           }
           alt={data?.user.name || "User Avatar"}
           className="w-8 h-8 rounded-full"
@@ -47,7 +47,7 @@ const UserButton = () => {
       </button>
 
       {dropdownOpen && (
-        <div className="absolute right-0 mt-2w-48 bg-white border rounded shadow-lg z-50">
+        <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
           <Link
             href="/users/profile"
             className="block px-4 py-2 hover:bg-gray-100"
