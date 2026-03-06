@@ -8,7 +8,7 @@ import nodemailer from "nodemailer";
 const emailServerUser = process.env.EMAIL_SERVER_USER || "";
 const emailServerHost = process.env.EMAIL_SERVER_HOST || "";
 const emailServerPort = parseInt(process.env.EMAIL_SERVER_PORT || "465");
-const emailFrom = process.env.EMAIL_FROM || "";
+const emailFrom = `Osman Zakir <${process.env.EMAIL_FROM || ""}>`;
 const emailServerPassword = process.env.EMAIL_SERVER_PASSWORD || "";
 const baseURL = process.env.BETTER_AUTH_URL || "";
 
@@ -55,7 +55,6 @@ export const auth = betterAuth({
       }
     },
     sendOnSignUp: true,
-    requireEmailVerification: true,
     autoSignInAfterVerification: true
   },
   database: prismaAdapter(prisma, {
@@ -83,7 +82,9 @@ export const auth = betterAuth({
       } else if (result.accepted.includes(user.email)) {
         console.log("Reset password email sent:", result.accepted.length > 0 ? result.accepted[0] : "Unknown recipient");
       }
-    }
+    },
+    autoSignIn: true,
+    requireEmailVerification: true
   },
   socialProviders: {
     github: {

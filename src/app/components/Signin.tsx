@@ -6,7 +6,7 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signinSchema } from "@/src/utils/validation";
-import {  FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
+import { FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
 
 export default function SignIn() {
   const [error, setError] = useState<string>("");
@@ -40,6 +40,13 @@ export default function SignIn() {
             } else if (data && data.user) {
               router.push("/");
               setError("");
+              if (!data.user.emailVerified) {
+                setError("Your email is not verified. Resending verification email.");
+                await authClient.sendVerificationEmail({
+                  email: values.email,
+                  callbackURL: "/"
+                });
+              }
             }
 
             setSubmitting(false);
@@ -92,6 +99,7 @@ export default function SignIn() {
                 >
                   {isSubmitting ? "Signing in..." : "Sign In"}
                 </button>
+                {}
                 <p className="note">
                   <a
                     href="/auth/reset-password-request"
