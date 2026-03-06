@@ -2,7 +2,6 @@
 
 import { authClient } from "@/src/auth-client";
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SignOut from "./Signout";
@@ -11,7 +10,6 @@ const UserButton = () => {
   const { data, error, isPending } = authClient.useSession();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (event: globalThis.MouseEvent) => {
@@ -23,13 +21,8 @@ const UserButton = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    if (!isPending && !data?.session) {
-      router.push("/auth/signin");
-    }
-  }, [data?.session, isPending, router]);
-
   if (isPending || !data?.session) {
+    alert("You must be signed in to access this page.");
     return null;
   }
 
