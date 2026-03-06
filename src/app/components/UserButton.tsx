@@ -44,8 +44,6 @@ const UserButton = () => {
           width={32}
           className="w-8 h-8 rounded-full"
         />
-        <p>{data?.user.name}</p>
-        <p>{data?.user.email}{data?.user.emailVerified ? " (verified)" : " (not verified)"}</p>
       </button>
 
       {dropdownOpen && (
