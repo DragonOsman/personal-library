@@ -1,7 +1,7 @@
 "use client";
 
 import { authClient } from "@/src/auth-client";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const SignOut = () => {
   const router = useRouter();

@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
       ".json",
       ".mdx"
     ]
+  },
+  images: {
+    domains: ["ui-avatars.com", "lh3.googleusercontent.com"]
   }
 };
 
