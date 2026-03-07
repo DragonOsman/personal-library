@@ -17,8 +17,8 @@ import type * as Prisma from "./prismaNamespace"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.4.1",
-  "engineVersion": "55ae170b1ced7fc6ed07a15f110549408c501bb3",
+  "clientVersion": "7.4.2",
+  "engineVersion": "94a226be1cf2967af2541cca5529f0f7ba866919",
   "activeProvider": "postgresql",
   "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Book {\n  id            String @id @default(cuid())\n  title         String @db.VarChar(255)\n  author        String @db.VarChar(255)\n  isbn          String @db.VarChar(255)\n  publishedDate String @db.VarChar(50)\n  description   String\n\n  authors       String[]\n  pageCount     Int?\n  categories    String[]\n  language      String?\n  imageLinks    Json?\n  averageRating Float?\n  ratingsCount  Int?\n\n  userId    String   @db.Uuid\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel User {\n  id               String      @id @default(dbgenerated(\"gen_random_uuid()\")) @db.Uuid\n  name             String?     @db.VarChar(255)\n  email            String?     @unique @db.VarChar(255)\n  alternateEmails  Email[]\n  emailVerified    Boolean     @default(false)\n  image            String?\n  createdAt        DateTime    @default(now())\n  updatedAt        DateTime    @updatedAt\n  twoFactorEnabled Boolean?    @default(false)\n  sessions         Session[]\n  accounts         Account[]\n  twofactors       TwoFactor[]\n  books            Book[]\n}\n\nmodel Email {\n  id     String  @id @default(cuid())\n  email  String\n  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)\n  userId String? @db.Uuid\n\n  @@unique([email])\n}\n\nmodel EmailEvent {\n  id        String   @id @default(cuid())\n  resendId  String\n  type      String\n  email     String?\n  createdAt DateTime @default(now())\n}\n\nmodel Session {\n  id        String   @id @default(cuid())\n  expiresAt DateTime\n  token     String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  ipAddress String?\n  userAgent String?\n  userId    String   @db.Uuid\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([token])\n  @@index([userId])\n  @@map(\"session\")\n}\n\nmodel Account {\n  id                    String    @id @default(cuid())\n  accountId             String\n  providerId            String\n  userId                String    @db.Uuid\n  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n  accessToken           String?\n  refreshToken          String?\n  idToken               String?\n  accessTokenExpiresAt  DateTime?\n  refreshTokenExpiresAt DateTime?\n  scope                 String?\n  password              String?\n  createdAt             DateTime  @default(now())\n  updatedAt             DateTime  @updatedAt\n\n  @@index([userId])\n  @@map(\"account\")\n}\n\nmodel Verification {\n  id         String   @id @default(cuid())\n  identifier String\n  value      String\n  expiresAt  DateTime\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n\n  @@index([identifier])\n  @@map(\"verification\")\n}\n\nmodel TwoFactor {\n  id          String @id @default(cuid())\n  secret      String\n  backupCodes String\n  userId      String @db.Uuid\n  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@index([secret])\n  @@index([userId])\n  @@map(\"twoFactor\")\n}\n",
   "runtimeDataModel": {
@@ -67,7 +67,9 @@ export interface PrismaClientConstructor {
    * Type-safe database client for TypeScript
    * @example
    * ```
-   * const prisma = new PrismaClient()
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
    * // Fetch zero or more Books
    * const books = await prisma.book.findMany()
    * ```
@@ -89,7 +91,9 @@ export interface PrismaClientConstructor {
  * Type-safe database client for TypeScript
  * @example
  * ```
- * const prisma = new PrismaClient()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
  * // Fetch zero or more Books
  * const books = await prisma.book.findMany()
  * ```
