@@ -4,13 +4,11 @@ import { authClient } from "@/src/auth-client";
 import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { signinSchema } from "@/src/utils/validation";
 import { FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
 
 export default function SignIn() {
   const [error, setError] = useState<string>("");
-  const router = useRouter();
 
   return (
     <div className="flex justify-center">
@@ -20,7 +18,7 @@ export default function SignIn() {
           initialValues={{ email: "", password: "", rememberMe: false }}
           validationSchema={toFormikValidationSchema(signinSchema)}
           onSubmit={async (values, { setSubmitting }) => {
-            const { data, error } = await authClient.signIn.email({
+            const { error } = await authClient.signIn.email({
               email: values.email,
               password: values.password,
               rememberMe: values.rememberMe
@@ -30,22 +28,6 @@ export default function SignIn() {
               console.error(error);
               if (error.message) {
                 setError(error.message);
-                if (error.status === 403 && error.message.includes("email not verified")) {
-                  await authClient.sendVerificationEmail({
-                    email: values.email,
-                    callbackURL: "/"
-                  });
-                }
-              }
-            } else if (data && data.user) {
-              router.push("/");
-              setError("");
-              if (!data.user.emailVerified) {
-                setError("Your email is not verified. Resending verification email.");
-                await authClient.sendVerificationEmail({
-                  email: values.email,
-                  callbackURL: "/"
-                });
               }
             }
 

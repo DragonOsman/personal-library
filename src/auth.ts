@@ -55,6 +55,7 @@ export const auth = betterAuth({
       }
     },
     sendOnSignUp: true,
+    sendOnSignIn: true,
     autoSignInAfterVerification: true
   },
   database: prismaAdapter(prisma, {
