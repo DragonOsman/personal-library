@@ -8,7 +8,7 @@ import { signinSchema } from "@/src/utils/validation";
 import { FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
 
 export default function SignIn() {
-  const [error, setError] = useState<string>("");
+  const [customError, setCustomError] = useState<string>("");
 
   return (
     <div className="flex justify-center">
@@ -27,7 +27,7 @@ export default function SignIn() {
             if (error) {
               console.error(error);
               if (error.message) {
-                setError(error.message);
+                setCustomError(error.message);
               }
             }
 
@@ -97,8 +97,8 @@ export default function SignIn() {
                 {status && status.msg && status.msg !== "" && (
                   <p className="text-red-500 text-sm">{status.msg}</p>
                 )}
-                {error !== "" && (
-                  <p className="text-red-500 text-sm">{error}</p>
+                {customError !== "" && (
+                  <p className="text-red-500 text-sm">{customError}</p>
                 )}
               </Form>
               <hr className="divider my-6" />
