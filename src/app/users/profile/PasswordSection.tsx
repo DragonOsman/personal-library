@@ -1,7 +1,7 @@
 "use client";
 
 import { Formik, Form } from "formik";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { authClient } from "@/src/auth-client";
 import { passwordField } from "@/src/utils/validation";
@@ -12,11 +12,14 @@ const PasswordSection = () => {
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { data, error } = authClient.useSession();
-  if (data) {
-    setMessage("Welcome to your profile's password-change section");
-  } else if (error) {
-    setErrorMessage(`Error: ${error.error}: ${error.message}`);
-  }
+
+  useEffect(() => {
+    if (data) {
+      setMessage("Welcome to your profile's password-change section");
+    } else if (error) {
+      setErrorMessage(`Error: ${error.error}: ${error.message}`);
+    }
+  }, [data, error]);
 
   return (
     <div>

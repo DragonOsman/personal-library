@@ -17,10 +17,14 @@ export default function ProfileClientPage() {
 
   // Redirect unauthenticated users
   useEffect(() => {
-    if (!session?.session && !session?.user) {
-      router.push("/auth/signin");
+    if (!session) {
+      return;
     }
-  }, [router, session?.session, session?.user]);
+
+    if (!session?.session && !session?.user) {
+      router.replace("/auth/signin");
+    }
+  }, [session, router, session?.session, session?.user]);
 
   if (loading) {
     return (

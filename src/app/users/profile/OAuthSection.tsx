@@ -12,7 +12,7 @@ interface Account {
   scopes: string[];
 }
 
-const OAuthSection = async () => {
+const OAuthSection = () => {
   const [error, setError] = useState("");
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [successMessage, setSuccessMessage] = useState("");
