@@ -50,7 +50,7 @@ const ProfileSideBar = () => {
               : "text-gray-700 hover:bg-gray-100"
             )}
             title={`Navigate to ${item.label} section`}
-          ></a>
+          >{item.label}</a>
         ))}
       </nav>
     </aside>
