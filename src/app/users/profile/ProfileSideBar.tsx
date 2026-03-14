@@ -37,14 +37,14 @@ const ProfileSideBar = () => {
   }, []);
 
   return (
-    <aside className="w-56 shrink-0 border-r pr-4">
-      <nav className="sticky top-24 space-y-1">
+    <aside className="profile-sidebar w-56 shrink-0 border-r pr-4">
+      <nav className="profile-nav sticky top-24 space-y-1">
         {navItems.map(item => (
           <a
             key={item.id}
             href={`#${item.id}`}
             className={clsx(
-              "block rounded p-3 py-2 text-sm-transition",
+              "profile-navlink block rounded p-3 py-2 text-sm-transition",
               active === item.id
               ? "bg-blue-100 text-blue-700 font-medium"
               : "text-gray-700 hover:bg-gray-100"
