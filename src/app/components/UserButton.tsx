@@ -37,7 +37,7 @@ const UserButton = () => {
         <Image
           src={data.user.image && data.user.image !== ""
             ? data.user.image
-            : `https://ui-avatars.com/api/?name=${encodeURIComponent(data.user.name ?? "User")}`
+            : `https://ui-avatars.com/api/?name=${encodeURIComponent(data.user.name)}&rounded=true&size=32`
           }
           alt={data?.user.name || "User Avatar"}
           height={32}
