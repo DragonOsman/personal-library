@@ -24,7 +24,7 @@ const PasswordSection = () => {
   return (
     <div>
       <h2 className="text-xl font-semibold">Change Password</h2>
-      {message !== "" && <h3>{message}</h3>}
+      {message !== "" && <p>{message}</p>}
       {errorMessage !== "" && <p>{errorMessage}</p>}
       <Formik
         initialValues={{ currentPassword: "", newPassword: "", confirmPassword: "" }}
