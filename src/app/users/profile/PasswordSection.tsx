@@ -95,7 +95,7 @@ const PasswordSection = () => {
             <button
               type="submit"
               title="Change password"
-              className="bg-blue-500 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-600"
+              className="bg-blue-600 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-700"
             >
               {isSubmitting ? "Changing password..." : "Change password"}
             </button>
