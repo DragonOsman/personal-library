@@ -18,7 +18,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply text-[#d9f0ff] font-sans font-bold mb-4;
+    @apply text-[var(--color-brand-primary)] font-sans font-bold mb-4;
   }
 
   h1 { @apply text-[2.5rem] lg:text-5xl md:text-4xl sm:text-3xl xs:text-2xl; }
