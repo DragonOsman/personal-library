@@ -124,7 +124,7 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
               <input
                 type="submit"
                 value="Submit"
-                className="bg-blue-500 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-600"
+                className="bg-blue-600 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-700"
                 disabled={isSubmitting}
               />
             </form>
@@ -135,7 +135,7 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
       <button
         type="button"
         title="toggle 2fa"
-        className="bg-blue-500 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-600"
+        className="bg-blue-600 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-700"
         onClick={() => toggle2FA(!isEnabled)}
       >
         {isEnabled ? "Disable " : "Enable "}2FA
@@ -194,7 +194,7 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
                 <input
                   type="text"
                   title="Enter 6-digit code"
-                  className="bg-green-500 text-white p-2 rounded disabled:opacity-50 hover:bg-green-600 w-32"
+                  className="bg-green-600 text-white p-2 rounded disabled:opacity-50 hover:bg-green-700 w-32"
                   maxLength={6}
                   {...getFieldProps("totpCode")}
                 />
@@ -206,7 +206,7 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
                   type="submit"
                   title="verify totp"
                   value="Verify"
-                  className="bg-blue-500 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-600"
+                  className="bg-blue-600 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-700"
                   disabled={isSubmitting}
                 />
               </form>
