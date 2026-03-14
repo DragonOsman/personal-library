@@ -65,6 +65,7 @@ const PasswordSection = () => {
             {status && status.msg && status.msg !== "" && (
               <div className="text-red-500 text-sm">{status.msg}</div>
             )}
+            <label htmlFor="currentPassword">Current Password:</label>
             <input
               type="password"
               {...getFieldProps("currentPassword")}
@@ -73,6 +74,7 @@ const PasswordSection = () => {
             {touched.currentPassword && errors.currentPassword && (
               <p className="text-red-500 text-sm">{errors.currentPassword}</p>
             )}
+            <label htmlFor="newPassword">New Password:</label>
             <input
               type="password"
               {...getFieldProps("newPassword")}
@@ -81,6 +83,7 @@ const PasswordSection = () => {
             {touched.newPassword && errors.newPassword && (
               <p className="text-red-500 text-sm">{errors.newPassword}</p>
             )}
+            <label htmlFor="confirmPassword">Confirm Password:</label>
             <input
               type="password"
               {...getFieldProps("confirmPassword")}
