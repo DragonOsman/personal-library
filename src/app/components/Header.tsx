@@ -73,18 +73,20 @@ export default function Header() {
           </div>
           <div className="navbar-end">
             {isAuthenticated ?
-              <UserButton /> :
+              <div className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
+                <UserButton />
+              </div> :
               <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
                 <li>
-                    <Link href="/auth/signin" className="nav-link">
-                      Sign In
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/auth/signup" className="nav-link">
-                      Sign Up
-                    </Link>
-                  </li>
+                  <Link href="/auth/signin" className="nav-link">
+                    Sign In
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/auth/signup" className="nav-link">
+                    Sign Up
+                  </Link>
+                </li>
               </ul>
             }
           </div>
