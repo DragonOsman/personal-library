@@ -69,6 +69,7 @@ const PasswordSection = () => {
             <input
               type="password"
               {...getFieldProps("currentPassword")}
+              placeholder="Enter current password"
               className="border rounded p-2 w-full"
             />
             {touched.currentPassword && errors.currentPassword && (
@@ -78,6 +79,7 @@ const PasswordSection = () => {
             <input
               type="password"
               {...getFieldProps("newPassword")}
+              placeholder="Enter new password"
               className="border rounded p-2 w-full"
             />
             {touched.newPassword && errors.newPassword && (
@@ -87,6 +89,7 @@ const PasswordSection = () => {
             <input
               type="password"
               {...getFieldProps("confirmPassword")}
+              placeholder="Confirm new password"
               className="border rounded p-2 w-full"
             />
             {touched.confirmPassword && errors.confirmPassword && (
