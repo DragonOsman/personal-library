@@ -67,15 +67,15 @@ export default function Header() {
                       List Books
                     </Link>
                   </li>
+                  <li>
+                    <UserButton />
+                  </li>
                 </>
               )}
             </ul>
           </div>
           <div className="navbar-end">
-            {isAuthenticated ?
-              <div className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
-                <UserButton />
-              </div> :
+            {!isAuthenticated && (
               <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
                 <li>
                   <Link href="/auth/signin" className="nav-link">
@@ -88,7 +88,7 @@ export default function Header() {
                   </Link>
                 </li>
               </ul>
-            }
+            )}
           </div>
         </nav>
       </div>
