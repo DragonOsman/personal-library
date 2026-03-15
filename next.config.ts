@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "ui-avatars.com",
         port: "",
-        pathname: "/api/*"
+        pathname: "/api/**"
       }
     ]
   }

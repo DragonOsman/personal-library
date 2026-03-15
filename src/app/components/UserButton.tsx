@@ -22,7 +22,6 @@ const UserButton = () => {
   }, []);
 
   if (isPending || !data?.session) {
-    alert("You must be signed in to access this page.");
     return null;
   }
 
