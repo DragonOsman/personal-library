@@ -7,7 +7,7 @@ import Image from "next/image";
 import SignOut from "./Signout";
 
 const UserButton = () => {
-  const { data, error, isPending } = authClient.useSession();
+  const { data, isPending } = authClient.useSession();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

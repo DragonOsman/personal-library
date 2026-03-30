@@ -20,3 +20,7 @@ export const BaseBookSchema = z.object({
     smallThumbnail: z.string().url().optional()
   }).optional()
 });
+
+export const UpdateBookSchema = z.object({
+  description: z.string().min(1, "Description is required")
+});

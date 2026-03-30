@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useContext, useEffect, FormEvent } from "react";
-import { BookContext, IBook, BookFormValues, BOOK_CATEGORIES } from "@/src/app/context/BookContext";
-import { BaseBookSchema } from "@/src/app/books/BookSchemaZod";
+import { useState, useContext, FormEvent } from "react";
+import { BookContext, IBook } from "@/src/app/context/BookContext";
+import { UpdateBookSchema } from "@/src/app/books/BookSchemaZod";
 import { Formik, Form, Field } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
@@ -11,63 +11,25 @@ const UpdateBookContent = ({
 }: {
   params: { id: string }
 }) => {
-  const [id, setId] = useState("");
+  const id = params.id;
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const { books, setBooks } = useContext(BookContext);
 
-  useEffect(() => {
-    const newId = params.id;
-    setId(newId);
-  }, [params]);
+  const book = books.find(b => b.id === id);
+  if (!book) {
+    return <p>Loading book...</p>;
+  }
 
-  const initialValues: BookFormValues = {
-    title: "",
-    authors: "",
-    description: "",
-    isbn: "",
-    publishedDate: "",
-    categories : [],
-    averageRating: 0,
-    ratingsCount: 0,
-    pageCount: 0,
-    thumbnail: "",
-    smallThumbnail: ""
+  const initialValues: Partial<IBook> = {
+    description: ""
   };
 
-  const normalizeAuthors = (input: string) => {
-    const parts = input
-      .split(",")
-      .map(part => part.trim())
-      .filter(Boolean)
-    ;
-
-    return {
-      author: parts[0],
-      authors: parts.length > 1 ? parts : []
-    };
-  };
-
-  const onSubmit = async (values: BookFormValues) => {
+  const onSubmit = async (values: typeof initialValues) => {
     console.log("Form data", values);
 
-    const { author, authors } = normalizeAuthors(values.authors);
-
     const payload: Partial<IBook> = {
-      title: values.title,
-      author,
-      authors,
-      description: values.description,
-      isbn: values.isbn,
-      publishedDate: values.publishedDate,
-      categories: values.categories,
-      pageCount: values.pageCount,
-      averageRating: values.averageRating,
-      ratingsCount: values.ratingsCount,
-      imageLinks: {
-        thumbnail: values.thumbnail,
-        smallThumbnail: values.smallThumbnail
-      }
+      description: values.description
     };
 
     try {
@@ -105,9 +67,21 @@ const UpdateBookContent = ({
     <div className="UpdateBook flex justify-center">
       <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm">
         <h1 className="text-black">Update A Book</h1>
+        <div className="mb-4">
+          <p><strong>Title:</strong> {book.title}</p>
+          <p><strong>Author(s):</strong> {book.authors.join(", ")}</p>
+          <p><strong>ISBN:</strong> {book.isbn}</p>
+          <p><strong>Published Date:</strong> {book.publishedDate}</p>
+          <p><strong>Current Description:</strong> {book.description}</p>
+          <p><strong>Categories:</strong> {book.categories ? book.categories.join(", ") : "N/A"}</p>
+          <p><strong>Page Count:</strong> {book.pageCount}</p>
+          <p><strong>Average Rating:</strong> {book.averageRating}</p>
+          <p><strong>Ratings Count:</strong> {book.ratingsCount}</p>
+        </div>
         <Formik
           initialValues={initialValues}
-          validationSchema={toFormikValidationSchema(BaseBookSchema)}
+          enableReinitialize={true}
+          validationSchema={toFormikValidationSchema(UpdateBookSchema)}
           onSubmit={onSubmit}
         >
           {({ isSubmitting, handleSubmit, errors, touched }) => (
@@ -117,45 +91,6 @@ const UpdateBookContent = ({
                 handleSubmit();
               }}
             >
-              <label htmlFor="title">Title:</label>
-              <Field
-                as="input"
-                type="text"
-                name="title"
-                required
-                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-              />
-              {errors.title && touched.title ? (
-                <p className="text-sm text-red-400">
-                  {errors.title}
-                </p>
-              ) : null}
-              <label htmlFor="author">Author(s) <span>(comma-separated)</span>:</label>
-              <Field
-                as="input"
-                type="text"
-                name="authors"
-                required
-                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-              />
-              {errors.authors && touched.authors ? (
-                <p className="text-sm text-red-400">
-                  {errors.authors}
-                </p>
-              ) : null}
-              <label htmlFor="isbn">ISBN:</label>
-              <Field
-                as="input"
-                type="text"
-                name="isbn"
-                required
-                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-              />
-              {errors.isbn && touched.isbn ? (
-                <p className="text-sm text-red-400">
-                  {errors.isbn}
-                </p>
-              ) : null}
               <label htmlFor="description">Description:</label>
               <Field
                 as="textarea"
@@ -170,65 +105,6 @@ const UpdateBookContent = ({
                   {errors.description}
                 </p>
               ) : null}
-              <label htmlFor="publishedDate">Publication Date:</label>
-              <Field
-                as="input"
-                type="text"
-                name="publishedDate"
-                required
-                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-              />
-              {errors.publishedDate && touched.publishedDate ? (
-                <p className="text-sm text-red-400">
-                  {errors.publishedDate}
-                </p>
-              ) : null}
-              <label htmlFor="categories">Categories (select at least one):</label>
-              <Field
-                as="select"
-                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                name="categories"
-                multiple
-              >
-                {BOOK_CATEGORIES.map(category => (
-                  <option value={`${category}`} key={category}>{category}</option>
-                ))}
-              </Field>
-              <label htmlFor="pageCount">Page Count:</label>
-              <Field
-                as="input"
-                type="number"
-                name="pageCount"
-                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-              />
-              <label htmlFor="averageRating">Average rating:</label>
-              <Field
-                as="input"
-                type="number"
-                name="averageRating"
-                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-              />
-              <label htmlFor="ratingsCount">Ratings count:</label>
-              <Field
-                as="input"
-                type="number"
-                name="ratingsCount"
-                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-              />
-              <label htmlFor="thumbnial">Thumbnail URL:</label>
-              <Field
-                as="input"
-                type="text"
-                name="thumbnail"
-                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-              />
-              <label htmlFor="smallThumbnail">Small thumbnail URL:</label>
-              <Field
-                as="input"
-                type="text"
-                name="smallThumbnail"
-                className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-              />
               <button type="submit" disabled={isSubmitting}>
                 Update Book
               </button>
