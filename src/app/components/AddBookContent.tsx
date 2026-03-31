@@ -34,7 +34,7 @@ const AddBookPageContent = () => {
   const [message, setMessage] = useState("");
   const { books, setBooks } = useContext(BookContext);
   const [searchResults, setSearchResults] = useState<GoogleApiBookItem[]>([]);
-  const [showManual, setShowManual] = useState(false);
+  const [showManualAddingForm, setShowManualAddingForm] = useState(false);
 
   const uriEncodedTitle = encodeURIComponent(searchTitle);
 
@@ -226,13 +226,13 @@ const AddBookPageContent = () => {
         {error !== "" && <p className="text-red-600 text-sm">{error}</p>}
         <button
           type="button"
-          onClick={() => setShowManual(!showManual)}
+          onClick={() => setShowManualAddingForm(!showManualAddingForm)}
           className="btn btn-primary w-full mt-4"
         >
-          {`${showManual ? "Show" : "Hide"} Manual Book Entry Form`}
+          {`${showManualAddingForm ? "Show" : "Hide"} Manual Book Entry Form`}
         </button>
 
-        {showManual && (
+        {showManualAddingForm && (
           <Formik
             initialValues={initialValues}
             validationSchema={toFormikValidationSchema(BaseBookSchema)}
