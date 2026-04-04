@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 "use client";
 
 import { createContext, ReactNode, useState, useEffect, Dispatch, SetStateAction } from "react";

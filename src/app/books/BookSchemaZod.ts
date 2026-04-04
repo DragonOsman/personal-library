@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 import { z } from "zod";
 
 export const ImageLinksSchema = z.object({

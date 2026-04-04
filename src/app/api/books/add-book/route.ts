@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import prisma from "@/src/app/lib/db";

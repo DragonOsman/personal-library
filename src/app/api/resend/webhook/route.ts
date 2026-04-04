@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 import { NextResponse, NextRequest } from "next/server";
 import { headers } from "next/headers";
 import { Resend } from "resend";

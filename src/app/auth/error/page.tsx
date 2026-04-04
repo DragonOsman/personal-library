@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 import { Suspense } from "react";
 import AuthErrorContent from "./content";
 import { getRouteTitle, getRouteKeywords } from "@/src/app/lib/routeTitles";

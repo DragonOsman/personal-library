@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 import type { Config } from "tailwindcss";
 import daisyui from "daisyui";
 

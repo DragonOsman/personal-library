@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 import ListBooksContent from "@/src/app/components/ListBooksContent";
 import { Metadata } from "next";
 import { getRouteTitle, getRouteKeywords } from "@/src/app/lib/routeTitles";

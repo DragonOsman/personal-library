@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 import { BookContext, IBook } from "@/src/app/context/BookContext";
 import { useContext, useCallback } from "react";
 

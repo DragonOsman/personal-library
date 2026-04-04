@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";

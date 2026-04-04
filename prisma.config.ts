@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 import "dotenv/config";
 import { defineConfig, env } from "prisma/config";
 

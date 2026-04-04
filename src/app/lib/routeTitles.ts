@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 export const baseTitle = "Personal Library App";
 
 export const routeMap: Record<string, { title: string, keywords: string[] }> = {

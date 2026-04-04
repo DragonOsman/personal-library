@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/src/app/lib/db";
 import { auth } from "@/src/auth";

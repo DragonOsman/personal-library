@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 import ResetPassword from "@/src/app/components/ResetPassword";
 import { Metadata } from "next";
 import { getRouteTitle, getRouteKeywords } from "@/src/app/lib/routeTitles";

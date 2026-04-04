@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 

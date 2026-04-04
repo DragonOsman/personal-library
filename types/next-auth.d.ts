@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 import { DefaultSession } from "next-auth";
 import { IBook } from "../app/context/BookContext";
 

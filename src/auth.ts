@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 import { betterAuth } from "better-auth";
 import prisma from "./app/lib/db";
 import { prismaAdapter } from "better-auth/adapters/prisma";

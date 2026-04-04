@@ -1,3 +1,6 @@
+
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
 import SignUp from "@/src/app/components/Signup";
 import { Metadata } from "next";
 import { getRouteTitle, getRouteKeywords } from "@/src/app/lib/routeTitles";

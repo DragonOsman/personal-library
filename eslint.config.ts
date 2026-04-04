@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
 // eslint.config.ts
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";

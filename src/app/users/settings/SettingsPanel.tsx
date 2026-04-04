@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Your Name
+// Licensed under the GPL v3
+
 "use client";
 import { useState, useEffect } from "react";
 import { authClient } from "@/src/auth-client";
