@@ -1,4 +1,4 @@
-// Copyright (c) 2026 Your Name
+// Copyright (c) 2026 Osman Zakir
 // Licensed under the GPL v3
 
 import type { NextConfig } from "next";

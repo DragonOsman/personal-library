@@ -1,11 +1,11 @@
-// Copyright (c) 2026 Your Name
+// Copyright (c) 2026 Osman Zakir
 // Licensed under the GPL v3
 
 import { ReactNode } from "react";
 import { Metadata, Viewport } from "next";
-import Header from "./components/Header";
+import Header from "@/src/app/components/Header";
 import BookContextProvider from "./context/BookContext";
-import "./globals.css";
+import "@/src/app/globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://personal-library-wmjc.vercel.app"),

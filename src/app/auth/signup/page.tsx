@@ -1,5 +1,5 @@
 
-// Copyright (c) 2026 Your Name
+// Copyright (c) 2026 Osman Zakir
 // Licensed under the GPL v3
 import SignUp from "@/src/app/components/Signup";
 import { Metadata } from "next";
