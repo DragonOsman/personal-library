@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 import { Metadata, Viewport } from "next";
 import Header from "@/src/app/components/Header";
 import BookContextProvider from "./context/BookContext";
-import "@/src/app/globals.css";
+import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://personal-library-wmjc.vercel.app"),
