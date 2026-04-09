@@ -2,7 +2,7 @@
 // Licensed under the GPL v3
 
 import { betterAuth } from "better-auth";
-import prisma from "./app/lib/db";
+import prisma from "@/src/lib/db";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { magicLink, twoFactor, emailOTP } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
