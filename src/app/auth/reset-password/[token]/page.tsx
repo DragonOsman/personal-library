@@ -3,7 +3,7 @@
 
 import ResetPassword from "@/src/app/components/ResetPassword";
 import { Metadata } from "next";
-import { getRouteTitle, getRouteKeywords } from "@/src/app/lib/routeTitles";
+import { getRouteTitle, getRouteKeywords } from "@/src/lib/routeTitles";
 import { notFound } from "next/navigation";
 
 export const generateMetadata = (): Metadata => {

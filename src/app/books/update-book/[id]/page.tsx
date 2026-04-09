@@ -3,7 +3,7 @@
 
 import UpdateBookContent from "@/src/app/components/UpdateBookContent";
 import { Metadata } from "next";
-import { getRouteTitle, getRouteKeywords } from "@/src/app/lib/routeTitles";
+import { getRouteTitle, getRouteKeywords } from "@/src/lib/routeTitles";
 
 interface UpdateBookPageProps {
   params: {

@@ -3,7 +3,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import prisma from "@/src/app/lib/db";
+import prisma from "@/src/lib/db";
 import { auth } from "@/src/auth";
 
 export const POST = async (req: NextRequest) => {

@@ -3,7 +3,7 @@
 
 import ProfileClientPage from "./ProfileClient";
 import { Metadata } from "next";
-import { getRouteTitle, getRouteKeywords } from "@/src/app/lib/routeTitles";
+import { getRouteTitle, getRouteKeywords } from "@/src/lib/routeTitles";
 
 export const generateMetadata = (): Metadata => {
   const pathname = "/users/profile";
