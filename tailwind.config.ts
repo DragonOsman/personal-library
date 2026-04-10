@@ -13,11 +13,15 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          primary: "var(--color-brand-primary)",
-          secondary: "var(--color-brand-secondary)",
-          text: "var(--color-brand-text)",
-          background: "var(--color-brand-primary)",
-          foreground: "var(--color-brand-secondary)"
+          colors: {
+          brand: {
+          primary: "#1f2937",   // slate-800
+          secondary: "#2563eb", // blue-600
+          accent: "#38bdf8",    // sky-400
+          surface: "#ffffff",
+          muted: "#6b7280"
+      }
+    }
         }
       },
       backgroundImage: {

@@ -9,14 +9,15 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useState } from "react";
 import { signinSchema } from "@/src/utils/validation";
 import { FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
+import Card from "@/src/app/components/ui/Card";
 
 export default function SignIn() {
   const [customError, setCustomError] = useState<string>("");
 
   return (
     <div className="flex justify-center">
-      <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm">
-        <h1 className="text-black">Sign In</h1>
+      <Card>
+        <h1 className="text-2xl font-bold text-center mb-6">Sign In</h1>
         <Formik
           initialValues={{ email: "", password: "", rememberMe: false }}
           validationSchema={toFormikValidationSchema(signinSchema)}
@@ -40,37 +41,37 @@ export default function SignIn() {
           {({ handleSubmit, getFieldProps, touched, errors, isSubmitting, status, values }) => (
             <>
               <Form
-                className="Signin flex flex-col gap-4"
+                className="space-y-4"
                 onSubmit={handleSubmit}
                 method="post"
               >
-                <div className="emailGroup">
-                  <label htmlFor="email">Email:</label>
+                <div className="form-control">
+                  <label className="label" htmlFor="email">Email:</label>
                   <input
                     id="email"
                     type="email"
                     {...getFieldProps("email")}
-                    className="border rounded p-2 w-full"
+                    className="input input-bordered w-full"
                   />
                   {touched.email && errors.email && (
-                    <p className="text-red-500 text-sm">{errors.email}</p>
+                    <p className="text-error text-sm">{errors.email}</p>
                   )}
                 </div>
-                <div className="passwordGroup">
-                  <label htmlFor="password">Password:</label>
+                <div className="form-control">
+                  <label className="label" htmlFor="password">Password:</label>
                   <input
                     id="password"
                     type="password"
                     {...getFieldProps("password")}
-                    className="border rounded p-2 w-full"
+                    className="input input-bordered w-full"
                   />
                   {touched.password && errors.password && (
-                    <p className="text-red-500 text-sm">{errors.password}</p>
+                    <p className="text-error text-sm">{errors.password}</p>
                   )}
-                  <label htmlFor="rememberMe">Remember Me: </label>
+                  <label className="flex items-center gap-2 text-sm" htmlFor="rememberMe">Remember Me: </label>
                   <input
                     id="rememberMe"
-                    className="m-2"
+                    className="checkbox checkbox-sm"
                    {...getFieldProps("rememberMe")}
                     type="checkbox"
                   />
@@ -80,68 +81,67 @@ export default function SignIn() {
                   type="submit"
                   title="Sign In"
                   disabled={isSubmitting}
-                  className="bg-blue-600 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-800"
+                  className="btn btn-primary w-full"
                 >
                   {isSubmitting ? "Signing in..." : "Sign In"}
                 </button>
-                {}
-                <p className="note">
-                  <a
-                    href="/auth/reset-password-request"
-                    className="link hover:link-hover"
-                    title="reset password"
-                  >
-                    Forgot your password?
+
+                <div className="text-sm text-center space-y-1">
+                  <a href="/auth/reset-password-request" className="link">
+                    Forgot password?
                   </a>
-                </p>
-                <p className="note">
-                  Don't have an account? <a href="/auth/signup" className="link hover:link-hover" title="sign up">Sign up</a>.
-                </p>
+                  <p>
+                    Don't have an account?{" "}
+                    <a href="/auth/signup" className="link">
+                      Sign up
+                    </a>
+                  </p>
+                </div>
                 {status && status.msg && status.msg !== "" && (
-                  <p className="text-red-500 text-sm">{status.msg}</p>
+                  <p className="text-error text-sm text-center">{status.msg}</p>
                 )}
                 {customError !== "" && (
-                  <p className="text-red-500 text-sm">{customError}</p>
+                  <p className="text-error text-sm text-center">{customError}</p>
                 )}
               </Form>
-              <hr className="divider my-6" />
-              <div className="socialSignIn flex flex-col gap-4">
+              <div className="divider">OR</div>
+              <div className="space-y-2">
                 <button
+                  onClick={() => authClient.signIn.social({ provider: "google" })}
+                  className="btn btn-outline w-full gap-2"
                   title="Google SignIn"
                   type="button"
-                  onClick={() => authClient.signIn.social({
-                    provider: "google"
-                  })}
-                  className="bg-red-600 items-center text-white p-2 rounded hover:bg-red-800"
                 >
-                  <FaGoogle className="inline-block" /> Sign in with Google
+                  <FaGoogle /> Continue with Google
                 </button>
+
                 <button
+                  onClick={() => authClient.signIn.social({ provider: "github" })}
+                  className="btn btn-outline w-full gap-2"
+                  type="button"
                   title="GitHub SignIn"
-                  type="button"
-                  onClick={() => authClient.signIn.social({
-                    provider: "github"
-                  })}
-                  className="bg-gray-700 items-center text-white p-2 rounded hover:bg-black-900"
                 >
-                  <FaGithub className="inline-block" /> Sign in with GitHub
+                  <FaGithub /> Continue with GitHub
                 </button>
+
                 <button
-                  title="Email SignIn"
+                  onClick={() =>
+                    authClient.signIn.magicLink({
+                      email: values.email,
+                      callbackURL: "/users/profile"
+                    })
+                  }
+                  className="btn btn-outline w-full gap-2"
                   type="button"
-                  onClick={() => authClient.signIn.magicLink({
-                    email: values.email,
-                    callbackURL: "/users/profile"
-                  })}
-                  className="bg-green-700 items-center text-white p-2 rounded hover:bg-black-800"
+                  title="Magic Link SignIn"
                 >
-                  <FaEnvelope className="inline-block" /> Sign in with Email
+                  <FaEnvelope /> Magic Link
                 </button>
               </div>
             </>
           )}
         </Formik>
-      </div>
+      </Card>
     </div>
   );
 }

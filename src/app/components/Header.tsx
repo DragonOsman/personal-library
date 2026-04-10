@@ -14,86 +14,97 @@ import UserButton from "./UserButton";
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { data } = authClient.useSession();
-  const handleToggle = () => setIsOpen(s => !s);
 
-  let isAuthenticated: boolean = false;
-  if (data && data.session && data.user) {
-    isAuthenticated = true;
-  }
+  const isAuthenticated = !!(data?.session && data?.user);
 
   return (
-    <header className="fixed top-0 left-0 w-full h-20 bg-[#2e2f33] z-50 shadow-md">
-      <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+    <header className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/80 border-b border-gray-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
           <Image
             src={logo}
             alt="Logo"
             width={50}
             height={50}
-            className="w-12 h-12 object-contain"
+            className="object-contain"
             priority
           />
+          <span className="hidden sm:block font-semibold text-lg text-gray-800">
+            DragonOsman Personal Library
+          </span>
         </Link>
 
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-4">
+          {isAuthenticated ? (
+            <>
+              <Link href="/" className="btn btn-ghost btn-sm">
+                Home
+              </Link>
+              <Link href="/books/add-book" className="btn btn-primary btn-sm">
+                Add Book
+              </Link>
+              <Link href="/books/list-books" className="btn btn-ghost btn-sm">
+                My Books
+              </Link>
+              <UserButton />
+            </>
+          ) : (
+            <>
+              <Link href="/auth/signin" className="btn btn-ghost btn-sm">
+                Sign In
+              </Link>
+              <Link href="/auth/signup" className="btn btn-primary btn-sm">
+                Sign Up
+              </Link>
+            </>
+          )}
+        </nav>
+
+        {/* Mobile Toggle */}
         <button
+          className="md:hidden text-2xl p-2 text-gray-700"
+          onClick={() => setIsOpen((s) => !s)}
+          aria-label="Toggle menu"
           type="button"
-          className="md:hidden text-white text-2xl p-2"
-          aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-          onClick={handleToggle}
         >
           {isOpen ? <FaTimes /> : <FaBars />}
         </button>
+      </div>
 
-        <nav
-          className={`${
-            isOpen
-              ? "navbar absolute top-full left-0 w-full bg-[#2e2f33] md:static md:bg-transparent"
-              : "hidden md:block"
-          } md:block`}
-        >
-          <div className="navbar-start">
-            <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
-              {isAuthenticated && (
-                <>
-                  <li>
-                    <Link href="/" className="nav-link">
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/books/add-book" className="nav-link">
-                      Add a Book
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/books/list-books" className="nav-link">
-                      List Books
-                    </Link>
-                  </li>
-                  <li>
-                    <UserButton />
-                  </li>
-                </>
-              )}
-            </ul>
-          </div>
-          <div className="navbar-end">
-            {!isAuthenticated && (
-              <ul className="flex flex-col md:flex-row md:items-center md:space-x-6 p-4 md:p-0">
-                <li>
-                  <Link href="/auth/signin" className="nav-link">
-                    Sign In
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/auth/signup" className="nav-link">
-                    Sign Up
-                  </Link>
-                </li>
-              </ul>
-            )}
-          </div>
-        </nav>
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden transition-all duration-300 overflow-hidden ${
+          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="px-4 pb-4 space-y-2 bg-white border-t">
+          {isAuthenticated ? (
+            <>
+              <Link href="/" className="btn btn-ghost w-full justify-start">
+                Home
+              </Link>
+              <Link href="/books/add-book" className="btn btn-primary w-full">
+                Add Book
+              </Link>
+              <Link href="/books/list-books" className="btn btn-ghost w-full justify-start">
+                My Books
+              </Link>
+              <UserButton />
+            </>
+          ) : (
+            <>
+              <Link href="/auth/signin" className="btn btn-ghost w-full">
+                Sign In
+              </Link>
+              <Link href="/auth/signup" className="btn btn-primary w-full">
+                Sign Up
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </header>
   );

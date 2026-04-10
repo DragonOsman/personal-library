@@ -3,12 +3,13 @@
 
 "use client";
 
-import { Formik } from "formik";
+import { Formik, Form } from "formik";
 import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { authClient } from "@/src/auth-client";
 import { signupSchema } from "@/src/utils/validation";
 import {  FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
+import Card from "@/src/app/components/ui/Card";
 
 export default function SignUp() {
   const [error, setError] = useState<string>("");
@@ -16,8 +17,8 @@ export default function SignUp() {
 
   return (
     <div className="flex justify-center">
-      <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm">
-        <h1 className="text-black">Sign Up</h1>
+      <Card>
+        <h1 className="text-2xl font-bold text-center mb-6">Sign Up</h1>
         <Formik
           initialValues={{ name: "", email: "", password: "", confirmPassword: "" }}
           validationSchema={toFormikValidationSchema(signupSchema)}
@@ -43,19 +44,24 @@ export default function SignUp() {
 
           }}
         >
-         {({ handleSubmit, getFieldProps, touched, errors, status, isSubmitting }) => (
-            <div className="SignUpContainer w-full max-w-md flex flex-col flex-1 justify-center">
-              <form className="SignUp flex flex-col gap-4" onSubmit={handleSubmit}>
-                <div className="fullNameGroup">
-                  <label htmlFor="name">Full Name:</label>
+         {({ handleSubmit, getFieldProps, touched, errors, status, isSubmitting, values }) => {
+            return (
+            <>
+              <Form
+                className="space-y-4"
+                onSubmit={handleSubmit}
+                method="post"
+              >
+                <div className="form-control">
+                  <label className="label" htmlFor="name">Full Name:</label>
                   <input
                     id="name"
                     type="text"
                     {...getFieldProps("name")}
-                    className="border rounded p-2 w-full"
+                    className="input input-bordered w-full"
                   />
                   {touched.name && errors.name && (
-                    <p className="text-red-500 text-sm">{errors.name}</p>
+                    <p className="text-error text-sm">{errors.name}</p>
                   )}
                 </div>
                 <div className="emailGroup">
@@ -64,10 +70,10 @@ export default function SignUp() {
                     id="email"
                     type="email"
                     {...getFieldProps("email")}
-                    className="border rounded p-2 w-full"
+                    className="input input-bordered w-full"
                   />
                   {touched.email && errors.email && (
-                    <p className="text-red-500 text-sm">{errors.email}</p>
+                    <p className="text-error text-sm">{errors.email}</p>
                   )}
                 </div>
                 <div className="passwordGroup">
@@ -76,10 +82,10 @@ export default function SignUp() {
                     id="password"
                     type="password"
                     {...getFieldProps("password")}
-                    className="border rounded p-2 w-full"
+                    className="input input-bordered w-full"
                   />
                   {touched.password && errors.password && (
-                    <p className="text-red-500 text-sm">{errors.password}</p>
+                    <p className="text-error text-sm">{errors.password}</p>
                   )}
                 </div>
                 <div className="confirmPasswordGroup">
@@ -88,16 +94,16 @@ export default function SignUp() {
                     id="confirmPassword"
                     type="password"
                     {...getFieldProps("confirmPassword")}
-                    className="border rounded p-2 w-full"
+                    className="input input-bordered w-full"
                   />
                   {touched.confirmPassword && errors.confirmPassword && (
-                    <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
+                    <p className="text-error text-sm">{errors.confirmPassword}</p>
                   )}
                 </div>
 
-                {error !== "" && <div className="text-red-500 text-sm">{error}</div>}
+                {error !== "" && <div className="text-error text-sm text-center">{error}</div>}
                 {status && (
-                  <p className="text-red-500 text-sm">{status.msg}</p>
+                  <p className="text-error text-sm">{status.msg}</p>
                 )}
                 {success && (
                   <p className="text-green-500 text-sm">{success}</p>
@@ -107,61 +113,55 @@ export default function SignUp() {
                   type="submit"
                   title="Submit"
                   disabled={isSubmitting}
-                  className="bg-blue-600 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-800"
+                  className="btn btn-primary w-full"
                 >
                   {isSubmitting ? "Signing up..." : "Sign Up"}
                 </button>
-                <p className="note">
-                  Already have an account? <a href="/auth/signin" className="link hover:link-hover" title="sign in">Sign in</a>.
-                </p>
-              </form>
-              <hr className="divider my-6" />
-              <div className="socialSignIn flex flex-col gap-4">
+                <div className="text-sm space-y-1 text-center">
+                  <p>
+                    Already have an account? <a href="/auth/signin" className="link hover:link-hover" title="sign in">Sign in</a>.
+                  </p>
+                </div>
+              </Form>
+              <div className="divider">OR</div>
+              <div className="space-y-2">
                 <button
+                  onClick={() => authClient.signIn.social({ provider: "google" })}
+                  className="btn btn-outline w-full gap-2"
                   title="Google SignIn"
                   type="button"
-                  onClick={() => authClient.signIn.social({
-                    provider: "google"
-                  })}
-                  className="bg-red-600 text-white items-center p-2 rounded hover:bg-red-800"
                 >
-                  <FaGoogle className="inline-block" /> Sign in with Google
+                  <FaGoogle /> Continue with Google
                 </button>
+
                 <button
+                  onClick={() => authClient.signIn.social({ provider: "github" })}
+                  className="btn btn-outline w-full gap-2"
+                  type="button"
                   title="GitHub SignIn"
-                  type="button"
-                  onClick={() => authClient.signIn.social({
-                    provider: "github"
-                  })}
-                  className="bg-gray-700 text-white p-2 items-center rounded hover:bg-black-900"
                 >
-                  <FaGithub className="inline-block" /> Sign in with GitHub
+                  <FaGithub /> Continue with GitHub
                 </button>
+
                 <button
-                  type="button"
-                  title="Email SignIn"
-                  onClick={async () => {
-                    const magicLinkOptions = {
-                      email: getFieldProps("email").value,
+                  onClick={() =>
+                    authClient.signIn.magicLink({
+                      email: values.email,
                       callbackURL: "/users/profile"
-                    };
-                    const { error: err, data } = await authClient.signIn.magicLink(magicLinkOptions);
-                    if (err) {
-                      setError("Failed to send magic link");
-                    }
-                    if (data && data.status) {
-                      alert("Link sent to  your email");
-                    }
-                  }}
-                  className="bg-green-700 text-white items-center p-2 rounded hover:bg-green-800"
+                    })
+                  }
+                  className="btn btn-outline w-full gap-2"
+                  type="button"
+                  title="Magic Link SignIn"
                 >
-                  <FaEnvelope className="inline-block" /> Sign in with Email
+                  <FaEnvelope /> Magic Link
                 </button>
               </div>
-            </div>
-          )}
+            </>
+            );
+          }}
         </Formik>
-      </div>
+      </Card>
     </div>
   );
 }

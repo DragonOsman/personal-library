@@ -45,8 +45,8 @@ const RootLayout = ({ children }: RootLayoutProps) => {
       >
         <BookContextProvider>
           <Header />
-          <main className="flex flex-1 items-center justify-center p-4 bg-white mx-10">
-            <div className="w-full max-w-3xl">
+          <main className="flex flex-1 items-start justify-center px-4 pt-24 pb-10">
+            <div className="w-full max-w-4xl bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-8">
               {children}
             </div>
           </main>
