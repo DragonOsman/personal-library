@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { Metadata, Viewport } from "next";
 import Header from "@/src/app/components/Header";
 import BookContextProvider from "./context/BookContext";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -47,6 +48,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           <Header />
           <main className="flex flex-1 items-start justify-center px-4 pt-24 pb-10">
             <div className="w-full max-w-4xl bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-8">
+              <Toaster position="top-right" />
               {children}
             </div>
           </main>

@@ -10,6 +10,7 @@ import { useState } from "react";
 import { signinSchema } from "@/src/utils/validation";
 import { FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
 import Card from "@/src/app/components/ui/Card";
+import toast from "react-hot-toast";
 
 export default function SignIn() {
   const [customError, setCustomError] = useState<string>("");
@@ -46,7 +47,9 @@ export default function SignIn() {
                 method="post"
               >
                 <div className="form-control">
-                  <label className="label" htmlFor="email">Email:</label>
+                  <label className="label" htmlFor="email">
+                    <span className="label-text">Email:</span>
+                  </label>
                   <input
                     id="email"
                     type="email"
@@ -58,7 +61,9 @@ export default function SignIn() {
                   )}
                 </div>
                 <div className="form-control">
-                  <label className="label" htmlFor="password">Password:</label>
+                  <label className="label" htmlFor="password">
+                    <span className="label-text">Password:</span>
+                  </label>
                   <input
                     id="password"
                     type="password"
@@ -80,7 +85,7 @@ export default function SignIn() {
                 <button
                   type="submit"
                   title="Sign In"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || Object.keys(errors).length > 0}
                   className="btn btn-primary w-full"
                 >
                   {isSubmitting ? "Signing in..." : "Sign In"}
@@ -98,10 +103,10 @@ export default function SignIn() {
                   </p>
                 </div>
                 {status && status.msg && status.msg !== "" && (
-                  <p className="text-error text-sm text-center">{status.msg}</p>
+                  <p className="text-error text-sm text-center">{toast.error(status.msg)}</p>
                 )}
                 {customError !== "" && (
-                  <p className="text-error text-sm text-center">{customError}</p>
+                  <p className="text-error text-sm text-center">{toast.error(customError)}</p>
                 )}
               </Form>
               <div className="divider">OR</div>
@@ -117,7 +122,7 @@ export default function SignIn() {
 
                 <button
                   onClick={() => authClient.signIn.social({ provider: "github" })}
-                  className="btn btn-outline w-full gap-2"
+                  className="btn btn-primary btn-outline w-full gap-2"
                   type="button"
                   title="GitHub SignIn"
                 >
@@ -131,7 +136,7 @@ export default function SignIn() {
                       callbackURL: "/users/profile"
                     })
                   }
-                  className="btn btn-outline w-full gap-2"
+                  className="btn btn-secondary btn-outline w-full gap-2"
                   type="button"
                   title="Magic Link SignIn"
                 >

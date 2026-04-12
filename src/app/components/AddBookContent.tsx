@@ -3,11 +3,17 @@
 
 "use client";
 
-import { useState, useContext, useCallback, ChangeEvent, FormEvent } from "react";
-import { BookContext, IBook, BookFormValues, BOOK_CATEGORIES } from "@/src/app/context/BookContext";
+import { useState, useContext, useCallback, FormEvent } from "react";
+import {
+  BookContext,
+  IBook,
+  BookFormValues,
+  BOOK_CATEGORIES
+} from "@/src/app/context/BookContext";
 import { BaseBookSchema } from "@/src/app/books/BookSchemaZod";
 import { Formik, Form, Field } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import toast from "react-hot-toast";
 
 interface GoogleApiVolumeInfo {
   title: string;
@@ -37,6 +43,7 @@ const AddBookPageContent = () => {
   const [message, setMessage] = useState("");
   const { books, setBooks } = useContext(BookContext);
   const [searchResults, setSearchResults] = useState<GoogleApiBookItem[]>([]);
+  const [search, setSearch] = useState("");
   const [showManualAddingForm, setShowManualAddingForm] = useState(false);
 
   const uriEncodedTitle = encodeURIComponent(searchTitle);
@@ -44,9 +51,8 @@ const AddBookPageContent = () => {
   const normalizeAuthors = (input: string) => {
     const parts = input
       .split(",")
-      .map(part => part.trim())
-      .filter(Boolean)
-    ;
+      .map((part) => part.trim())
+      .filter(Boolean);
 
     return {
       author: parts[0],
@@ -54,12 +60,8 @@ const AddBookPageContent = () => {
     };
   };
 
-  // Renamed to be more specific for adding from search results
-  const handleAddBookFromSearch = async (
-    item: GoogleApiBookItem
-  ) => {
+  const handleAddBookFromSearch = async (item: GoogleApiBookItem) => {
     if (window.confirm("Do you want to add this book to your library?")) {
-      // Map Google Books API data to IBook structure
       const bookToAdd: Partial<IBook> = {
         id: item.id,
         title: item.volumeInfo.title,
@@ -67,7 +69,9 @@ const AddBookPageContent = () => {
         authors: item.volumeInfo.authors,
         publishedDate: item.volumeInfo.publishedDate || Date.now().toString(),
         description: item.volumeInfo.description,
-        isbn: item.volumeInfo.industryIdentifiers?.find((id: { type: string; identifier: string }) => id.type === "ISBN_13" || id.type === "ISBN_10")?.identifier,
+        isbn: item.volumeInfo.industryIdentifiers?.find(
+          (id) => id.type === "ISBN_13" || id.type === "ISBN_10"
+        )?.identifier,
         pageCount: item.volumeInfo.pageCount,
         categories: item.volumeInfo.categories,
         imageLinks: {
@@ -79,7 +83,7 @@ const AddBookPageContent = () => {
         ratingsCount: item?.volumeInfo.ratingsCount
       };
 
-      const bookExists = books.some(b => b.isbn === bookToAdd.isbn);
+      const bookExists = books.some((b) => b.isbn === bookToAdd.isbn);
 
       if (bookExists) {
         setError("This book is already in your library.");
@@ -99,14 +103,22 @@ const AddBookPageContent = () => {
           const addedBook: IBook = responseData.book;
           setBooks([...books, addedBook]);
           setMessage("Book added to library successfully!");
-          setSearchResults([]); // Clear search results
+          setSearchResults([]);
         } else {
           const errorData = await response.json();
-          setError(`Failed to add book: ${errorData.message || response.statusText}`);
+          setError(
+            `Failed to add book: ${
+              errorData.message || response.statusText
+            }`
+          );
         }
       } catch (err) {
         console.error("Error adding book from search:", err);
-        setError(`An error occurred: ${err instanceof Error ? err.message : String(err)}`);
+        setError(
+          `An error occurred: ${
+            err instanceof Error ? err.message : String(err)
+          }`
+        );
       }
     }
   };
@@ -128,15 +140,15 @@ const AddBookPageContent = () => {
   const searchBooks = useCallback(async () => {
     setError("");
     try {
-      const response = await fetch(`/api/books/search?title=${uriEncodedTitle}`);
+      const response = await fetch(
+        `/api/books/search?title=${uriEncodedTitle}`
+      );
+
       if (response.ok) {
         const data = await response.json();
-        for (const dataItem of Object.entries(data)) {
-          console.log(`Data item: ${dataItem}`);
-        }
 
         if (data.items && data.items.length > 0) {
-          setSearchResults(data.items.map((item: GoogleApiBookItem) => item.volumeInfo));
+          setSearchResults(data.items);
         } else {
           setSearchResults([]);
           setSearchTitle("");
@@ -144,13 +156,21 @@ const AddBookPageContent = () => {
         }
       }
     } catch (err) {
-      console.error(`An error occurred while searching for books: ${err}`);
-      setError(`An error occurred while searching for books: ${err instanceof Error ? err.message : String(err)}`);
+      console.error(
+        `An error occurred while searching for books: ${err}`
+      );
+      setError(
+        `An error occurred while searching for books: ${
+          err instanceof Error ? err.message : String(err)
+        }`
+      );
     }
   }, [uriEncodedTitle]);
 
-  const onSubmit = async (values: BookFormValues, { resetForm }: { resetForm: () => void }) => {
-    console.log("Form data", values);
+  const onSubmit = async (
+    values: BookFormValues,
+    { resetForm }: { resetForm: () => void }
+  ) => {
     setError("");
     setMessage("");
 
@@ -176,14 +196,11 @@ const AddBookPageContent = () => {
     try {
       const response = await fetch("/api/books/add-book", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          ...payload
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
         credentials: "include"
       });
+
       if (response.ok) {
         const responseData = await response.json();
         const addedBook: IBook = responseData.book;
@@ -192,10 +209,18 @@ const AddBookPageContent = () => {
         resetForm();
       } else {
         const errorData = await response.json();
-        setError(`Couldn't add book: ${errorData.message || "Please check your input."}`);
+        setError(
+          `Couldn't add book: ${
+            errorData.message || "Please check your input."
+          }`
+        );
       }
     } catch (err) {
-      setError(`An error occurred: ${err instanceof Error ? err.message : String(err)}`);
+      setError(
+        `An error occurred: ${
+          err instanceof Error ? err.message : String(err)
+        }`
+      );
     }
   };
 
@@ -203,6 +228,8 @@ const AddBookPageContent = () => {
     <div className="AddBook flex justify-center">
       <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm">
         <h1 className="text-black">Add a New Book</h1>
+
+        {/* Search Form */}
         <form
           onSubmit={async (event: FormEvent<HTMLFormElement>) => {
             event.preventDefault();
@@ -211,191 +238,283 @@ const AddBookPageContent = () => {
           className="searchBooks"
         >
           <label htmlFor="search">Search for a book:</label>
-          <input
-            id="search"
-            name="search"
-            type="text"
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setSearchTitle(e.target.value);
-            }}
-            className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-          />
+
+          <div className="flex justify-center">
+            <input
+              type="text"
+              placeholder="Search books..."
+              className="input input-bordered w-full max-w-md"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+
           <input
             type="submit"
             value="Search"
             className="text-white w-full sm:w-auto bg-blue-300 hover:bg-blue-400 rounded-md text-center p-2"
           />
         </form>
-        {error !== "" && <p className="text-red-600 text-sm">{error}</p>}
+
+        {error && <p className="text-error text-sm">{toast.error(error)}</p>}
+
+        {/* Toggle Manual Form */}
         <button
           type="button"
-          onClick={() => setShowManualAddingForm(!showManualAddingForm)}
+          onClick={() =>
+            setShowManualAddingForm(!showManualAddingForm)
+          }
           className="btn btn-primary w-full mt-4"
         >
-          {`${showManualAddingForm ? "Show" : "Hide"} Manual Book Entry Form`}
+          {`${showManualAddingForm ? "Hide" : "Show"} Manual Book Entry Form`}
         </button>
 
+        {/* Manual Form */}
         {showManualAddingForm && (
           <Formik
             initialValues={initialValues}
-            validationSchema={toFormikValidationSchema(BaseBookSchema)}
+            validationSchema={toFormikValidationSchema(
+              BaseBookSchema
+            )}
             onSubmit={onSubmit}
           >
-            {formik => (
+            {(formik) => (
               <Form
                 onSubmit={(event: FormEvent<HTMLFormElement>) => {
                   event.preventDefault();
                   formik.handleSubmit();
                 }}
+                className="space-y-4"
               >
-                <label htmlFor="title">Title:</label>
-                <Field
-                  as="input"
-                  type="text"
-                  name="title"
-                  required
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                {formik.errors.title && formik.touched.title ? (
-                  <p className="text-sm text-red-400">
-                    {formik.errors.title}
-                  </p>
-                ) : null}
-                <label htmlFor="authors">
-                  Author(s) <span>(comma-separated)</span>:
-                </label>
-                <Field
-                  as="input"
-                  type="text"
-                  name="authors"
-                  required
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                {formik.errors.authors && formik.touched.authors ? (
-                  <p className="text-sm text-red-400">
-                    {formik.errors.authors}
-                  </p>
-                ) : null}
-                <label htmlFor="isbn">ISBN:</label>
-                <Field
-                  as="input"
-                  type="text"
-                  name="isbn"
-                  required
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                {formik.errors.isbn && formik.touched.isbn ? (
-                  <p className="text-sm text-red-400">
-                    {formik.errors.isbn}
-                  </p>
-                ) : null}
-                <label htmlFor="description">Description:</label>
-                <Field
-                  as="textarea"
-                  rows={4}
-                  cols={50}
-                  name="description"
-                  required
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                {formik.errors.description && formik.touched.description ? (
-                  <p className="text-sm text-red-400">
-                    {formik.errors.description}
-                  </p>
-                ) : null}
-                <label htmlFor="publishedDate">Publication Date:</label>
-                <Field
-                  as="input"
-                  type="text"
-                  name="publishedDate"
-                  required
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                {formik.errors.publishedDate && formik.touched.publishedDate ? (
-                  <p className="text-sm text-red-400">
-                    {formik.errors.publishedDate}
-                  </p>
-                ) : null}
-                <label htmlFor="categories">Categories (select at least one):</label>
-                <Field
-                  as="select"
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                  name="categories"
-                  multiple
-                >
-                  {BOOK_CATEGORIES.map(category => (
-                    <option value={`${category}`} key={category}>{category}</option>
-                  ))}
-                </Field>
-                <label htmlFor="pageCount">Page Count:</label>
-                <Field
-                  as="input"
-                  type="number"
-                  name="pageCount"
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                <label htmlFor="averageRating">Average rating:</label>
-                <Field
-                  as="input"
-                  type="number"
-                  name="averageRating"
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                <label htmlFor="ratingsCount">Ratings count:</label>
-                <Field
-                  as="input"
-                  type="number"
-                  name="ratingsCount"
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                <label htmlFor="thumbnial">Thumbnail URL:</label>
-                <Field
-                  as="input"
-                  type="text"
-                  name="thumbnail"
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
-                <label htmlFor="smallThumbnail">Small thumbnail URL:</label>
-                <Field
-                  as="input"
-                  type="text"
-                  name="smallThumbnail"
-                  className="border border-gray-300 text-sm rounded-md w-full dark:border-gray-600 dark:placeholder-gray-400 p-2"
-                />
+                <div className="form-control">
+                  <label htmlFor="title" className="label">
+                    <span className="label-text">Title:</span>
+                  </label>
+                  <Field
+                    as="input"
+                    type="text"
+                    name="title"
+                    required
+                    className="input input-bordered w-full"
+                  />
+                  {formik.errors.title && formik.touched.title && (
+                    <p className="text-error text-sm">{toast.error(formik.errors.title)}</p>
+                  )}
+                </div>
+
+                <div className="form-control">
+                  <label htmlFor="authors" className="label">
+                    <span className="label-text">Authors <span className="text-xs text-gray-500">
+                      (comma-separated):
+                    </span></span>
+                  </label>
+                  <Field
+                    as="input"
+                    type="text"
+                    name="authors"
+                    required
+                    className="input input-bordered w-full"
+                  />
+                  {formik.errors.authors && formik.touched.authors && (
+                    <p className="text-error text-sm">{toast.error(formik.errors.authors)}</p>
+                  )}
+                </div>
+
+                <div className="form-control">
+                  <label htmlFor="isbn" className="label">
+                    <span className="label-text">ISBN:</span>
+                  </label>
+                  <Field
+                    as="input"
+                    type="text"
+                    name="isbn"
+                    required
+                    className="input input-bordered w-full"
+                  />
+                  {formik.errors.isbn && formik.touched.isbn && (
+                    <p className="text-error text-sm">{toast.error(formik.errors.isbn)}</p>
+                  )}
+                </div>
+
+                <div className="form-control">
+                  <label htmlFor="description" className="label">
+                    <span className="label-text">Description:</span>
+                  </label>
+                  <Field
+                    as="textarea"
+                    rows={4}
+                    name="description"
+                    required
+                    className="textarea textarea-bordered w-full"
+                  />
+                  {formik.errors.description && formik.touched.description && (
+                    <p className="text-error text-sm">
+                      {toast.error(formik.errors.description)}
+                    </p>
+                  )}
+                </div>
+
+                <div className="form-control">
+                  <label htmlFor="publishedDate" className="label">
+                    <span className="label-text">Publication Date:</span>
+                  </label>
+                  <Field
+                    as="input"
+                    type="text"
+                    name="publishedDate"
+                    required
+                    className="input input-bordered w-full"
+                  />
+                  {formik.errors.publishedDate && formik.touched.publishedDate && (
+                    <p className="text-error text-sm">
+                      {toast.error(formik.errors.publishedDate)}
+                    </p>
+                  )}
+                </div>
+
+                <div className="form-control">
+                  <label htmlFor="categories" className="label">
+                    <span className="label-text">Categories (select at least one):</span>
+                  </label>
+                  <Field
+                    as="select"
+                    name="categories"
+                    multiple
+                    className="select select-bordered w-full h-32"
+                  >
+                    {BOOK_CATEGORIES.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </Field>
+                </div>
+
+                <div className="form-control">
+                  <label htmlFor="pageCount" className="label">
+                    <span className="label-text">Page Count:</span>
+                  </label>
+                  <Field
+                    as="input"
+                    type="number"
+                    name="pageCount"
+                    className="input input-bordered w-full"
+                  />
+                </div>
+
+                <div className="form-control">
+                  <label htmlFor="averageRating" className="label">
+                    <span className="label-text">Average Rating:</span>
+                  </label>
+                  <Field
+                    as="input"
+                    type="number"
+                    name="averageRating"
+                    className="input input-bordered w-full"
+                  />
+                </div>
+
+                <div className="form-control">
+                  <label htmlFor="ratingsCount" className="label">
+                    <span className="label-text">Ratings Count:</span>
+                  </label>
+                  <Field
+                    as="input"
+                    type="number"
+                    name="ratingsCount"
+                    className="input input-bordered w-full"
+                  />
+                </div>
+
+                <div className="form-control">
+                  <label htmlFor="thumbnail" className="label">
+                    <span className="label-text">Thumbnail URL:</span>
+                  </label>
+                  <Field
+                    as="input"
+                    type="text"
+                    name="thumbnail"
+                    className="input input-bordered w-full"
+                  />
+                </div>
+
+                <div className="form-control">
+                  <label htmlFor="smallThumbnail" className="label">
+                    <span className="label-text">Small Thumbnail URL:</span>
+                  </label>
+                  <Field
+                    as="input"
+                    type="text"
+                    name="smallThumbnail"
+                    className="input input-bordered w-full"
+                  />
+                </div>
+
                 <button
                   type="submit"
-                  className="text-white w-full sm:w-auto bg-blue-300 hover:bg-blue-400 rounded-md text-center p-2"
                   disabled={formik.isSubmitting}
+                  className="btn btn-primary w-full"
                 >
                   Add Book Manually
                 </button>
-                {error !== "" && <p className="text-red-600 text-sm">{error}</p>}
-                {message !== "" && <p className="text-sm">{message}</p>}
+
+                {error && <p className="text-error text-sm">{toast.error(error)}</p>}
+                {message && <p className="text-sm">{toast.success(message)}</p>}
               </Form>
             )}
           </Formik>
         )}
 
+        {/* Search Results */}
         {searchResults.length > 0 && (
-          <div className="search-results mt-4">
-            <h2>Search Results</h2>
-            <ul>
-              {searchResults.map((result: GoogleApiBookItem, index) => (
-                <li key={index} className="mb-2 border-b pb-2">
-                  <div>
-                    <strong>{result.volumeInfo.title}</strong> by {result.volumeInfo.authors?.join(", ")}
-                  </div>
-                  <button
-                    className="bg-green-500 text-white px-2 py-1 rounded mt-1"
-                    onClick={() => handleAddBookFromSearch(result)}
-                    title="Add this book to your library"
-                    type="button"
+          <div className="mt-6 space-y-4">
+            <h2 className="text-xl font-semibold text-center">
+              Search Results
+            </h2>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {searchResults.map((result, index) => {
+                const img = result.volumeInfo.imageLinks?.thumbnail;
+
+                return (
+                  <div
+                    key={index}
+                    className="card bg-base-100 shadow-md"
                   >
-                    Add Book
-                  </button>
-                </li>
-              ))}
-            </ul>
+                    <figure className="px-4 pt-4">
+                      {img && (
+                        <img
+                          src={img}
+                          alt={result.volumeInfo.title}
+                          className="rounded h-40 object-contain"
+                        />
+                      )}
+                    </figure>
+
+                    <div className="card-body text-center">
+                      <h3 className="font-semibold line-clamp-2">
+                        {result.volumeInfo.title}
+                      </h3>
+
+                      <p className="text-sm text-gray-500">
+                        {result.volumeInfo.authors?.join(", ") ||
+                          "Unknown Author"}
+                      </p>
+
+                      <button
+                        onClick={() =>
+                          handleAddBookFromSearch(result)
+                        }
+                        className="btn btn-primary btn-sm mt-2"
+                        type="button"
+                      >
+                        Add Book
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>

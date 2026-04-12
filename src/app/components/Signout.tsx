@@ -5,6 +5,7 @@
 
 import { authClient } from "@/src/auth-client";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const SignOut = () => {
   const router = useRouter();
@@ -13,9 +14,10 @@ const SignOut = () => {
     const { data, error } = await authClient.signOut();
 
     if (data && data.success) {
+      toast.success("Logged out");
       router.push("/auth/signin");
     } else if (error) {
-      alert(`An error occurred when attempting to log out: ${error.message}`);
+      toast.error(`An error occurred when attempting to log out: ${error.message}`);
     }
   };
 

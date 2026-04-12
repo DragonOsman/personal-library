@@ -10,6 +10,7 @@ import { authClient } from "@/src/auth-client";
 import { signupSchema } from "@/src/utils/validation";
 import {  FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
 import Card from "@/src/app/components/ui/Card";
+import toast from "react-hot-toast";
 
 export default function SignUp() {
   const [error, setError] = useState<string>("");
@@ -64,8 +65,10 @@ export default function SignUp() {
                     <p className="text-error text-sm">{errors.name}</p>
                   )}
                 </div>
-                <div className="emailGroup">
-                  <label htmlFor="email">Email:</label>
+                <div className="form-control">
+                  <label className="label" htmlFor="email">
+                    <span className="label-text">Email:</span>
+                  </label>
                   <input
                     id="email"
                     type="email"
@@ -76,8 +79,10 @@ export default function SignUp() {
                     <p className="text-error text-sm">{errors.email}</p>
                   )}
                 </div>
-                <div className="passwordGroup">
-                  <label htmlFor="password">Password:</label>
+                <div className="form-control">
+                  <label htmlFor="password">
+                    <span className="label-text">Password:</span>
+                  </label>
                   <input
                     id="password"
                     type="password"
@@ -88,8 +93,10 @@ export default function SignUp() {
                     <p className="text-error text-sm">{errors.password}</p>
                   )}
                 </div>
-                <div className="confirmPasswordGroup">
-                  <label htmlFor="confirmPassword">Confirm Password:</label>
+                <div className="form-control">
+                  <label htmlFor="confirmPassword">
+                    <span className="label-text">Confirm Password:</span>
+                  </label>
                   <input
                     id="confirmPassword"
                     type="password"
@@ -103,16 +110,16 @@ export default function SignUp() {
 
                 {error !== "" && <div className="text-error text-sm text-center">{error}</div>}
                 {status && (
-                  <p className="text-error text-sm">{status.msg}</p>
+                  <p className="text-error text-sm">{toast.error(status.msg)}</p>
                 )}
                 {success && (
-                  <p className="text-green-500 text-sm">{success}</p>
+                  <p className="text-success text-sm text-center">{toast.success(success)}</p>
                 )}
 
                 <button
                   type="submit"
                   title="Submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || Object.keys(errors).length > 0}
                   className="btn btn-primary w-full"
                 >
                   {isSubmitting ? "Signing up..." : "Sign Up"}
@@ -136,7 +143,7 @@ export default function SignUp() {
 
                 <button
                   onClick={() => authClient.signIn.social({ provider: "github" })}
-                  className="btn btn-outline w-full gap-2"
+                  className="btn btn-primary btn-outline w-full gap-2"
                   type="button"
                   title="GitHub SignIn"
                 >
@@ -150,7 +157,7 @@ export default function SignUp() {
                       callbackURL: "/users/profile"
                     })
                   }
-                  className="btn btn-outline w-full gap-2"
+                  className="btn btn-secondary btn-outline w-full gap-2"
                   type="button"
                   title="Magic Link SignIn"
                 >
