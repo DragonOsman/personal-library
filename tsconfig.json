@@ -1,10 +1,13 @@
 // Copyright (c) 2026 Osman Zakir
 // Licensed under the GPL v3
-
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -14,7 +17,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
     "plugins": [
@@ -23,9 +26,13 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     },
-    "types": ["better-auth"]
+    "types": [
+      "better-auth"
+    ]
   },
   "include": [
     "next-env.d.ts",
@@ -38,9 +45,16 @@
     "./jest.config.ts",
     "types/next-auth.d.ts",
     "src/generated/prisma/**/*",
-    ".stylelintrc.json"
+    ".stylelintrc.json",
+    ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", ".next", "dist", "coverage", "build"]//,
+  "exclude": [
+    "node_modules",
+    ".next",
+    "dist",
+    "coverage",
+    "build"
+  ] //,
   //"references": [{ "path": "./cypress/tsconfig.json" }],
   //"files": []
 }
