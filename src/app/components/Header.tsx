@@ -68,21 +68,18 @@ export default function Header() {
               <Link
                 href="/"
                 className={navBtn(isActive("/"), false, false)}
-                onClick={handleNavClick}
               >
                 Home
               </Link>
               <Link
                 href="/books/add-book"
                 className={navBtn(isActive("/books/add-book"), true, false)}
-                onClick={handleNavClick}
               >
                 Add Book
               </Link>
               <Link
                 href="/books/list-books"
                 className={navBtn(isActive("/books/list-books"), false, false)}
-                onClick={handleNavClick}
               >
                 My Books
               </Link>
@@ -93,14 +90,12 @@ export default function Header() {
               <Link
                 href="/auth/signin"
                 className={navBtn(isActive("/auth/signin"), false, false)}
-                onClick={handleNavClick}
               >
                 Sign In
               </Link>
               <Link
                 href="/auth/signup"
                 className={navBtn(isActive("/auth/signup"), true, false)}
-                onClick={handleNavClick}
               >
                 Sign Up
               </Link>
