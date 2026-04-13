@@ -18,7 +18,29 @@ export default function Header() {
   const pathname = usePathname();
 
   const isAuthenticated = !!(data?.session && data?.user);
-  const isActive = (path: string) => pathname === path;
+  const isActive = (path: string) => {
+    if (path === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(path);
+  };
+
+  const navBtn = (
+  active: boolean,
+  primary = false,
+  mobile = false
+) =>
+  `btn ${mobile ? "w-full justify-start" : "btn-sm"} ${
+    primary
+      ? active
+        ? "bg-brand-accent text-white"
+        : "bg-brand-secondary text-white hover:bg-brand-accent"
+      : active
+        ? "bg-white/20 text-white"
+        : "btn-ghost text-white hover:bg-white/10"
+  } transition-transform duration-150 active:scale-95`;
+
+  const handleNavClick = () => setIsOpen(false);
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-brand-primary text-white shadow-md border-b border-white/10">
@@ -43,23 +65,43 @@ export default function Header() {
         <nav className="hidden md:flex items-center gap-2">
           {isAuthenticated ? (
             <>
-              <Link href="/" className={`btn btn-sm ${isActive("/") ? "bg-white/20 text-white" : "btn-ghost text-white hover:bg-white/10"} transition-transform duration-150 active:scale-95`}>
+              <Link
+                href="/"
+                className={navBtn(isActive("/"), false, false)}
+                onClick={handleNavClick}
+              >
                 Home
               </Link>
-              <Link href="/books/add-book" className={`btn btn-sm ${isActive("/books/add-book") ? "bg-brand-accent text-white" : "bg-brand-secondary text-white hover:bg-brand-accent"} transition-transform duration-150 active:scale-95`}>
+              <Link
+                href="/books/add-book"
+                className={navBtn(isActive("/books/add-book"), true, false)}
+                onClick={handleNavClick}
+              >
                 Add Book
               </Link>
-              <Link href="/books/list-books" className={`btn btn-sm ${isActive("/books/list-books") ? "bg-white/20 text-white" : "btn-ghost text-white hover:bg-white/10"} transition-transform duration-150 active:scale-95`}>
+              <Link
+                href="/books/list-books"
+                className={navBtn(isActive("/books/list-books"), false, false)}
+                onClick={handleNavClick}
+              >
                 My Books
               </Link>
               <UserButton />
             </>
           ) : (
             <>
-              <Link href="/auth/signin" className="btn btn-sm btn-ghost justify-start text-white border-none hover:bg-white/10 transition-transform duration-150 active:scale-95">
+              <Link
+                href="/auth/signin"
+                className={navBtn(isActive("/auth/signin"), false, false)}
+                onClick={handleNavClick}
+              >
                 Sign In
               </Link>
-              <Link href="/auth/signup" className="btn btn-sm bg-brand-secondary text-white hover:bg-brand-accent border-none transition-transform duration-150 active:scale-95">
+              <Link
+                href="/auth/signup"
+                className={navBtn(isActive("/auth/signup"), true, false)}
+                onClick={handleNavClick}
+              >
                 Sign Up
               </Link>
             </>
@@ -86,23 +128,43 @@ export default function Header() {
         <div className="px-4 pb-4 space-y-2 bg-brand-primary border-t border-white/10">
           {isAuthenticated ? (
             <>
-              <Link href="/" className={`btn btn-ghost w-full justify-start ${isActive("/") ? "bg-white/20 text-white" : "btn-ghost text-white hover:bg-white/10"} transition-transform duration-150 active:scale-95`}>
+              <Link
+                href="/"
+                className={navBtn(isActive("/"), false, true)}
+                onClick={handleNavClick}
+              >
                 Home
               </Link>
-              <Link href="/books/add-book" className={`btn w-full ${isActive("/books/add-book") ? "bg-brand-accent text-white" : "bg-brand-secondary text-white hover:bg-brand-accent"} transition-transform duration-150 active:scale-95`}>
+              <Link
+                href="/books/add-book"
+                className={navBtn(isActive("/books/add-book"), true, true)}
+                onClick={handleNavClick}
+              >
                 Add Book
               </Link>
-              <Link href="/books/list-books" className={`btn btn-ghost w-full justify-start ${isActive("/books/list-books") ? "bg-white/20 text-white" : "btn-ghost text-white hover:bg-white/10"} transition-transform duration-150 active:scale-95`}>
+              <Link
+                href="/books/list-books"
+                className={navBtn(isActive("/books/list-books"), false, true)}
+                onClick={handleNavClick}
+              >
                 My Books
               </Link>
               <UserButton />
             </>
           ) : (
             <>
-              <Link href="/auth/signin" className="btn btn-ghost justify-start text-white hover:bg-white/10 transition-transform duration-150 active:scale-95">
+              <Link
+                href="/auth/signin"
+                className={navBtn(isActive("/auth/signin"), false, true)}
+                onClick={handleNavClick}
+              >
                 Sign In
               </Link>
-              <Link href="/auth/signup" className="btn bg-brand-secondary text-white hover:bg-brand-accent border-none transition-transform duration-150 active:scale-95">
+              <Link
+                href="/auth/signup"
+                className={navBtn(isActive("/auth/signup"), true, true)}
+                onClick={handleNavClick}
+              >
                 Sign Up
               </Link>
             </>
