@@ -26,14 +26,14 @@ export default function Header() {
   };
 
   const navBtn = (
-  active: boolean,
-  primary = false,
-  mobile = false
+    active: boolean,
+    primary = false,
+    mobile = false
 ) =>
-  `btn ${mobile ? "w-full justify-start" : "btn-sm"} ${
+  `btn ${mobile ? "w-full justify-start" : "btn-sm px-3"} ${
     primary
       ? active
-        ? "bg-brand-accent text-white"
+        ? "bg-brand-accent text-white ring-2 ring-white/20"
         : "bg-brand-secondary text-white hover:bg-brand-accent"
       : active
         ? "bg-white/20 text-white"
@@ -67,19 +67,19 @@ export default function Header() {
             <>
               <Link
                 href="/"
-                className={navBtn(isActive("/"), false, false)}
+                className={navBtn(isActive("/"))}
               >
                 Home
               </Link>
               <Link
                 href="/books/add-book"
-                className={navBtn(isActive("/books/add-book"), true, false)}
+                className={navBtn(isActive("/books/add-book"), true)}
               >
                 Add Book
               </Link>
               <Link
                 href="/books/list-books"
-                className={navBtn(isActive("/books/list-books"), false, false)}
+                className={navBtn(isActive("/books/list-books"))}
               >
                 My Books
               </Link>
@@ -89,13 +89,13 @@ export default function Header() {
             <>
               <Link
                 href="/auth/signin"
-                className={navBtn(isActive("/auth/signin"), false, false)}
+                className={navBtn(isActive("/auth/signin"))}
               >
                 Sign In
               </Link>
               <Link
                 href="/auth/signup"
-                className={navBtn(isActive("/auth/signup"), true, false)}
+                className={navBtn(isActive("/auth/signup"), true)}
               >
                 Sign Up
               </Link>
