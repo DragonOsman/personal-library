@@ -30,7 +30,7 @@ export default function Header() {
     primary = false,
     mobile = false
 ) =>
-  `btn ${mobile ? "w-full justify-start" : "btn-sm px-3 py-3"} ${
+  `btn ${mobile ? "w-full justify-start rouded" : "btn-sm px-3 py-3 rounded"} ${
     primary
       ? active
         ? "bg-brand-accent text-white ring-2 ring-white/20"
