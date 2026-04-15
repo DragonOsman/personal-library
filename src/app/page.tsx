@@ -25,7 +25,7 @@ const Page = () => {
         alt="Logo"
         width={50}
         height={50}
-        className="w-12 h-12 object-contain"
+        className="mx-auto w-12 h-12 object-contain"
         priority
       />
       <h1 className="text-4xl font-bold">
