@@ -30,7 +30,7 @@ export default function Header() {
     primary = false,
     mobile = false
 ) =>
-  `btn ${mobile ? "w-full justify-start rouded" : "btn-sm px-3 py-3 rounded"} ${
+  `btn ${mobile ? "w-full justify-start rounded px-3 py-3" : "btn-sm px-3 py-3 rounded"} ${
     primary
       ? active
         ? "bg-brand-accent text-white ring-2 ring-white/20"
@@ -120,7 +120,7 @@ export default function Header() {
           isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="px-4 pb-4 space-y-2 bg-brand-primary border-t border-white/10">
+        <div className="px-4 pb-4 flex flex-col gap-2 bg-brand-primary border-t border-white/10">
           {isAuthenticated ? (
             <>
               <Link
