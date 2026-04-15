@@ -3,8 +3,8 @@
 
 "use client";
 
-import logo from "@/public/images/logo.png";
 import Image from "next/image";
+import logo from "@/public/images/logo.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -30,7 +30,7 @@ export default function Header() {
     primary = false,
     mobile = false
 ) =>
-  `btn ${mobile ? "w-full justify-start" : "btn-sm px-3"} ${
+  `btn ${mobile ? "w-full justify-start btn rounded flex-direction-column" : "rounded btn-sm px-10 py-5"} ${
     primary
       ? active
         ? "bg-brand-accent text-white ring-2 ring-white/20"

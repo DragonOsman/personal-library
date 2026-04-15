@@ -4,7 +4,7 @@
 import { Metadata } from "next";
 import { getRouteTitle, getRouteKeywords } from "@/src/lib/routeTitles";
 import Image from "next/image";
-const logo = "@/public/images/logo.png";
+import logo from "@/public/images/logo.png";
 
 export const generateMetadata = (): Metadata => {
   const pathname = "/";
