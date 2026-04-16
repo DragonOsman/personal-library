@@ -8,7 +8,7 @@ import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useState } from "react";
 import { signinSchema } from "@/src/utils/validation";
-import { FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
+import { FaGoogle, FaGithub, FaDiscordd, FaEnvelope } from "react-icons/fa";
 import Card from "@/src/app/components/ui/Card";
 import toast from "react-hot-toast";
 
@@ -110,7 +110,7 @@ export default function SignIn() {
                 )}
               </Form>
               <div className="divider">OR</div>
-              <div className="space-y-2">
+              <div className="space-y-2 flex items-center gap-2 w-full">
                 <button
                   onClick={() => authClient.signIn.social({ provider: "google" })}
                   className="btn btn-outline w-full gap-2"
@@ -127,6 +127,15 @@ export default function SignIn() {
                   title="GitHub SignIn"
                 >
                   <FaGithub /> Continue with GitHub
+                </button>
+
+                <button
+                  className="btn btn-outline w-full gap-2"
+                  onClick={authClient.signIn.social({ provider: "discord" })}
+                  type="button"
+                  title="Discord Sign In"
+                >
+                  <FaDiscord /> Continue with Discord
                 </button>
 
                 <button
