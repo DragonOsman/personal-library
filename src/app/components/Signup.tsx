@@ -8,9 +8,8 @@ import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { authClient } from "@/src/auth-client";
 import { signupSchema } from "@/src/utils/validation";
-import {  FaGoogle, FaGithub, FaEnvelope } from "react-icons/fa";
+import { FaGoogle, FaGithub, FaDiscord, FaEnvelope } from "react-icons/fa";
 import Card from "@/src/app/components/ui/Card";
-import toast from "react-hot-toast";
 
 export default function SignUp() {
   const [error, setError] = useState<string>("");
@@ -59,7 +58,7 @@ export default function SignUp() {
                     id="name"
                     type="text"
                     {...getFieldProps("name")}
-                    className="input input-bordered w-full"
+                    className="input input-bordered w-full text-black caret-black bg-white"
                   />
                   {touched.name && errors.name && (
                     <p className="text-error text-sm">{errors.name}</p>
@@ -73,7 +72,7 @@ export default function SignUp() {
                     id="email"
                     type="email"
                     {...getFieldProps("email")}
-                    className="input input-bordered w-full"
+                    className="input input-bordered w-full text-black caret-black bg-white"
                   />
                   {touched.email && errors.email && (
                     <p className="text-error text-sm">{errors.email}</p>
@@ -87,7 +86,7 @@ export default function SignUp() {
                     id="password"
                     type="password"
                     {...getFieldProps("password")}
-                    className="input input-bordered w-full"
+                    className="input input-bordered w-full text-black caret-black bg-white"
                   />
                   {touched.password && errors.password && (
                     <p className="text-error text-sm">{errors.password}</p>
@@ -101,7 +100,7 @@ export default function SignUp() {
                     id="confirmPassword"
                     type="password"
                     {...getFieldProps("confirmPassword")}
-                    className="input input-bordered w-full"
+                    className="input input-bordered w-full text-black caret-black bg-white"
                   />
                   {touched.confirmPassword && errors.confirmPassword && (
                     <p className="text-error text-sm">{errors.confirmPassword}</p>
@@ -110,10 +109,10 @@ export default function SignUp() {
 
                 {error !== "" && <div className="text-error text-sm text-center">{error}</div>}
                 {status && (
-                  <p className="text-error text-sm">{toast.error(status.msg)}</p>
+                  <p className="text-error text-sm">status.msg</p>
                 )}
                 {success && (
-                  <p className="text-success text-sm text-center">{toast.success(success)}</p>
+                  <p className="text-success text-sm text-center">success</p>
                 )}
 
                 <button
@@ -131,7 +130,7 @@ export default function SignUp() {
                 </div>
               </Form>
               <div className="divider">OR</div>
-              <div className="space-y-2">
+              <div className="space-y-2 flex items-center gap-2 w-full">
                 <button
                   onClick={() => authClient.signIn.social({ provider: "google" })}
                   className="btn btn-outline w-full gap-2"
@@ -148,6 +147,15 @@ export default function SignUp() {
                   title="GitHub SignIn"
                 >
                   <FaGithub /> Continue with GitHub
+                </button>
+
+                <button
+                  className="btn btn-outline w-full gap-2"
+                  onClick={() => authClient.signIn.social({ provider: "discord" })}
+                  type="button"
+                  title="Discord Sign In"
+                >
+                  <FaDiscord /> Continue with Discord
                 </button>
 
                 <button

@@ -8,9 +8,8 @@ import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useState } from "react";
 import { signinSchema } from "@/src/utils/validation";
-import { FaGoogle, FaGithub, FaDiscordd, FaEnvelope } from "react-icons/fa";
+import { FaGoogle, FaGithub, FaDiscord, FaEnvelope } from "react-icons/fa";
 import Card from "@/src/app/components/ui/Card";
-import toast from "react-hot-toast";
 
 export default function SignIn() {
   const [customError, setCustomError] = useState<string>("");
@@ -54,7 +53,7 @@ export default function SignIn() {
                     id="email"
                     type="email"
                     {...getFieldProps("email")}
-                    className="input input-bordered w-full"
+                    className="input input-bordered w-full text-black caret-black bg-white"
                   />
                   {touched.email && errors.email && (
                     <p className="text-error text-sm">{errors.email}</p>
@@ -68,18 +67,20 @@ export default function SignIn() {
                     id="password"
                     type="password"
                     {...getFieldProps("password")}
-                    className="input input-bordered w-full"
+                    className="input input-bordered w-full text-black caret-black bg-white"
                   />
                   {touched.password && errors.password && (
                     <p className="text-error text-sm">{errors.password}</p>
                   )}
-                  <label className="flex items-center gap-2 text-sm" htmlFor="rememberMe">Remember Me: </label>
-                  <input
-                    id="rememberMe"
-                    className="checkbox checkbox-sm"
-                   {...getFieldProps("rememberMe")}
-                    type="checkbox"
-                  />
+                  <label className="flex items-center gap-2 text-sm" htmlFor="rememberMe">
+                    <input
+                      id="rememberMe"
+                      className="checkbox checkbox-sm"
+                     {...getFieldProps("rememberMe")}
+                      type="checkbox"
+                    />
+                    Remember Me
+                  </label>
                 </div>
 
                 <button
@@ -103,10 +104,10 @@ export default function SignIn() {
                   </p>
                 </div>
                 {status && status.msg && status.msg !== "" && (
-                  <p className="text-error text-sm text-center">{toast.error(status.msg)}</p>
+                  <p className="text-error text-sm text-center">{status.msg}</p>
                 )}
                 {customError !== "" && (
-                  <p className="text-error text-sm text-center">{toast.error(customError)}</p>
+                  <p className="text-error text-sm text-center">{customError}</p>
                 )}
               </Form>
               <div className="divider">OR</div>
@@ -131,7 +132,7 @@ export default function SignIn() {
 
                 <button
                   className="btn btn-outline w-full gap-2"
-                  onClick={authClient.signIn.social({ provider: "discord" })}
+                  onClick={() => authClient.signIn.social({ provider: "discord" })}
                   type="button"
                   title="Discord Sign In"
                 >
