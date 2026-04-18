@@ -41,6 +41,28 @@ const config: Config = {
   },
   plugins: [
     daisyui
-  ]
+  ],
+  daisyui: {
+    themes: [
+      {
+        librarytheme: {
+          primary: "#1f2937",   // slate-800
+          secondary: "#2563eb", // blue-600
+          accent: "#38bdf8",    // sky-400
+          neutral: "#1f2937",
+          "base-100": "#ffffff",
+          info: "#3abff8",
+          success: "#36d399",
+          warning: "#fbbd23",
+          error: "#f87272"
+        }
+      }
+    ],
+    base: true,
+    utils: true,
+    styled: true,
+    logs: false,
+    rtl: false
+  }
 };
 export default config;

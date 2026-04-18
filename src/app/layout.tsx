@@ -40,7 +40,7 @@ interface RootLayoutProps {
 
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
-    <html lang="en-us">
+    <html lang="en-us" data-theme="librarytheme">
       <body
         className="mt-20 text-[17px] min-h-screen text-center text-[color:var(--color-text)] font-sans"
       >
