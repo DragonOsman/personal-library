@@ -41,7 +41,7 @@ export default function SignIn() {
           {({ handleSubmit, getFieldProps, touched, errors, isSubmitting, status, values }) => (
             <>
               <Form
-                className="space-y-4"
+                className="space-y-4 flex flex-col items-center"
                 onSubmit={handleSubmit}
                 method="post"
               >
@@ -53,7 +53,7 @@ export default function SignIn() {
                     id="email"
                     type="email"
                     {...getFieldProps("email")}
-                    className="input input-bordered w-full text-black caret-black bg-white"
+                    className="input input-bordered w-full text-black caret-black bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   />
                   {touched.email && errors.email && (
                     <p className="text-error text-sm">{errors.email}</p>
@@ -67,7 +67,7 @@ export default function SignIn() {
                     id="password"
                     type="password"
                     {...getFieldProps("password")}
-                    className="input input-bordered w-full text-black caret-black bg-white"
+                    className="input input-bordered w-full text-black caret-black bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   />
                   {touched.password && errors.password && (
                     <p className="text-error text-sm">{errors.password}</p>

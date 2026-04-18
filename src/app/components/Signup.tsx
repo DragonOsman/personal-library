@@ -48,7 +48,7 @@ export default function SignUp() {
             return (
             <>
               <Form
-                className="space-y-4"
+                className="space-y-4 flex flex-col items-center"
                 onSubmit={handleSubmit}
                 method="post"
               >
@@ -58,7 +58,7 @@ export default function SignUp() {
                     id="name"
                     type="text"
                     {...getFieldProps("name")}
-                    className="input input-bordered w-full text-black caret-black bg-white"
+                    className="input input-bordered w-full text-black caret-black bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   />
                   {touched.name && errors.name && (
                     <p className="text-error text-sm">{errors.name}</p>
@@ -72,7 +72,7 @@ export default function SignUp() {
                     id="email"
                     type="email"
                     {...getFieldProps("email")}
-                    className="input input-bordered w-full text-black caret-black bg-white"
+                    className="input input-bordered w-full text-black caret-black bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   />
                   {touched.email && errors.email && (
                     <p className="text-error text-sm">{errors.email}</p>
@@ -86,7 +86,7 @@ export default function SignUp() {
                     id="password"
                     type="password"
                     {...getFieldProps("password")}
-                    className="input input-bordered w-full text-black caret-black bg-white"
+                    className="input input-bordered w-full text-black caret-black bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   />
                   {touched.password && errors.password && (
                     <p className="text-error text-sm">{errors.password}</p>
@@ -100,7 +100,7 @@ export default function SignUp() {
                     id="confirmPassword"
                     type="password"
                     {...getFieldProps("confirmPassword")}
-                    className="input input-bordered w-full text-black caret-black bg-white"
+                    className="input input-bordered w-full text-black caret-black bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   />
                   {touched.confirmPassword && errors.confirmPassword && (
                     <p className="text-error text-sm">{errors.confirmPassword}</p>
