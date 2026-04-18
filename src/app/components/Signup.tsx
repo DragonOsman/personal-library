@@ -130,7 +130,7 @@ export default function SignUp() {
                 </div>
               </Form>
               <div className="divider">OR</div>
-              <div className="space-y-2 flex items-center gap-2 w-full">
+              <div className="space-y-2 flex items-center gap-2 w-full flex-col">
                 <button
                   onClick={() => authClient.signIn.social({ provider: "google" })}
                   className="btn btn-outline w-full gap-2"
