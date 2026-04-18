@@ -72,15 +72,15 @@ export default function SignIn() {
                   {touched.password && errors.password && (
                     <p className="text-error text-sm">{errors.password}</p>
                   )}
-                  <div className="flex items-center">
-                    <label className="flex items-center gap-2 text-sm" htmlFor="rememberMe">
+                  <div className="w-full flex justify-center">
+                    <label className="flex items-center gap-2 text-sm cursor-pointer">
                       <input
                         id="rememberMe"
                         className="checkbox checkbox-sm"
-                       {...getFieldProps("rememberMe")}
+                        {...getFieldProps("rememberMe")}
                         type="checkbox"
                       />
-                      Remember Me
+                        Remember Me
                     </label>
                   </div>
                 </div>
@@ -94,7 +94,7 @@ export default function SignIn() {
                   {isSubmitting ? "Signing in..." : "Sign In"}
                 </button>
 
-                <div className="text-sm text-center space-y-1">
+                <div className="text-center space-y-1">
                   <a href="/auth/reset-password-request" className="link">
                     Forgot password?
                   </a>
@@ -116,29 +116,29 @@ export default function SignIn() {
               <div className="space-y-2 flex items-center gap-2 w-full flex-col">
                 <button
                   onClick={() => authClient.signIn.social({ provider: "google" })}
-                  className="btn btn-outline w-full gap-2 flex-row items-center"
+                  className="btn btn-outline w-full gap-2 flex flex-row items-center"
                   title="Google SignIn"
                   type="button"
                 >
-                  <FaGoogle /> Continue with Google
+                  <FaGoogle className="text-base shrink-0" /> Continue with Google
                 </button>
 
                 <button
                   onClick={() => authClient.signIn.social({ provider: "github" })}
-                  className="btn btn-primary w-full gap-2 flex-row items-center"
+                  className="btn btn-primary w-full gap-2 flex flex-row items-center"
                   type="button"
                   title="GitHub SignIn"
                 >
-                  <FaGithub /> Continue with GitHub
+                  <FaGithub className="text-base shrink-0" /> Continue with GitHub
                 </button>
 
                 <button
-                  className="btn btn-secondary w-full gap-2 flex-row items-center"
+                  className="btn btn-secondary w-full gap-2 flex flex-row items-center"
                   onClick={() => authClient.signIn.social({ provider: "discord" })}
                   type="button"
                   title="Discord Sign In"
                 >
-                  <FaDiscord /> Continue with Discord
+                  <FaDiscord className="text-base shrink-0" /> Continue with Discord
                 </button>
 
                 <button
@@ -148,11 +148,11 @@ export default function SignIn() {
                       callbackURL: "/users/profile"
                     })
                   }
-                  className="btn btn-ghost btn-outline w-full gap-2 flex-row items-center"
+                  className="btn btn-ghost btn-outline w-full gap-2 flex flex-row items-center"
                   type="button"
                   title="Magic Link SignIn"
                 >
-                  <FaEnvelope /> Magic Link
+                  <FaEnvelope className="text-base shrink-0" /> Magic Link
                 </button>
               </div>
             </>

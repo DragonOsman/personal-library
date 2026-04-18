@@ -133,29 +133,29 @@ export default function SignUp() {
               <div className="space-y-2 flex items-center gap-2 w-full flex-col">
                 <button
                   onClick={() => authClient.signIn.social({ provider: "google" })}
-                  className="btn btn-outline w-full gap-2 flex-row items-center"
+                  className="btn btn-outline w-full gap-2 flex flex-row items-center"
                   title="Google SignIn"
                   type="button"
                 >
-                  <FaGoogle /> Continue with Google
+                  <FaGoogle className="text-base shrink-0" /> Continue with Google
                 </button>
 
                 <button
                   onClick={() => authClient.signIn.social({ provider: "github" })}
-                  className="btn btn-primary w-full gap-2 flex-row items-center"
+                  className="btn btn-primary w-full gap-2 flex flex-row items-center"
                   type="button"
                   title="GitHub SignIn"
                 >
-                  <FaGithub /> Continue with GitHub
+                  <FaGithub className="text-base shrink-0" /> Continue with GitHub
                 </button>
 
                 <button
-                  className="btn btn-secondary w-full gap-2 flex-row items-center"
+                  className="btn btn-secondary w-full gap-2 flex flex-row items-center"
                   onClick={() => authClient.signIn.social({ provider: "discord" })}
                   type="button"
                   title="Discord Sign In"
                 >
-                  <FaDiscord /> Continue with Discord
+                  <FaDiscord className="text-base shrink-0" /> Continue with Discord
                 </button>
 
                 <button
@@ -165,11 +165,11 @@ export default function SignUp() {
                       callbackURL: "/users/profile"
                     })
                   }
-                  className="btn btn-ghost btn-outline w-full gap-2 flex-row items-center"
+                  className="btn btn-ghost btn-outline w-full gap-2 flex flex-row items-center"
                   type="button"
                   title="Magic Link SignIn"
                 >
-                  <FaEnvelope /> Magic Link
+                  <FaEnvelope className="text-base shrink-0" /> Magic Link
                 </button>
               </div>
             </>
