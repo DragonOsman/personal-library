@@ -48,12 +48,14 @@ export default function SignUp() {
             return (
             <>
               <Form
-                className="space-y-4 flex flex-col items-center"
+                className="space-y-4 w-full"
                 onSubmit={handleSubmit}
                 method="post"
               >
                 <div className="form-control">
-                  <label className="label" htmlFor="name">Full Name:</label>
+                  <label className="label justify-start" htmlFor="name">
+                    <span className="label-text">Full Name:</span>
+                  </label>
                   <input
                     id="name"
                     type="text"
@@ -64,8 +66,8 @@ export default function SignUp() {
                     <p className="text-error text-sm">{errors.name}</p>
                   )}
                 </div>
-                <div className="form-control">
-                  <label className="label" htmlFor="email">
+                <div className="form-control w-full">
+                  <label className="label justify-start" htmlFor="email">
                     <span className="label-text">Email:</span>
                   </label>
                   <input
@@ -78,8 +80,8 @@ export default function SignUp() {
                     <p className="text-error text-sm">{errors.email}</p>
                   )}
                 </div>
-                <div className="form-control">
-                  <label htmlFor="password">
+                <div className="form-control w-full">
+                  <label className="label justify-start" htmlFor="password">
                     <span className="label-text">Password:</span>
                   </label>
                   <input
@@ -92,8 +94,8 @@ export default function SignUp() {
                     <p className="text-error text-sm">{errors.password}</p>
                   )}
                 </div>
-                <div className="form-control">
-                  <label htmlFor="confirmPassword">
+                <div className="form-control w-full">
+                  <label className="label justify-start" htmlFor="confirmPassword">
                     <span className="label-text">Confirm Password:</span>
                   </label>
                   <input

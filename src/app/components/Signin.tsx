@@ -45,8 +45,8 @@ export default function SignIn() {
                 onSubmit={handleSubmit}
                 method="post"
               >
-                <div className="form-control">
-                  <label className="label" htmlFor="email">
+                <div className="form-control w-full">
+                  <label className="label justify-start" htmlFor="email">
                     <span className="label-text">Email:</span>
                   </label>
                   <input
@@ -59,8 +59,8 @@ export default function SignIn() {
                     <p className="text-error text-sm">{errors.email}</p>
                   )}
                 </div>
-                <div className="form-control">
-                  <label className="label" htmlFor="password">
+                <div className="form-control w-full">
+                  <label className="label justify-start" htmlFor="password">
                     <span className="label-text">Password:</span>
                   </label>
                   <input
