@@ -133,7 +133,7 @@ export default function SignUp() {
               <div className="space-y-2 flex items-center gap-2 w-full flex-col">
                 <button
                   onClick={() => authClient.signIn.social({ provider: "google" })}
-                  className="btn btn-outline w-full gap-2"
+                  className="btn btn-outline w-full gap-2 flex-row items-center"
                   title="Google SignIn"
                   type="button"
                 >
@@ -142,7 +142,7 @@ export default function SignUp() {
 
                 <button
                   onClick={() => authClient.signIn.social({ provider: "github" })}
-                  className="btn btn-primary btn-outline w-full gap-2"
+                  className="btn btn-primary w-full gap-2 flex-row items-center"
                   type="button"
                   title="GitHub SignIn"
                 >
@@ -150,7 +150,7 @@ export default function SignUp() {
                 </button>
 
                 <button
-                  className="btn btn-outline w-full gap-2"
+                  className="btn btn-secondary w-full gap-2 flex-row items-center"
                   onClick={() => authClient.signIn.social({ provider: "discord" })}
                   type="button"
                   title="Discord Sign In"
@@ -165,7 +165,7 @@ export default function SignUp() {
                       callbackURL: "/users/profile"
                     })
                   }
-                  className="btn btn-secondary btn-outline w-full gap-2"
+                  className="btn btn-ghost btn-outline w-full gap-2 flex-row items-center"
                   type="button"
                   title="Magic Link SignIn"
                 >

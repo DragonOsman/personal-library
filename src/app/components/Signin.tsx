@@ -72,15 +72,17 @@ export default function SignIn() {
                   {touched.password && errors.password && (
                     <p className="text-error text-sm">{errors.password}</p>
                   )}
-                  <label className="flex items-center gap-2 text-sm" htmlFor="rememberMe">
-                    <input
-                      id="rememberMe"
-                      className="checkbox checkbox-sm"
-                     {...getFieldProps("rememberMe")}
-                      type="checkbox"
-                    />
-                    Remember Me
-                  </label>
+                  <div className="flex items-center">
+                    <label className="flex items-center gap-2 text-sm" htmlFor="rememberMe">
+                      <input
+                        id="rememberMe"
+                        className="checkbox checkbox-sm"
+                       {...getFieldProps("rememberMe")}
+                        type="checkbox"
+                      />
+                      Remember Me
+                    </label>
+                  </div>
                 </div>
 
                 <button
@@ -114,7 +116,7 @@ export default function SignIn() {
               <div className="space-y-2 flex items-center gap-2 w-full flex-col">
                 <button
                   onClick={() => authClient.signIn.social({ provider: "google" })}
-                  className="btn btn-outline w-full gap-2"
+                  className="btn btn-outline w-full gap-2 flex-row items-center"
                   title="Google SignIn"
                   type="button"
                 >
@@ -123,7 +125,7 @@ export default function SignIn() {
 
                 <button
                   onClick={() => authClient.signIn.social({ provider: "github" })}
-                  className="btn btn-primary btn-outline w-full gap-2"
+                  className="btn btn-primary w-full gap-2 flex-row items-center"
                   type="button"
                   title="GitHub SignIn"
                 >
@@ -131,7 +133,7 @@ export default function SignIn() {
                 </button>
 
                 <button
-                  className="btn btn-outline w-full gap-2"
+                  className="btn btn-secondary w-full gap-2 flex-row items-center"
                   onClick={() => authClient.signIn.social({ provider: "discord" })}
                   type="button"
                   title="Discord Sign In"
@@ -146,7 +148,7 @@ export default function SignIn() {
                       callbackURL: "/users/profile"
                     })
                   }
-                  className="btn btn-secondary btn-outline w-full gap-2"
+                  className="btn btn-ghost btn-outline w-full gap-2 flex-row items-center"
                   type="button"
                   title="Magic Link SignIn"
                 >
