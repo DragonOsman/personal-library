@@ -44,7 +44,7 @@ export default function SignUp() {
 
           }}
         >
-         {({ handleSubmit, getFieldProps, touched, errors, status, isSubmitting, values }) => {
+         {({ handleSubmit, getFieldProps, touched, errors, isSubmitting, values }) => {
             return (
             <>
               <Form
@@ -60,7 +60,7 @@ export default function SignUp() {
                     id="name"
                     type="text"
                     {...getFieldProps("name")}
-                    className="input input-bordered w-full text-black caret-black bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    className="input input-bordered w-full"
                   />
                   {touched.name && errors.name && (
                     <p className="text-error text-sm">{errors.name}</p>
@@ -74,7 +74,7 @@ export default function SignUp() {
                     id="email"
                     type="email"
                     {...getFieldProps("email")}
-                    className="input input-bordered w-full text-black caret-black bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    className="input input-bordered w-full"
                   />
                   {touched.email && errors.email && (
                     <p className="text-error text-sm">{errors.email}</p>
@@ -88,7 +88,7 @@ export default function SignUp() {
                     id="password"
                     type="password"
                     {...getFieldProps("password")}
-                    className="input input-bordered w-full text-black caret-black bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    className="input input-bordered w-full"
                   />
                   {touched.password && errors.password && (
                     <p className="text-error text-sm">{errors.password}</p>
@@ -102,19 +102,22 @@ export default function SignUp() {
                     id="confirmPassword"
                     type="password"
                     {...getFieldProps("confirmPassword")}
-                    className="input input-bordered w-full text-black caret-black bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    className="input input-bordered w-full"
                   />
                   {touched.confirmPassword && errors.confirmPassword && (
                     <p className="text-error text-sm">{errors.confirmPassword}</p>
                   )}
                 </div>
 
-                {error !== "" && <div className="text-error text-sm text-center">{error}</div>}
-                {status && (
-                  <p className="text-error text-sm">status.msg</p>
+                {error !== "" && (
+                  <p className="text-error text-sm">
+                    {error}
+                  </p>
                 )}
-                {success && (
-                  <p className="text-success text-sm text-center">success</p>
+                {success !== "" && (
+                  <p className="text-success text-sm">
+                    {success}
+                  </p>
                 )}
 
                 <button
@@ -132,10 +135,10 @@ export default function SignUp() {
                 </div>
               </Form>
               <div className="divider">OR</div>
-              <div className="space-y-2 flex items-center gap-2 w-full flex-col">
+              <div className="space-y-2">
                 <button
                   onClick={() => authClient.signIn.social({ provider: "google" })}
-                  className="btn btn-outline w-full gap-2 flex flex-row items-center"
+                  className="btn btn-outline w-full gap-2"
                   title="Google SignIn"
                   type="button"
                 >
@@ -144,7 +147,7 @@ export default function SignUp() {
 
                 <button
                   onClick={() => authClient.signIn.social({ provider: "github" })}
-                  className="btn btn-primary w-full gap-2 flex flex-row items-center"
+                  className="btn btn-primary w-full gap-2"
                   type="button"
                   title="GitHub SignIn"
                 >
@@ -152,7 +155,7 @@ export default function SignUp() {
                 </button>
 
                 <button
-                  className="btn btn-secondary w-full gap-2 flex flex-row items-center"
+                  className="btn btn-secondary w-full gap-2"
                   onClick={() => authClient.signIn.social({ provider: "discord" })}
                   type="button"
                   title="Discord Sign In"
@@ -167,7 +170,7 @@ export default function SignUp() {
                       callbackURL: "/users/profile"
                     })
                   }
-                  className="btn btn-ghost btn-outline w-full gap-2 flex flex-row items-center"
+                  className="btn btn-ghost btn-outline w-full gap-2"
                   type="button"
                   title="Magic Link SignIn"
                 >

@@ -38,10 +38,10 @@ export default function SignIn() {
             setSubmitting(false);
           }}
         >
-          {({ handleSubmit, getFieldProps, touched, errors, isSubmitting, status, values }) => (
+          {({ handleSubmit, getFieldProps, touched, errors, isSubmitting, values }) => (
             <>
               <Form
-                className="space-y-4 flex flex-col items-center"
+                className="space-y-4"
                 onSubmit={handleSubmit}
                 method="post"
               >
@@ -53,7 +53,7 @@ export default function SignIn() {
                     id="email"
                     type="email"
                     {...getFieldProps("email")}
-                    className="input input-bordered w-full text-black caret-black bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    className="input input-bordered w-full"
                   />
                   {touched.email && errors.email && (
                     <p className="text-error text-sm">{errors.email}</p>
@@ -67,7 +67,7 @@ export default function SignIn() {
                     id="password"
                     type="password"
                     {...getFieldProps("password")}
-                    className="input input-bordered w-full text-black caret-black bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    className="input input-bordered w-full"
                   />
                   {touched.password && errors.password && (
                     <p className="text-error text-sm">{errors.password}</p>
@@ -105,18 +105,15 @@ export default function SignIn() {
                     </a>
                   </p>
                 </div>
-                {status && status.msg && status.msg !== "" && (
-                  <p className="text-error text-sm text-center">{status.msg}</p>
-                )}
                 {customError !== "" && (
-                  <p className="text-error text-sm text-center">{customError}</p>
+                  <p className="text-error text-sm">{customError}</p>
                 )}
               </Form>
               <div className="divider">OR</div>
-              <div className="space-y-2 flex items-center gap-2 w-full flex-col">
+              <div className="space-y-2">
                 <button
                   onClick={() => authClient.signIn.social({ provider: "google" })}
-                  className="btn btn-outline w-full gap-2 flex flex-row items-center"
+                  className="btn btn-outline w-full gap-2"
                   title="Google SignIn"
                   type="button"
                 >
@@ -125,7 +122,7 @@ export default function SignIn() {
 
                 <button
                   onClick={() => authClient.signIn.social({ provider: "github" })}
-                  className="btn btn-primary w-full gap-2 flex flex-row items-center"
+                  className="btn btn-primary w-full gap-2"
                   type="button"
                   title="GitHub SignIn"
                 >
@@ -133,7 +130,7 @@ export default function SignIn() {
                 </button>
 
                 <button
-                  className="btn btn-secondary w-full gap-2 flex flex-row items-center"
+                  className="btn btn-secondary w-full gap-2"
                   onClick={() => authClient.signIn.social({ provider: "discord" })}
                   type="button"
                   title="Discord Sign In"
@@ -148,7 +145,7 @@ export default function SignIn() {
                       callbackURL: "/users/profile"
                     })
                   }
-                  className="btn btn-ghost btn-outline w-full gap-2 flex flex-row items-center"
+                  className="btn btn-ghost btn-outline w-full gap-2"
                   type="button"
                   title="Magic Link SignIn"
                 >

@@ -37,8 +37,8 @@ export default function Header() {
     } ${
     primary
       ? active
-        ? "bg-brand-accent text-white ring-2 ring-white/20"
-        : "bg-brand-secondary text-white hover:bg-brand-accent"
+        ? "bg-accent text-white ring-2 ring-white/20"
+        : "bg-secondary text-white hover:bg-accent"
       : active
         ? "bg-white/20 text-white"
         : "btn-ghost text-white hover:bg-white/10"

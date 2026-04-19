@@ -32,7 +32,7 @@ const Page = () => {
         DragonOsman Personal Library App
       </h1>
 
-      <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+      <p className="text-lg max-w-2xl mx-auto text-info">
         Organize, track, and manage your personal book collection with ease.
       </p>
 
