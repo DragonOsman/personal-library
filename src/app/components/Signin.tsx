@@ -14,6 +14,8 @@ import Card from "@/src/app/components/ui/Card";
 export default function SignIn() {
   const [customError, setCustomError] = useState<string>("");
 
+  const socialBtn = "btn w-full justify-start gap-2";
+
   return (
     <div className="flex justify-center">
       <Card>
@@ -113,7 +115,7 @@ export default function SignIn() {
               <div className="space-y-2">
                 <button
                   onClick={() => authClient.signIn.social({ provider: "google" })}
-                  className="btn btn-outline w-full gap-2"
+                  className={`${socialBtn} btn-outline`}
                   title="Google SignIn"
                   type="button"
                 >
@@ -122,7 +124,7 @@ export default function SignIn() {
 
                 <button
                   onClick={() => authClient.signIn.social({ provider: "github" })}
-                  className="btn btn-primary w-full gap-2"
+                  className={`${socialBtn} btn-primary`}
                   type="button"
                   title="GitHub SignIn"
                 >
@@ -130,7 +132,7 @@ export default function SignIn() {
                 </button>
 
                 <button
-                  className="btn btn-secondary w-full gap-2"
+                  className={`${socialBtn} btn-secondary`}
                   onClick={() => authClient.signIn.social({ provider: "discord" })}
                   type="button"
                   title="Discord Sign In"
@@ -145,7 +147,7 @@ export default function SignIn() {
                       callbackURL: "/users/profile"
                     })
                   }
-                  className="btn btn-ghost btn-outline w-full gap-2"
+                  className={`${socialBtn} btn-ghost btn-outline`}
                   type="button"
                   title="Magic Link SignIn"
                 >
