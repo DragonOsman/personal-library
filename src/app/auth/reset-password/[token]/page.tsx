@@ -17,7 +17,7 @@ export const generateMetadata = (): Metadata => {
   };
 };
 
-export default async function ResetPasswordPage({ params }: { params: { token?: string } }) {
+export default function ResetPasswordPage({ params }: { params: { token?: string } }) {
   if (!params.token) {
     notFound();
   }

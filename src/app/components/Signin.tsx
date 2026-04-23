@@ -40,13 +40,9 @@ export default function SignIn() {
             setSubmitting(false);
           }}
         >
-          {({ handleSubmit, getFieldProps, touched, errors, isSubmitting, values }) => (
+          {({ getFieldProps, touched, errors, isSubmitting, values }) => (
             <>
-              <Form
-                className="space-y-4"
-                onSubmit={handleSubmit}
-                method="post"
-              >
+              <Form className="space-y-4">
                 <div className="form-control w-full">
                   <label className="label justify-start" htmlFor="email">
                     <span className="label-text">Email:</span>

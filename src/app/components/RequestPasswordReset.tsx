@@ -24,31 +24,32 @@ const RequestPasswordReset = () => {
           validationSchema={toFormikValidationSchema(requestPasswordReset)}
           onSubmit={async (values, { setSubmitting }) => {
             const { data, error } = await authClient.requestPasswordReset({
-              email: values.email
+              email: values.email,
+              redirectTo: `${window.location.origin}/auth/reset-password`
             });
             if (error) {
               console.error(error);
-              setError(error.message || "An error occurred. Please try again.");
-            } else {
-              const { status } = data;
-              if (status) {
-                setError("");
-              }
+              const { code, status, statusText, message } = error;
+              setError(`
+                Error requesting password reset.
+                Code: ${code},
+                Status: ${status},
+                Status text: ${statusText},
+                Message: ${message}
+              `);
+            } else if (data.status) {
+              setError("");
               setSuccess("Password reset email sent successfully");
-              router.push("/");
+
+              setTimeout(() => {
+                router.push("/auth/signin");
+              }, 1500);
             }
             setSubmitting(false);
           }}
         >
-          {({ errors, touched, isSubmitting, getFieldProps, handleSubmit }) => (
-            <Form
-              className="RequestPasswordReset flex flex-col gap-4"
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSubmit(e);
-              }}
-              method="post"
-            >
+          {({ errors, touched, isSubmitting, getFieldProps }) => (
+            <Form className="RequestPasswordReset flex flex-col gap-4">
               <div className="emailGroup">
                 <label htmlFor="email">Email:</label>
                 <input
@@ -57,6 +58,8 @@ const RequestPasswordReset = () => {
                    className={`w-full px-3 py-2 border rounded-md ${
                      touched.email && errors.email ? "border-red-500" : "border-gray-300"
                    }`}
+                   id="email"
+                   placeholder="Enter your email"
                 />
                 {touched.email && errors.email && (
                   <p className="text-red-500 text-sm mt-1">{errors.email}</p>

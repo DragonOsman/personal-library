@@ -46,14 +46,10 @@ export default function SignUp() {
 
           }}
         >
-         {({ handleSubmit, getFieldProps, touched, errors, isSubmitting, values }) => {
+         {({ getFieldProps, touched, errors, isSubmitting, values }) => {
             return (
             <>
-              <Form
-                className="space-y-4 w-full"
-                onSubmit={handleSubmit}
-                method="post"
-              >
+              <Form className="space-y-4 w-full">
                 <div className="form-control">
                   <label className="label justify-start" htmlFor="name">
                     <span className="label-text">Full Name:</span>

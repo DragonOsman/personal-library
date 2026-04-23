@@ -14,7 +14,7 @@ interface ResetPasswordProps {
   token: string
 }
 
-const ResetPassword = async ({ token }: ResetPasswordProps) => {
+const ResetPassword = ({ token }: ResetPasswordProps) => {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const router = useRouter();
@@ -33,20 +33,27 @@ const ResetPassword = async ({ token }: ResetPasswordProps) => {
             });
             if (error) {
               console.error(error);
-              setError(error.message || "An error occurred. Please try again.");
-            } else {
-              const { status } = data;
-              if (status) {
-                setError("");
-              }
-              setSuccess("Password reset successfully");
-              router.push("/");
+              const { code, message, status, statusText } = error;
+              setError(`
+                Error resetting password.
+                Code: ${code},
+                Status: ${status},
+                Status text: ${statusText},
+                Message: ${message}
+              `);
+            } else if (data.status) {
+              setError("");
+              setSuccess("Password reset email sent successfully");
+
+              setTimeout(() => {
+                router.push("/auth/signin");
+              }, 1500);
+              setSubmitting(false);
             }
-            setSubmitting(false);
           }}
         >
           {({ errors, touched, isSubmitting, getFieldProps }) => (
-            <Form>
+            <Form className="flex flex-col gap-4">
               <div className="mb-4">
                 <label htmlFor="password" className="block text-sm font-medium">
                   New Password
@@ -84,7 +91,7 @@ const ResetPassword = async ({ token }: ResetPasswordProps) => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-offset-blue ${isSubmitting ? "opacity-disabled" : ""}`}
+                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-offset-blue ${isSubmitting ? "disabled:opacity-50" : ""}`}
               >
                 Reset Password
               </button>

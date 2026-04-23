@@ -279,13 +279,7 @@ const AddBookPageContent = () => {
             onSubmit={onSubmit}
           >
             {(formik) => (
-              <Form
-                onSubmit={(event: FormEvent<HTMLFormElement>) => {
-                  event.preventDefault();
-                  formik.handleSubmit();
-                }}
-                className="space-y-4"
-              >
+              <Form className="space-y-4">
                 <div className="form-control">
                   <label htmlFor="title" className="label">
                     <span className="label-text">Title:</span>
