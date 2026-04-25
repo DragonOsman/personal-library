@@ -12,7 +12,7 @@ import { FaGoogle, FaGithub, FaDiscord, FaEnvelope } from "react-icons/fa";
 import Card from "@/src/app/components/ui/Card";
 
 export default function SignUp() {
-  const [error, setError] = useState<string>("");
+  const [customError, setCustomError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
 
   const socialBtn = "btn w-full justify-start gap-2";
@@ -35,13 +35,13 @@ export default function SignUp() {
 
               if (data && data.user) {
                 setSuccess("Registration successful! Redirecting to login page...");
-                setError("");
+                setCustomError("");
               } else if (error) {
-                setError(error.message || "Registration failed");
+                setCustomError(error.message || "Registration failed");
                 setSuccess("");
               }
             } catch (err: unknown) {
-              setError(`An error occurred: ${(err as Error).message}`);
+              setCustomError(`An error occurred: ${(err as Error).message}`);
             }
 
           }}
@@ -107,9 +107,9 @@ export default function SignUp() {
                   )}
                 </div>
 
-                {error !== "" && (
+                {customError !== "" && (
                   <p className="text-error text-sm">
-                    {error}
+                    {customError}
                   </p>
                 )}
                 {success !== "" && (

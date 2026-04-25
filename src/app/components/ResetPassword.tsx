@@ -15,9 +15,29 @@ interface ResetPasswordProps {
 }
 
 const ResetPassword = ({ token }: ResetPasswordProps) => {
-  const [error, setError] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
+  const [invalidToken, setInvalidToken] = useState<boolean>(false);
+
   const router = useRouter();
+
+  if (invalidToken) {
+    return (
+      <div className="flex justify-center">
+        <div className="w-full max-w-md bg-white px-6 py-12 rounded-xl shadow-sm text-center">
+          <h1 className="text-xl font-bold mb-4 text-red-500">
+            Invalid or Expired Link
+          </h1>
+          <p className="mb-4">
+            This password reset link is invalid or has expired.
+          </p>
+          <a href="/auth/reset-password-request" className="btn btn-primary">
+            Request a new link
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center">
@@ -33,16 +53,29 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
             });
             if (error) {
               console.error(error);
+
+              if (
+                error.code === "invalid_token" ||
+                error.code === "expired_token"
+              ) {
+                setInvalidToken(true);
+                setSubmitting(false);
+                return;
+              }
+
               const { code, message, status, statusText } = error;
-              setError(`
+              setErrorMessage(`
                 Error resetting password.
                 Code: ${code},
                 Status: ${status},
                 Status text: ${statusText},
                 Message: ${message}
               `);
+
+              setSubmitting(false);
+              return;
             } else if (data.status) {
-              setError("");
+              setErrorMessage("");
               setSuccess("Password reset email sent successfully");
 
               setTimeout(() => {
@@ -65,7 +98,7 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.newPassword && touched.newPassword ? (
-                  <div className="text-red-500 text-sm mt-1">{errors.newPassword}</div>
+                  <div className="text-error text-sm mt-1">{errors.newPassword}</div>
                 ) : null}
               </div>
               <div className="mb-4">
@@ -79,14 +112,14 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.confirmPassword && touched.confirmPassword ? (
-                  <div className="text-red-500 text-sm mt-1">{errors.confirmPassword}</div>
+                  <div className="text-error text-sm mt-1">{errors.confirmPassword}</div>
                 ) : null}
               </div>
-              {error && (
-                <div className="text-red-500 text-sm mb-4">{error}</div>
+              {errorMessage && (
+                <div className="text-error text-sm mb-4">{errorMessage}</div>
               )}
               {success && (
-                <div className="text-green-500 text-sm mb-4">{success}</div>
+                <div className="text-success text-sm mb-4">{success}</div>
               )}
               <button
                 type="submit"
