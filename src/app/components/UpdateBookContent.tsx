@@ -87,13 +87,8 @@ const UpdateBookContent = ({
           validationSchema={toFormikValidationSchema(UpdateBookSchema)}
           onSubmit={onSubmit}
         >
-          {({ isSubmitting, handleSubmit, errors, touched }) => (
-            <Form
-              onSubmit={(e: FormEvent<HTMLFormElement>) => {
-                e.preventDefault();
-                handleSubmit();
-              }}
-            >
+          {({ isSubmitting, errors, touched }) => (
+            <Form>
               <label htmlFor="description">Description:</label>
               <Field
                 as="textarea"
@@ -111,8 +106,8 @@ const UpdateBookContent = ({
               <button type="submit" disabled={isSubmitting}>
                 Update Book
               </button>
-              {error !== "" && <p>{error}</p>}
-              {message !== ""&& <p className="text-green-500">{message}</p>}
+              {error && <div className="alert alert-error">{error}</div>}
+              {message && <div className="alert alert-success">{message}</div>}
             </Form>
           )}
         </Formik>

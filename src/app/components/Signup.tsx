@@ -11,6 +11,30 @@ import { signupSchema } from "@/src/utils/validation";
 import { FaGoogle, FaGithub, FaDiscord, FaEnvelope } from "react-icons/fa";
 import Card from "@/src/app/components/ui/Card";
 
+interface AuthError {
+  code?: string;
+  message?: string;
+  status: number;
+  statusText: string;
+}
+
+const getSignupErrorMessage = (error: AuthError | null) => {
+  switch (error?.code) {
+    case "user_already_exists":
+      return "An account with this email already exists. Please sign in or use a different email.";
+    case "invalid_email":
+    case "invalid_email_format":
+    case "email_not_allowed":
+      return "The email address is invalid. Please enter a valid email.";
+    case "weak_password":
+      return "The password is too weak. Please choose a stronger password.";
+    case "too_many_requests":
+      return "Too many registration attempts. Please try again later.";
+    default:
+      return `${error?.message}. Error status: ${error?.status}: ${error?.statusText}`;
+  }
+};
+
 export default function SignUp() {
   const [customError, setCustomError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
@@ -25,6 +49,9 @@ export default function SignUp() {
           initialValues={{ name: "", email: "", password: "", confirmPassword: "" }}
           validationSchema={toFormikValidationSchema(signupSchema)}
           onSubmit={async (values) => {
+            setCustomError("");
+            setSuccess("");
+
             try {
               const { data, error } = await authClient.signUp.email({
                 name: values.name,
@@ -35,15 +62,13 @@ export default function SignUp() {
 
               if (data && data.user) {
                 setSuccess("Registration successful! Redirecting to login page...");
-                setCustomError("");
               } else if (error) {
-                setCustomError(error.message || "Registration failed");
-                setSuccess("");
+                setCustomError(getSignupErrorMessage(error));
+                return;
               }
             } catch (err: unknown) {
               setCustomError(`An error occurred: ${(err as Error).message}`);
             }
-
           }}
         >
          {({ getFieldProps, touched, errors, isSubmitting, values }) => {
@@ -107,15 +132,15 @@ export default function SignUp() {
                   )}
                 </div>
 
-                {customError !== "" && (
-                  <p className="text-error text-sm">
+                {customError && (
+                  <div className="alert alert-error">
                     {customError}
-                  </p>
+                  </div>
                 )}
-                {success !== "" && (
-                  <p className="text-success text-sm">
+                {success && (
+                  <div className="alert alert-success">
                     {success}
-                  </p>
+                  </div>
                 )}
 
                 <button

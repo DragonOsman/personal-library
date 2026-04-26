@@ -310,7 +310,7 @@ const AddBookPageContent = () => {
                     className="input input-bordered w-full"
                   />
                   {formik.errors.authors && formik.touched.authors && (
-                    <p className="text-error text-sm">{toast.error(formik.errors.authors)}</p>
+                    <p className="text-error text-sm">{formik.errors.authors}</p>
                   )}
                 </div>
 
@@ -326,7 +326,7 @@ const AddBookPageContent = () => {
                     className="input input-bordered w-full"
                   />
                   {formik.errors.isbn && formik.touched.isbn && (
-                    <p className="text-error text-sm">{toast.error(formik.errors.isbn)}</p>
+                    <p className="text-error text-sm">{formik.errors.isbn}</p>
                   )}
                 </div>
 
@@ -343,7 +343,7 @@ const AddBookPageContent = () => {
                   />
                   {formik.errors.description && formik.touched.description && (
                     <p className="text-error text-sm">
-                      {toast.error(formik.errors.description)}
+                      {formik.errors.description}
                     </p>
                   )}
                 </div>
@@ -361,7 +361,7 @@ const AddBookPageContent = () => {
                   />
                   {formik.errors.publishedDate && formik.touched.publishedDate && (
                     <p className="text-error text-sm">
-                      {toast.error(formik.errors.publishedDate)}
+                      {formik.errors.publishedDate}
                     </p>
                   )}
                 </div>
@@ -452,8 +452,8 @@ const AddBookPageContent = () => {
                   Add Book Manually
                 </button>
 
-                {error && <p className="text-error text-sm">{toast.error(error)}</p>}
-                {message && <p className="text-sm">{toast.success(message)}</p>}
+                {error && <div className="alert alert-error">{error}</div>}
+                {message && <div className="alert alert-success">{message}</div>}
               </Form>
             )}
           </Formik>

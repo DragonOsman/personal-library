@@ -98,7 +98,7 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.newPassword && touched.newPassword ? (
-                  <div className="text-error text-sm mt-1">{errors.newPassword}</div>
+                  <div className="alert alert-error text-sm mt-1">{errors.newPassword}</div>
                 ) : null}
               </div>
               <div className="mb-4">
@@ -112,14 +112,14 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.confirmPassword && touched.confirmPassword ? (
-                  <div className="text-error text-sm mt-1">{errors.confirmPassword}</div>
+                  <div className="alert alert-error mt-1">{errors.confirmPassword}</div>
                 ) : null}
               </div>
               {errorMessage && (
-                <div className="text-error text-sm mb-4">{errorMessage}</div>
+                <div className="alert alert-error mb-4">{errorMessage}</div>
               )}
               {success && (
-                <div className="text-success text-sm mb-4">{success}</div>
+                <div className="alert alert-success mb-4">{success}</div>
               )}
               <button
                 type="submit"

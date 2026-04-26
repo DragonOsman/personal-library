@@ -72,7 +72,9 @@ const RequestPasswordReset = () => {
               >
                 {isSubmitting ? "Submitting..." : "Send Reset Email"}
               </button>
-              <p className="note">{error || success}</p>
+              <div className={`${error ? "alert alert-error" : success ? "alert alert-success" : ""}`}>
+                {error || success}
+              </div>
             </Form>
           )}
         </Formik>

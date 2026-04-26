@@ -32,8 +32,16 @@ export default function SignIn() {
 
             if (error) {
               console.error(error);
-              if (error.message) {
-                setCustomError(error.message);
+              const { code, message, status, statusText } = error;
+              if (message || code || status || statusText) {
+                setCustomError(
+                  `
+                    error code: ${code},
+                    error message: ${message}
+                    error status: ${status},
+                    error status text: ${statusText}
+                  `
+                );
               }
             }
 
@@ -103,8 +111,8 @@ export default function SignIn() {
                     </a>
                   </p>
                 </div>
-                {customError !== "" && (
-                  <p className="text-error text-sm">{customError}</p>
+                {customError && (
+                  <div className="alert alert-error">{customError}</div>
                 )}
               </Form>
               <div className="divider">OR</div>
