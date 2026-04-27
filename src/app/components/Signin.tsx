@@ -118,7 +118,10 @@ export default function SignIn() {
               <div className="divider">OR</div>
               <div className="space-y-2">
                 <button
-                  onClick={() => authClient.signIn.social({ provider: "google" })}
+                  onClick={() => authClient.signIn.social({
+                    provider: "google",
+                    callbackURL: "/auth/handle/oauth?redirect=/users/profile"
+                  })}
                   className={`${socialBtn} btn-outline`}
                   title="Google SignIn"
                   type="button"
@@ -127,7 +130,10 @@ export default function SignIn() {
                 </button>
 
                 <button
-                  onClick={() => authClient.signIn.social({ provider: "github" })}
+                  onClick={() => authClient.signIn.social({
+                    provider: "github",
+                    callbackURL: "/auth/handle/oauth?redirect=/users/profile"
+                  })}
                   className={`${socialBtn} btn-primary`}
                   type="button"
                   title="GitHub SignIn"
@@ -137,7 +143,10 @@ export default function SignIn() {
 
                 <button
                   className={`${socialBtn} btn-secondary`}
-                  onClick={() => authClient.signIn.social({ provider: "discord" })}
+                  onClick={() => authClient.signIn.social({
+                    provider: "discord",
+                    callbackURL: "/auth/handle/oauth?redirect=/users/profile"
+                  })}
                   type="button"
                   title="Discord Sign In"
                 >
