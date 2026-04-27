@@ -23,7 +23,8 @@ export default function AuthHandlerClient({
 
   const messages: Record<string, string> = {
     "magic-link": "Signing you in...",
-    "verify-email": "Verifying your email..."
+    "verify-email": "Verifying your email...",
+    "oauth": "Signing you in with your provider..."
   };
 
   return (
