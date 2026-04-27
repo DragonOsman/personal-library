@@ -42,12 +42,13 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
+      const customUrl = `${baseURL}/auth/handle/verify-email?redirect=${encodeURIComponent(url)}`;
       const result = await transporter.sendMail({
         from: emailFrom,
         to: user.email,
         subject: "Verify your email address",
-        html: `<p>Click the link to verify your email: <a href="${url}">${url}</a></p>`,
-        text: `Click the link to verify your email: ${url}`
+        html: `<p>Click the link to verify your email: <a href="${customUrl}">${customUrl}</a></p>`,
+        text: `Click the link to verify your email: ${customUrl}`
       });
 
       if (result.rejected.includes(user.email)) {
@@ -71,13 +72,14 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
-    sendResetPassword: async ({ user, url, token }) => {
+    sendResetPassword: async ({ user, token }) => {
+      const customUrl = `${baseURL}/auth/reset-password/${token}`;
       const result = await transporter.sendMail({
         from: emailFrom,
         to: user.email,
         subject: "Reset your password",
-        html: `<p>Click the link to reset your password: <a href="${url}">${url}</a></p><p>Or use this token: ${token}</p>`,
-        text: `Click the link to reset your password: ${url} Or use this token: ${token}`
+        html: `<p>Click the link to reset your password: <a href="${customUrl}">${customUrl}</a></p><p>Or use this token: ${token}</p>`,
+        text: `Click the link to reset your password: ${customUrl} Or use this token: ${token}`
       });
 
       if (result.rejected.includes(user.email)) {
@@ -98,6 +100,10 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.AUTH_GOOGLE_ID as string,
       clientSecret: process.env.AUTH_GOOGLE_SECRET as string
+    },
+    discord: {
+      clientId: process.env.AUTH_DISCORD_ID as string,
+      clientSecret: process.env.AUTH_DISCORD_SECRET as string
     }
   },
   account: {
@@ -111,12 +117,13 @@ export const auth = betterAuth({
     nextCookies(),
     magicLink({
       sendMagicLink: async ({ email, url, token }) => {
+        const customUrl = `${baseURL}/auth/handle/magic-link?redirect=${encodeURIComponent(url)}`;
         const result = await transporter.sendMail({
           from: emailFrom,
           to: email,
           subject: "Your Magic Link",
-          html: `<p>Click the link to sign in: <a href="${url}">${url}</a></p><p>Or use this token: ${token}</p>`,
-          text: `Click the link to sign in: ${url} Or use this token: ${token}`
+          html: `<p>Click the link to sign in: <a href="${customUrl}">${customUrl}</a></p><p>Or use this token: ${token}</p>`,
+          text: `Click the link to sign in: ${customUrl} Or use this token: ${token}`
         });
         if (result.rejected.includes(email)) {
           console.error("Failed to send magic link email:", result.rejected.length > 0 ? result.rejected[0] : "Unknown error");
