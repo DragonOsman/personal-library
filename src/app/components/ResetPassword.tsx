@@ -64,6 +64,7 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
           initialValues={{ newPassword: "", confirmPassword: "" }}
           validationSchema={toFormikValidationSchema(resetPasswordSchema)}
           onSubmit={async (values, { setSubmitting }) => {
+            console.log("SUBMIT FIRED", values);
             const { data, error } = await authClient.resetPassword({
               newPassword: values.newPassword,
               token
@@ -85,7 +86,7 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
               return;
             } else if (data?.status) {
               setErrorMessage("");
-              setSuccess("Password reset email sent successfully");
+              setSuccess("Password reset successfully. Redirecting...");
 
               setTimeout(() => {
                 router.push("/auth/signin");
@@ -95,14 +96,14 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
             }
           }}
         >
-          {({ errors, touched, isSubmitting, getFieldProps }) => (
+          {({ errors, touched, isSubmitting, isValid, getFieldProps }) => (
             <Form className="flex flex-col gap-4">
               <div className="mb-4">
-                <label htmlFor="password" className="block text-sm font-medium">
+                <label htmlFor="newPassword" className="block text-sm font-medium">
                   New Password
                 </label>
                 <input
-                  id="password"
+                  id="newPassword"
                   type="password"
                   {...getFieldProps("newPassword")}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
@@ -133,7 +134,7 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
               )}
               <button
                 type="submit"
-                disabled={isSubmitting || !!success}
+                disabled={isSubmitting || !isValid || !!success}
                 className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-offset-blue ${isSubmitting ? "disabled:opacity-50" : ""}`}
               >
                 Reset Password
