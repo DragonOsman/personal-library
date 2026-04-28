@@ -72,8 +72,8 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
-    sendResetPassword: async ({ user, token }) => {
-      const customUrl = `${baseURL}/auth/reset-password/${token}`;
+    sendResetPassword: async ({ user, url, token }) => {
+      const customUrl = `${baseURL}/auth/handle/reset-password?redirect=${encodeURIComponent(url)}`;
       const result = await transporter.sendMail({
         from: emailFrom,
         to: user.email,
