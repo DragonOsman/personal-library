@@ -62,7 +62,7 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
         <h1 className="text-black">Reset Password</h1>
         <Formik
           initialValues={{ newPassword: "", confirmPassword: "" }}
-          //validationSchema={toFormikValidationSchema(resetPasswordSchema)}
+          validationSchema={toFormikValidationSchema(resetPasswordSchema)}
           onSubmit={async (values, { setSubmitting }) => {
             console.log("SUBMIT FIRED", values);
             const { data, error } = await authClient.resetPassword({
