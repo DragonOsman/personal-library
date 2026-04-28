@@ -14,6 +14,23 @@ interface ResetPasswordProps {
   token: string
 }
 
+const getResetPasswordErrorMessage = (error: {
+  code?: string;
+  message?: string;
+}) => {
+  switch (error.code) {
+    case "invalid_token":
+    case "expired_token":
+      return "This reset link is invalid or has expired. Please request a new one.";
+    case "weak_password":
+      return "Your password is too weak. Please choose a stronger one.";
+    case "too_many_requests":
+      return "Too many attempts. Please try again later.";
+    default:
+      return error.message || "Something went wrong. Please try again.";
+  }
+};
+
 const ResetPassword = ({ token }: ResetPasswordProps) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
@@ -63,18 +80,10 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
                 return;
               }
 
-              const { code, message, status, statusText } = error;
-              setErrorMessage(`
-                Error resetting password.
-                Code: ${code},
-                Status: ${status},
-                Status text: ${statusText},
-                Message: ${message}
-              `);
-
+              setErrorMessage(getResetPasswordErrorMessage(error));
               setSubmitting(false);
               return;
-            } else if (data.status) {
+            } else if (data?.status) {
               setErrorMessage("");
               setSuccess("Password reset email sent successfully");
 
@@ -82,6 +91,7 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
                 router.push("/auth/signin");
               }, 1500);
               setSubmitting(false);
+              return;
             }
           }}
         >
@@ -123,7 +133,7 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
               )}
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !!success}
                 className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-offset-blue ${isSubmitting ? "disabled:opacity-50" : ""}`}
               >
                 Reset Password
