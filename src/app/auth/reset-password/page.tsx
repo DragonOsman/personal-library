@@ -4,6 +4,7 @@
 import ResetPassword from "@/src/app/components/ResetPassword";
 import { Metadata } from "next";
 import { getRouteTitle, getRouteKeywords } from "@/src/lib/routeTitles";
+import { notFound } from "next/navigation";
 
 export const generateMetadata = (): Metadata => {
   const pathname = "/auth/reset-password";
@@ -17,9 +18,13 @@ export const generateMetadata = (): Metadata => {
 };
 
 export default function ResetPasswordPage({
-  params
+  searchParams
 }: {
-  params: { token: string };
+  searchParams: { token?: string };
 }) {
-  return <ResetPassword token={params.token} />;
+  if (!searchParams?.token) {
+    notFound();
+  }
+
+  return <ResetPassword token={searchParams.token} />;
 }
