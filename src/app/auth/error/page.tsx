@@ -3,7 +3,7 @@
 
 import { Suspense } from "react";
 import AuthErrorContent from "./content";
-import { getRouteTitle, getRouteKeywords } from "@/src/lib/routeTitles";
+import { getRouteTitle, getRouteKeywords } from "@/lib/routeTitles";
 
 export const generateMetadata = () => {
   const pathname = "/auth/error";

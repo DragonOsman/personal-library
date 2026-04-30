@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Osman Zakir
 // Licensed under the GPL v3
 
-import { PrismaClient } from "@/src/app/generated/prisma/client";
+import { PrismaClient } from "@/app/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 

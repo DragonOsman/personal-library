@@ -1,9 +1,9 @@
 // Copyright (c) 2026 Osman Zakir
 // Licensed under the GPL v3
 
-import AddBookContent from "@/src/app/components/AddBookContent";
+import AddBookContent from "@/app/components/AddBookContent";
 import { Metadata } from "next";
-import { getRouteTitle, getRouteKeywords } from "@/src/lib/routeTitles";
+import { getRouteTitle, getRouteKeywords } from "@/lib/routeTitles";
 
 export const generateMetadata = (): Metadata => {
   const pathname = "/books/add";

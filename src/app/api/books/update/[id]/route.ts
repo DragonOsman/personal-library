@@ -2,8 +2,8 @@
 // Licensed under the GPL v3
 
 import { NextResponse, NextRequest } from "next/server";
-import prisma from "@/src/lib/db";
-import { auth } from "@/src/auth";
+import prisma from "@/lib/db";
+import { auth } from "@/auth";
 
 export const PUT = async (req: NextRequest,
   { params }: { params: { id: string } }

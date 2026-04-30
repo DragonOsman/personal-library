@@ -1,9 +1,9 @@
 
 // Copyright (c) 2026 Osman Zakir
 // Licensed under the GPL v3
-import SignUp from "@/src/app/components/Signup";
+import SignUp from "@/app/components/Signup";
 import { Metadata } from "next";
-import { getRouteTitle, getRouteKeywords } from "@/src/lib/routeTitles";
+import { getRouteTitle, getRouteKeywords } from "@/lib/routeTitles";
 
 export const generateMetadata = (): Metadata => {
   const pathname = "/auth/signup";

@@ -3,8 +3,8 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import prisma from "@/src/lib/db";
-import { auth } from "@/src/auth";
+import prisma from "@/lib/db";
+import { auth } from "@/auth";
 
 export const POST = async (req: NextRequest) => {
   const session = await auth.api.getSession({

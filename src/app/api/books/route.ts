@@ -3,8 +3,8 @@
 
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import prisma from "@/src/lib/db";
-import { auth } from "@/src/auth";
+import prisma from "@/lib/db";
+import { auth } from "@/auth";
 
 export const GET = async () => {
   const session = await auth.api.getSession({

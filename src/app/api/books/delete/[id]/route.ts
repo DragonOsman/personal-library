@@ -2,8 +2,8 @@
 // Licensed under the GPL v3
 
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/src/lib/db";
-import { auth } from "@/src/auth";
+import prisma from "@/lib/db";
+import { auth } from "@/auth";
 
 export const DELETE = async (req: NextRequest,
   { params }: { params: { id: string } }) => {

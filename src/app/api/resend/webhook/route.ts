@@ -4,7 +4,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { headers } from "next/headers";
 import { Resend } from "resend";
-import prisma from "@/src/lib/db";
+import prisma from "@/lib/db";
 
 const resend = new Resend(process.env.RESEND_WEBHOOK_SECRET);
 
