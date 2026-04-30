@@ -4,7 +4,6 @@
 "use client";
 
 import Image from "next/image";
-import logo from "@/public/images/logo.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -54,7 +53,7 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
           <Image
-            src={logo}
+            src="/images/logo.png"
             alt="Logo"
             width={50}
             height={50}

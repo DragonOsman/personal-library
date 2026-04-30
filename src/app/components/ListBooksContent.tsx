@@ -8,7 +8,6 @@ import DeleteBook from "@/app/components/DeleteBook";
 import type { IBook } from "@/app/context/BookContext";
 import { useContext, useEffect, useState } from "react";
 import NextImage from "next/image";
-import bookImgFallback from "@/public/images/book-composition-with-open-book_23-2147690555.jpg";
 import Link from "next/link";
 import BookSkeleton from "@/app/components/ui/BookSkeleton";
 
@@ -83,7 +82,7 @@ const ListBooksContent = () => {
               <div key={book.id} className="card bg-base-100 shadow-md hover:shadow-lg transition">
                 <figure className="px-4 pt-4">
                   <NextImage
-                    src={imgUrl || bookImgFallback}
+                    src={imgUrl || "/images/book-composition-with-open-book_23-2147690555.jpg"}
                     alt={book.title}
                     width={128}
                     height={192}

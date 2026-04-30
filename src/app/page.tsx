@@ -4,7 +4,6 @@
 import { Metadata } from "next";
 import { getRouteTitle, getRouteKeywords } from "@/lib/routeTitles";
 import Image from "next/image";
-import logo from "@/public/images/logo.png";
 
 export const generateMetadata = (): Metadata => {
   const pathname = "/";
@@ -21,7 +20,7 @@ const Page = () => {
   return (
     <div className="space-y-6 text-center">
       <Image
-        src={logo}
+        src="/images/logo.png"
         alt="Logo"
         width={50}
         height={50}
