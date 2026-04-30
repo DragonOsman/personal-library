@@ -64,7 +64,6 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
           initialValues={{ newPassword: "", confirmPassword: "" }}
           validationSchema={toFormikValidationSchema(resetPasswordSchema)}
           onSubmit={async (values, { setSubmitting }) => {
-            console.log("SUBMIT FIRED", values);
             const { data, error } = await authClient.resetPassword({
               newPassword: values.newPassword,
               token
@@ -84,8 +83,9 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
               setErrorMessage(getResetPasswordErrorMessage(error));
               setSubmitting(false);
               return;
-            } else if (data?.status) {
+            } else if (data && data.status) {
               setErrorMessage("");
+              setInvalidToken(false);
               setSuccess("Password reset successfully. Redirecting...");
 
               setTimeout(() => {

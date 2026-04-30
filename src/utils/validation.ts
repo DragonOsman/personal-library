@@ -46,10 +46,10 @@ export const changePasswordSchema = zod.object({
 ;
 
 export const resetPasswordSchema = zod.object({
-  password: passwordField,
+  newPassword: passwordField,
   confirmPassword: passwordField
 })
-  .refine(data => data.password === data.confirmPassword, {
+  .refine(data => data.newPassword === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"]
   })
