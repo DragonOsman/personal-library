@@ -42,6 +42,7 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
+      console.log("VERIFY EMAIL TRIGGERED", user.email, url);
       const result = await transporter.sendMail({
         from: emailFrom,
         to: user.email,
@@ -72,7 +73,6 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url }) => {
-      console.log("RESET URL: ", url);
       const result = await transporter.sendMail({
         from: emailFrom,
         to: user.email,
