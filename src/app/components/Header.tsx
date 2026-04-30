@@ -29,20 +29,21 @@ export default function Header() {
     active: boolean,
     primary = false,
     mobile = false
-) =>
-  `btn ${
-    mobile
-      ? "btn-block justify-start rounded px-3 py-3"
-      : "btn-sm px-3 py-3 rounded"
+  ) => (
+    `btn flex items-center ${
+      mobile
+        ? "btn-block justify-start text-left rounded px-3 py-3"
+        : "btn-sm justify-center px-3 py-3 rounded"
     } ${
-    primary
-      ? active
-        ? "bg-accent text-white ring-2 ring-white/20"
-        : "bg-secondary text-white hover:bg-accent"
-      : active
-        ? "bg-white/20 text-white"
-        : "btn-ghost text-white hover:bg-white/10"
-  } transition-transform duration-150 active:scale-95`;
+      primary
+        ? active
+          ? "bg-accent text-white ring-2 ring-white/20"
+          : "bg-secondary text-white hover:bg-accent"
+        : active
+          ? "bg-white/20 text-white"
+          : "btn-ghost text-white hover:bg-white/10"
+    } transition-transform duration-150 active:scale-95`
+  );
 
   const handleNavClick = () => setIsOpen(false);
 
