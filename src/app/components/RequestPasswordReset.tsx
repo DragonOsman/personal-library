@@ -3,10 +3,10 @@
 
 "use client";
 
-import { authClient } from "@/src/auth-client";
+import { authClient } from "@/auth-client";
 import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { requestPasswordReset } from "@/src/utils/validation";
+import { requestPasswordReset } from "@/utils/validation";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 

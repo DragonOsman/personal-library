@@ -3,13 +3,13 @@
 
 "use client";
 
-import { authClient } from "@/src/auth-client";
+import { authClient } from "@/auth-client";
 import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useState } from "react";
-import { signinSchema } from "@/src/utils/validation";
+import { signinSchema } from "@/utils/validation";
 import { FaGoogle, FaGithub, FaDiscord, FaEnvelope } from "react-icons/fa";
-import Card from "@/src/app/components/ui/Card";
+import Card from "@/app/components/ui/Card";
 
 export default function SignIn() {
   const [customError, setCustomError] = useState<string>("");

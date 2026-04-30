@@ -6,10 +6,10 @@
 import { Formik, Form } from "formik";
 import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { authClient } from "@/src/auth-client";
-import { signupSchema } from "@/src/utils/validation";
+import { authClient } from "@/auth-client";
+import { signupSchema } from "@/utils/validation";
 import { FaGoogle, FaGithub, FaDiscord, FaEnvelope } from "react-icons/fa";
-import Card from "@/src/app/components/ui/Card";
+import Card from "@/app/components/ui/Card";
 
 interface AuthError {
   code?: string;

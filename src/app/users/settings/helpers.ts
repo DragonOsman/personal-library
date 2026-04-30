@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Your Name
 // Licensed under the GPL v3
 
-import { authClient } from "@/src/auth-client";
+import { authClient } from "@/auth-client";
 
 export const updateProfile = async (data: {
   name?: string;

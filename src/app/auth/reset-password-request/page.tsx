@@ -1,9 +1,9 @@
 // Copyright (c) 2026 Osman Zakir
 // Licensed under the GPL v3
 
-import RequestPasswordReset from "@/src/app/components/RequestPasswordReset";
+import RequestPasswordReset from "@/app/components/RequestPasswordReset";
 import { Metadata } from "next";
-import { getRouteTitle, getRouteKeywords } from "@/src/lib/routeTitles";
+import { getRouteTitle, getRouteKeywords } from "@/lib/routeTitles";
 
 export const generateMetadata = (): Metadata => {
   const pathname = "/auth/reset-password-request";

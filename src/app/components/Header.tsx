@@ -9,7 +9,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { authClient } from "@/src/auth-client";
+import { authClient } from "@/auth-client";
 import UserButton from "./UserButton";
 
 export default function Header() {

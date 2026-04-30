@@ -3,12 +3,12 @@
 
 "use client";
 
-import { authClient } from "@/src/auth-client";
+import { authClient } from "@/auth-client";
 import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { resetPasswordSchema } from "@/src/utils/validation";
+import { resetPasswordSchema } from "@/utils/validation";
 
 interface ResetPasswordProps {
   token: string

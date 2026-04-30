@@ -3,7 +3,7 @@
 
 "use client";
 import { useState, useEffect } from "react";
-import { authClient } from "@/src/auth-client";
+import { authClient } from "@/auth-client";
 import { updateProfile, linkedAccounts, unlinkAccount } from "./helpers";
 
 const sections = [

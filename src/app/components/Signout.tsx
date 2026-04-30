@@ -3,7 +3,7 @@
 
 "use client";
 
-import { authClient } from "@/src/auth-client";
+import { authClient } from "@/auth-client";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 

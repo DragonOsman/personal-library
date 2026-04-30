@@ -2,7 +2,7 @@
 // Licensed under the GPL v3
 
 import { Metadata } from "next";
-import { getRouteTitle, getRouteKeywords } from "@/src/lib/routeTitles";
+import { getRouteTitle, getRouteKeywords } from "@/lib/routeTitles";
 import Image from "next/image";
 import logo from "@/public/images/logo.png";
 

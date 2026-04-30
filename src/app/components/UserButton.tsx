@@ -3,7 +3,7 @@
 
 "use client";
 
-import { authClient } from "@/src/auth-client";
+import { authClient } from "@/auth-client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
