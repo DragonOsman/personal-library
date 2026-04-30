@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Osman Zakir
 // Licensed under the GPL v3
 
-import { BookContext, IBook } from "@/src/app/context/BookContext";
+import { BookContext, IBook } from "@/app/context/BookContext";
 import { useContext, useCallback } from "react";
 
 interface DeleteBooksProps {

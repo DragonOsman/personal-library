@@ -3,14 +3,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { BookContext, IBookContext } from "@/src/app/context/BookContext";
-import DeleteBook from "@/src/app/components/DeleteBook";
-import type { IBook } from "@/src/app/context/BookContext";
+import { BookContext, IBookContext } from "@/app/context/BookContext";
+import DeleteBook from "@/app/components/DeleteBook";
+import type { IBook } from "@/app/context/BookContext";
 import { useContext, useEffect, useState } from "react";
 import NextImage from "next/image";
 import bookImgFallback from "@/public/images/book-composition-with-open-book_23-2147690555.jpg";
 import Link from "next/link";
-import BookSkeleton from "@/src/app/components/ui/BookSkeleton";
+import BookSkeleton from "@/app/components/ui/BookSkeleton";
 
 declare global {
   interface Window {

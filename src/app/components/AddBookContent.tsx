@@ -9,8 +9,8 @@ import {
   IBook,
   BookFormValues,
   BOOK_CATEGORIES
-} from "@/src/app/context/BookContext";
-import { BaseBookSchema } from "@/src/app/books/BookSchemaZod";
+} from "@/app/context/BookContext";
+import { BaseBookSchema } from "@/app/books/BookSchemaZod";
 import { Formik, Form, Field } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import toast from "react-hot-toast";
