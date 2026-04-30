@@ -42,13 +42,12 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
-      const customUrl = `${baseURL}/auth/handle/verify-email?redirect=${encodeURIComponent(url)}`;
       const result = await transporter.sendMail({
         from: emailFrom,
         to: user.email,
         subject: "Verify your email address",
-        html: `<p>Click the link to verify your email: <a href="${customUrl}">${customUrl}</a></p>`,
-        text: `Click the link to verify your email: ${customUrl}`
+        html: `<p>Click the link to verify your email: <a href="${url}">${url}</a></p>`,
+        text: `Click the link to verify your email: ${url}`
       });
 
       if (result.rejected.includes(user.email)) {
@@ -72,14 +71,13 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
-    sendResetPassword: async ({ user, url, token }) => {
-      const customUrl = `${baseURL}/auth/handle/reset-password?redirect=${encodeURIComponent(url)}`;
+    sendResetPassword: async ({ user, url }) => {
       const result = await transporter.sendMail({
         from: emailFrom,
         to: user.email,
         subject: "Reset your password",
-        html: `<p>Click the link to reset your password: <a href="${customUrl}">${customUrl}</a></p><p>Or use this token: ${token}</p>`,
-        text: `Click the link to reset your password: ${customUrl} Or use this token: ${token}`
+        html: `<p>Click the link to reset your password: <a href="${url}">${url}</a></p>`,
+        text: `Click the link to reset your password: ${url}`
       });
 
       if (result.rejected.includes(user.email)) {
@@ -116,14 +114,13 @@ export const auth = betterAuth({
   plugins: [
     nextCookies(),
     magicLink({
-      sendMagicLink: async ({ email, url, token }) => {
-        const customUrl = `${baseURL}/auth/handle/magic-link?redirect=${encodeURIComponent(url)}`;
+      sendMagicLink: async ({ email, url }) => {
         const result = await transporter.sendMail({
           from: emailFrom,
           to: email,
           subject: "Your Magic Link",
-          html: `<p>Click the link to sign in: <a href="${customUrl}">${customUrl}</a></p><p>Or use this token: ${token}</p>`,
-          text: `Click the link to sign in: ${customUrl} Or use this token: ${token}`
+          html: `<p>Click the link to sign in: <a href="${url}">${url}</a></p>`,
+          text: `Click the link to sign in: ${url}`
         });
         if (result.rejected.includes(email)) {
           console.error("Failed to send magic link email:", result.rejected.length > 0 ? result.rejected[0] : "Unknown error");
@@ -162,7 +159,7 @@ export const auth = betterAuth({
         } else if (type === "forget-password") {
           subject = "Your password reset code";
         } else if (type === "email-verification") {
-          subject = "Your verifiction code";
+          subject = "Your verification code";
         }
         const text = `${subject} is: ${otp}.`;
 
