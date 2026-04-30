@@ -2,8 +2,8 @@
 // Licensed under the GPL v3
 
 "use client";
-import { BookContext } from "@/src/app/context/BookContext";
-import DeleteBook from "@/src/app/components/DeleteBook";
+import { BookContext } from "@/app/context/BookContext";
+import DeleteBook from "@/app/components/DeleteBook";
 import { useContext } from "react";
 
 const BooksSection = () => {

@@ -6,10 +6,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import QRCode from "qrcode";
-import { authClient } from "@/src/auth-client";
+import { authClient } from "@/auth-client";
 import { Formik } from "formik";
 import { toFormikValidate } from "zod-formik-adapter";
-import { passwordField } from "@/src/utils/validation";
+import { passwordField } from "@/utils/validation";
 import { z } from "zod";
 
 interface TwoFASectionProps {

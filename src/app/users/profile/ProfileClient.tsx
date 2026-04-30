@@ -4,7 +4,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { authClient } from "@/src/auth-client";
+import { authClient } from "@/auth-client";
 import ProfileSideBar from "./ProfileSideBar";
 import PasswordSection from "./PasswordSection";
 import BooksSection from "./BooksSection";

@@ -2,7 +2,7 @@
 // Licensed under the GPL v3
 
 "use client";
-import { authClient } from "@/src/auth-client";
+import { authClient } from "@/auth-client";
 import { useState, useEffect } from "react";
 
 interface Account {
