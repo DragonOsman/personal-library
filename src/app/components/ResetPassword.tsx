@@ -68,6 +68,8 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
               newPassword: values.newPassword,
               token
             });
+            console.log("RESET RESPONSE:", { data, error });
+
             if (error) {
               console.error(error);
 
@@ -81,6 +83,10 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
               }
 
               setErrorMessage(getResetPasswordErrorMessage(error));
+              setSubmitting(false);
+              return;
+            } else if (!data || data.status !== true) {
+              setErrorMessage("Password reset failed. The link may be invalid.");
               setSubmitting(false);
               return;
             } else if (data && data.status) {
