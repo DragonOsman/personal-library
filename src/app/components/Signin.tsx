@@ -9,10 +9,13 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useState } from "react";
 import { signinSchema } from "@/utils/validation";
 import { FaGoogle, FaGithub, FaDiscord, FaEnvelope } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 import Card from "@/app/components/ui/Card";
 
 export default function SignIn() {
   const [customError, setCustomError] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const router = useRouter();
 
   const socialBtn = "btn w-full justify-start gap-2";
 
@@ -24,7 +27,7 @@ export default function SignIn() {
           initialValues={{ email: "", password: "", rememberMe: false }}
           validationSchema={toFormikValidationSchema(signinSchema)}
           onSubmit={async (values, { setSubmitting }) => {
-            const { error } = await authClient.signIn.email({
+            const { data, error } = await authClient.signIn.email({
               email: values.email,
               password: values.password,
               rememberMe: values.rememberMe
@@ -43,6 +46,10 @@ export default function SignIn() {
                   `
                 );
               }
+            } else if (data && data.user){
+              setCustomError("");
+              setSuccessMessage("Signed in successfully! Redirecting...");
+              router.push("/users/profile");
             }
 
             setSubmitting(false);
@@ -113,6 +120,9 @@ export default function SignIn() {
                 </div>
                 {customError && (
                   <div className="alert alert-error">{customError}</div>
+                )}
+                {successMessage && (
+                  <div className="alert alert-success">{successMessage}</div>
                 )}
               </Form>
               <div className="divider">OR</div>
