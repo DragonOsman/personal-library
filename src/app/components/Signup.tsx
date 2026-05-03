@@ -60,7 +60,7 @@ export default function SignUp() {
                 callbackURL: "/auth/signin"
               });
 
-              if (data && data.user) {
+              if (data && data.user && !error) {
                 setSuccess("Registration successful! Redirecting to login page...");
               } else if (error) {
                 setCustomError(getSignupErrorMessage(error));
