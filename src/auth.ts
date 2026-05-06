@@ -2,6 +2,7 @@
 // Licensed under the GPL v3
 
 import { betterAuth } from "better-auth";
+import type { User } from "better-auth";
 import prisma from "@/lib/db";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { magicLink, twoFactor, emailOTP } from "better-auth/plugins";
@@ -60,7 +61,16 @@ export const auth = betterAuth({
     },
     sendOnSignUp: true,
     sendOnSignIn: true,
-    autoSignInAfterVerification: true
+    autoSignInAfterVerification: true,
+    onExistingUserSignUp: async ({ user }: { user: User }) => {
+		// Notify the existing user that someone tried to sign up with their email
+		await transporter.sendMail({
+			from: emailFrom,
+			to: user.email,
+			subject: "Sign-up attempt with your email",
+			text: "Someone tried to create an account using your email address. If this was you, try signing in instead. If not, you can safely ignore this email."
+		});
+	}
   },
   database: prismaAdapter(prisma, {
     provider: "postgresql"
