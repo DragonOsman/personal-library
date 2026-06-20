@@ -60,10 +60,22 @@ model Email {
 
 model EmailEvent {
   id        String   @id @default(cuid())
-  resendId  String
-  type      String
-  email     String?
+
+  emailId   String   @unique
+
+  recipient String?
+  subject   String?
+
+  type    String
+
   createdAt DateTime @default(now())
+  deliveredAt DateTime?
+  openedAt DateTime?
+  clickedAt DateTime?
+  bouncedAt DateTime?
+  failedAt DateTime?
+
+  payload Json
 }
 
 model Session {

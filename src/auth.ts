@@ -123,7 +123,6 @@ export const auth = betterAuth({
     }
   },
   plugins: [
-    nextCookies(),
     magicLink({
       sendMagicLink: async ({ email, url }) => {
         const result = await transporter.sendMail({
@@ -189,6 +188,7 @@ export const auth = betterAuth({
           console.log("OTP email sent:", email);
         }
       }
-    })
+    }),
+    nextCookies()
   ]
 });

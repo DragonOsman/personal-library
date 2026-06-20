@@ -124,10 +124,17 @@ export type EmailScalarFieldEnum = (typeof EmailScalarFieldEnum)[keyof typeof Em
 
 export const EmailEventScalarFieldEnum = {
   id: 'id',
-  resendId: 'resendId',
+  emailId: 'emailId',
+  recipient: 'recipient',
+  subject: 'subject',
   type: 'type',
-  email: 'email',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  deliveredAt: 'deliveredAt',
+  openedAt: 'openedAt',
+  clickedAt: 'clickedAt',
+  bouncedAt: 'bouncedAt',
+  failedAt: 'failedAt',
+  payload: 'payload'
 } as const
 
 export type EmailEventScalarFieldEnum = (typeof EmailEventScalarFieldEnum)[keyof typeof EmailEventScalarFieldEnum]
@@ -202,6 +209,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

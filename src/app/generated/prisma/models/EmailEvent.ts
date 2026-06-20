@@ -26,52 +26,90 @@ export type AggregateEmailEvent = {
 
 export type EmailEventMinAggregateOutputType = {
   id: string | null
-  resendId: string | null
+  emailId: string | null
+  recipient: string | null
+  subject: string | null
   type: string | null
-  email: string | null
   createdAt: Date | null
+  deliveredAt: Date | null
+  openedAt: Date | null
+  clickedAt: Date | null
+  bouncedAt: Date | null
+  failedAt: Date | null
 }
 
 export type EmailEventMaxAggregateOutputType = {
   id: string | null
-  resendId: string | null
+  emailId: string | null
+  recipient: string | null
+  subject: string | null
   type: string | null
-  email: string | null
   createdAt: Date | null
+  deliveredAt: Date | null
+  openedAt: Date | null
+  clickedAt: Date | null
+  bouncedAt: Date | null
+  failedAt: Date | null
 }
 
 export type EmailEventCountAggregateOutputType = {
   id: number
-  resendId: number
+  emailId: number
+  recipient: number
+  subject: number
   type: number
-  email: number
   createdAt: number
+  deliveredAt: number
+  openedAt: number
+  clickedAt: number
+  bouncedAt: number
+  failedAt: number
+  payload: number
   _all: number
 }
 
 
 export type EmailEventMinAggregateInputType = {
   id?: true
-  resendId?: true
+  emailId?: true
+  recipient?: true
+  subject?: true
   type?: true
-  email?: true
   createdAt?: true
+  deliveredAt?: true
+  openedAt?: true
+  clickedAt?: true
+  bouncedAt?: true
+  failedAt?: true
 }
 
 export type EmailEventMaxAggregateInputType = {
   id?: true
-  resendId?: true
+  emailId?: true
+  recipient?: true
+  subject?: true
   type?: true
-  email?: true
   createdAt?: true
+  deliveredAt?: true
+  openedAt?: true
+  clickedAt?: true
+  bouncedAt?: true
+  failedAt?: true
 }
 
 export type EmailEventCountAggregateInputType = {
   id?: true
-  resendId?: true
+  emailId?: true
+  recipient?: true
+  subject?: true
   type?: true
-  email?: true
   createdAt?: true
+  deliveredAt?: true
+  openedAt?: true
+  clickedAt?: true
+  bouncedAt?: true
+  failedAt?: true
+  payload?: true
   _all?: true
 }
 
@@ -149,16 +187,23 @@ export type EmailEventGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type EmailEventGroupByOutputType = {
   id: string
-  resendId: string
+  emailId: string
+  recipient: string | null
+  subject: string | null
   type: string
-  email: string | null
   createdAt: Date
+  deliveredAt: Date | null
+  openedAt: Date | null
+  clickedAt: Date | null
+  bouncedAt: Date | null
+  failedAt: Date | null
+  payload: runtime.JsonValue
   _count: EmailEventCountAggregateOutputType | null
   _min: EmailEventMinAggregateOutputType | null
   _max: EmailEventMaxAggregateOutputType | null
 }
 
-type GetEmailEventGroupByPayload<T extends EmailEventGroupByArgs> = Prisma.PrismaPromise<
+export type GetEmailEventGroupByPayload<T extends EmailEventGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<EmailEventGroupByOutputType, T['by']> &
       {
@@ -178,37 +223,65 @@ export type EmailEventWhereInput = {
   OR?: Prisma.EmailEventWhereInput[]
   NOT?: Prisma.EmailEventWhereInput | Prisma.EmailEventWhereInput[]
   id?: Prisma.StringFilter<"EmailEvent"> | string
-  resendId?: Prisma.StringFilter<"EmailEvent"> | string
+  emailId?: Prisma.StringFilter<"EmailEvent"> | string
+  recipient?: Prisma.StringNullableFilter<"EmailEvent"> | string | null
+  subject?: Prisma.StringNullableFilter<"EmailEvent"> | string | null
   type?: Prisma.StringFilter<"EmailEvent"> | string
-  email?: Prisma.StringNullableFilter<"EmailEvent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"EmailEvent"> | Date | string
+  deliveredAt?: Prisma.DateTimeNullableFilter<"EmailEvent"> | Date | string | null
+  openedAt?: Prisma.DateTimeNullableFilter<"EmailEvent"> | Date | string | null
+  clickedAt?: Prisma.DateTimeNullableFilter<"EmailEvent"> | Date | string | null
+  bouncedAt?: Prisma.DateTimeNullableFilter<"EmailEvent"> | Date | string | null
+  failedAt?: Prisma.DateTimeNullableFilter<"EmailEvent"> | Date | string | null
+  payload?: Prisma.JsonFilter<"EmailEvent">
 }
 
 export type EmailEventOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  resendId?: Prisma.SortOrder
+  emailId?: Prisma.SortOrder
+  recipient?: Prisma.SortOrderInput | Prisma.SortOrder
+  subject?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
-  email?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deliveredAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  openedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  clickedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  bouncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  failedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  payload?: Prisma.SortOrder
 }
 
 export type EmailEventWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  emailId?: string
   AND?: Prisma.EmailEventWhereInput | Prisma.EmailEventWhereInput[]
   OR?: Prisma.EmailEventWhereInput[]
   NOT?: Prisma.EmailEventWhereInput | Prisma.EmailEventWhereInput[]
-  resendId?: Prisma.StringFilter<"EmailEvent"> | string
+  recipient?: Prisma.StringNullableFilter<"EmailEvent"> | string | null
+  subject?: Prisma.StringNullableFilter<"EmailEvent"> | string | null
   type?: Prisma.StringFilter<"EmailEvent"> | string
-  email?: Prisma.StringNullableFilter<"EmailEvent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"EmailEvent"> | Date | string
-}, "id">
+  deliveredAt?: Prisma.DateTimeNullableFilter<"EmailEvent"> | Date | string | null
+  openedAt?: Prisma.DateTimeNullableFilter<"EmailEvent"> | Date | string | null
+  clickedAt?: Prisma.DateTimeNullableFilter<"EmailEvent"> | Date | string | null
+  bouncedAt?: Prisma.DateTimeNullableFilter<"EmailEvent"> | Date | string | null
+  failedAt?: Prisma.DateTimeNullableFilter<"EmailEvent"> | Date | string | null
+  payload?: Prisma.JsonFilter<"EmailEvent">
+}, "id" | "emailId">
 
 export type EmailEventOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  resendId?: Prisma.SortOrder
+  emailId?: Prisma.SortOrder
+  recipient?: Prisma.SortOrderInput | Prisma.SortOrder
+  subject?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
-  email?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deliveredAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  openedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  clickedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  bouncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  failedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  payload?: Prisma.SortOrder
   _count?: Prisma.EmailEventCountOrderByAggregateInput
   _max?: Prisma.EmailEventMaxOrderByAggregateInput
   _min?: Prisma.EmailEventMinOrderByAggregateInput
@@ -219,137 +292,251 @@ export type EmailEventScalarWhereWithAggregatesInput = {
   OR?: Prisma.EmailEventScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EmailEventScalarWhereWithAggregatesInput | Prisma.EmailEventScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"EmailEvent"> | string
-  resendId?: Prisma.StringWithAggregatesFilter<"EmailEvent"> | string
+  emailId?: Prisma.StringWithAggregatesFilter<"EmailEvent"> | string
+  recipient?: Prisma.StringNullableWithAggregatesFilter<"EmailEvent"> | string | null
+  subject?: Prisma.StringNullableWithAggregatesFilter<"EmailEvent"> | string | null
   type?: Prisma.StringWithAggregatesFilter<"EmailEvent"> | string
-  email?: Prisma.StringNullableWithAggregatesFilter<"EmailEvent"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"EmailEvent"> | Date | string
+  deliveredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"EmailEvent"> | Date | string | null
+  openedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"EmailEvent"> | Date | string | null
+  clickedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"EmailEvent"> | Date | string | null
+  bouncedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"EmailEvent"> | Date | string | null
+  failedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"EmailEvent"> | Date | string | null
+  payload?: Prisma.JsonWithAggregatesFilter<"EmailEvent">
 }
 
 export type EmailEventCreateInput = {
   id?: string
-  resendId: string
+  emailId: string
+  recipient?: string | null
+  subject?: string | null
   type: string
-  email?: string | null
   createdAt?: Date | string
+  deliveredAt?: Date | string | null
+  openedAt?: Date | string | null
+  clickedAt?: Date | string | null
+  bouncedAt?: Date | string | null
+  failedAt?: Date | string | null
+  payload: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type EmailEventUncheckedCreateInput = {
   id?: string
-  resendId: string
+  emailId: string
+  recipient?: string | null
+  subject?: string | null
   type: string
-  email?: string | null
   createdAt?: Date | string
+  deliveredAt?: Date | string | null
+  openedAt?: Date | string | null
+  clickedAt?: Date | string | null
+  bouncedAt?: Date | string | null
+  failedAt?: Date | string | null
+  payload: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type EmailEventUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  resendId?: Prisma.StringFieldUpdateOperationsInput | string
+  emailId?: Prisma.StringFieldUpdateOperationsInput | string
+  recipient?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bouncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type EmailEventUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  resendId?: Prisma.StringFieldUpdateOperationsInput | string
+  emailId?: Prisma.StringFieldUpdateOperationsInput | string
+  recipient?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bouncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type EmailEventCreateManyInput = {
   id?: string
-  resendId: string
+  emailId: string
+  recipient?: string | null
+  subject?: string | null
   type: string
-  email?: string | null
   createdAt?: Date | string
+  deliveredAt?: Date | string | null
+  openedAt?: Date | string | null
+  clickedAt?: Date | string | null
+  bouncedAt?: Date | string | null
+  failedAt?: Date | string | null
+  payload: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type EmailEventUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  resendId?: Prisma.StringFieldUpdateOperationsInput | string
+  emailId?: Prisma.StringFieldUpdateOperationsInput | string
+  recipient?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bouncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type EmailEventUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  resendId?: Prisma.StringFieldUpdateOperationsInput | string
+  emailId?: Prisma.StringFieldUpdateOperationsInput | string
+  recipient?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  openedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bouncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  failedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payload?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type EmailEventCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  resendId?: Prisma.SortOrder
+  emailId?: Prisma.SortOrder
+  recipient?: Prisma.SortOrder
+  subject?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  email?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deliveredAt?: Prisma.SortOrder
+  openedAt?: Prisma.SortOrder
+  clickedAt?: Prisma.SortOrder
+  bouncedAt?: Prisma.SortOrder
+  failedAt?: Prisma.SortOrder
+  payload?: Prisma.SortOrder
 }
 
 export type EmailEventMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  resendId?: Prisma.SortOrder
+  emailId?: Prisma.SortOrder
+  recipient?: Prisma.SortOrder
+  subject?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  email?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deliveredAt?: Prisma.SortOrder
+  openedAt?: Prisma.SortOrder
+  clickedAt?: Prisma.SortOrder
+  bouncedAt?: Prisma.SortOrder
+  failedAt?: Prisma.SortOrder
 }
 
 export type EmailEventMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  resendId?: Prisma.SortOrder
+  emailId?: Prisma.SortOrder
+  recipient?: Prisma.SortOrder
+  subject?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  email?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  deliveredAt?: Prisma.SortOrder
+  openedAt?: Prisma.SortOrder
+  clickedAt?: Prisma.SortOrder
+  bouncedAt?: Prisma.SortOrder
+  failedAt?: Prisma.SortOrder
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 
 
 export type EmailEventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  resendId?: boolean
+  emailId?: boolean
+  recipient?: boolean
+  subject?: boolean
   type?: boolean
-  email?: boolean
   createdAt?: boolean
+  deliveredAt?: boolean
+  openedAt?: boolean
+  clickedAt?: boolean
+  bouncedAt?: boolean
+  failedAt?: boolean
+  payload?: boolean
 }, ExtArgs["result"]["emailEvent"]>
 
 export type EmailEventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  resendId?: boolean
+  emailId?: boolean
+  recipient?: boolean
+  subject?: boolean
   type?: boolean
-  email?: boolean
   createdAt?: boolean
+  deliveredAt?: boolean
+  openedAt?: boolean
+  clickedAt?: boolean
+  bouncedAt?: boolean
+  failedAt?: boolean
+  payload?: boolean
 }, ExtArgs["result"]["emailEvent"]>
 
 export type EmailEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  resendId?: boolean
+  emailId?: boolean
+  recipient?: boolean
+  subject?: boolean
   type?: boolean
-  email?: boolean
   createdAt?: boolean
+  deliveredAt?: boolean
+  openedAt?: boolean
+  clickedAt?: boolean
+  bouncedAt?: boolean
+  failedAt?: boolean
+  payload?: boolean
 }, ExtArgs["result"]["emailEvent"]>
 
 export type EmailEventSelectScalar = {
   id?: boolean
-  resendId?: boolean
+  emailId?: boolean
+  recipient?: boolean
+  subject?: boolean
   type?: boolean
-  email?: boolean
   createdAt?: boolean
+  deliveredAt?: boolean
+  openedAt?: boolean
+  clickedAt?: boolean
+  bouncedAt?: boolean
+  failedAt?: boolean
+  payload?: boolean
 }
 
-export type EmailEventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "resendId" | "type" | "email" | "createdAt", ExtArgs["result"]["emailEvent"]>
+export type EmailEventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "emailId" | "recipient" | "subject" | "type" | "createdAt" | "deliveredAt" | "openedAt" | "clickedAt" | "bouncedAt" | "failedAt" | "payload", ExtArgs["result"]["emailEvent"]>
 
 export type $EmailEventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "EmailEvent"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    resendId: string
+    emailId: string
+    recipient: string | null
+    subject: string | null
     type: string
-    email: string | null
     createdAt: Date
+    deliveredAt: Date | null
+    openedAt: Date | null
+    clickedAt: Date | null
+    bouncedAt: Date | null
+    failedAt: Date | null
+    payload: runtime.JsonValue
   }, ExtArgs["result"]["emailEvent"]>
   composites: {}
 }
@@ -774,10 +961,17 @@ export interface Prisma__EmailEventClient<T, Null = never, ExtArgs extends runti
  */
 export interface EmailEventFieldRefs {
   readonly id: Prisma.FieldRef<"EmailEvent", 'String'>
-  readonly resendId: Prisma.FieldRef<"EmailEvent", 'String'>
+  readonly emailId: Prisma.FieldRef<"EmailEvent", 'String'>
+  readonly recipient: Prisma.FieldRef<"EmailEvent", 'String'>
+  readonly subject: Prisma.FieldRef<"EmailEvent", 'String'>
   readonly type: Prisma.FieldRef<"EmailEvent", 'String'>
-  readonly email: Prisma.FieldRef<"EmailEvent", 'String'>
   readonly createdAt: Prisma.FieldRef<"EmailEvent", 'DateTime'>
+  readonly deliveredAt: Prisma.FieldRef<"EmailEvent", 'DateTime'>
+  readonly openedAt: Prisma.FieldRef<"EmailEvent", 'DateTime'>
+  readonly clickedAt: Prisma.FieldRef<"EmailEvent", 'DateTime'>
+  readonly bouncedAt: Prisma.FieldRef<"EmailEvent", 'DateTime'>
+  readonly failedAt: Prisma.FieldRef<"EmailEvent", 'DateTime'>
+  readonly payload: Prisma.FieldRef<"EmailEvent", 'Json'>
 }
     
 
@@ -954,6 +1148,11 @@ export type EmailEventFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Skip the first `n` EmailEvents.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of EmailEvents.
+   */
   distinct?: Prisma.EmailEventScalarFieldEnum | Prisma.EmailEventScalarFieldEnum[]
 }
 

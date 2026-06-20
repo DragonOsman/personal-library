@@ -21,39 +21,103 @@ const isEmailEvent = (
 
 export const POST = async (request: NextRequest) => {
   try {
-    const rawBody = await request.text();
-    const h = await headers();
-    const signature = h.get("resend-signature") || "";
+    const reqHeaders = await headers();
+    const signature = reqHeaders.get("resend-signature") || "";
+    const body = await request.json();
 
     if (!signature) {
       return NextResponse.json({ error: "Missing signature" }, { status: 400 });
     }
 
-    const event = resend.webhooks.verify({
-      payload: rawBody,
+    const eventPayload = resend.webhooks.verify({
+      payload: body,
       headers: {
         signature,
-        id: h.get("resend-id") || "",
-        timestamp: h.get("resend-timestamp") || ""
+        id: reqHeaders.get("resend-id") || "",
+        timestamp: reqHeaders.get("resend-timestamp") || ""
       },
       webhookSecret: process.env.RESEND_WEBHOOK_SECRET || ""
     });
 
-    if (!isEmailEvent(event)) {
+    if (!isEmailEvent(eventPayload)) {
       return NextResponse.json({ received: true });
     }
 
-    const type = event.type;
-    const emailId = event.data?.email_id ?? null;
-    const email = event.data?.to?.[0] ?? null;
+    const emailId = eventPayload.data?.email_id ?? null;
+    const type = eventPayload.type;
+    const subject = body.data?.subject;
 
-    await prisma.emailEvent.create({
-      data: {
+    await prisma.emailEvent.upsert({
+      where: {
+        id: emailId
+      },
+      create: {
+        emailId,
         type,
-        resendId: emailId,
-        email
+        subject: subject!,
+        payload: body,
+        recipient: body?.data?.to?.[0] ?? null
+      },
+      update: {
+        type,
+        payload: body
       }
     });
+
+    switch (body.type) {
+      case "email.delivered":
+        await prisma.emailEvent.updateMany({
+          where: {
+            emailId:
+              body.data.email_id
+          },
+          data: {
+            deliveredAt: new Date()
+          }
+        });
+
+        break;
+
+      case "email.sent":
+        await prisma.emailEvent.updateMany({
+          where: {
+            emailId: body.data.email_id
+          },
+          data: {
+            createdAt: new Date()
+          }
+        });
+
+        break;
+
+      case "email.bounced":
+        await prisma.emailEvent.updateMany({
+          where: {
+            emailId:
+              body.data.email_id
+          },
+          data: {
+            bouncedAt:
+              new Date()
+          }
+        });
+
+        break;
+
+      case "email.failed":
+        await prisma.emailEvent.updateMany({
+          where: {
+            emailId:
+              body.data.email_id
+          },
+          data: {
+            failedAt:
+              new Date()
+          }
+        });
+
+        break;
+    }
 
     return NextResponse.json({ received: true });
   } catch (error) {

@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.4.2
- * Query Engine version: 94a226be1cf2967af2541cca5529f0f7ba866919
+ * Prisma Client JS version: 7.7.0
+ * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.4.2",
-  engine: "94a226be1cf2967af2541cca5529f0f7ba866919"
+  client: "7.7.0",
+  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
 /**
@@ -1089,10 +1089,17 @@ export type EmailScalarFieldEnum = (typeof EmailScalarFieldEnum)[keyof typeof Em
 
 export const EmailEventScalarFieldEnum = {
   id: 'id',
-  resendId: 'resendId',
+  emailId: 'emailId',
+  recipient: 'recipient',
+  subject: 'subject',
   type: 'type',
-  email: 'email',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  deliveredAt: 'deliveredAt',
+  openedAt: 'openedAt',
+  clickedAt: 'clickedAt',
+  bouncedAt: 'bouncedAt',
+  failedAt: 'failedAt',
+  payload: 'payload'
 } as const
 
 export type EmailEventScalarFieldEnum = (typeof EmailEventScalarFieldEnum)[keyof typeof EmailEventScalarFieldEnum]
@@ -1167,6 +1174,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
