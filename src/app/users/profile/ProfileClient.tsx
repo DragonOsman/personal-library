@@ -46,10 +46,10 @@ export default function ProfileClientPage() {
     <>
       <h1 className="text-2xl font-bold mb-6">Profile</h1>
       {toggleLoading}
-      <div className="flex gap-8">
+      <div className="flex flex-col lg:flex-row gap-8">
         <ProfileSideBar />
 
-        <div className="flex-1 space-y-12">
+        <div className="flex-1 min-w-0 space-y-12">
           <section id="overview" className="space-y-2">
             <h2 className="text-lg font-semibold">
               Welcome{session?.user.name ? `, ${session?.user.name}` : ""}

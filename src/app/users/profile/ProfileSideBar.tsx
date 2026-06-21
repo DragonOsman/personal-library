@@ -40,14 +40,39 @@ const ProfileSideBar = () => {
   }, []);
 
   return (
-    <aside className="profile-sidebar w-56 shrink-0 border-r pr-4">
-      <nav className="profile-nav sticky top-24 space-y-1">
+    <aside
+      className="
+        profile-sidebar
+        w-full
+        lg:w-56
+        shrink-0
+        border-b
+        lg:border-b-0
+        lg:border-r
+        pb-4
+        lg:pb-0
+        lg:pr-4
+      "
+    >
+      <nav
+        className="
+          profile-nav
+          flex
+          flex-row
+          lg:flex-col
+          gap-1
+          overflow-x-auto
+          lg:overflow-visible
+          lg:sticky
+          lg:top-24
+        "
+      >
         {navItems.map(item => (
           <a
             key={item.id}
             href={`#${item.id}`}
             className={clsx(
-              "profile-navlink block rounded p-3 py-2 text-sm-transition",
+              "profile-navlink block rounded px-3 py-2 text-sm transition",
               active === item.id
               ? "bg-blue-100 text-blue-700 font-medium"
               : "text-gray-700 hover:bg-gray-100"
