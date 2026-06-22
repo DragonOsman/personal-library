@@ -36,9 +36,29 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
       alert("2FA verification successful! 2FA is now fully enabled.");
     } else if (verificationResult.error) {
       const { code, message, status, statusText } = verificationResult.error;
-      if ((code && code !== "") && (message && message !== "") && status > 0 && statusText !== "") {
-        setError(`Verification failed - Error Code: ${code} - ${message} (${status}: ${statusText})`);
+      const errorParts: string[] = [];
+
+      if (code) {
+        errorParts.push(`Code: ${code}`);
       }
+
+      if (message) {
+        errorParts.push(message);
+      }
+
+      if (status) {
+        errorParts.push(`Status: ${status}`);
+      }
+
+      if (statusText) {
+        errorParts.push(statusText);
+      }
+
+      setError(
+        errorParts.length > 0
+          ? errorParts.join(" | ")
+          : "An unknown error occurred."
+      );
     }
   };
 
@@ -59,9 +79,29 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
         alert("QR code generated. Please scan and verify to complete 2FA setup.");
       } else if (enableResult && enableResult.error) {
         const { code, message, status, statusText } = enableResult.error;
-        if ((code && code !== "") && (message && message !== "") && status > 0 && statusText !== "") {
-          setError(`Error Code: ${code} - ${message} (${status}: ${statusText})`);
+        const errorParts: string[] = [];
+
+        if (code) {
+          errorParts.push(`Code: ${code}`);
         }
+
+        if (message) {
+          errorParts.push(message);
+        }
+
+        if (status) {
+          errorParts.push(`Status: ${status}`);
+        }
+
+        if (statusText) {
+          errorParts.push(statusText);
+        }
+
+        setError(
+          errorParts.length > 0
+            ? errorParts.join(" | ")
+            : "An unknown error occurred."
+        );
       }
     } else {
       const disableResult = await authClient.twoFactor.disable({
@@ -78,9 +118,29 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
         }
       } else if (disableResult.error) {
         const { code, message, status, statusText } = disableResult.error;
-        if ((code && code !== "") && (message && message !== "") && status > 0 && statusText !== "") {
-          setError(`Error Code: ${code} - ${message} (${status}: ${statusText})`);
+        const errorParts: string[] = [];
+
+        if (code) {
+          errorParts.push(`Code: ${code}`);
         }
+
+        if (message) {
+          errorParts.push(message);
+        }
+
+        if (status) {
+          errorParts.push(`Status: ${status}`);
+        }
+
+        if (statusText) {
+          errorParts.push(statusText);
+        }
+
+        setError(
+          errorParts.length > 0
+            ? errorParts.join(" | ")
+            : "An unknown error occurred."
+        );
       }
     }
   };
