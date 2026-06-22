@@ -121,7 +121,7 @@ export default function Header() {
       {/* Mobile Menu */}
       <div
         className={`md:hidden transition-all duration-300 overflow-hidden ${
-          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          isOpen ? "max-h-screen opacity-100 overflow-y-auto" : "max-h-0 opacity-0"
         }`}
       >
         <div className="px-4 pb-4 flex flex-col gap-2 bg-brand-primary border-t border-white/10">
