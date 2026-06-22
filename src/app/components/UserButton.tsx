@@ -49,7 +49,20 @@ const UserButton = () => {
       </button>
 
       {dropdownOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
+        <div
+          className="
+            absolute
+            left-0
+            mt-2
+            w-full
+            min-w-48
+          bg-white
+            border
+            rounded
+            shadow-lg
+            z-50
+          "
+        >
           <Link
             href="/users/profile"
             className="block px-4 py-2 text-primary/70 hover:bg-gray-100"
