@@ -54,7 +54,7 @@ const UserButton = () => {
             absolute
             top-full
             mt-2
-            right-0
+            right-2
             translate-x-[-1rem]
             w-48
           bg-white
