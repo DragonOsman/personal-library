@@ -16,6 +16,10 @@ export const passwordField = zod
   )
 ;
 
+export const TwoFAPasswordScema = zod.object({
+  password: passwordField
+});
+
 export const signupSchema = zod.object({
   name: zod.string().min(2, "Name is too short").max(100, "Name is too long"),
   email: zod.email("Invalid email address"),

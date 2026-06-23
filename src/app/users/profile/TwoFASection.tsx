@@ -8,8 +8,8 @@ import Image from "next/image";
 import QRCode from "qrcode";
 import { authClient } from "@/auth-client";
 import { Formik } from "formik";
-import { toFormikValidate } from "zod-formik-adapter";
-import { passwordField } from "@/utils/validation";
+import { toFormikValidationSchema } from "zod-formik-adapter";
+import { TwoFAPasswordScema } from "@/utils/validation";
 import { z } from "zod";
 
 interface TwoFASectionProps {
@@ -76,7 +76,7 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
 
       <Formik
         initialValues={{ password: "" }}
-        validationSchema={toFormikValidate(passwordField)}
+        validationSchema={toFormikValidationSchema(TwoFAPasswordScema)}
         onSubmit={async (values, { setSubmitting }) => {
           setSubmitting(true);
           if (!isEnabled) {
@@ -239,7 +239,7 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
               await verifyTotp(values.totpCode);
               setSubmitting(false);
             }}
-            validationSchema={toFormikValidate(totpSchema)}
+            validationSchema={toFormikValidationSchema(totpSchema)}
           >
             {({ isSubmitting, handleSubmit, getFieldProps, errors, touched }) => (
               <form
