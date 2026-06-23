@@ -52,9 +52,11 @@ const UserButton = () => {
         <div
           className="
             absolute
-            left-0
+            top-full
             mt-2
-            min-w-48
+            right-0
+            translate-x-[-1rem]
+            w-48
           bg-white
             border
             rounded
