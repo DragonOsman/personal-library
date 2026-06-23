@@ -152,7 +152,7 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
   ;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 text-left">
       <h2 className="text-xl font-semibold">Two-factor Authentication</h2>
       <p className="text-gray-700">
         2FA is currently <strong>{isEnabled ? "enabled" : "disabled"}</strong>.
@@ -168,7 +168,7 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
         }}
       >
         {({ handleSubmit, getFieldProps, errors, touched, isSubmitting }) => (
-          <div className="TwoFactorAuthContainer w-full max-w-lg flex flex-col flex-1 justify-center">
+          <div className="TwoFactorAuthContainer w-full flex flex-col flex-1 justify-center">
             <form method="post" className="flex flex-col gap-4" onSubmit={(event) => {
                 event.preventDefault();
                 handleSubmit(event);
@@ -184,12 +184,14 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
                 <p className="errors text-red-500 text-sm">{errors.password}</p>
               )}
 
-              <input
-                type="submit"
-                value="Submit"
-                className="bg-blue-600 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-700"
-                disabled={isSubmitting}
-              />
+              <div className="flex justify-start">
+                <input
+                  type="submit"
+                  value="Submit"
+                  className="bg-blue-600 text-white p-2 w-full rounded disabled:opacity-50 hover:bg-blue-700"
+                  disabled={isSubmitting}
+                />
+              </div>
             </form>
           </div>
         )}
@@ -198,7 +200,7 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
       <button
         type="button"
         title="toggle 2fa"
-        className="bg-blue-600 text-white p-2 rounded disabled:opacity-50 hover:bg-blue-700"
+        className="bg-blue-600 text-white p-2 rounded w-full disabled:opacity-50 hover:bg-blue-700"
         onClick={() => toggle2FA(!isEnabled)}
       >
         {isEnabled ? "Disable " : "Enable "}2FA
