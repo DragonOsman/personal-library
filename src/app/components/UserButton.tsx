@@ -52,9 +52,8 @@ const UserButton = () => {
         <div
           className="
             absolute
-            md:left-0
+            left-0
             mt-2
-            md:w-full
             min-w-48
           bg-white
             border
