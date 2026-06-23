@@ -168,7 +168,7 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
         }}
       >
         {({ handleSubmit, getFieldProps, errors, touched, isSubmitting }) => (
-          <div className="TwoFactorAuthContainer w-full max-w-md flex flex-col flex-1 justify-center">
+          <div className="TwoFactorAuthContainer w-full max-w-lg flex flex-col flex-1 justify-center">
             <form method="post" className="flex flex-col gap-4" onSubmit={(event) => {
                 event.preventDefault();
                 handleSubmit(event);
