@@ -18,7 +18,6 @@ interface TwoFASectionProps {
 
 const TwoFASection = ({ enabled }: TwoFASectionProps) => {
   const [isEnabled, setIsEnabled] = useState(enabled);
-  const [password, setPassword] = useState("");
   const [qrcodeURL, setQrCodeURL] = useState("");
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
   const [error, setError] = useState("");
@@ -62,89 +61,6 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
     }
   };
 
-  const toggle2FA = async (enable: boolean) => {
-    if (enable) {
-      const enableResult = await authClient.twoFactor.enable({
-        password,
-        issuer: "DragonOsman Personal Library App"
-      });
-
-      if (enableResult.data) {
-        const { totpURI, backupCodes } = enableResult.data;
-
-        const qrcodeDataURL = await QRCode.toDataURL(totpURI);
-        setQrCodeURL(qrcodeDataURL);
-        setBackupCodes(backupCodes);
-        setShowVerification(true);
-        alert("QR code generated. Please scan and verify to complete 2FA setup.");
-      } else if (enableResult && enableResult.error) {
-        const { code, message, status, statusText } = enableResult.error;
-        const errorParts: string[] = [];
-
-        if (code) {
-          errorParts.push(`Code: ${code}`);
-        }
-
-        if (message) {
-          errorParts.push(message);
-        }
-
-        if (status) {
-          errorParts.push(`Status: ${status}`);
-        }
-
-        if (statusText) {
-          errorParts.push(statusText);
-        }
-
-        setError(
-          errorParts.length > 0
-            ? errorParts.join(" | ")
-            : "An unknown error occurred."
-        );
-      }
-    } else {
-      const disableResult = await authClient.twoFactor.disable({
-        password
-      });
-
-      if (disableResult.data) {
-        const { status } = disableResult.data;
-        if (status) {
-          setIsEnabled(false);
-          alert("2FA disabled successfully");
-        } else {
-          alert("An unknown error occurred trying to disable 2FA");
-        }
-      } else if (disableResult.error) {
-        const { code, message, status, statusText } = disableResult.error;
-        const errorParts: string[] = [];
-
-        if (code) {
-          errorParts.push(`Code: ${code}`);
-        }
-
-        if (message) {
-          errorParts.push(message);
-        }
-
-        if (status) {
-          errorParts.push(`Status: ${status}`);
-        }
-
-        if (statusText) {
-          errorParts.push(statusText);
-        }
-
-        setError(
-          errorParts.length > 0
-            ? errorParts.join(" | ")
-            : "An unknown error occurred."
-        );
-      }
-    }
-  };
-
   const totpSchema = z
     .string()
     .length(6, "Must be 6 digits")
@@ -163,7 +79,92 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
         validationSchema={toFormikValidate(passwordField)}
         onSubmit={async (values, { setSubmitting }) => {
           setSubmitting(true);
-          setPassword(values.password);
+          if (!isEnabled) {
+            console.log("2FA enabled?", isEnabled);
+            console.log("Password supplied:", values.password);
+            const enableResult = await authClient.twoFactor.enable({
+              password: values.password,
+              issuer: "DragonOsman Personal Library App"
+            });
+
+            if (enableResult.data) {
+              const { totpURI, backupCodes } = enableResult.data;
+
+              const qrcodeDataURL = await QRCode.toDataURL(totpURI);
+              setQrCodeURL(qrcodeDataURL);
+              setBackupCodes(backupCodes);
+              setShowVerification(true);
+              alert("QR code generated. Please scan and verify to complete 2FA setup.");
+            } else if (enableResult && enableResult.error) {
+              const { code, message, status, statusText } = enableResult.error;
+              const errorParts: string[] = [];
+              console.log("Enable result:", enableResult);
+
+              if (code) {
+                errorParts.push(`Code: ${code}`);
+              }
+
+              if (message) {
+                errorParts.push(message);
+              }
+
+              if (status) {
+                errorParts.push(`Status: ${status}`);
+              }
+
+              if (statusText) {
+                errorParts.push(statusText);
+              }
+
+               setError(
+                errorParts.length > 0
+                  ? errorParts.join(" | ")
+                  : "An unknown error occurred."
+              );
+            }
+          } else {
+            console.log("2FA enabled?", isEnabled);
+            console.log("Password supplied:", values.password);
+            const disableResult = await authClient.twoFactor.disable({
+              password: values.password
+            });
+
+            if (disableResult.data) {
+              const { status } = disableResult.data;
+              if (status) {
+                setIsEnabled(false);
+                alert("2FA disabled successfully");
+              } else {
+               alert("An unknown error occurred trying to disable 2FA");
+              }
+            } else if (disableResult.error) {
+              const { code, message, status, statusText } = disableResult.error;
+              const errorParts: string[] = [];
+              console.log("Disable result:", disableResult);
+
+              if (code) {
+                errorParts.push(`Code: ${code}`);
+              }
+
+              if (message) {
+                errorParts.push(message);
+              }
+
+              if (status) {
+                errorParts.push(`Status: ${status}`);
+              }
+
+              if (statusText) {
+                errorParts.push(statusText);
+              }
+
+              setError(
+                errorParts.length > 0
+                 ? errorParts.join(" | ")
+                  : "An unknown error occurred."
+              );
+            }
+          }
           setSubmitting(false);
         }}
       >
@@ -196,15 +197,6 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
           </div>
         )}
       </Formik>
-
-      <button
-        type="button"
-        title="toggle 2fa"
-        className="bg-blue-600 text-white p-2 rounded w-full disabled:opacity-50 hover:bg-blue-700"
-        onClick={() => toggle2FA(!isEnabled)}
-      >
-        {isEnabled ? "Disable " : "Enable "}2FA
-      </button>
       {error !== "" && (
         <p className="error text-red-500 text-sm">{error}</p>
       )}
@@ -214,6 +206,9 @@ const TwoFASection = ({ enabled }: TwoFASectionProps) => {
           <Image
             src={qrcodeURL}
             alt="2FA QR Code"
+            width={200}
+            height={200}
+            className="max-w-full h-auto"
           />
         </div>
       )}
