@@ -127,11 +127,12 @@ model Verification {
 }
 
 model TwoFactor {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   secret      String
   backupCodes String
-  userId      String @db.Uuid
-  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String  @db.Uuid
+  verified    Boolean @default(false)
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([secret])
   @@index([userId])
