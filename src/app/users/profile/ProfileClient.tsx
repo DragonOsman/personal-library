@@ -5,11 +5,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/auth-client";
-import ProfileSideBar from "./ProfileSideBar";
-import PasswordSection from "./PasswordSection";
-import BooksSection from "./BooksSection";
-import TwoFASection from "./TwoFASection";
-import OAuthSection from "./OAuthSection";
 
 export default function ProfileClientPage() {
   const router = useRouter();
@@ -47,8 +42,6 @@ export default function ProfileClientPage() {
       <h1 className="text-2xl font-bold mb-6">Profile</h1>
       {toggleLoading}
       <div className="flex flex-col lg:flex-row gap-8">
-        <ProfileSideBar />
-
         <div className="flex-1 min-w-0 space-y-12">
           <section id="overview" className="space-y-2">
             <h2 className="text-lg font-semibold">
@@ -56,14 +49,6 @@ export default function ProfileClientPage() {
             </h2>
             <p>Email: {session?.user.email}</p>
           </section>
-
-          <section id="authentication" className="space-y-10">
-            <TwoFASection enabled={session?.user.twoFactorEnabled ?? false} />
-            <OAuthSection />
-            <PasswordSection />
-          </section>
-
-          <BooksSection />
         </div>
       </div>
     </>

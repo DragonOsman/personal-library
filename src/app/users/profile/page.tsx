@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Osman Zakir
 // Licensed under the GPL v3
 
-import ProfileClientPage from "./ProfileClient";
+import ProfileClientPage from "../settings/ProfileClient";
 import { Metadata } from "next";
 import { getRouteTitle, getRouteKeywords } from "@/lib/routeTitles";
 
