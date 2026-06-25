@@ -7,6 +7,7 @@ import prisma from "@/lib/db";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { magicLink, twoFactor, emailOTP } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
+import { GoogleProfile, DiscordProfile, GitHubProfile } from "../types/auth-types";
 import nodemailer from "nodemailer";
 
 const emailServerUser = process.env.EMAIL_SERVER_USER || "";
@@ -104,15 +105,42 @@ export const auth = betterAuth({
   socialProviders: {
     github: {
       clientId: process.env.AUTH_GITHUB_ID as string,
-      clientSecret: process.env.AUTH_GITHUB_SECRET as string
+      clientSecret: process.env.AUTH_GITHUB_SECRET as string,
+      profile: (profile: GitHubProfile) => ({
+        id: String(profile.id),
+        name: profile.name ?? profile.login,
+        email: profile.email ?? undefined,
+        image: profile.avatar_url
+      })
     },
     google: {
       clientId: process.env.AUTH_GOOGLE_ID as string,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET as string
+      clientSecret: process.env.AUTH_GOOGLE_SECRET as string,
+      profile: (profile: GoogleProfile) => {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture || null
+        };
+      }
     },
     discord: {
       clientId: process.env.AUTH_DISCORD_ID as string,
-      clientSecret: process.env.AUTH_DISCORD_SECRET as string
+      clientSecret: process.env.AUTH_DISCORD_SECRET as string,
+      profile: (profile: DiscordProfile) => {
+        const imageUrl = profile.avatar
+          ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
+          : `https://cdn.discordapp.com/embed/avatars/${Number(profile.discriminator) % 5}.png`
+        ;
+
+        return {
+          id: profile.id,
+          name: profile.username,
+          email: profile.email,
+          image: imageUrl
+        };
+      }
     }
   },
   account: {
