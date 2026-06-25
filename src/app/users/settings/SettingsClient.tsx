@@ -140,9 +140,14 @@ export default function SettingsClient() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <h1 className="text-black">User Settings</h1>
-      <nav className="w-64 bg-white border-4 p">
+    <div className="min-h-screen bg-gray-50">
+      <div className="w-full border-b bg-white px-6 py-4 shadow-sm">
+        <h1 className="text-3xl font-bold text-gray-900">
+          User Settings
+        </h1>
+      </div>
+
+      <nav className="w-full lg:w-64 bg-white border rounded-lg p-4">
         <ul className="space-y-2">
           {sections.map(section => (
             <li
@@ -203,7 +208,7 @@ export default function SettingsClient() {
                 type="email"
                 name="altEmail"
                 id="altEmail"
-                className="altEmail border p-2 2-64 rounded"
+                className="altEmail border p-2 w-full max-w-md rounded"
                 title="Alternate Email"
                 placeholder="Add alternate email"
                 value={newEmail}
@@ -216,7 +221,7 @@ export default function SettingsClient() {
                 onClick={() => handleChangeEmail()}
                 disabled={loading || !newEmail.trim()}
               >
-                Change
+                Add
               </button>
             </div>
             <ul className="mt-2 space-y-1">
@@ -247,7 +252,7 @@ export default function SettingsClient() {
           </div>
         )}
         {activeSection === "danger" && (
-          <div className="flex flex-col-gap-4">
+          <div className="flex flex-col gap-4">
             <button
               type="button"
               className="btn btn-error"

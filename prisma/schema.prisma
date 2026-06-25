@@ -37,7 +37,6 @@ model User {
   id               String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name             String?     @db.VarChar(255)
   email            String?     @unique @db.VarChar(255)
-  alternateEmails  Email[]
   emailVerified    Boolean     @default(false)
   image            String?
   createdAt        DateTime    @default(now())
@@ -47,6 +46,7 @@ model User {
   accounts         Account[]
   twofactors       TwoFactor[]
   books            Book[]
+  emails           Email[]
 }
 
 model Email {
@@ -59,21 +59,21 @@ model Email {
 }
 
 model EmailEvent {
-  id        String   @id @default(cuid())
+  id String @id @default(cuid())
 
-  emailId   String   @unique
+  emailId String @unique
 
   recipient String?
   subject   String?
 
-  type    String
+  type String
 
-  createdAt DateTime @default(now())
+  createdAt   DateTime  @default(now())
   deliveredAt DateTime?
-  openedAt DateTime?
-  clickedAt DateTime?
-  bouncedAt DateTime?
-  failedAt DateTime?
+  openedAt    DateTime?
+  clickedAt   DateTime?
+  bouncedAt   DateTime?
+  failedAt    DateTime?
 
   payload Json
 }
