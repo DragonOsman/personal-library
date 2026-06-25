@@ -29,7 +29,7 @@ interface Account {
   scopes: string[];
 }
 
-export default function SettingsPanel() {
+export default function SettingsClient() {
   const { data, error, isPending } = authClient.useSession();
   const [activeSection, setActiveSection] = useState<sectionId>(sections[0].id);
   const [loading, setLoading] = useState(false);
@@ -141,7 +141,7 @@ export default function SettingsPanel() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <h1 className="text-black">User Settings Panel</h1>
+      <h1 className="text-black">User Settings</h1>
       <nav className="w-64 bg-white border-4 p">
         <ul className="space-y-2">
           {sections.map(section => (
