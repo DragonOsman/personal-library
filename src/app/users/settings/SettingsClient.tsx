@@ -11,6 +11,7 @@ import PasswordSection from "./PasswordSection";
 
 const sections = [
   { id: "profile", title: "Profile" },
+  { id: "account", title: "Account" },
   { id: "authentication", title: "Authentication" },
   { id: "emails", title: "Emails" },
   { id: "linkedAccounts", title: "Linked Accounts" },
@@ -52,8 +53,6 @@ export default function SettingsClient() {
       setStatus("Loading...");
     }
   }, [data]);
-
-  const fullUser = user as typeof user & { alternateEmails ? : string[] };
 
   useEffect(() => {
     if (!user) {
@@ -147,124 +146,107 @@ export default function SettingsClient() {
         </h1>
       </div>
 
-      <nav className="w-full lg:w-64 bg-white border rounded-lg p-4">
-        <ul className="space-y-2">
-          {sections.map(section => (
-            <li
-              className={`cursor-pointer px-2 py-1 rounded ${
-                activeSection === section.id ? "text-blue-600 font-semibold" : "text-gray-700"
-              }`}
-              key={section.id}
-              onClick={() => setActiveSection(section.id)}
-            >
-              {section.title}
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      <div className="flex-1 p-6">
-        <h1 className="text-2xl font-bold mb-4">
-          {sections.find(sec => sec.id === activeSection)?.title}
-        </h1>
-
-        {activeSection === "profile" && (
-          <div className="flex gap-4 flex-col">
-            <p>Name: {user?.name}</p>
-            <p>Email: {user?.email}</p>
-          </div>
-        )}
-
-        {activeSection === "authentication" && (
-          <div className="flex flex-col gap-4">
-            <div>
-              <label htmlFor="name" className="block mb-1 font-medium">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                className="border p-2 w-64 rounded"
-                value={name}
-                onChange={e => setName(e.target.value)}
-              />
-            </div>
-            <button
-              type="button"
-              className="btn btn-success px-4 py-2 bg-blue-500 text-white rounded disabled-opacity-50"
-              title="Save Profile"
-              onClick={handleProfileSave}
-              disabled={loading}
-            >
-              Save Profile
-            </button>
-          </div>
-        )}
-
-        {activeSection === "emails" && (
-          <div className="flex flex-col gap-4">
-            <div>
-              <input
-                type="email"
-                name="altEmail"
-                id="altEmail"
-                className="altEmail border p-2 w-full max-w-md rounded"
-                title="Alternate Email"
-                placeholder="Add alternate email"
-                value={newEmail}
-                onChange={event => setNewEmail(event.target.value)}
-              />
-              <button
-                type="button"
-                className="ml-2 px-4 py-2 bg-blue-500 text-white rounded disabled-opacity-50"
-                title="Add Email"
-                onClick={() => handleChangeEmail()}
-                disabled={loading || !newEmail.trim()}
+      <div className="w-full lg:w-64 lg:shrink-0 bg-white rounded-xl border shadow-sm p-4">
+        <nav className="w-full lg:w-64 bg-white border rounded-lg p-4">
+          <ul className="space-y-2">
+            {sections.map(section => (
+              <li
+                className={`cursor-pointer px-2 py-1 rounded ${
+                  activeSection === section.id ? "text-blue-600 font-semibold" : "text-gray-700"
+                }`}
+                key={section.id}
+                onClick={() => setActiveSection(section.id)}
               >
-                Add
-              </button>
-            </div>
-            <ul className="mt-2 space-y-1">
-              {fullUser.alternateEmails?.map(email => (
-                <li key={email}>{email}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+                {section.title}
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-        {activeSection === "linkedAccounts" && (
-          <div className="flex flex-col gap-4">
-            {accounts.map(acc => (
-              <div key={acc.providerId} className="flex items-center justify-between">
-                <span>{acc.providerId}</span>
+        <div className="flex-1 bg-white rounded-xl border shadow-sm p-6">
+          <h1 className="text-2xl font-bold mb-4">
+            {sections.find(sec => sec.id === activeSection)?.title}
+          </h1>
+
+          {activeSection === "profile" && (
+            <div className="flex gap-4 flex-col">
+              <p>Name: {user?.name}</p>
+              <p>Email: {user?.email}</p>
+            </div>
+          )}
+
+          {activeSection === "authentication" && (
+            <div className="space-y-10">
+              <TwoFASection
+                enabled={user?.twoFactorEnabled ?? false}
+              />
+
+              <OAuthSection />
+
+              <PasswordSection />
+            </div>
+          )}
+
+          {activeSection === "emails" && (
+            <div className="flex flex-col gap-4">
+              <div>
+                <input
+                  type="email"
+                  name="newEmail"
+                  id="altEmail"
+                  className="newEmail border p-2 w-full max-w-md rounded"
+                  title="Alternate Email"
+                  placeholder="Add alternate email"
+                  value={newEmail}
+                  onChange={event => setNewEmail(event.target.value)}
+                />
                 <button
                   type="button"
-                  className="px-2 py-1 bg-red-500 text-white rounded disabled-opacity-50"
-                  title="Unlink Provider"
-                  onClick={() => handleUnlinkAccount(acc.providerId, acc.id)}
-                  disabled={loading}
+                  className="ml-2 px-4 py-2 bg-blue-500 text-white rounded disabled-opacity-50"
+                  title="Add Email"
+                  onClick={() => handleChangeEmail()}
+                  disabled={loading || !newEmail.trim()}
                 >
-                  Unlink
+                  Change Email
                 </button>
               </div>
-            ))}
-            {!accounts.length && <p>No linked accounts.</p>}
-          </div>
-        )}
-        {activeSection === "danger" && (
-          <div className="flex flex-col gap-4">
-            <button
-              type="button"
-              className="btn btn-error"
-              title="delete account"
-              onClick={() => authClient.deleteUser()}
-            >
-              Delete Account
-            </button>
-          </div>
-        )}
-        {status && <p className="mt-4 text-green-600">{status}</p>}
-        {errorMsg && <p className="mt-4 text-red-600">{errorMsg}</p>}
+            </div>
+          )}
+
+          {activeSection === "linkedAccounts" && (
+            <div className="flex flex-col gap-4">
+              {accounts.map(acc => (
+                <div key={acc.providerId} className="flex items-center justify-between">
+                  <span>{acc.providerId}</span>
+                  <button
+                    type="button"
+                    className="px-2 py-1 bg-red-500 text-white rounded disabled-opacity-50"
+                    title="Unlink Provider"
+                    onClick={() => handleUnlinkAccount(acc.providerId, acc.id)}
+                    disabled={loading}
+                  >
+                    Unlink
+                  </button>
+                </div>
+              ))}
+              {!accounts.length && <p>No linked accounts.</p>}
+            </div>
+          )}
+          {activeSection === "danger" && (
+            <div className="flex flex-col gap-4">
+              <button
+                type="button"
+                className="btn btn-error"
+                title="delete account"
+                onClick={() => authClient.deleteUser()}
+              >
+                Delete Account
+              </button>
+            </div>
+          )}
+          {status && <p className="mt-4 text-green-600">{status}</p>}
+          {errorMsg && <p className="mt-4 text-red-600">{errorMsg}</p>}
+        </div>
       </div>
     </div>
   );
