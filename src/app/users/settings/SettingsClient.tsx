@@ -8,6 +8,7 @@ import { updateProfile, linkedAccounts, unlinkAccount } from "./helpers";
 import TwoFASection from "./TwoFASection";
 import OAuthSection from "./OAuthSection";
 import PasswordSection from "./PasswordSection";
+import UserCard from "@/app/components/UserCard";
 
 const sections = [
   { id: "profile", title: "Profile" },
@@ -170,8 +171,7 @@ export default function SettingsClient() {
 
           {activeSection === "profile" && (
             <div className="flex gap-4 flex-col">
-              <p>Name: {user?.name}</p>
-              <p>Email: {user?.email}</p>
+              <UserCard />
             </div>
           )}
 
@@ -226,6 +226,19 @@ export default function SettingsClient() {
                     disabled={loading}
                   >
                     Unlink
+                  </button>
+
+                  <input
+                    value={name}
+                    onChange={(event) => setName(event.currentTarget.textContent)}
+                    title="Name"
+                  />
+
+                  <button
+                    onClick={handleProfileSave}
+                    type="button"
+                  >
+                    Save Profile
                   </button>
                 </div>
               ))}
