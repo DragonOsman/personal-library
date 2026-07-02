@@ -4,6 +4,8 @@
 import SettingsClient from "./SettingsClient";
 import { Metadata } from "next";
 import { getRouteTitle, getRouteKeywords } from "@/lib/routeTitles";
+import { getCurrentUser } from "@/app/users/settings/actions";
+import { redirect } from "next/navigation";
 
 export const generateMetadata = (): Metadata => {
   const pathname = "/users/settings";
@@ -16,6 +18,10 @@ export const generateMetadata = (): Metadata => {
   };
 };
 
-export default function SettingsPage() {
-  return <SettingsClient />;
+export default async function SettingsPage() {
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect("/auth/signin");
+  }
+  return user && <SettingsClient user={user} />;
 }

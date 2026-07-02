@@ -10,7 +10,12 @@ import { authClient } from "@/auth-client";
 import { passwordField } from "@/utils/validation";
 import { useRouter } from "next/navigation";
 
-const PasswordSection = () => {
+interface PasswordSectionProps {
+  title: string;
+  id: string;
+}
+
+const PasswordSection = ({ title, id }: PasswordSectionProps) => {
   const router = useRouter();
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -25,8 +30,8 @@ const PasswordSection = () => {
   }, [data, error]);
 
   return (
-    <div className="mb-4 p-10 flex content-center">
-      <h2 className="text-xl font-semibold">Change Password</h2>
+    <div className="mb-4 p-10 flex content-center" id={id}>
+      <h2 className="text-xl font-semibold">{title}</h2>
       {message !== "" && <p>{message}</p>}
       {errorMessage !== "" && <p>{errorMessage}</p>}
       <Formik
