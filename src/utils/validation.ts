@@ -62,3 +62,19 @@ export const resetPasswordSchema = zod.object({
 export const requestPasswordReset =  zod.object({
   email: zod.email("Invalid email address")
 });
+
+export const profileSchema = zod.object({
+  name: zod
+    .string()
+    .min(2, "Name is too short")
+    .max(100, "Name is too long"),
+
+  bio: zod
+    .string()
+    .max(500, "Bio must be at most 500 characters")
+    .optional()
+});
+
+export const changeEmailSchema = zod.object({
+  email: zod.email("Invalid email address")
+});
