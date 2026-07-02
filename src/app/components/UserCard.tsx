@@ -1,23 +1,23 @@
 "use client";
 
 import Card from "./ui/Card";
-import { authClient } from "@/auth-client";
+import type { Prisma } from "@/app/generated/prisma/client";
+import Image from "next/image";
 
-export default function UserCard() {
-  const { data, error, isPending } = authClient.useSession();
+type User = Prisma.UserGetPayload<{
+  include: {
+    emails: true;
+    accounts: true;
+    twofactors: true;
+  };
+}>;
 
-  if (isPending) {
-    return <p>Loading...</p>;
-  }
+interface UserCardProps {
+  user: User;
+  twoFactorEnabled: boolean;
+}
 
-  if (!data?.user) {
-    return <p>Please log in first.</p>;
-  }
-
-  const user = data.user;
-
-  const customError = error ?? null;
-
+export default function UserCard({ user, twoFactorEnabled }: UserCardProps) {
   return (
     <Card>
       <div className="space-y-4">
@@ -27,15 +27,22 @@ export default function UserCard() {
           <p className="text-sm text-gray-500">Name</p>
           <p>{user.name}</p>
         </div>
-
+        <div>
+          <Image
+            src={user.image!}
+            alt="Profile Image"
+          />
+        </div>
         <div>
           <p className="text-sm text-gray-500">Email</p>
           <p>{user.email}</p>
         </div>
-
-        {customError && (
-          <p className="text-red-600">{customError.message}</p>
-        )}
+        <div>
+          <p className="text-sm text-gray-500">Joined: {user.createdAt.toDateString()}</p>
+        </div>
+        <div>
+          <p>2 Factor Authentication Status: <span>{twoFactorEnabled}</span></p>
+        </div>
       </div>
     </Card>
   );

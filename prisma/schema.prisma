@@ -26,9 +26,9 @@ model Book {
   averageRating Float?
   ratingsCount  Int?
 
-  userId    String   @db.Uuid
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  userId        String   @db.Uuid
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -38,6 +38,7 @@ model User {
   name             String?     @db.VarChar(255)
   email            String?     @unique @db.VarChar(255)
   emailVerified    Boolean     @default(false)
+  bio              String?     @db.VarChar(500)
   image            String?
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
@@ -50,10 +51,15 @@ model User {
 }
 
 model Email {
-  id     String  @id @default(cuid())
-  email  String
-  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String? @db.Uuid
+  id        String  @id @default(cuid())
+  email     String
+  user      User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String? @db.Uuid
+
+  verified  Boolean @default(false)
+  primary   Boolean @default(false)
+
+  createdAt DateTime @default(now())
 
   @@unique([email])
 }
@@ -63,10 +69,10 @@ model EmailEvent {
 
   emailId String @unique
 
-  recipient String?
-  subject   String?
+  recipient   String?
+  subject     String?
 
-  type String
+  type        String
 
   createdAt   DateTime  @default(now())
   deliveredAt DateTime?
@@ -75,7 +81,7 @@ model EmailEvent {
   bouncedAt   DateTime?
   failedAt    DateTime?
 
-  payload Json
+  payload     Json
 }
 
 model Session {

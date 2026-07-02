@@ -104,6 +104,7 @@ export const UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   emailVerified: 'emailVerified',
+  bio: 'bio',
   image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -116,7 +117,10 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const EmailScalarFieldEnum = {
   id: 'id',
   email: 'email',
-  userId: 'userId'
+  userId: 'userId',
+  verified: 'verified',
+  primary: 'primary',
+  createdAt: 'createdAt'
 } as const
 
 export type EmailScalarFieldEnum = (typeof EmailScalarFieldEnum)[keyof typeof EmailScalarFieldEnum]
@@ -189,7 +193,8 @@ export const TwoFactorScalarFieldEnum = {
   id: 'id',
   secret: 'secret',
   backupCodes: 'backupCodes',
-  userId: 'userId'
+  userId: 'userId',
+  verified: 'verified'
 } as const
 
 export type TwoFactorScalarFieldEnum = (typeof TwoFactorScalarFieldEnum)[keyof typeof TwoFactorScalarFieldEnum]

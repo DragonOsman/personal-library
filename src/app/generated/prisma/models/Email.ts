@@ -28,18 +28,27 @@ export type EmailMinAggregateOutputType = {
   id: string | null
   email: string | null
   userId: string | null
+  verified: boolean | null
+  primary: boolean | null
+  createdAt: Date | null
 }
 
 export type EmailMaxAggregateOutputType = {
   id: string | null
   email: string | null
   userId: string | null
+  verified: boolean | null
+  primary: boolean | null
+  createdAt: Date | null
 }
 
 export type EmailCountAggregateOutputType = {
   id: number
   email: number
   userId: number
+  verified: number
+  primary: number
+  createdAt: number
   _all: number
 }
 
@@ -48,18 +57,27 @@ export type EmailMinAggregateInputType = {
   id?: true
   email?: true
   userId?: true
+  verified?: true
+  primary?: true
+  createdAt?: true
 }
 
 export type EmailMaxAggregateInputType = {
   id?: true
   email?: true
   userId?: true
+  verified?: true
+  primary?: true
+  createdAt?: true
 }
 
 export type EmailCountAggregateInputType = {
   id?: true
   email?: true
   userId?: true
+  verified?: true
+  primary?: true
+  createdAt?: true
   _all?: true
 }
 
@@ -139,6 +157,9 @@ export type EmailGroupByOutputType = {
   id: string
   email: string
   userId: string | null
+  verified: boolean
+  primary: boolean
+  createdAt: Date
   _count: EmailCountAggregateOutputType | null
   _min: EmailMinAggregateOutputType | null
   _max: EmailMaxAggregateOutputType | null
@@ -166,6 +187,9 @@ export type EmailWhereInput = {
   id?: Prisma.StringFilter<"Email"> | string
   email?: Prisma.StringFilter<"Email"> | string
   userId?: Prisma.UuidNullableFilter<"Email"> | string | null
+  verified?: Prisma.BoolFilter<"Email"> | boolean
+  primary?: Prisma.BoolFilter<"Email"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Email"> | Date | string
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
@@ -173,6 +197,9 @@ export type EmailOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  verified?: Prisma.SortOrder
+  primary?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -183,6 +210,9 @@ export type EmailWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.EmailWhereInput[]
   NOT?: Prisma.EmailWhereInput | Prisma.EmailWhereInput[]
   userId?: Prisma.UuidNullableFilter<"Email"> | string | null
+  verified?: Prisma.BoolFilter<"Email"> | boolean
+  primary?: Prisma.BoolFilter<"Email"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Email"> | Date | string
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id" | "email">
 
@@ -190,6 +220,9 @@ export type EmailOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  verified?: Prisma.SortOrder
+  primary?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   _count?: Prisma.EmailCountOrderByAggregateInput
   _max?: Prisma.EmailMaxOrderByAggregateInput
   _min?: Prisma.EmailMinOrderByAggregateInput
@@ -202,47 +235,71 @@ export type EmailScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Email"> | string
   email?: Prisma.StringWithAggregatesFilter<"Email"> | string
   userId?: Prisma.UuidNullableWithAggregatesFilter<"Email"> | string | null
+  verified?: Prisma.BoolWithAggregatesFilter<"Email"> | boolean
+  primary?: Prisma.BoolWithAggregatesFilter<"Email"> | boolean
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Email"> | Date | string
 }
 
 export type EmailCreateInput = {
   id?: string
   email: string
-  user?: Prisma.UserCreateNestedOneWithoutAlternateEmailsInput
+  verified?: boolean
+  primary?: boolean
+  createdAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutEmailsInput
 }
 
 export type EmailUncheckedCreateInput = {
   id?: string
   email: string
   userId?: string | null
+  verified?: boolean
+  primary?: boolean
+  createdAt?: Date | string
 }
 
 export type EmailUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  user?: Prisma.UserUpdateOneWithoutAlternateEmailsNestedInput
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutEmailsNestedInput
 }
 
 export type EmailUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EmailCreateManyInput = {
   id?: string
   email: string
   userId?: string | null
+  verified?: boolean
+  primary?: boolean
+  createdAt?: Date | string
 }
 
 export type EmailUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EmailUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EmailListRelationFilter = {
@@ -259,18 +316,27 @@ export type EmailCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  verified?: Prisma.SortOrder
+  primary?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type EmailMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  verified?: Prisma.SortOrder
+  primary?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type EmailMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  verified?: Prisma.SortOrder
+  primary?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type EmailCreateNestedManyWithoutUserInput = {
@@ -318,11 +384,17 @@ export type EmailUncheckedUpdateManyWithoutUserNestedInput = {
 export type EmailCreateWithoutUserInput = {
   id?: string
   email: string
+  verified?: boolean
+  primary?: boolean
+  createdAt?: Date | string
 }
 
 export type EmailUncheckedCreateWithoutUserInput = {
   id?: string
   email: string
+  verified?: boolean
+  primary?: boolean
+  createdAt?: Date | string
 }
 
 export type EmailCreateOrConnectWithoutUserInput = {
@@ -358,26 +430,41 @@ export type EmailScalarWhereInput = {
   id?: Prisma.StringFilter<"Email"> | string
   email?: Prisma.StringFilter<"Email"> | string
   userId?: Prisma.UuidNullableFilter<"Email"> | string | null
+  verified?: Prisma.BoolFilter<"Email"> | boolean
+  primary?: Prisma.BoolFilter<"Email"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Email"> | Date | string
 }
 
 export type EmailCreateManyUserInput = {
   id?: string
   email: string
+  verified?: boolean
+  primary?: boolean
+  createdAt?: Date | string
 }
 
 export type EmailUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EmailUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type EmailUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -386,6 +473,9 @@ export type EmailSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id?: boolean
   email?: boolean
   userId?: boolean
+  verified?: boolean
+  primary?: boolean
+  createdAt?: boolean
   user?: boolean | Prisma.Email$userArgs<ExtArgs>
 }, ExtArgs["result"]["email"]>
 
@@ -393,6 +483,9 @@ export type EmailSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   email?: boolean
   userId?: boolean
+  verified?: boolean
+  primary?: boolean
+  createdAt?: boolean
   user?: boolean | Prisma.Email$userArgs<ExtArgs>
 }, ExtArgs["result"]["email"]>
 
@@ -400,6 +493,9 @@ export type EmailSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   email?: boolean
   userId?: boolean
+  verified?: boolean
+  primary?: boolean
+  createdAt?: boolean
   user?: boolean | Prisma.Email$userArgs<ExtArgs>
 }, ExtArgs["result"]["email"]>
 
@@ -407,9 +503,12 @@ export type EmailSelectScalar = {
   id?: boolean
   email?: boolean
   userId?: boolean
+  verified?: boolean
+  primary?: boolean
+  createdAt?: boolean
 }
 
-export type EmailOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "userId", ExtArgs["result"]["email"]>
+export type EmailOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "userId" | "verified" | "primary" | "createdAt", ExtArgs["result"]["email"]>
 export type EmailInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Email$userArgs<ExtArgs>
 }
@@ -429,6 +528,9 @@ export type $EmailPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     id: string
     email: string
     userId: string | null
+    verified: boolean
+    primary: boolean
+    createdAt: Date
   }, ExtArgs["result"]["email"]>
   composites: {}
 }
@@ -856,6 +958,9 @@ export interface EmailFieldRefs {
   readonly id: Prisma.FieldRef<"Email", 'String'>
   readonly email: Prisma.FieldRef<"Email", 'String'>
   readonly userId: Prisma.FieldRef<"Email", 'String'>
+  readonly verified: Prisma.FieldRef<"Email", 'Boolean'>
+  readonly primary: Prisma.FieldRef<"Email", 'Boolean'>
+  readonly createdAt: Prisma.FieldRef<"Email", 'DateTime'>
 }
     
 
