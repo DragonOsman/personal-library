@@ -131,21 +131,27 @@ export default function SettingsClient({ user }: SettingsClientProps) {
       <div className="mx-auto flex max-w-7xl flex-col gap-6 p-6 lg:flex-row">
         <aside className="w-full lg:w-64 shrink-0">
           <Card>
-            <nav className="w-full lg:w-64 bg-white border rounded-lg p-4">
+            <nav className="w-full space-y-4">
               <ul className="space-y-2">
                 {sections.map(section => (
-                  <li
-                    key={section.id}
-                    className={`cursor-pointer px-2 py-1 rounded ${
-                      activeSection === section.id
-                        ? "text-blue-600 font-semibold"
-                        : "text-gray-700"
-                    }`}
-                    onClick={() => handleSectionChange(section.id)}
-                  >
-                    {section.title}
+                  <li key={section.id}>
+                    <button
+                      type="button"
+                      className={`cursor-pointer px-2 py-1 rounded ${
+                        activeSection === section.id
+                          ? "text-blue-600 font-semibold"
+                          : "text-gray-700"
+                      }`}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        handleSectionChange(section.id);
+                      }}
+                      title="change section"
+                    >
+                      {section.title}
+                    </button>
                     {activeSection === section.id && (
-                      <ul className="ml-4 mt-2 space-y-1">
+                      <ul className="ml-2 mt-1 space-y-1">
                         {subSections
                           .filter(subSection => subSection.parent === section.id)
                           .map(subSection => (
@@ -156,7 +162,10 @@ export default function SettingsClient({ user }: SettingsClientProps) {
                                   ? "text-blue-600 font-semibold"
                                   : "text-gray-700"
                                 }`}
-                              onClick={() => setActiveSubSection(subSection.id)}
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                setActiveSubSection(subSection.id);
+                              }}
                             >
                               {subSection.title}
                             </li>
