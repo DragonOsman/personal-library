@@ -14,11 +14,9 @@ import { z } from "zod";
 
 interface TwoFASectionProps {
   enabled: boolean;
-  title: string;
-  id: string;
 }
 
-const TwoFASection = ({ enabled, title, id }: TwoFASectionProps) => {
+const TwoFASection = ({ enabled }: TwoFASectionProps) => {
   const [isEnabled, setIsEnabled] = useState(enabled);
   const [qrcodeURL, setQrCodeURL] = useState("");
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
@@ -70,8 +68,8 @@ const TwoFASection = ({ enabled, title, id }: TwoFASectionProps) => {
   ;
 
   return (
-    <div className="space-y-4 text-center" id={id}>
-      <h2 className="text-xl font-semibold">{title}</h2>
+    <div className="space-y-4 text-center">
+      <h2 className="text-xl font-semibold">Two-Factor Authentication</h2>
       <p className="text-gray-700">
         2FA is currently <strong>{isEnabled ? "enabled" : "disabled"}</strong>.
       </p>

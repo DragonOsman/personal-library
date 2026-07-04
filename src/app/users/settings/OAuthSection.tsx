@@ -15,12 +15,7 @@ interface Account {
   scopes: string[];
 }
 
-interface OAuthSectionProps {
-  title: string;
-  id: string;
-}
-
-const OAuthSection = ({ title, id }: OAuthSectionProps) => {
+const OAuthSection = () => {
   const [error, setError] = useState("");
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [successMessage, setSuccessMessage] = useState("");
@@ -81,8 +76,8 @@ const OAuthSection = ({ title, id }: OAuthSectionProps) => {
   };
 
   return (
-    <div className="oauthSection flex flex-col gap-4" id={id}>
-      <h1>{title}</h1>
+    <div className="oauthSection flex flex-col gap-4">
+      <h1>OAuth Account Section</h1>
       {error !== "" && <p className="text-red-500">{error}</p>}
       {successMessage !== "" && <p className="text-green-300">{successMessage}</p>}
       {/* Google */}
