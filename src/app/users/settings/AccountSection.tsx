@@ -1,8 +1,6 @@
 "use client";
 
 import { Prisma } from "@/app/generated/prisma/client";
-import { authClient } from "@/auth-client";
-import { useState } from "react";
 
 type User = Prisma.UserGetPayload<{
   include: {
