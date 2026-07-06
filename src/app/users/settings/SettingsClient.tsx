@@ -157,7 +157,7 @@ export default function SettingsClient({ user }: SettingsClientProps) {
             <Card key={section.id}>
               <section
                 id={section.id}
-                className="scroll-mt-24 space-y-6"
+                className="scroll-mt-[5rem] space-y-6"
               >
                 <h2 className={`${section.id === "danger" ?
                   "text-danger bg-slate-300" :
