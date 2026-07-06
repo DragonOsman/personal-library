@@ -16,7 +16,7 @@ interface AccountSectionProps {
   user: User;
 }
 
-export default async function AccountSection({ user }: AccountSectionProps) {
+export default function AccountSection({ user }: AccountSectionProps) {
   return (
     <dl className="space-y-4">
       <dt className="text-sm text-gray-500">Name</dt>
