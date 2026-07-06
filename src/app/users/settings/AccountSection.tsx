@@ -16,17 +16,21 @@ interface AccountSectionProps {
 
 export default function AccountSection({ user }: AccountSectionProps) {
   return (
-    <dl className="space-y-4">
-      <dt className="text-sm text-gray-500">Name</dt>
+    <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-3">
+      <dt className="font-medium text-gray-500">Name</dt>
       <dd>{user.name}</dd>
-      <dt className="text-sm text-gray-500">Email</dt>
+
+      <dt className="font-medium text-gray-500">Email</dt>
       <dd>{user.email}</dd>
-      <dt className="text-sm text-gray-500">Email Verified</dt>
+
+      <dt className="font-medium text-gray-500">Email Verified</dt>
       <dd>{user.emailVerified ? "Yes" : "No"}</dd>
-      <dt className="text-sm text-gray-500">Bio</dt>
+
+      <dt className="font-medium text-gray-500">Bio</dt>
       <dd>{user.bio || "No bio available."}</dd>
-      <dt className="text-sm text-gray-500">Joined</dt>
-      <dd>{new Date(user.createdAt).toLocaleDateString() || "No joined date available"}</dd>
-    </dl>
+
+      <dt className="font-medium text-gray-500">Joined</dt>
+      <dd>{new Date(user.createdAt).toLocaleDateString()}</dd>
+</dl>
   );
 }
