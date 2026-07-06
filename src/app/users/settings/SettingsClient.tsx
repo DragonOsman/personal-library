@@ -34,6 +34,27 @@ interface SettingsClientProps {
 export default function SettingsClient({ user }: SettingsClientProps) {
   const { data, error, isPending } = authClient.useSession();
 
+  sections = [
+    { id: "profile", title: "Profile", render: () => <ProfileSection user={user} /> },
+    { id: "account", title: "Account Information", render: () => <AccountSection /> },
+    { id: "authentication", title: "Authentication", render: () => <AuthenticationSection /> },
+    { id: "emails", title: "Emails", render: () => <EmailSection user={user} />},
+    //{ id: "library", title: "Library", render: () => ()},
+    //{ id: "notifications", title: "Notifications", render: () => ()},
+    { id: "danger", title: "Danger Zone", render: () => <DangerZoneSection />}
+  ];
+
+  subSections = [
+    { id: "changePassword", title: "Change Password", parent: "authentication" },
+    { id: "twoFactorAuth", title: "Two-Factor Authentication", parent: "authentication" },
+    { id: "sessions", title: "Sessions", parent: "authentication" },
+    //{ id: "display", title: "Display", parent: "library" },
+    //{ id: "defaults", title: "Defaults", parent: "library" },
+    //{ id: "privacy", title: "Privacy", parent: "library" },
+    //{ id: "readingReminders", title: "Reading Reminders", parent: "notifications" },
+    { id: "oauth", title: "OAuth Accounts", parent: "authentication" }
+  ];
+
   const [activeSection, setActiveSection] = useState<sectionId>(sections[0].id);
   const [activeSubSection, setActiveSubSection] = useState<subSectionId | null>(null);
   const [status, setStatus] = useState("");
@@ -70,28 +91,6 @@ export default function SettingsClient({ user }: SettingsClientProps) {
     setActiveSection(section);
     setActiveSubSection(null);
   };
-
-  sections = [
-    { id: "profile", title: "Profile", render: () => <ProfileSection user={user} /> },
-    { id: "account", title: "Account Information", render: () => <AccountSection /> },
-    { id: "authentication", title: "Authentication", render: () => <AuthenticationSection /> },
-    { id: "emails", title: "Emails", render: () => <EmailSection user={user} />},
-    //{ id: "library", title: "Library", render: () => ()},
-    //{ id: "notifications", title: "Notifications", render: () => ()},
-    { id: "danger", title: "Danger Zone", render: () => <DangerZoneSection />}
-  ];
-
-  subSections = [
-    { id: "changePassword", title: "Change Password", parent: "authentication" },
-    { id: "twoFactorAuth", title: "Two-Factor Authentication", parent: "authentication" },
-    { id: "sessions", title: "Sessions", parent: "authentication" },
-    //{ id: "display", title: "Display", parent: "library" },
-    //{ id: "defaults", title: "Defaults", parent: "library" },
-    //{ id: "importExport", title: "Import/Export", parent: "library" },
-    //{ id: "privacy", title: "Privacy", parent: "library" },
-    //{ id: "readingReminders", title: "Reading Reminders", parent: "notifications" },
-    { id: "oauth", title: "OAuth Accounts", parent: "authentication" }
-  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
