@@ -159,7 +159,9 @@ export default function SettingsClient({ user }: SettingsClientProps) {
                 id={section.id}
                 className="scroll-mt-24 space-y-6"
               >
-                <h2 className="text-2xl font-bold">
+                <h2 className={`${section.id === "danger" ?
+                  "text-danger bg-slate-300" :
+                  ""} text-2xl font-bold`}>
                   {section.title}
                 </h2>
                 {section.render()}

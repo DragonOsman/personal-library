@@ -77,7 +77,6 @@ const OAuthSection = () => {
 
   return (
     <div className="oauthSection flex flex-col gap-4">
-      <h1>OAuth Account Section</h1>
       {error !== "" && <p className="text-red-500">{error}</p>}
       {successMessage !== "" && <p className="text-green-300">{successMessage}</p>}
       {/* Google */}

@@ -4,11 +4,9 @@ import PasswordSection from "./PasswordSection";
 import OAuthSection from "./OAuthSection";
 import TwoFactorSection from "./TwoFASection";
 import { authClient } from "@/auth-client";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function AuthenticationSection() {
-  const router = useRouter();
   const { data, error, isPending } = authClient.useSession();
   const [status, setStatus] = useState("");
   const [sessions, setSessions] = useState<
@@ -62,8 +60,6 @@ export default function AuthenticationSection() {
     }
   }, [isPending]);
 
-  const hasOtherSessions = sessions.length > 1;
-
   const handleRevokeAllSessions = async () => {
     try {
       await authClient.revokeSessions();
@@ -76,38 +72,92 @@ export default function AuthenticationSection() {
     }
   };
 
+  const handleRevokeOtherSessions = async () => {
+    try {
+      await authClient.revokeOtherSessions();
+
+      await loadSessions();
+
+      setStatus("All other sessions have been logged out.");
+    } catch (err) {
+      setErrorMsg(`Failed to revoke other sessions. ${err}`);
+    }
+  };
+
+  const hasSessions = sessions.length > 0;
+  const hasOtherSessions = sessions.length > 1;
+  let twoFactorEnabled:boolean = false;
+  if (data && data.user && data.user.twoFactorEnabled !== undefined &&
+      data && data.user && data.user.twoFactorEnabled !== null) {
+    twoFactorEnabled = data.user.twoFactorEnabled;
+  }
+
   return (
     <div className="space-y-4">
       <PasswordSection />
       <OAuthSection />
-      <TwoFactorSection enabled={false} />
+      <TwoFactorSection enabled={twoFactorEnabled} />
       <hr />
       <div>
-        <h3 className="text-lg font-semibold">Sessions</h3>
         <p className="text-sm text-gray-500">
           View and manage your active sessions.
         </p>
-        <p>Last logged in: {data && data.session.createdAt.toLocaleString()}</p>
-        <p>Last activity: {data && data.session.updatedAt.toLocaleString()}</p>
+        <p className="text-info-content">
+          Number of active sessions: {sessions.length}
+        </p>
+        {sessions.length === 1 && (
+          <>
+            <p className="text-info">
+              Account created: {data && data.session && data.session.createdAt.toLocaleDateString()}
+            </p>
+            <p className="text-info">
+              Last activity: {data && data.session && data.session.updatedAt.toLocaleDateString()}
+            </p>
+            <p className="text-info">
+              Browser: {(data && data.session && data.session.userAgent) ?? "Unknown user agent"}
+            </p>
+            <p className="text-info">
+              IP address: {(data && data.session && data.session.ipAddress) ?? "Unknown IP address"}
+            </p>
+          </>
+        )}
+        <ul className="mt-4 space-y-2">
+          {sessions.length > 1 && sessions.map((session: typeof sessions[0]) => {
+            return (
+              <li key={session.id} className="rounded border p-3">
+                <p className="text-info">
+                  Account created: {session.createdAt.toLocaleDateString()}
+                </p>
+                <p className="text-info">
+                  Last activity: {session.updatedAt.toLocaleDateString()}
+                </p>
+                <p className="text-info">
+                  Browser: {(session.userAgent) ?? "Unknown user agent"}
+                </p>
+                <p className="text-info">
+                  IP address: {(session.ipAddress) ?? "Unknown IP address"}
+                </p>
+              </li>
+            );
+          })}
+        </ul>
         <button
           type="button"
           title="Log out of all sessions"
           className="btn btn-warning mt-2"
-          disabled={!hasOtherSessions}
-          onClick={async () => {
-            await authClient.revokeSessions();
-            router.refresh();
-          }}
+          disabled={!hasSessions}
+          onClick={handleRevokeAllSessions}
         >
-          Log out of All Sessions
+          Log out of All Devices
         </button>
         <button
           type="button"
           title="Log out of other sessions"
           className="btn btn-warning mt-2 ml-2"
-          onClick={handleRevokeAllSessions}
+          disabled={!hasOtherSessions}
+          onClick={handleRevokeOtherSessions}
         >
-          Log out of Other Sessions
+          Log out of Other Devices
         </button>
         {errorMsg && <p className="text-error">{errorMsg}</p>}
         {status && <p className="text-info">{status}</p>}
