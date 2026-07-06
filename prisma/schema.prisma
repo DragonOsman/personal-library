@@ -118,6 +118,7 @@ model Account {
 
   @@index([userId])
   @@map("account")
+  @@unique([providerId, accountId])
 }
 
 model Verification {

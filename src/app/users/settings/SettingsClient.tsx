@@ -36,7 +36,7 @@ export default function SettingsClient({ user }: SettingsClientProps) {
 
   sections = [
     { id: "profile", title: "Profile", render: () => <ProfileSection user={user} /> },
-    { id: "account", title: "Account Information", render: () => <AccountSection /> },
+    { id: "account", title: "Account Information", render: () => <AccountSection user={user} /> },
     { id: "authentication", title: "Authentication", render: () => <AuthenticationSection /> },
     { id: "emails", title: "Emails", render: () => <EmailSection user={user} />},
     //{ id: "library", title: "Library", render: () => ()},

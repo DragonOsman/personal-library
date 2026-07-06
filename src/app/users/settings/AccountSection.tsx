@@ -2,7 +2,6 @@
 
 import { Prisma } from "@/app/generated/prisma/client";
 import { authClient } from "@/auth-client";
-import type { OAuth2UserInfo } from "better-auth";
 import { useState } from "react";
 
 type User = Prisma.UserGetPayload<{
@@ -13,21 +12,11 @@ type User = Prisma.UserGetPayload<{
   };
 }>;
 
-export default async function AccountSection() {
-  const accountInfo = await authClient.accountInfo();
-  const { data, error } = accountInfo;
-  const [customError, setCustomError] = useState("");
+interface AccountSectionProps {
+  user: User;
+}
 
-  let user: OAuth2UserInfo | User | null = null;
-  if (data) {
-    user = data.user;
-  }
-  if (user === null) {
-    setCustomError("Please log in first");
-    return <p className="text-error">{customError}</p>;
-  } else if (error) {
-    console.error(`An error occurred trying to get user info: ${error.message && error.message}`);
-  }
+export default async function AccountSection({ user }: AccountSectionProps) {
   return (
     <dl className="space-y-4">
       <dt className="text-sm text-gray-500">Name</dt>
@@ -37,9 +26,9 @@ export default async function AccountSection() {
       <dt className="text-sm text-gray-500">Email Verified</dt>
       <dd>{user.emailVerified ? "Yes" : "No"}</dd>
       <dt className="text-sm text-gray-500">Bio</dt>
-      <dd>{(user as User).bio || "No bio available."}</dd>
+      <dd>{user.bio || "No bio available."}</dd>
       <dt className="text-sm text-gray-500">Joined</dt>
-      <dd>{new Date((user as User).createdAt).toLocaleDateString() || "No joined date available"}</dd>
+      <dd>{new Date(user.createdAt).toLocaleDateString() || "No joined date available"}</dd>
     </dl>
   );
 }
