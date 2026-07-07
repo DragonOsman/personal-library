@@ -31,6 +31,6 @@ export default function AccountSection({ user }: AccountSectionProps) {
 
       <dt className="font-medium text-gray-500">Joined</dt>
       <dd>{new Date(user.createdAt).toLocaleDateString()}</dd>
-</dl>
+    </dl>
   );
 }

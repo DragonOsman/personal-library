@@ -126,10 +126,10 @@ export default function AuthenticationSection() {
             return (
               <li key={session.id} className="rounded border p-3">
                 <p className="text-info">
-                  Account created: {session.createdAt.toLocaleDateString()}
+                  Session created: {session.createdAt.toLocaleDateString()}
                 </p>
                 <p className="text-info">
-                  Last activity: {session.updatedAt.toLocaleDateString()}
+                  Last session activity: {session.updatedAt.toLocaleDateString()}
                 </p>
                 <p className="text-info">
                   Browser: {(session.userAgent) ?? "Unknown user agent"}
