@@ -3,21 +3,20 @@
 
 "use client";
 
-import { useState, useEffect, ReactNode } from "react";
+import { JSX } from "react";
 import { authClient } from "@/auth-client";
+import Link from "next/link";
 import EmailSection from "./EmailsSection";
 import ProfileSection from "./ProfileSection";
 import AccountSection from "./AccountSection";
-import AuthenticationSection from "./AuthenticationSection";
 import DangerZoneSection from "./DangerSection";
+import AuthenticationSection from "./AuthenticationSection";
+import SessionsSection from "./SessionsSection";
+import PasswordSection from "./PasswordSection";
+import TwoFASection from "./TwoFASection";
+import OAuthSection from "./OAuthSection";
 import Card from "@/app/components/ui/Card";
 import { Prisma } from "@/app/generated/prisma/client";
-
-let sections: { id: string; title: string; render: () => ReactNode }[] = [];
-let subSections: { id: string; title: string; parent: string }[] = [];
-
-type sectionId = (typeof sections)[number]["id"];
-type subSectionId = (typeof subSections)[number]["id"];
 
 type User = Prisma.UserGetPayload<{
   include: {
@@ -32,65 +31,78 @@ interface SettingsClientProps {
 }
 
 export default function SettingsClient({ user }: SettingsClientProps) {
-  const { data, error, isPending } = authClient.useSession();
+  const { data } = authClient.useSession();
 
-  sections = [
-    { id: "profile", title: "Profile", render: () => <ProfileSection user={user} /> },
-    { id: "account", title: "Account Information", render: () => <AccountSection user={user} /> },
-    { id: "authentication", title: "Authentication", render: () => <AuthenticationSection /> },
-    { id: "emails", title: "Emails", render: () => <EmailSection user={user} />},
-    //{ id: "library", title: "Library", render: () => ()},
-    //{ id: "notifications", title: "Notifications", render: () => ()},
-    { id: "danger", title: "Danger Zone", render: () => <DangerZoneSection />}
+  let twoFactorEnabled:boolean = false;
+  if (data && data.user && data.user.twoFactorEnabled !== undefined &&
+      data && data.user && data.user.twoFactorEnabled !== null) {
+    twoFactorEnabled = data.user.twoFactorEnabled;
+  }
+
+  const sections: {
+    id: string;
+    title: string;
+    render: () => JSX.Element;
+      subsections: {
+        id: string;
+        title: string;
+        render: () => JSX.Element;
+      }[];
+    }[] = [
+    {
+      id: "profile",
+      title: "Profile",
+      render: () => <ProfileSection user={user}/>,
+      subsections: []
+    },
+    {
+      id: "authentication",
+      title: "Authentication",
+      render: () => <AuthenticationSection />,
+      subsections: [
+        {
+          id: "changePassword",
+          title: "Change Password",
+          render: () => <PasswordSection />
+        },
+        {
+          id: "twoFactor",
+          title: "Two-Factor Authentication",
+          render: () => (
+            <TwoFASection enabled={twoFactorEnabled}/>
+          )
+        },
+        {
+          id: "oauth",
+          title: "OAuth Accounts",
+          render: () => <OAuthSection />
+        },
+        {
+          id: "sessions",
+          title: "Sessions",
+          render: () => <SessionsSection />
+        }
+      ]
+    },
+    {
+      id: "account",
+      title: "Account Section",
+      render: () => <AccountSection user={user} />,
+      subsections: []
+    },
+    {
+      id: "emails",
+      title: "Emails Section",
+      render: () => <EmailSection user={user} />,
+      subsections: []
+    },
+    {
+      id: "danger",
+      title: "Danger Zone",
+      render: () => <DangerZoneSection />,
+      subsections: []
+    }
   ];
-
-  subSections = [
-    { id: "changePassword", title: "Change Password", parent: "authentication" },
-    { id: "twoFactorAuth", title: "Two-Factor Authentication", parent: "authentication" },
-    { id: "sessions", title: "Sessions", parent: "authentication" },
-    //{ id: "display", title: "Display", parent: "library" },
-    //{ id: "defaults", title: "Defaults", parent: "library" },
-    //{ id: "privacy", title: "Privacy", parent: "library" },
-    //{ id: "readingReminders", title: "Reading Reminders", parent: "notifications" },
-    { id: "oauth", title: "OAuth Accounts", parent: "authentication" }
-  ];
-
-  const [activeSection, setActiveSection] = useState<sectionId>(sections[0].id);
-  const [activeSubSection, setActiveSubSection] = useState<subSectionId | null>(null);
-  const [status, setStatus] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
-
-  useEffect(() => {
-    if (!error) {
-      setErrorMsg("");
-      return;
-    }
-
-    const { message, status, statusText } = error;
-
-    setErrorMsg(
-      status > 0
-        ? `Error: ${status} ${statusText || message}`
-        : message || "Session error"
-    );
-  }, [error]);
-
-  useEffect(() => {
-    if (!data?.user) {
-      setStatus("Loading...");
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (isPending) {
-      setStatus("Loading session...");
-    }
-  }, [isPending]);
-
-  const handleSectionChange = (section: sectionId) => {
-    setActiveSection(section);
-    setActiveSubSection(null);
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -107,41 +119,19 @@ export default function SettingsClient({ user }: SettingsClientProps) {
               <ul className="space-y-2">
                 {sections.map(section => (
                   <li key={section.id}>
-                    <button
-                      type="button"
-                      className={`cursor-pointer px-2 py-1 rounded ${
-                        activeSection === section.id
-                          ? "text-blue-600 font-semibold"
-                          : "text-gray-700"
-                      }`}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        handleSectionChange(section.id);
-                      }}
-                      title="change section"
-                    >
+                    <Link href={`#${section.id}`}>
                       {section.title}
-                    </button>
-                    {activeSection === section.id && (
-                      <ul className="ml-2 mt-1 space-y-1">
-                        {subSections
-                          .filter(subSection => subSection.parent === section.id)
-                          .map(subSection => (
-                            <li
-                              key={subSection.id}
-                              className={`cursor-pointer px-2 py-1 rounded ${
-                                activeSubSection === subSection.id
-                                  ? "text-blue-600 font-semibold"
-                                  : "text-gray-700"
-                                }`}
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                setActiveSubSection(subSection.id);
-                              }}
-                            >
-                              {subSection.title}
-                            </li>
-                          ))}
+                    </Link>
+
+                    {section.subsections.length > 0 && (
+                      <ul>
+                        {section.subsections.map(subsection => (
+                          <li key={subsection.id}>
+                            <Link href={`#${subsection.id}`}>
+                              {subsection.title}
+                            </Link>
+                          </li>
+                        ))}
                       </ul>
                     )}
                   </li>
@@ -154,29 +144,24 @@ export default function SettingsClient({ user }: SettingsClientProps) {
         <main className="flex-1 bg-white rounded-xl border shadow-sm p-6">
           {sections.map(section => (
             <Card key={section.id}>
-              <section
-                id={section.id}
-                className="scroll-mt-[5rem] space-y-6"
-              >
-                <h2 className={`${section.id === "danger" ?
-                  "text-danger bg-slate-300" :
-                  ""} text-2xl font-bold`}>
-                  {section.title}
-                </h2>
+              <section id={section.id}>
+                <h2>{section.title}</h2>
+
                 {section.render()}
+
+                {section.subsections.length > 0 && section.subsections.map(subsection => (
+                    <section
+                      key={subsection.id}
+                      id={subsection.id}
+                      className="mt-8 border-t pt-6"
+                    >
+                      <h3>{subsection.title}</h3>
+                      {subsection.render()}
+                  </section>
+                ))}
               </section>
             </Card>
           ))}
-          {status && (
-            <p className="mt-4 text-green-600">
-              {status}
-            </p>
-          )}
-          {errorMsg && (
-            <p className="mt-4 text-red-600">
-              {errorMsg}
-            </p>
-          )}
         </main>
       </div>
     </div>
