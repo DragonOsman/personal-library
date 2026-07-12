@@ -25,7 +25,7 @@ const PasswordSection = () => {
   }, [data, error]);
 
   return (
-    <div className="mb-4 p-10 flex content-center">
+    <div className="mb-4 space-y-4 content-center">
       {message !== "" && <p>{message}</p>}
       {errorMessage !== "" && <p>{errorMessage}</p>}
       <Formik
