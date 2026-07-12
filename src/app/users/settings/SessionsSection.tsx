@@ -95,7 +95,7 @@ export default function SessionsSection() {
       {sessions.length === 1 && (
         <>
           <p className="text-info">
-            Account created: {data && data.session && data.session.createdAt.toLocaleDateString()}
+            Session created: {data && data.session && data.session.createdAt.toLocaleDateString()}
           </p>
           <p className="text-info">
             Last activity: {data && data.session && data.session.updatedAt.toLocaleDateString()}
