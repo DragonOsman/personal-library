@@ -3,9 +3,8 @@
 
 "use client";
 
-import { JSX } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { authClient } from "@/auth-client";
-import Link from "next/link";
 import EmailSection from "./EmailsSection";
 import ProfileSection from "./ProfileSection";
 import AccountSection from "./AccountSection";
@@ -16,6 +15,8 @@ import PasswordSection from "./PasswordSection";
 import TwoFASection from "./TwoFASection";
 import OAuthSection from "./OAuthSection";
 import Card from "@/app/components/ui/Card";
+import SettingsSidebar from "./SettingsSidebar";
+import type { Section } from "./helpers";
 import { Prisma } from "@/app/generated/prisma/client";
 
 type User = Prisma.UserGetPayload<{
@@ -32,6 +33,9 @@ interface SettingsClientProps {
 
 export default function SettingsClient({ user }: SettingsClientProps) {
   const { data } = authClient.useSession();
+  const [activeSection, setActiveSection] = useState("");
+  const [activeSubsection, setActiveSubsection] = useState("");
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
   let twoFactorEnabled:boolean = false;
   if (data && data.user && data.user.twoFactorEnabled !== undefined &&
@@ -39,16 +43,7 @@ export default function SettingsClient({ user }: SettingsClientProps) {
     twoFactorEnabled = data.user.twoFactorEnabled;
   }
 
-  const sections: {
-    id: string;
-    title: string;
-    render: () => JSX.Element;
-      subsections: {
-        id: string;
-        title: string;
-        render: () => JSX.Element;
-      }[];
-    }[] = [
+  const sections = useMemo<Section[]>(() => [
     {
       id: "profile",
       title: "Profile",
@@ -102,7 +97,59 @@ export default function SettingsClient({ user }: SettingsClientProps) {
       render: () => <DangerZoneSection />,
       subsections: []
     }
-  ];
+  ], [user, twoFactorEnabled]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+
+        const id = entry.target.id;
+        const section = sections.find(section => section.id === id);
+
+        if (section) {
+          setActiveSection(section.id);
+          if (section.subsections.length > 0) {
+            setExpandedSection(section.id);
+          }
+          return;
+        }
+
+        for (const section of sections) {
+          const subsection = section.subsections.find(subsection => subsection.id === id);
+
+          if (subsection) {
+            setActiveSection(section.id);
+            setActiveSubsection(subsection.id);
+            setExpandedSection(section.id);
+            return;
+          }
+        }
+      });
+    },
+    {
+      rootMargin: "-25% 0px -50% 0px",
+      threshold: 0
+    });
+
+    sections.forEach(section => {
+      const element = document.getElementById(section.id);
+      if (element) {
+        observer.observe(element);
+      }
+
+      section.subsections.forEach(subsection => {
+        const element = document.getElementById(subsection.id);
+        if (element) {
+          observer.observe(element);
+        }
+      });
+    });
+
+    return () => observer.disconnect();
+  }, [sections]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -113,38 +160,20 @@ export default function SettingsClient({ user }: SettingsClientProps) {
       </div>
 
       <div className="mx-auto flex max-w-7xl flex-col gap-6 p-6 lg:flex-row">
-        <aside className="w-full lg:w-64 shrink-0">
+        <SettingsSidebar
+          sections={sections}
+          activeSection={activeSection}
+          activeSubsection={activeSubsection}
+          expandedSection={expandedSection}
+          setExpandedSection={setExpandedSection}
+         />
+        <main className="flex-1 bg-white rounded-xl border shadow-sm p-6 scroll-mt-24">
           <Card>
-            <nav className="w-full space-y-4">
-              <ul className="space-y-2">
-                {sections.map(section => (
-                  <li key={section.id}>
-                    <Link href={`#${section.id}`}>
-                      {section.title}
-                    </Link>
-
-                    {section.subsections.length > 0 && (
-                      <ul>
-                        {section.subsections.map(subsection => (
-                          <li key={subsection.id}>
-                            <Link href={`#${subsection.id}`}>
-                              {subsection.title}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </Card>
-        </aside>
-
-        <main className="flex-1 bg-white rounded-xl border shadow-sm p-6">
-          {sections.map(section => (
-            <Card key={section.id}>
-              <section id={section.id}>
+            {sections.map(section => (
+              <section
+                id={section.id}
+                key={section.id}
+              >
                 <h2>{section.title}</h2>
 
                 {section.render()}
@@ -153,15 +182,15 @@ export default function SettingsClient({ user }: SettingsClientProps) {
                     <section
                       key={subsection.id}
                       id={subsection.id}
-                      className="mt-8 border-t pt-6"
+                      className="mt-8 border-t pt-6 scroll-mt-24"
                     >
                       <h3>{subsection.title}</h3>
                       {subsection.render()}
                   </section>
                 ))}
               </section>
-            </Card>
-          ))}
+            ))}
+          </Card>
         </main>
       </div>
     </div>
