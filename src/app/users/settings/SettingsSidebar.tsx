@@ -24,7 +24,7 @@ export default function SettingsSidebar({
   setExpandedSection
 }: SettingsSidebarProps) {
   return (
-    <aside className="w-full shrink-0 lg:w-64">
+    <aside className="w-full shrink-0 lg:w-64 lg:sticky lg:top-24 self-start">
       <Card>
         <nav>
           <ul className="space-y-2">
