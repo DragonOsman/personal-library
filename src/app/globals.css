@@ -12,6 +12,10 @@
   --color-brand-text: #fff;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @layer base {
   body {
     @apply min-h-screen font-sans text-brand-primary bg-gradient-main antialiased;
