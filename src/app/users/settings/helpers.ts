@@ -2,6 +2,20 @@
 // Licensed under the GPL v3
 
 import { authClient } from "@/auth-client";
+import { JSX } from "react";
+
+export type Subsection = {
+    id: string;
+    title: string;
+    render: () => JSX.Element;
+};
+
+export type Section = {
+    id: string;
+    title: string;
+    render: () => JSX.Element;
+    subsections: Subsection[];
+};
 
 export const updateProfile = async (data: {
   name?: string;
