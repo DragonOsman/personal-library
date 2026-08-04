@@ -12,6 +12,10 @@ import DangerZoneSection from "./DangerSection";
 import AuthenticationSection from "./AuthenticationSection";
 import SessionsSection from "./SessionsSection";
 import PasswordSection from "./PasswordSection";
+import LibrarySection from "./LibrarySection";
+import DisplaySection from "./DisplaySection";
+import PrivacySection from "./PrivacySection";
+import DefaultSection from "./DefaultSection";
 import TwoFASection from "./TwoFASection";
 import OAuthSection from "./OAuthSection";
 import Card from "@/app/components/ui/Card";
@@ -90,6 +94,28 @@ export default function SettingsClient({ user }: SettingsClientProps) {
       title: "Emails Section",
       render: () => <EmailSection user={user} />,
       subsections: []
+    },
+    {
+      id: "library",
+      title: "Library Section",
+      render: () => <LibrarySection />,
+      subsections: [
+        {
+          id: "display",
+          title: "Display Settings",
+          render: () => <DisplaySection />
+        },
+        {
+          id: "privacy",
+          title: "Privacy Settings",
+          render: () => <PrivacySection />
+        },
+        {
+          id: "default",
+          title: "Default Settings",
+          render: () => <DefaultSection />
+        }
+      ]
     },
     {
       id: "danger",
