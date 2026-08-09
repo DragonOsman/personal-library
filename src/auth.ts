@@ -217,5 +217,18 @@ export const auth = betterAuth({
       }
     }),
     nextCookies()
-  ]
+  ],
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          await prisma.userSettings.create({
+            data: {
+              userId: user.id
+            }
+          });
+        }
+      }
+    }
+  }
 });
