@@ -10,8 +10,7 @@
     "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
     "dev-https": "next dev --experimental-https --turbopack",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "create-user-settings": "tsx scripts/create-user-settings.ts"
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
