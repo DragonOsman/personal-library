@@ -9,7 +9,30 @@
 * 🟢 You can import this file directly.
 */
 
+export const ViewMode = {
+  GRID: 'GRID',
+  LIST: 'LIST'
+} as const
+
+export type ViewMode = (typeof ViewMode)[keyof typeof ViewMode]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const TileSize = {
+  SMALL: 'SMALL',
+  MEDIUM: 'MEDIUM',
+  LARGE: 'LARGE'
+} as const
+
+export type TileSize = (typeof TileSize)[keyof typeof TileSize]
+
+
+export const SortOrder = {
+  RECENT: 'RECENT',
+  TITLE_ASC: 'TITLE_ASC',
+  TITLE_DESC: 'TITLE_DESC',
+  AUTHOR: 'AUTHOR',
+  PUBLICATION_DATE: 'PUBLICATION_DATE',
+  RATING: 'RATING'
+} as const
+
+export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]

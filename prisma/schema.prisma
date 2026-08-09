@@ -26,38 +26,39 @@ model Book {
   averageRating Float?
   ratingsCount  Int?
 
-  userId        String   @db.Uuid
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  userId    String   @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id               String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name             String?     @db.VarChar(255)
-  email            String?     @unique @db.VarChar(255)
-  emailVerified    Boolean     @default(false)
-  bio              String?     @db.VarChar(500)
+  id               String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String?       @db.VarChar(255)
+  email            String?       @unique @db.VarChar(255)
+  emailVerified    Boolean       @default(false)
+  bio              String?       @db.VarChar(500)
   image            String?
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
-  twoFactorEnabled Boolean?    @default(false)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  twoFactorEnabled Boolean?      @default(false)
   sessions         Session[]
   accounts         Account[]
   twofactors       TwoFactor[]
   books            Book[]
   emails           Email[]
+  userSettings     UserSettings?
 }
 
 model Email {
-  id        String  @id @default(cuid())
-  email     String
-  user      User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String? @db.Uuid
+  id     String  @id @default(cuid())
+  email  String
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String? @db.Uuid
 
-  verified  Boolean @default(false)
-  primary   Boolean @default(false)
+  verified Boolean @default(false)
+  primary  Boolean @default(false)
 
   createdAt DateTime @default(now())
 
@@ -69,10 +70,10 @@ model EmailEvent {
 
   emailId String @unique
 
-  recipient   String?
-  subject     String?
+  recipient String?
+  subject   String?
 
-  type        String
+  type String
 
   createdAt   DateTime  @default(now())
   deliveredAt DateTime?
@@ -81,7 +82,7 @@ model EmailEvent {
   bouncedAt   DateTime?
   failedAt    DateTime?
 
-  payload     Json
+  payload Json
 }
 
 model Session {
@@ -116,9 +117,9 @@ model Account {
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
 
+  @@unique([providerId, accountId])
   @@index([userId])
   @@map("account")
-  @@unique([providerId, accountId])
 }
 
 model Verification {
@@ -144,4 +145,46 @@ model TwoFactor {
   @@index([secret])
   @@index([userId])
   @@map("twoFactor")
+}
+
+model UserSettings {
+  id String @id @default(cuid())
+
+  userId String @unique @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Library display
+  showBookCovers   Boolean @default(true)
+  showRatings      Boolean @default(true)
+  showDescriptions Boolean @default(true)
+
+  viewMode ViewMode @default(GRID)
+  tileSize TileSize @default(MEDIUM)
+
+  booksPerPage Int @default(20)
+
+  defaultSort SortOrder @default(RECENT)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ViewMode {
+  GRID
+  LIST
+}
+
+enum TileSize {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+enum SortOrder {
+  RECENT
+  TITLE_ASC
+  TITLE_DESC
+  AUTHOR
+  PUBLICATION_DATE
+  RATING
 }

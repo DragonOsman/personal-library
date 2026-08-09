@@ -81,3 +81,8 @@ export type Verification = Prisma.VerificationModel
  * 
  */
 export type TwoFactor = Prisma.TwoFactorModel
+/**
+ * Model UserSettings
+ * 
+ */
+export type UserSettings = Prisma.UserSettingsModel
