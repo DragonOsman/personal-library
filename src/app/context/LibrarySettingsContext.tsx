@@ -15,7 +15,7 @@ import {
   SortOrder
 } from "@/app/generated/prisma/client";
 
-interface UserSettings {
+interface LibrarySettings {
   showBookCovers: boolean;
   showRatings: boolean;
   showDescriptions: boolean;
@@ -25,31 +25,31 @@ interface UserSettings {
   defaultSort: SortOrder;
 }
 
-interface UserSettingsContextValue {
-  settings: UserSettings | null;
+interface LibrarySettingsContextValue {
+  settings: LibrarySettings | null;
   isLoading: boolean;
   error: string | null;
 
   updateSettings: (
-    settings: Partial<UserSettings>
+    settings: Partial<LibrarySettings>
   ) => Promise<void>;
 }
 
-const UserSettingsContext =
-  createContext<UserSettingsContextValue | undefined>(undefined);
+const LibrarySettingsContext =
+  createContext<LibrarySettingsContextValue | undefined>(undefined);
 
-interface UserSettingsProviderProps {
+interface LibrarySettingsProviderProps {
   children: ReactNode;
 }
 
-export function UserSettingsProvider({
+export function LibrarySettingsProvider({
   children
-}: UserSettingsProviderProps) {
+}: LibrarySettingsProviderProps) {
   const { data: session, isPending: sessionPending } =
     authClient.useSession();
 
   const [settings, setSettings] =
-    useState<UserSettings | null>(null);
+    useState<LibrarySettings | null>(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -100,7 +100,7 @@ export function UserSettingsProvider({
   }, [sessionPending, loadSettings]);
 
   const updateSettings = useCallback(
-    async (updates: Partial<UserSettings>) => {
+    async (updates: Partial<LibrarySettings>) => {
       setError(null);
 
       try {
@@ -139,7 +139,7 @@ export function UserSettingsProvider({
   );
 
   return (
-    <UserSettingsContext.Provider
+    <LibrarySettingsContext.Provider
       value={{
         settings,
         isLoading,
@@ -148,16 +148,16 @@ export function UserSettingsProvider({
       }}
     >
       {children}
-    </UserSettingsContext.Provider>
+    </LibrarySettingsContext.Provider>
   );
 }
 
-export function useUserSettings(): UserSettingsContextValue {
-  const context = useContext(UserSettingsContext);
+export function useLibrarySettings(): LibrarySettingsContextValue {
+  const context = useContext(LibrarySettingsContext);
 
   if (!context) {
     throw new Error(
-      "useUserSettings must be used inside a UserSettingsProvider"
+      "useLibrarySettings must be used inside a LibrarySettingsProvider"
     );
   }
 

@@ -405,7 +405,7 @@ export const ModelName = {
   Account: 'Account',
   Verification: 'Verification',
   TwoFactor: 'TwoFactor',
-  UserSettings: 'UserSettings'
+  LibrarySettings: 'LibrarySettings'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -421,7 +421,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "book" | "user" | "email" | "emailEvent" | "session" | "account" | "verification" | "twoFactor" | "userSettings"
+    modelProps: "book" | "user" | "email" | "emailEvent" | "session" | "account" | "verification" | "twoFactor" | "librarySettings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1017,77 +1017,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    UserSettings: {
-      payload: Prisma.$UserSettingsPayload<ExtArgs>
-      fields: Prisma.UserSettingsFieldRefs
+    LibrarySettings: {
+      payload: Prisma.$LibrarySettingsPayload<ExtArgs>
+      fields: Prisma.LibrarySettingsFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.UserSettingsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload> | null
+          args: Prisma.LibrarySettingsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LibrarySettingsPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.UserSettingsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>
+          args: Prisma.LibrarySettingsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LibrarySettingsPayload>
         }
         findFirst: {
-          args: Prisma.UserSettingsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload> | null
+          args: Prisma.LibrarySettingsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LibrarySettingsPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.UserSettingsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>
+          args: Prisma.LibrarySettingsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LibrarySettingsPayload>
         }
         findMany: {
-          args: Prisma.UserSettingsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>[]
+          args: Prisma.LibrarySettingsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LibrarySettingsPayload>[]
         }
         create: {
-          args: Prisma.UserSettingsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>
+          args: Prisma.LibrarySettingsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LibrarySettingsPayload>
         }
         createMany: {
-          args: Prisma.UserSettingsCreateManyArgs<ExtArgs>
+          args: Prisma.LibrarySettingsCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.UserSettingsCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>[]
+          args: Prisma.LibrarySettingsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LibrarySettingsPayload>[]
         }
         delete: {
-          args: Prisma.UserSettingsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>
+          args: Prisma.LibrarySettingsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LibrarySettingsPayload>
         }
         update: {
-          args: Prisma.UserSettingsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>
+          args: Prisma.LibrarySettingsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LibrarySettingsPayload>
         }
         deleteMany: {
-          args: Prisma.UserSettingsDeleteManyArgs<ExtArgs>
+          args: Prisma.LibrarySettingsDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.UserSettingsUpdateManyArgs<ExtArgs>
+          args: Prisma.LibrarySettingsUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.UserSettingsUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>[]
+          args: Prisma.LibrarySettingsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LibrarySettingsPayload>[]
         }
         upsert: {
-          args: Prisma.UserSettingsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>
+          args: Prisma.LibrarySettingsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LibrarySettingsPayload>
         }
         aggregate: {
-          args: Prisma.UserSettingsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateUserSettings>
+          args: Prisma.LibrarySettingsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLibrarySettings>
         }
         groupBy: {
-          args: Prisma.UserSettingsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.UserSettingsGroupByOutputType>[]
+          args: Prisma.LibrarySettingsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LibrarySettingsGroupByOutputType>[]
         }
         count: {
-          args: Prisma.UserSettingsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.UserSettingsCountAggregateOutputType> | number
+          args: Prisma.LibrarySettingsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LibrarySettingsCountAggregateOutputType> | number
         }
       }
     }
@@ -1253,7 +1253,7 @@ export const TwoFactorScalarFieldEnum = {
 export type TwoFactorScalarFieldEnum = (typeof TwoFactorScalarFieldEnum)[keyof typeof TwoFactorScalarFieldEnum]
 
 
-export const UserSettingsScalarFieldEnum = {
+export const LibrarySettingsScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   showBookCovers: 'showBookCovers',
@@ -1267,7 +1267,7 @@ export const UserSettingsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type UserSettingsScalarFieldEnum = (typeof UserSettingsScalarFieldEnum)[keyof typeof UserSettingsScalarFieldEnum]
+export type LibrarySettingsScalarFieldEnum = (typeof LibrarySettingsScalarFieldEnum)[keyof typeof LibrarySettingsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1601,7 +1601,7 @@ export type GlobalOmitConfig = {
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit
   twoFactor?: Prisma.TwoFactorOmit
-  userSettings?: Prisma.UserSettingsOmit
+  librarySettings?: Prisma.LibrarySettingsOmit
 }
 
 /* Types for Logging */

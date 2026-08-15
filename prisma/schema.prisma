@@ -34,21 +34,21 @@ model Book {
 }
 
 model User {
-  id               String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name             String?       @db.VarChar(255)
-  email            String?       @unique @db.VarChar(255)
-  emailVerified    Boolean       @default(false)
-  bio              String?       @db.VarChar(500)
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String?          @db.VarChar(255)
+  email            String?          @unique @db.VarChar(255)
+  emailVerified    Boolean          @default(false)
+  bio              String?          @db.VarChar(500)
   image            String?
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
-  twoFactorEnabled Boolean?      @default(false)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  twoFactorEnabled Boolean?         @default(false)
   sessions         Session[]
   accounts         Account[]
   twofactors       TwoFactor[]
   books            Book[]
   emails           Email[]
-  userSettings     UserSettings?
+  librarySettings  LibrarySettings?
 }
 
 model Email {
@@ -147,7 +147,7 @@ model TwoFactor {
   @@map("twoFactor")
 }
 
-model UserSettings {
+model LibrarySettings {
   id String @id @default(cuid())
 
   userId String @unique @db.Uuid

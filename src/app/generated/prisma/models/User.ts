@@ -219,7 +219,7 @@ export type UserWhereInput = {
   twofactors?: Prisma.TwoFactorListRelationFilter
   books?: Prisma.BookListRelationFilter
   emails?: Prisma.EmailListRelationFilter
-  userSettings?: Prisma.XOR<Prisma.UserSettingsNullableScalarRelationFilter, Prisma.UserSettingsWhereInput> | null
+  librarySettings?: Prisma.XOR<Prisma.LibrarySettingsNullableScalarRelationFilter, Prisma.LibrarySettingsWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -237,7 +237,7 @@ export type UserOrderByWithRelationInput = {
   twofactors?: Prisma.TwoFactorOrderByRelationAggregateInput
   books?: Prisma.BookOrderByRelationAggregateInput
   emails?: Prisma.EmailOrderByRelationAggregateInput
-  userSettings?: Prisma.UserSettingsOrderByWithRelationInput
+  librarySettings?: Prisma.LibrarySettingsOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -258,7 +258,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   twofactors?: Prisma.TwoFactorListRelationFilter
   books?: Prisma.BookListRelationFilter
   emails?: Prisma.EmailListRelationFilter
-  userSettings?: Prisma.XOR<Prisma.UserSettingsNullableScalarRelationFilter, Prisma.UserSettingsWhereInput> | null
+  librarySettings?: Prisma.XOR<Prisma.LibrarySettingsNullableScalarRelationFilter, Prisma.LibrarySettingsWhereInput> | null
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -306,7 +306,7 @@ export type UserCreateInput = {
   twofactors?: Prisma.TwoFactorCreateNestedManyWithoutUserInput
   books?: Prisma.BookCreateNestedManyWithoutUserInput
   emails?: Prisma.EmailCreateNestedManyWithoutUserInput
-  userSettings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  librarySettings?: Prisma.LibrarySettingsCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -324,7 +324,7 @@ export type UserUncheckedCreateInput = {
   twofactors?: Prisma.TwoFactorUncheckedCreateNestedManyWithoutUserInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutUserInput
   emails?: Prisma.EmailUncheckedCreateNestedManyWithoutUserInput
-  userSettings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  librarySettings?: Prisma.LibrarySettingsUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -342,7 +342,7 @@ export type UserUpdateInput = {
   twofactors?: Prisma.TwoFactorUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUpdateManyWithoutUserNestedInput
   emails?: Prisma.EmailUpdateManyWithoutUserNestedInput
-  userSettings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  librarySettings?: Prisma.LibrarySettingsUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -360,7 +360,7 @@ export type UserUncheckedUpdateInput = {
   twofactors?: Prisma.TwoFactorUncheckedUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutUserNestedInput
   emails?: Prisma.EmailUncheckedUpdateManyWithoutUserNestedInput
-  userSettings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  librarySettings?: Prisma.LibrarySettingsUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -525,18 +525,18 @@ export type UserUpdateOneRequiredWithoutTwofactorsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTwofactorsInput, Prisma.UserUpdateWithoutTwofactorsInput>, Prisma.UserUncheckedUpdateWithoutTwofactorsInput>
 }
 
-export type UserCreateNestedOneWithoutUserSettingsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutUserSettingsInput, Prisma.UserUncheckedCreateWithoutUserSettingsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserSettingsInput
+export type UserCreateNestedOneWithoutLibrarySettingsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLibrarySettingsInput, Prisma.UserUncheckedCreateWithoutLibrarySettingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLibrarySettingsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutUserSettingsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutUserSettingsInput, Prisma.UserUncheckedCreateWithoutUserSettingsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserSettingsInput
-  upsert?: Prisma.UserUpsertWithoutUserSettingsInput
+export type UserUpdateOneRequiredWithoutLibrarySettingsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLibrarySettingsInput, Prisma.UserUncheckedCreateWithoutLibrarySettingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLibrarySettingsInput
+  upsert?: Prisma.UserUpsertWithoutLibrarySettingsInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserSettingsInput, Prisma.UserUpdateWithoutUserSettingsInput>, Prisma.UserUncheckedUpdateWithoutUserSettingsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLibrarySettingsInput, Prisma.UserUpdateWithoutLibrarySettingsInput>, Prisma.UserUncheckedUpdateWithoutLibrarySettingsInput>
 }
 
 export type UserCreateWithoutBooksInput = {
@@ -553,7 +553,7 @@ export type UserCreateWithoutBooksInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   twofactors?: Prisma.TwoFactorCreateNestedManyWithoutUserInput
   emails?: Prisma.EmailCreateNestedManyWithoutUserInput
-  userSettings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  librarySettings?: Prisma.LibrarySettingsCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBooksInput = {
@@ -570,7 +570,7 @@ export type UserUncheckedCreateWithoutBooksInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   twofactors?: Prisma.TwoFactorUncheckedCreateNestedManyWithoutUserInput
   emails?: Prisma.EmailUncheckedCreateNestedManyWithoutUserInput
-  userSettings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  librarySettings?: Prisma.LibrarySettingsUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBooksInput = {
@@ -603,7 +603,7 @@ export type UserUpdateWithoutBooksInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   twofactors?: Prisma.TwoFactorUpdateManyWithoutUserNestedInput
   emails?: Prisma.EmailUpdateManyWithoutUserNestedInput
-  userSettings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  librarySettings?: Prisma.LibrarySettingsUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBooksInput = {
@@ -620,7 +620,7 @@ export type UserUncheckedUpdateWithoutBooksInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   twofactors?: Prisma.TwoFactorUncheckedUpdateManyWithoutUserNestedInput
   emails?: Prisma.EmailUncheckedUpdateManyWithoutUserNestedInput
-  userSettings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  librarySettings?: Prisma.LibrarySettingsUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEmailsInput = {
@@ -637,7 +637,7 @@ export type UserCreateWithoutEmailsInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   twofactors?: Prisma.TwoFactorCreateNestedManyWithoutUserInput
   books?: Prisma.BookCreateNestedManyWithoutUserInput
-  userSettings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  librarySettings?: Prisma.LibrarySettingsCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEmailsInput = {
@@ -654,7 +654,7 @@ export type UserUncheckedCreateWithoutEmailsInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   twofactors?: Prisma.TwoFactorUncheckedCreateNestedManyWithoutUserInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutUserInput
-  userSettings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  librarySettings?: Prisma.LibrarySettingsUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEmailsInput = {
@@ -687,7 +687,7 @@ export type UserUpdateWithoutEmailsInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   twofactors?: Prisma.TwoFactorUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUpdateManyWithoutUserNestedInput
-  userSettings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  librarySettings?: Prisma.LibrarySettingsUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmailsInput = {
@@ -704,7 +704,7 @@ export type UserUncheckedUpdateWithoutEmailsInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   twofactors?: Prisma.TwoFactorUncheckedUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutUserNestedInput
-  userSettings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  librarySettings?: Prisma.LibrarySettingsUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -721,7 +721,7 @@ export type UserCreateWithoutSessionsInput = {
   twofactors?: Prisma.TwoFactorCreateNestedManyWithoutUserInput
   books?: Prisma.BookCreateNestedManyWithoutUserInput
   emails?: Prisma.EmailCreateNestedManyWithoutUserInput
-  userSettings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  librarySettings?: Prisma.LibrarySettingsCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -738,7 +738,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   twofactors?: Prisma.TwoFactorUncheckedCreateNestedManyWithoutUserInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutUserInput
   emails?: Prisma.EmailUncheckedCreateNestedManyWithoutUserInput
-  userSettings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  librarySettings?: Prisma.LibrarySettingsUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -771,7 +771,7 @@ export type UserUpdateWithoutSessionsInput = {
   twofactors?: Prisma.TwoFactorUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUpdateManyWithoutUserNestedInput
   emails?: Prisma.EmailUpdateManyWithoutUserNestedInput
-  userSettings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  librarySettings?: Prisma.LibrarySettingsUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -788,7 +788,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   twofactors?: Prisma.TwoFactorUncheckedUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutUserNestedInput
   emails?: Prisma.EmailUncheckedUpdateManyWithoutUserNestedInput
-  userSettings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  librarySettings?: Prisma.LibrarySettingsUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -805,7 +805,7 @@ export type UserCreateWithoutAccountsInput = {
   twofactors?: Prisma.TwoFactorCreateNestedManyWithoutUserInput
   books?: Prisma.BookCreateNestedManyWithoutUserInput
   emails?: Prisma.EmailCreateNestedManyWithoutUserInput
-  userSettings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  librarySettings?: Prisma.LibrarySettingsCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -822,7 +822,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   twofactors?: Prisma.TwoFactorUncheckedCreateNestedManyWithoutUserInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutUserInput
   emails?: Prisma.EmailUncheckedCreateNestedManyWithoutUserInput
-  userSettings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  librarySettings?: Prisma.LibrarySettingsUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -855,7 +855,7 @@ export type UserUpdateWithoutAccountsInput = {
   twofactors?: Prisma.TwoFactorUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUpdateManyWithoutUserNestedInput
   emails?: Prisma.EmailUpdateManyWithoutUserNestedInput
-  userSettings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  librarySettings?: Prisma.LibrarySettingsUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -872,7 +872,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   twofactors?: Prisma.TwoFactorUncheckedUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutUserNestedInput
   emails?: Prisma.EmailUncheckedUpdateManyWithoutUserNestedInput
-  userSettings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  librarySettings?: Prisma.LibrarySettingsUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTwofactorsInput = {
@@ -889,7 +889,7 @@ export type UserCreateWithoutTwofactorsInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   books?: Prisma.BookCreateNestedManyWithoutUserInput
   emails?: Prisma.EmailCreateNestedManyWithoutUserInput
-  userSettings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  librarySettings?: Prisma.LibrarySettingsCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTwofactorsInput = {
@@ -906,7 +906,7 @@ export type UserUncheckedCreateWithoutTwofactorsInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutUserInput
   emails?: Prisma.EmailUncheckedCreateNestedManyWithoutUserInput
-  userSettings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  librarySettings?: Prisma.LibrarySettingsUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTwofactorsInput = {
@@ -939,7 +939,7 @@ export type UserUpdateWithoutTwofactorsInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUpdateManyWithoutUserNestedInput
   emails?: Prisma.EmailUpdateManyWithoutUserNestedInput
-  userSettings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  librarySettings?: Prisma.LibrarySettingsUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTwofactorsInput = {
@@ -956,10 +956,10 @@ export type UserUncheckedUpdateWithoutTwofactorsInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutUserNestedInput
   emails?: Prisma.EmailUncheckedUpdateManyWithoutUserNestedInput
-  userSettings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  librarySettings?: Prisma.LibrarySettingsUncheckedUpdateOneWithoutUserNestedInput
 }
 
-export type UserCreateWithoutUserSettingsInput = {
+export type UserCreateWithoutLibrarySettingsInput = {
   id?: string
   name?: string | null
   email?: string | null
@@ -976,7 +976,7 @@ export type UserCreateWithoutUserSettingsInput = {
   emails?: Prisma.EmailCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutUserSettingsInput = {
+export type UserUncheckedCreateWithoutLibrarySettingsInput = {
   id?: string
   name?: string | null
   email?: string | null
@@ -993,23 +993,23 @@ export type UserUncheckedCreateWithoutUserSettingsInput = {
   emails?: Prisma.EmailUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutUserSettingsInput = {
+export type UserCreateOrConnectWithoutLibrarySettingsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutUserSettingsInput, Prisma.UserUncheckedCreateWithoutUserSettingsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLibrarySettingsInput, Prisma.UserUncheckedCreateWithoutLibrarySettingsInput>
 }
 
-export type UserUpsertWithoutUserSettingsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutUserSettingsInput, Prisma.UserUncheckedUpdateWithoutUserSettingsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutUserSettingsInput, Prisma.UserUncheckedCreateWithoutUserSettingsInput>
+export type UserUpsertWithoutLibrarySettingsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLibrarySettingsInput, Prisma.UserUncheckedUpdateWithoutLibrarySettingsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLibrarySettingsInput, Prisma.UserUncheckedCreateWithoutLibrarySettingsInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutUserSettingsInput = {
+export type UserUpdateToOneWithWhereWithoutLibrarySettingsInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutUserSettingsInput, Prisma.UserUncheckedUpdateWithoutUserSettingsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLibrarySettingsInput, Prisma.UserUncheckedUpdateWithoutLibrarySettingsInput>
 }
 
-export type UserUpdateWithoutUserSettingsInput = {
+export type UserUpdateWithoutLibrarySettingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1026,7 +1026,7 @@ export type UserUpdateWithoutUserSettingsInput = {
   emails?: Prisma.EmailUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutUserSettingsInput = {
+export type UserUncheckedUpdateWithoutLibrarySettingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1125,7 +1125,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   twofactors?: boolean | Prisma.User$twofactorsArgs<ExtArgs>
   books?: boolean | Prisma.User$booksArgs<ExtArgs>
   emails?: boolean | Prisma.User$emailsArgs<ExtArgs>
-  userSettings?: boolean | Prisma.User$userSettingsArgs<ExtArgs>
+  librarySettings?: boolean | Prisma.User$librarySettingsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1172,7 +1172,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   twofactors?: boolean | Prisma.User$twofactorsArgs<ExtArgs>
   books?: boolean | Prisma.User$booksArgs<ExtArgs>
   emails?: boolean | Prisma.User$emailsArgs<ExtArgs>
-  userSettings?: boolean | Prisma.User$userSettingsArgs<ExtArgs>
+  librarySettings?: boolean | Prisma.User$librarySettingsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1186,7 +1186,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     twofactors: Prisma.$TwoFactorPayload<ExtArgs>[]
     books: Prisma.$BookPayload<ExtArgs>[]
     emails: Prisma.$EmailPayload<ExtArgs>[]
-    userSettings: Prisma.$UserSettingsPayload<ExtArgs> | null
+    librarySettings: Prisma.$LibrarySettingsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1597,7 +1597,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   twofactors<T extends Prisma.User$twofactorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$twofactorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TwoFactorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   books<T extends Prisma.User$booksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$booksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   emails<T extends Prisma.User$emailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmailPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  userSettings<T extends Prisma.User$userSettingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userSettingsArgs<ExtArgs>>): Prisma.Prisma__UserSettingsClient<runtime.Types.Result.GetResult<Prisma.$UserSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  librarySettings<T extends Prisma.User$librarySettingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$librarySettingsArgs<ExtArgs>>): Prisma.Prisma__LibrarySettingsClient<runtime.Types.Result.GetResult<Prisma.$LibrarySettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2149,22 +2149,22 @@ export type User$emailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 }
 
 /**
- * User.userSettings
+ * User.librarySettings
  */
-export type User$userSettingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$librarySettingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the UserSettings
+   * Select specific fields to fetch from the LibrarySettings
    */
-  select?: Prisma.UserSettingsSelect<ExtArgs> | null
+  select?: Prisma.LibrarySettingsSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the UserSettings
+   * Omit specific fields from the LibrarySettings
    */
-  omit?: Prisma.UserSettingsOmit<ExtArgs> | null
+  omit?: Prisma.LibrarySettingsOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.UserSettingsInclude<ExtArgs> | null
-  where?: Prisma.UserSettingsWhereInput
+  include?: Prisma.LibrarySettingsInclude<ExtArgs> | null
+  where?: Prisma.LibrarySettingsWhereInput
 }
 
 /**

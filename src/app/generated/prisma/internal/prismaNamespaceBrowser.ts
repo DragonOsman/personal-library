@@ -59,7 +59,7 @@ export const ModelName = {
   Account: 'Account',
   Verification: 'Verification',
   TwoFactor: 'TwoFactor',
-  UserSettings: 'UserSettings'
+  LibrarySettings: 'LibrarySettings'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -201,7 +201,7 @@ export const TwoFactorScalarFieldEnum = {
 export type TwoFactorScalarFieldEnum = (typeof TwoFactorScalarFieldEnum)[keyof typeof TwoFactorScalarFieldEnum]
 
 
-export const UserSettingsScalarFieldEnum = {
+export const LibrarySettingsScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   showBookCovers: 'showBookCovers',
@@ -215,7 +215,7 @@ export const UserSettingsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type UserSettingsScalarFieldEnum = (typeof UserSettingsScalarFieldEnum)[keyof typeof UserSettingsScalarFieldEnum]
+export type LibrarySettingsScalarFieldEnum = (typeof LibrarySettingsScalarFieldEnum)[keyof typeof LibrarySettingsScalarFieldEnum]
 
 
 export const SortOrder = {

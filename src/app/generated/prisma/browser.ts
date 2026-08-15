@@ -58,7 +58,7 @@ export type Verification = Prisma.VerificationModel
  */
 export type TwoFactor = Prisma.TwoFactorModel
 /**
- * Model UserSettings
+ * Model LibrarySettings
  * 
  */
-export type UserSettings = Prisma.UserSettingsModel
+export type LibrarySettings = Prisma.LibrarySettingsModel
