@@ -7,7 +7,7 @@ import { Formik, Form } from "formik";
 import { useState, useEffect } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { authClient } from "@/auth-client";
-import { passwordField } from "@/utils/validation";
+import { passwordField } from "@/utils/user-validation";
 import { useRouter } from "next/navigation";
 
 const PasswordSection = () => {

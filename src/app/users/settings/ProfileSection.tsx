@@ -5,7 +5,7 @@ import { authClient } from "@/auth-client";
 import { updateProfile } from "./helpers";
 import { Formik } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { profileSchema } from "@/utils/validation";
+import { profileSchema } from "@/utils/user-validation";
 import UserCard from "@/app/components/UserCard";
 import { Prisma } from "@/app/generated/prisma/client";
 

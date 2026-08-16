@@ -7,7 +7,7 @@ import { Formik, Form } from "formik";
 import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { authClient } from "@/auth-client";
-import { signupSchema } from "@/utils/validation";
+import { signupSchema } from "@/utils/user-validation";
 import { FaGoogle, FaGithub, FaDiscord, FaEnvelope } from "react-icons/fa";
 import Card from "@/app/components/ui/Card";
 

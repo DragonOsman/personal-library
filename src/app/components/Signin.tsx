@@ -7,7 +7,7 @@ import { authClient } from "@/auth-client";
 import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useState } from "react";
-import { signinSchema } from "@/utils/validation";
+import { signinSchema } from "@/utils/user-validation";
 import { FaGoogle, FaGithub, FaDiscord, FaEnvelope } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Card from "@/app/components/ui/Card";

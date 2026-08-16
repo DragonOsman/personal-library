@@ -5,7 +5,7 @@ import { authClient } from "@/auth-client";
 import { setPrimaryEmail, removeEmail } from "./actions";
 import { Formik } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { changeEmailSchema } from "@/utils/validation";
+import { changeEmailSchema } from "@/utils/user-validation";
 import { useState } from "react";
 
 import { Prisma } from "@/app/generated/prisma/client";

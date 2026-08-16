@@ -9,7 +9,7 @@ import QRCode from "qrcode";
 import { authClient } from "@/auth-client";
 import { Formik } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { TwoFAPasswordScema } from "@/utils/validation";
+import { TwoFAPasswordScema } from "@/utils/user-validation";
 import { z } from "zod";
 
 interface TwoFASectionProps {

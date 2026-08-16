@@ -6,7 +6,7 @@
 import { authClient } from "@/auth-client";
 import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { requestPasswordReset } from "@/utils/validation";
+import { requestPasswordReset } from "@/utils/user-validation";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 

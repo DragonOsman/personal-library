@@ -8,7 +8,7 @@ import { Formik, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { resetPasswordSchema } from "@/utils/validation";
+import { resetPasswordSchema } from "@/utils/user-validation";
 
 interface ResetPasswordProps {
   token: string
