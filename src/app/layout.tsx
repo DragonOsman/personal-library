@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { Metadata, Viewport } from "next";
 import Header from "@/app/components/Header";
 import BookContextProvider from "./context/BookContext";
+import { LibrarySettingsProvider } from "./context/LibrarySettingsContext";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
@@ -45,13 +46,15 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         className="mt-20 text-[17px] min-h-screen text-center text-[color:var(--color-text)] font-sans"
       >
         <BookContextProvider>
-          <Header />
-          <main className="flex flex-1 items-start justify-center px-4 pt-24 pb-10">
-            <div className="w-full max-w-4xl bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-8">
-              <Toaster position="top-right" />
-              {children}
-            </div>
-          </main>
+          <LibrarySettingsProvider>
+            <Header />
+            <main className="flex flex-1 items-start justify-center px-4 pt-24 pb-10">
+              <div className="w-full max-w-4xl bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-8">
+                <Toaster position="top-right" />
+                {children}
+              </div>
+            </main>
+          </LibrarySettingsProvider>
         </BookContextProvider>
       </body>
     </html>
