@@ -244,8 +244,8 @@ const AddBookPageContent = () => {
               type="text"
               placeholder="Search books..."
               className="input input-bordered w-full max-w-md"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={searchTitle}
+              onChange={(e) => setSearchTitle(e.target.value)}
             />
           </div>
 
