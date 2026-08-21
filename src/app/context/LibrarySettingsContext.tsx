@@ -65,7 +65,7 @@ export function LibrarySettingsProvider({
     setError(null);
 
     try {
-      const response = await fetch("/api/user-settings", {
+      const response = await fetch("/api/library-settings", {
         method: "GET",
         credentials: "include",
         headers: {
@@ -104,7 +104,7 @@ export function LibrarySettingsProvider({
       setError(null);
 
       try {
-        const response = await fetch("/api/user-settings", {
+        const response = await fetch("/api/library-settings", {
           method: "PATCH",
           credentials: "include",
           headers: {
