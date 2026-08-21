@@ -222,7 +222,7 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
-          await prisma.userSettings.create({
+          await prisma.librarySettings.create({
             data: {
               userId: user.id
             }
