@@ -43,7 +43,6 @@ const AddBookPageContent = () => {
   const [message, setMessage] = useState("");
   const { books, setBooks } = useContext(BookContext);
   const [searchResults, setSearchResults] = useState<GoogleApiBookItem[]>([]);
-  const [search, setSearch] = useState("");
   const [showManualAddingForm, setShowManualAddingForm] = useState(false);
 
   const uriEncodedTitle = encodeURIComponent(searchTitle);
