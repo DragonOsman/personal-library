@@ -57,7 +57,7 @@ const UserButton = () => {
             right-2
             translate-x-[-1rem]
             w-48
-          bg-white
+            bg-white
             border
             rounded
             shadow-lg
