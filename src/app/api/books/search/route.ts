@@ -27,6 +27,11 @@ export const GET = async (req: NextRequest) => {
       return NextResponse.json({ message: errorMessage }, { status: response.status });
     }
     const data = await response.json();
+    for (const item of data.items || []) {
+      if (item.volumeInfo && item.volumeInfo.imageLinks && item.volumeInfo.imageLinks.thumbnail) {
+        console.log(`Thumbnail URL: ${item.volumeInfo.imageLinks.thumbnail}`);
+      }
+    }
     return NextResponse.json(data);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
