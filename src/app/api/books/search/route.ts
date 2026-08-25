@@ -26,13 +26,29 @@ export const GET = async (req: NextRequest) => {
       console.error(`Failed to fetch books: ${errorMessage}`);
       return NextResponse.json({ message: errorMessage }, { status: response.status });
     }
+
     const data = await response.json();
-    for (const item of data.items || []) {
-      if (item.volumeInfo && item.volumeInfo.imageLinks && item.volumeInfo.imageLinks.thumbnail) {
-        console.log(`Thumbnail URL: ${item.volumeInfo.imageLinks.thumbnail}`);
+
+    const items = (data.items || []).map((item: typeof data.items[0]) => {
+      const imageLinks = item.volumeInfo?.imageLinks;
+      if (!imageLinks) {
+        return item;
       }
-    }
-    return NextResponse.json(data);
+
+      return {
+        ...item,
+        volumeInfo: {
+          ...item.volumeInfo,
+          imageLinks: {
+            ...imageLinks,
+            smallThumbnail: imageLinks.smallThumbnail?.replace(/^http:\/\//i, "https://"),
+            thumbnail: imageLinks.thumbnail?.replace(/^http:\/\//i, "https://")
+          }
+        }
+      };
+    });
+
+    return NextResponse.json({ ...data, items });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(`An error occurred while fetching books: ${errorMessage}`, error);
