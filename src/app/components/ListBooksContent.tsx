@@ -32,7 +32,7 @@ const ListBooksContent = () => {
     const fetchBookData = async () => {
       try {
         const bookResultPromises: Promise<IBook>[] = books.map(async (book: IBook): Promise<IBook> => {
-          return fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn=${book.isbn}`, {
+          return fetch(`/api/books/search?isbn=${book.isbn}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json"
