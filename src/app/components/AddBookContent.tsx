@@ -11,6 +11,7 @@ import {
   BOOK_CATEGORIES
 } from "@/app/context/BookContext";
 import { BaseBookSchema } from "@/app/books/BookSchemaZod";
+import { BookSearchSchema } from "@/utils/search-validation";
 import { Formik, Form, Field } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import toast from "react-hot-toast";
@@ -334,6 +335,7 @@ const AddBookPageContent = () => {
           onSubmit={async (values) => {
             await searchBooks(values);
           }}
+          validationSchema={toFormikValidationSchema(BookSearchSchema)}
         >
           {(formik) => (
             <Form className="space-y-4">
