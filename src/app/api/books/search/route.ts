@@ -23,6 +23,13 @@ export async function GET(req: NextRequest) {
   const isbn = searchParams.get("isbn");
   const subject = searchParams.get("subject");
 
+  console.log("Incoming book search parameters:", {
+    title,
+    author,
+    isbn,
+    subject
+  });
+
   const queryParts: string[] = [];
 
   if (title) {
@@ -51,10 +58,12 @@ export async function GET(req: NextRequest) {
   }
 
   const query = queryParts.join(" ");
+  console.log(`Constructed Google Books API query: ${query}`);
 
   const googleUrl = new URL(GOOGLE_BOOKS_API_URL);
 
   googleUrl.searchParams.set("q", query);
+  console.log(`Google Books API URL: ${googleUrl.toString()}`);
   googleUrl.searchParams.set("key", apiKey);
 
   try {

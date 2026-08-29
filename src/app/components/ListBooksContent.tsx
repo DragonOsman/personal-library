@@ -32,13 +32,19 @@ const ListBooksContent = () => {
     const fetchBookData = async () => {
       try {
         const bookResultPromises: Promise<IBook>[] = books.map(async (book: IBook): Promise<IBook> => {
-          return fetch(`/api/books/search?isbn=${book.isbn}`, {
+          const requestUrl = `/api/books/search?isbn=${book.isbn}`;
+          console.log(`Fetching book data for ISBN ${book.isbn}: ${requestUrl}`);
+          return fetch(requestUrl, {
             method: "GET",
             headers: {
               "Content-Type": "application/json"
             }
-          }).then(response => response.json()).catch((error: Error) => (
-            console.error(`Error fetching book data for ISBN ${book.isbn}: ${error.message}`)
+          }).then(async response => {
+            const data = await response.json();
+            console.log(`Received data for ISBN ${book.isbn}: ${data}`);
+            return data;
+          }).catch((error) => (
+            console.error(`Error fetching book data for ISBN ${book.isbn}: ${error}`)
           ));
         });
 

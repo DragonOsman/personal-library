@@ -216,9 +216,9 @@ const AddBookPageContent = () => {
       }
 
       try {
-        const response = await fetch(
-          `/api/books/search?${searchParams.toString()}`
-        );
+        const requestUrl = `/api/books/search?${searchParams.toString()}`;
+        console.log(`Book search request: ${requestUrl}`);
+        const response = await fetch(requestUrl);
 
         const data = await response.json();
 
