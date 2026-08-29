@@ -3,7 +3,7 @@
 
 "use client";
 
-import { useState, useContext, useCallback } from "react";
+import { useState, useContext, useCallback, FormEvent } from "react";
 import {
   BookContext,
   IBook,
@@ -338,7 +338,10 @@ const AddBookPageContent = () => {
           validationSchema={toFormikValidationSchema(BookSearchSchema)}
         >
           {(formik) => (
-            <Form className="space-y-4">
+            <Form className="space-y-4" onSubmit={(event: FormEvent<HTMLFormElement>) => {
+              event.preventDefault();
+              formik.handleSubmit(event);
+            }}>
               <h2 className="text-xl font-semibold">
                 Search for a Book
               </h2>
