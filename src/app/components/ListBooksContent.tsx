@@ -5,8 +5,7 @@
 
 import { BookContext, IBookContext } from "@/app/context/BookContext";
 import DeleteBook from "@/app/components/DeleteBook";
-import type { IBook } from "@/app/context/BookContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import NextImage from "next/image";
 import Link from "next/link";
 import BookSkeleton from "@/app/components/ui/BookSkeleton";
@@ -26,37 +25,6 @@ declare global {
 
 const ListBooksContent = () => {
   const { books } = useContext<IBookContext>(BookContext);
-  const [bookData, setBookData] = useState<Record<string, any>[]>([]);
-
-  useEffect(() => {
-    const fetchBookData = async () => {
-      try {
-        const bookResultPromises: Promise<IBook>[] = books.map(async (book: IBook): Promise<IBook> => {
-          const requestUrl = `/api/books/search?isbn=${book.isbn}`;
-          console.log(`Fetching book data for ISBN ${book.isbn}: ${requestUrl}`);
-          return fetch(requestUrl, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }).then(async response => {
-            const data = await response.json();
-            console.log(`Received data for ISBN ${book.isbn}: ${data}`);
-            return data;
-          }).catch((error) => (
-            console.error(`Error fetching book data for ISBN ${book.isbn}: ${error}`)
-          ));
-        });
-
-        const bookResults = await Promise.all(bookResultPromises);
-        setBookData(bookResults);
-      } catch (error) {
-        console.error(`Error fetching book data: ${error}`);
-      }
-    };
-
-    fetchBookData();
-  }, [books]);
 
   return (
     <div className="w-full max-w-5xl mx-auto space-y-6">
@@ -75,20 +43,24 @@ const ListBooksContent = () => {
             Add your first book
           </Link>
         </div>
-      ) : bookData.length === 0 ? (
-        <BookSkeleton />
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {books.map((book, index) => {
-            const currentBookData = bookData[index];
-            const imgUrl =
-              currentBookData?.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
+          {books.map((book) => {
+            const imageLinks = book.imageLinks as {
+              thumbnail?: string;
+              smallThumbnail?: string;
+            } | null;
+
+            const imgUrl = imageLinks?.thumbnail ||
+              imageLinks?.smallThumbnail ||
+              "/images/book-composition-with-open-book_23-2147690555.jpg"
+            ;
 
             return (
               <div key={book.id} className="card bg-base-100 shadow-md hover:shadow-lg transition">
                 <figure className="px-4 pt-4">
                   <NextImage
-                    src={imgUrl || "/images/book-composition-with-open-book_23-2147690555.jpg"}
+                    src={imgUrl}
                     alt={book.title}
                     width={128}
                     height={192}
