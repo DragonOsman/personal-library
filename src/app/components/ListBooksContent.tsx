@@ -8,7 +8,6 @@ import DeleteBook from "@/app/components/DeleteBook";
 import { useContext } from "react";
 import NextImage from "next/image";
 import Link from "next/link";
-import BookSkeleton from "@/app/components/ui/BookSkeleton";
 
 declare global {
   interface Window {
@@ -51,16 +50,13 @@ const ListBooksContent = () => {
               smallThumbnail?: string;
             } | null;
 
-            const imgUrl = imageLinks?.thumbnail ||
-              imageLinks?.smallThumbnail ||
-              "/images/book-composition-with-open-book_23-2147690555.jpg"
-            ;
+            const imgUrl = imageLinks?.thumbnail || imageLinks?.smallThumbnail;
 
             return (
               <div key={book.id} className="card bg-base-100 shadow-md hover:shadow-lg transition">
                 <figure className="px-4 pt-4">
                   <NextImage
-                    src={imgUrl}
+                    src={imgUrl || "/images/book-composition-with-open-book_23-2147690555.jpg"}
                     alt={book.title}
                     width={128}
                     height={192}
