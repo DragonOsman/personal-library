@@ -69,6 +69,12 @@ export async function GET(req: NextRequest) {
   try {
     const response = await fetch(googleUrl);
 
+    console.log(
+      "Google Books response:",
+      response.status,
+      response.statusText
+    );
+
     if (!response.ok) {
       const errorMessage = await response.text();
 
