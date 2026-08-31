@@ -2,19 +2,19 @@ import { z } from "zod";
 
 export const BookSearchSchema = z
   .object({
-    title: z.string().trim(),
-    author: z.string().trim(),
-    isbn: z.string().trim(),
-    subject: z.string().trim()
+    title: z.string().optional().default(""),
+    author: z.string().optional().default(""),
+    isbn: z.string().optional().default(""),
+    subject: z.string().optional().default("")
   })
   .refine(
     (values) =>
-      values.title !== "" ||
-      values.author !== "" ||
-      values.isbn !== "" ||
-      values.subject !== "",
+      values.title.trim() !== "" ||
+      values.author.trim() !== "" ||
+      values.isbn.trim() !== "" ||
+      values.subject.trim() !== "",
     {
-      message: "Enter at least one search criterion.",
+      message: "Please enter at least one search criterion.",
       path: ["title"]
     }
   );
