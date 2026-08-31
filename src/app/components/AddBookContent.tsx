@@ -96,8 +96,8 @@ const AddBookPageContent = () => {
       pageCount: item.volumeInfo.pageCount,
       categories: item.volumeInfo.categories,
       imageLinks: {
-        thumbnail: item.volumeInfo.imageLinks?.thumbnail,
-        smallThumbnail: item.volumeInfo.imageLinks?.smallThumbnail
+        thumbnail: item.volumeInfo.imageLinks?.thumbnail?.replace(/^http:\/\//i, "https://"),
+        smallThumbnail: item.volumeInfo.imageLinks?.smallThumbnail?.replace(/^http:\/\//i, "https://")
       },
       language: item.volumeInfo.language,
       averageRating: item.volumeInfo.averageRating,
@@ -338,10 +338,7 @@ const AddBookPageContent = () => {
           validationSchema={toFormikValidationSchema(BookSearchSchema)}
         >
           {(formik) => (
-            <Form className="space-y-4" onSubmit={(event: FormEvent<HTMLFormElement>) => {
-              event.preventDefault();
-              formik.handleSubmit(event);
-            }}>
+            <Form className="space-y-4">
               <h2 className="text-xl font-semibold">
                 Search for a Book
               </h2>
