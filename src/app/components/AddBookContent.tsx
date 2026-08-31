@@ -333,103 +333,113 @@ const AddBookPageContent = () => {
         <Formik
           initialValues={searchInitialValues}
           onSubmit={async (values) => {
+            console.log("Search Formik onSubmit called:", values);
             await searchBooks(values);
           }}
           validationSchema={toFormikValidationSchema(BookSearchSchema)}
         >
-          {(formik) => (
-            <Form className="space-y-4">
-              <h2 className="text-xl font-semibold">
-                Search for a Book
-              </h2>
+          {(formik) => {
+            console.log("Search Formik state:", {
+              values: formik.values,
+              errors: formik.errors,
+              touched: formik.touched,
+              isValid: formik.isValid
+            });
 
-              <div className="form-control">
-                <label
-                  htmlFor="search-title"
-                  className="label"
+            return (
+              <Form className="space-y-4">
+                <h2 className="text-xl font-semibold">
+                  Search for a Book
+                </h2>
+
+                <div className="form-control">
+                  <label
+                    htmlFor="search-title"
+                    className="label"
+                  >
+                    <span className="label-text">
+                      Title
+                    </span>
+                  </label>
+
+                  <Field
+                    id="search-title"
+                    type="text"
+                    name="title"
+                    placeholder="Book Title"
+                    className="input input-bordered w-full"
+                  />
+                </div>
+
+                <div className="form-control">
+                  <label
+                    htmlFor="search-author"
+                    className="label"
+                  >
+                    <span className="label-text">
+                      Author
+                    </span>
+                  </label>
+
+                  <Field
+                    id="search-author"
+                    type="text"
+                    name="author"
+                    placeholder="Book Author(s)"
+                    className="input input-bordered w-full"
+                  />
+                </div>
+
+                <div className="form-control">
+                  <label
+                    htmlFor="search-isbn"
+                    className="label"
+                  >
+                    <span className="label-text">
+                      ISBN
+                    </span>
+                  </label>
+
+                  <Field
+                    id="search-isbn"
+                    type="text"
+                    name="isbn"
+                    placeholder="Book ISBN"
+                    className="input input-bordered w-full"
+                  />
+                </div>
+
+                <div className="form-control">
+                  <label
+                    htmlFor="search-subject"
+                    className="label"
+                  >
+                    <span className="label-text">
+                      Subject
+                    </span>
+                  </label>
+
+                  <Field
+                    id="search-subject"
+                    type="text"
+                    name="subject"
+                    placeholder="Book Subject"
+                    className="input input-bordered w-full"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn btn-primary w-full"
+                  disabled={formik.isSubmitting}
                 >
-                  <span className="label-text">
-                    Title
-                  </span>
-                </label>
-
-                <Field
-                  id="search-title"
-                  type="text"
-                  name="title"
-                  placeholder="Book Title"
-                  className="input input-bordered w-full"
-                />
-              </div>
-
-              <div className="form-control">
-                <label
-                  htmlFor="search-author"
-                  className="label"
-                >
-                  <span className="label-text">
-                    Author
-                  </span>
-                </label>
-
-                <Field
-                  id="search-author"
-                  type="text"
-                  name="author"
-                  placeholder="Book Author(s)"
-                  className="input input-bordered w-full"
-                />
-              </div>
-
-              <div className="form-control">
-                <label
-                  htmlFor="search-isbn"
-                  className="label"
-                >
-                  <span className="label-text">
-                    ISBN
-                  </span>
-                </label>
-
-                <Field
-                  id="search-isbn"
-                  type="text"
-                  name="isbn"
-                  placeholder="Book ISBN"
-                  className="input input-bordered w-full"
-                />
-              </div>
-
-              <div className="form-control">
-                <label
-                  htmlFor="search-subject"
-                  className="label"
-                >
-                  <span className="label-text">
-                    Subject
-                  </span>
-                </label>
-
-                <Field
-                  id="search-subject"
-                  type="text"
-                  name="subject"
-                  placeholder="Book Subject"
-                  className="input input-bordered w-full"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="btn btn-primary w-full"
-                disabled={formik.isSubmitting}
-              >
-                {formik.isSubmitting
-                  ? "Searching..."
-                  : "Search"}
-              </button>
-            </Form>
-          )}
+                  {formik.isSubmitting
+                    ? "Searching..."
+                    : "Search"}
+                </button>
+              </Form>
+            );
+          }}
         </Formik>
 
         {error && (
