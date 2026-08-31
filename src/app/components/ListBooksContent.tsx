@@ -51,6 +51,7 @@ const ListBooksContent = () => {
             } | null;
 
             const imgUrl = imageLinks?.thumbnail || imageLinks?.smallThumbnail;
+            console.log(`Image URL for book "${book.title}": ${imgUrl}`);
 
             return (
               <div key={book.id} className="card bg-base-100 shadow-md hover:shadow-lg transition">
