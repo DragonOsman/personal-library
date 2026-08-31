@@ -3,8 +3,6 @@
 export default function DisplaySection() {
   return (
     <div className="space-y-6">
-      <h3>Display Settings</h3>
-
       <p>
         Configure how your library is displayed and organized.
       </p>

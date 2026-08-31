@@ -3,8 +3,6 @@
 export default function DefaultSection() {
   return (
     <div className="space-y-6">
-      <h3>Default Settings</h3>
-
       <p>
         Choose the default values used whenever you add a new book.
       </p>

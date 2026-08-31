@@ -2,10 +2,10 @@ import { z } from "zod";
 
 export const BookSearchSchema = z
   .object({
-    title: z.string().optional().default(""),
-    author: z.string().optional().default(""),
-    isbn: z.string().optional().default(""),
-    subject: z.string().optional().default("")
+    title: z.string(),
+    author: z.string(),
+    isbn: z.string(),
+    subject: z.string()
   })
   .refine(
     (values) =>

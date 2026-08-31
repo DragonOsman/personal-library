@@ -3,8 +3,6 @@
 export default function PrivacySection() {
   return (
     <div className="space-y-6">
-      <h3>Privacy Settings</h3>
-
       <p>
         Manage how your library and profile information are shared.
       </p>
