@@ -49,6 +49,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "books.googleusercontent.com",
         pathname: "/**"
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        pathname: "/**"
       }
     ]
   }
