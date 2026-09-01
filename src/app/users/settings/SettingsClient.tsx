@@ -205,6 +205,7 @@ export default function SettingsClient({ user }: SettingsClientProps) {
                 {section.render()}
 
                 {section.subsections.length > 0 && section.subsections.map(subsection => (
+                  <>
                     <section
                       key={subsection.id}
                       id={subsection.id}
@@ -212,7 +213,9 @@ export default function SettingsClient({ user }: SettingsClientProps) {
                     >
                       <h3>{subsection.title}</h3>
                       {subsection.render()}
-                  </section>
+                    </section>
+                    <hr />
+                  </>
                 ))}
               </section>
             ))}
