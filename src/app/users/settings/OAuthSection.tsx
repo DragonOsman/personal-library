@@ -97,7 +97,7 @@ const OAuthSection = () => {
         <button
           type="button"
           title="Connect Google"
-          onClick={() => authClient.signIn.social({
+          onClick={() => authClient.linkSocial({
             provider: "google"
           })}
           className="w-full flex items-center justify-center py-2 px-4 border rounded-md bg-white font-medium hover:bg-gray-50"
@@ -124,7 +124,7 @@ const OAuthSection = () => {
         <button
           type="button"
           title="Connect GitHub"
-          onClick={() => authClient.signIn.social({
+          onClick={() => authClient.linkSocial({
             provider: "github"
           })}
           className="w-full flex items-center justify-center py-2 px-4 border rounded-md bg-white font-medium hover:bg-gray-50"
