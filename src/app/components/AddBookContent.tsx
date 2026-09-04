@@ -114,7 +114,8 @@ const normalizeAuthors = (
   if (Array.isArray(authors)) {
     return authors
       .map((author) => author.trim())
-      .filter(Boolean);
+      .filter(Boolean)
+    ;
   }
 
   return authors
@@ -139,8 +140,7 @@ const normalizeGoogleBooksImageUrl = (
 const getIsbn = (
   item: GoogleApiBookItem
 ): string | undefined => {
-  const identifiers =
-    item.volumeInfo.industryIdentifiers;
+  const identifiers = item.volumeInfo.industryIdentifiers;
 
   if (!identifiers) {
     return undefined;
@@ -156,31 +156,24 @@ const getIsbn = (
   }
 
   const isbn10 = identifiers.find(
-    (identifier) =>
-      identifier.type === "ISBN_10"
+    (identifier) => identifier.type === "ISBN_10"
   );
 
   return isbn10?.identifier;
 };
 
 export default function AddBookContent() {
-  const { books, setBooks } =
-    useContext<IBookContext>(BookContext);
+  const { books, setBooks } = useContext<IBookContext>(BookContext);
 
-  const [searchResults, setSearchResults] =
-    useState<GoogleApiBookItem[]>([]);
+  const [searchResults, setSearchResults] = useState<GoogleApiBookItem[]>([]);
 
-  const [searchCriteria, setSearchCriteria] =
-    useState<SearchFormValues | null>(null);
+  const [searchCriteria, setSearchCriteria] = useState<SearchFormValues | null>(null);
 
-  const [searchMode, setSearchMode] =
-    useState<SearchMode>("pages");
+  const [searchMode, setSearchMode] = useState<SearchMode>("pages");
 
-  const [currentPage, setCurrentPage] =
-    useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const [searchMeta, setSearchMeta] =
-    useState<SearchResponse>({
+  const [searchMeta, setSearchMeta] = useState<SearchResponse>({
       totalItems: 0,
       items: [],
       startIndex: 0,
@@ -189,17 +182,13 @@ export default function AddBookContent() {
       hasMore: false
     });
 
-  const [isSearching, setIsSearching] =
-    useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
-  const [isLoadingMore, setIsLoadingMore] =
-    useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  const loadMoreRef =
-    useRef<HTMLDivElement | null>(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-  const loadingMoreRef =
-    useRef(false);
+  const loadingMoreRef = useRef(false);
 
   const buildSearchParams = useCallback(
     (
@@ -262,28 +251,21 @@ export default function AddBookContent() {
         startIndex
       );
 
-      const url =
-        `/api/books/search?${params.toString()}`;
+      const url = `/api/books/search?${params.toString()}`;
 
       console.log(
-        "Requesting book search:",
-        url
+        `Requesting book search: ${url}`
       );
 
       const response = await fetch(url);
 
       if (!response.ok) {
-        let message =
-          "Failed to search for books.";
+        let message = "Failed to search for books.";
 
         try {
-          const errorData =
-            await response.json();
+          const errorData = await response.json();
 
-          if (
-            typeof errorData.message ===
-            "string"
-          ) {
+          if (typeof errorData.message === "string") {
             message = errorData.message;
           }
         } catch {
@@ -293,28 +275,16 @@ export default function AddBookContent() {
         throw new Error(message);
       }
 
-      const data =
-        (await response.json()) as SearchResponse;
+      const data = (await response.json()) as SearchResponse;
 
       const newItems = data.items ?? [];
 
       if (append) {
         setSearchResults(
           (previousResults) => {
-            const existingIds =
-              new Set(
-                previousResults.map(
-                  (item) => item.id
-                )
-              );
+            const existingIds = new Set(previousResults.map((item) => item.id));
 
-            const uniqueNewItems =
-              newItems.filter(
-                (item) =>
-                  !existingIds.has(
-                    item.id
-                  )
-              );
+            const uniqueNewItems = newItems.filter((item) => !existingIds.has(item.id));
 
             return [
               ...previousResults,
@@ -347,15 +317,12 @@ export default function AddBookContent() {
           false
         );
       } catch (error) {
-        const message =
-          error instanceof Error
-            ? error.message
-            : "Failed to search for books.";
+        const message = error instanceof Error
+          ? error.message
+          : "Failed to search for books."
+        ;
 
-        console.error(
-          "Book search failed:",
-          error
-        );
+        console.error(`Book search failed: ${error}`);
 
         toast.error(message);
 
@@ -390,8 +357,7 @@ export default function AddBookContent() {
       setIsLoadingMore(true);
 
       try {
-        const nextStartIndex =
-          searchResults.length;
+        const nextStartIndex = searchResults.length;
 
         await fetchSearchResults(
           searchCriteria,
@@ -399,15 +365,12 @@ export default function AddBookContent() {
           true
         );
       } catch (error) {
-        const message =
-          error instanceof Error
-            ? error.message
-            : "Failed to load more books.";
+        const message = error instanceof Error
+          ? error.message
+          : "Failed to load more books."
+        ;
 
-        console.error(
-          "Failed to load more books:",
-          error
-        );
+        console.error(`Failed to load more books: ${error}`);
 
         toast.error(message);
       } finally {
@@ -432,30 +395,25 @@ export default function AddBookContent() {
       return;
     }
 
-    const element =
-      loadMoreRef.current;
+    const element = loadMoreRef.current;
 
     if (!element) {
       return;
     }
 
-    const observer =
-      new IntersectionObserver(
-        (entries) => {
-          const firstEntry =
-            entries[0];
+    const observer = new IntersectionObserver((entries) => {
+      const firstEntry = entries[0];
 
-          if (
-            firstEntry?.isIntersecting &&
-            !loadingMoreRef.current
-          ) {
-            void loadMoreResults();
-          }
-        },
-        {
-          rootMargin: "400px"
-        }
-      );
+      if (
+        firstEntry?.isIntersecting &&
+        !loadingMoreRef.current
+      ) {
+        void loadMoreResults();
+      }
+    },
+    {
+      rootMargin: "400px"
+    });
 
     observer.observe(element);
 
@@ -511,15 +469,12 @@ export default function AddBookContent() {
           behavior: "smooth"
         });
       } catch (error) {
-        const message =
-          error instanceof Error
-            ? error.message
-            : "Failed to load this page.";
+        const message = error instanceof Error
+          ? error.message
+          : "Failed to load this page."
+        ;
 
-        console.error(
-          "Pagination request failed:",
-          error
-        );
+        console.error(`Pagination request failed: ${error}`);
 
         toast.error(message);
       } finally {
@@ -557,15 +512,12 @@ export default function AddBookContent() {
           false
         );
       } catch (error) {
-        const message =
-          error instanceof Error
-            ? error.message
-            : "Failed to change search mode.";
+        const message = error instanceof Error
+          ? error.message
+          : "Failed to change search mode."
+        ;
 
-        console.error(
-          "Failed to change search mode:",
-          error
-        );
+        console.error(`Failed to change search mode: ${error}`);
 
         toast.error(message);
       } finally {
@@ -579,15 +531,14 @@ export default function AddBookContent() {
     ]
   );
 
-  const totalPages = useMemo(
-    () =>
-      Math.max(
-        1,
-        Math.ceil(
-          searchMeta.totalItems /
-            SEARCH_PAGE_SIZE
-        )
-      ),
+  const totalPages = useMemo(() =>
+    Math.max(
+      1,
+      Math.ceil(
+        searchMeta.totalItems /
+          SEARCH_PAGE_SIZE
+      )
+    ),
     [searchMeta.totalItems]
   );
 
@@ -602,14 +553,11 @@ export default function AddBookContent() {
         const alreadyExists =
           isbn &&
           books.some(
-            (book) =>
-              book.isbn === isbn
+            (book) => book.isbn === isbn
           );
 
         if (alreadyExists) {
-          toast.error(
-            "This book is already in your library."
-          );
+          toast.error("This book is already in your library.");
 
           return;
         }
@@ -703,8 +651,7 @@ export default function AddBookContent() {
               : "Failed to add book.";
 
           console.error(
-            "Failed to add book:",
-            error
+            `Failed to add book: ${error}`
           );
 
           toast.error(message);
@@ -950,8 +897,7 @@ export default function AddBookContent() {
                           ?.smallThumbnail
                     );
 
-                  const isbn =
-                    getIsbn(item);
+                  const isbn = getIsbn(item);
 
                   return (
                     <article
