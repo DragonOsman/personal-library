@@ -108,6 +108,21 @@ const searchInitialValues: SearchFormValues = {
   subject: ""
 };
 
+const normalizeAuthors = (
+  authors: string | string[]
+): string[] => {
+  if (Array.isArray(authors)) {
+    return authors
+      .map((author) => author.trim())
+      .filter(Boolean);
+  }
+
+  return authors
+    .split(",")
+    .map((author) => author.trim())
+    .filter(Boolean);
+};
+
 const normalizeGoogleBooksImageUrl = (
   imageUrl?: string
 ): string | undefined => {
@@ -132,7 +147,8 @@ const getIsbn = (
   }
 
   const isbn13 = identifiers.find(
-    (identifier) => identifier.type === "ISBN_13"
+    (identifier) =>
+      identifier.type === "ISBN_13"
   );
 
   if (isbn13) {
@@ -140,7 +156,8 @@ const getIsbn = (
   }
 
   const isbn10 = identifiers.find(
-    (identifier) => identifier.type === "ISBN_10"
+    (identifier) =>
+      identifier.type === "ISBN_10"
   );
 
   return isbn10?.identifier;
@@ -150,9 +167,8 @@ export default function AddBookContent() {
   const { books, setBooks } =
     useContext<IBookContext>(BookContext);
 
-  const [searchResults, setSearchResults] = useState<
-    GoogleApiBookItem[]
-  >([]);
+  const [searchResults, setSearchResults] =
+    useState<GoogleApiBookItem[]>([]);
 
   const [searchCriteria, setSearchCriteria] =
     useState<SearchFormValues | null>(null);
@@ -185,10 +201,6 @@ export default function AddBookContent() {
   const loadingMoreRef =
     useRef(false);
 
-  /*
-   * Build the query parameters used by our
-   * /api/books/search route.
-   */
   const buildSearchParams = useCallback(
     (
       values: SearchFormValues,
@@ -239,15 +251,6 @@ export default function AddBookContent() {
     []
   );
 
-  /*
-   * Fetch one page of Google Books results.
-   *
-   * append = false:
-   *   Replace the current results.
-   *
-   * append = true:
-   *   Append the new results to the existing results.
-   */
   const fetchSearchResults = useCallback(
     async (
       values: SearchFormValues,
@@ -259,7 +262,8 @@ export default function AddBookContent() {
         startIndex
       );
 
-      const url = `/api/books/search?${params.toString()}`;
+      const url =
+        `/api/books/search?${params.toString()}`;
 
       console.log(
         "Requesting book search:",
@@ -269,12 +273,17 @@ export default function AddBookContent() {
       const response = await fetch(url);
 
       if (!response.ok) {
-        let message = "Failed to search for books.";
+        let message =
+          "Failed to search for books.";
 
         try {
-          const errorData = await response.json();
+          const errorData =
+            await response.json();
 
-          if (typeof errorData.message === "string") {
+          if (
+            typeof errorData.message ===
+            "string"
+          ) {
             message = errorData.message;
           }
         } catch {
@@ -290,21 +299,29 @@ export default function AddBookContent() {
       const newItems = data.items ?? [];
 
       if (append) {
-        setSearchResults((previousResults) => {
-          /*
-           * Google Books normally provides unique IDs,
-           * but de-duplicate defensively in case a result
-           * appears in two requests.
-           */
-          const existingIds = new Set(previousResults.map((item) => item.id));
+        setSearchResults(
+          (previousResults) => {
+            const existingIds =
+              new Set(
+                previousResults.map(
+                  (item) => item.id
+                )
+              );
 
-          const uniqueNewItems = newItems.filter((item) => !existingIds.has(item.id));
+            const uniqueNewItems =
+              newItems.filter(
+                (item) =>
+                  !existingIds.has(
+                    item.id
+                  )
+              );
 
-          return [
-            ...previousResults,
-            ...uniqueNewItems
-          ];
-        });
+            return [
+              ...previousResults,
+              ...uniqueNewItems
+            ];
+          }
+        );
       } else {
         setSearchResults(newItems);
       }
@@ -316,9 +333,6 @@ export default function AddBookContent() {
     [buildSearchParams]
   );
 
-  /*
-   * Start a completely new search.
-   */
   const searchBooks = useCallback(
     async (values: SearchFormValues) => {
       setIsSearching(true);
@@ -346,6 +360,7 @@ export default function AddBookContent() {
         toast.error(message);
 
         setSearchResults([]);
+
         setSearchMeta({
           totalItems: 0,
           items: [],
@@ -361,9 +376,6 @@ export default function AddBookContent() {
     [fetchSearchResults]
   );
 
-  /*
-   * Load the next batch for infinite scrolling.
-   */
   const loadMoreResults = useCallback(
     async () => {
       if (
@@ -378,15 +390,6 @@ export default function AddBookContent() {
       setIsLoadingMore(true);
 
       try {
-        /*
-         * The next startIndex is the number of
-         * results we've already loaded.
-         *
-         * For example:
-         *
-         * 0-39 loaded -> next request starts at 40
-         * 0-79 loaded -> next request starts at 80
-         */
         const nextStartIndex =
           searchResults.length;
 
@@ -420,13 +423,6 @@ export default function AddBookContent() {
     ]
   );
 
-  /*
-   * Infinite-scroll observer.
-   *
-   * The sentinel is placed below the result cards.
-   * We start loading the next page before the user
-   * actually reaches the bottom.
-   */
   useEffect(() => {
     if (
       searchMode !== "infinite" ||
@@ -473,9 +469,6 @@ export default function AddBookContent() {
     searchMode
   ]);
 
-  /*
-   * Fetch a specific page in pagination mode.
-   */
   const goToPage = useCallback(
     async (page: number) => {
       if (!searchCriteria) {
@@ -541,14 +534,6 @@ export default function AddBookContent() {
     ]
   );
 
-  /*
-   * Switch between pagination and infinite scrolling.
-   *
-   * We deliberately start the new mode from the
-   * beginning of the search rather than trying to
-   * translate an already-loaded result set between
-   * the two modes.
-   */
   const changeSearchMode = useCallback(
     async (mode: SearchMode) => {
       if (mode === searchMode) {
@@ -594,9 +579,6 @@ export default function AddBookContent() {
     ]
   );
 
-  /*
-   * Number of pages for normal pagination.
-   */
   const totalPages = useMemo(
     () =>
       Math.max(
@@ -609,9 +591,6 @@ export default function AddBookContent() {
     [searchMeta.totalItems]
   );
 
-  /*
-   * Add a book returned by Google Books.
-   */
   const handleAddBookFromSearch =
     useCallback(
       async (item: GoogleApiBookItem) => {
@@ -709,12 +688,9 @@ export default function AddBookContent() {
             );
           }
 
-          const addedBook =
-            data.book;
-
           setBooks([
             ...books,
-            addedBook
+            data.book
           ]);
 
           toast.success(
@@ -739,13 +715,13 @@ export default function AddBookContent() {
 
   return (
     <div className="space-y-8">
-      {/* Search form */}
+      {/* Google Books search */}
       <section>
         <h2 className="mb-4 text-xl font-semibold">
           Search Google Books
         </h2>
 
-        <Formik
+        <Formik<SearchFormValues>
           initialValues={searchInitialValues}
           onSubmit={async (values) => {
             await searchBooks(values);
@@ -879,7 +855,7 @@ export default function AddBookContent() {
         </Formik>
       </section>
 
-      {/* Search mode */}
+      {/* Search results */}
       {searchCriteria && (
         <section>
           <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -894,6 +870,7 @@ export default function AddBookContent() {
               </p>
             </div>
 
+            {/* Search mode */}
             <div className="flex rounded border">
               <button
                 type="button"
@@ -931,7 +908,7 @@ export default function AddBookContent() {
             </div>
           </div>
 
-          {/* Result range */}
+          {/* Current result range */}
           {searchMeta.endIndex !==
             null && (
             <p className="mb-4 text-sm text-gray-600">
@@ -1035,6 +1012,7 @@ export default function AddBookContent() {
                             {
                               volumeInfo.averageRating
                             }
+
                             {volumeInfo
                               .ratingsCount
                               ? ` (${volumeInfo.ratingsCount})`
@@ -1061,59 +1039,59 @@ export default function AddBookContent() {
             </div>
           )}
 
-          {/* Pagination controls */}
+          {/* Pagination */}
           {searchMode ===
             "pages" &&
             totalPages > 1 && (
-              <nav
-                className="mt-8 flex items-center justify-center gap-2"
-                aria-label="Book search pagination"
+            <nav
+              className="mt-8 flex items-center justify-center gap-2"
+              aria-label="Book search pagination"
+            >
+              <button
+                type="button"
+                disabled={
+                  currentPage === 1 ||
+                  isSearching
+                }
+                onClick={() =>
+                  void goToPage(
+                    currentPage - 1
+                  )
+                }
+                className="rounded border px-3 py-2 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                <button
-                  type="button"
-                  disabled={
-                    currentPage === 1 ||
-                    isSearching
-                  }
-                  onClick={() =>
-                    void goToPage(
-                      currentPage - 1
-                    )
-                  }
-                  className="rounded border px-3 py-2 disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  Previous
-                </button>
+                Previous
+              </button>
 
-                <span className="px-3 py-2 text-sm">
-                  Page{" "}
-                  <strong>
-                    {currentPage}
-                  </strong>{" "}
-                  of{" "}
-                  <strong>
-                    {totalPages}
-                  </strong>
-                </span>
+              <span className="px-3 py-2 text-sm">
+                Page{" "}
+                <strong>
+                  {currentPage}
+                </strong>{" "}
+                of{" "}
+                <strong>
+                  {totalPages}
+                </strong>
+              </span>
 
-                <button
-                  type="button"
-                  disabled={
-                    currentPage ===
-                      totalPages ||
-                    isSearching
-                  }
-                  onClick={() =>
-                    void goToPage(
-                      currentPage + 1
-                    )
-                  }
-                  className="rounded border px-3 py-2 disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  Next
-                </button>
-              </nav>
-            )}
+              <button
+                type="button"
+                disabled={
+                  currentPage ===
+                    totalPages ||
+                  isSearching
+                }
+                onClick={() =>
+                  void goToPage(
+                    currentPage + 1
+                  )
+                }
+                className="rounded border px-3 py-2 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Next
+              </button>
+            </nav>
+          )}
 
           {/* Infinite-scroll sentinel */}
           {searchMode ===
@@ -1140,6 +1118,546 @@ export default function AddBookContent() {
           )}
         </section>
       )}
+
+      {/* Manual book entry */}
+      <section className="mt-8">
+        <h2 className="mb-4 text-xl font-semibold">
+          Add Book Manually
+        </h2>
+
+        <Formik<BookFormValues>
+          initialValues={{
+            title: "",
+            authors: "",
+            description: "",
+            isbn: "",
+            publishedDate: "",
+            categories: [],
+            pageCount: undefined,
+            averageRating: undefined,
+            ratingsCount: undefined,
+            thumbnail: "",
+            smallThumbnail: ""
+          }}
+          validationSchema={toFormikValidationSchema(
+            BaseBookSchema
+          )}
+          onSubmit={async (
+            values,
+            {
+              resetForm,
+              setSubmitting
+            }
+          ) => {
+            try {
+              const authors =
+                normalizeAuthors(
+                  values.authors
+                );
+
+              const response =
+                await fetch(
+                  "/api/books/add-book",
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type":
+                        "application/json"
+                    },
+                    body: JSON.stringify({
+                      title:
+                        values.title.trim(),
+
+                      authors,
+
+                      description:
+                        values.description.trim() ||
+                        undefined,
+
+                      isbn:
+                        values.isbn.trim() ||
+                        undefined,
+
+                      publishedDate:
+                        values.publishedDate.trim() ||
+                        undefined,
+
+                      categories:
+                        values.categories,
+
+                      pageCount:
+                        values.pageCount,
+
+                      averageRating:
+                        values.averageRating,
+
+                      ratingsCount:
+                        values.ratingsCount,
+
+                      thumbnail:
+                        values.thumbnail
+                          ?.trim() ||
+                        undefined,
+
+                      smallThumbnail:
+                        values.smallThumbnail
+                          ?.trim() ||
+                        undefined
+                    })
+                  }
+                );
+
+              const data =
+                await response.json();
+
+              if (!response.ok) {
+                throw new Error(
+                  data.message ??
+                    "Failed to add book."
+                );
+              }
+
+              setBooks([
+                ...books,
+                data.book
+              ]);
+
+              toast.success(
+                "Book added successfully."
+              );
+
+              resetForm();
+            } catch (error) {
+              const message =
+                error instanceof Error
+                  ? error.message
+                  : "Failed to add book.";
+
+              console.error(
+                "Failed to add book manually:",
+                error
+              );
+
+              toast.error(message);
+            } finally {
+              setSubmitting(false);
+            }
+          }}
+        >
+          {({
+            errors,
+            touched,
+            isSubmitting,
+            setFieldValue
+          }) => (
+            <Form className="space-y-4">
+              {/* Title */}
+              <div>
+                <label
+                  htmlFor="manual-title"
+                  className="mb-1 block font-medium"
+                >
+                  Title
+                </label>
+
+                <Field
+                  id="manual-title"
+                  name="title"
+                  type="text"
+                  placeholder="Book title"
+                  className="w-full rounded border px-3 py-2"
+                />
+
+                {touched.title &&
+                  errors.title && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.title}
+                    </p>
+                  )}
+              </div>
+
+              {/* Authors */}
+              <div>
+                <label
+                  htmlFor="manual-authors"
+                  className="mb-1 block font-medium"
+                >
+                  Authors
+                </label>
+
+                <Field
+                  id="manual-authors"
+                  name="authors"
+                  type="text"
+                  placeholder="Author 1, Author 2"
+                  className="w-full rounded border px-3 py-2"
+                />
+
+                <p className="mt-1 text-sm text-gray-500">
+                  Separate multiple authors
+                  with commas.
+                </p>
+
+                {touched.authors &&
+                  errors.authors && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.authors}
+                    </p>
+                  )}
+              </div>
+
+              {/* Description */}
+              <div>
+                <label
+                  htmlFor="manual-description"
+                  className="mb-1 block font-medium"
+                >
+                  Description
+                </label>
+
+                <Field
+                  as="textarea"
+                  id="manual-description"
+                  name="description"
+                  rows={5}
+                  placeholder="Book description"
+                  className="w-full rounded border px-3 py-2"
+                />
+
+                {touched.description &&
+                  errors.description && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.description}
+                    </p>
+                  )}
+              </div>
+
+              {/* ISBN */}
+              <div>
+                <label
+                  htmlFor="manual-isbn"
+                  className="mb-1 block font-medium"
+                >
+                  ISBN
+                </label>
+
+                <Field
+                  id="manual-isbn"
+                  name="isbn"
+                  type="text"
+                  placeholder="ISBN-10 or ISBN-13"
+                  className="w-full rounded border px-3 py-2"
+                />
+
+                {touched.isbn &&
+                  errors.isbn && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.isbn}
+                    </p>
+                  )}
+              </div>
+
+              {/* Published date */}
+              <div>
+                <label
+                  htmlFor="manual-publishedDate"
+                  className="mb-1 block font-medium"
+                >
+                  Published Date
+                </label>
+
+                <Field
+                  id="manual-publishedDate"
+                  name="publishedDate"
+                  type="text"
+                  placeholder="YYYY-MM-DD"
+                  className="w-full rounded border px-3 py-2"
+                />
+
+                {touched.publishedDate &&
+                  errors.publishedDate && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.publishedDate}
+                    </p>
+                  )}
+              </div>
+
+              {/* Categories */}
+              <div>
+                <label
+                  htmlFor="manual-categories"
+                  className="mb-1 block font-medium"
+                >
+                  Categories
+                </label>
+
+                <Field
+                  as="select"
+                  id="manual-categories"
+                  name="categories"
+                  multiple
+                  className="w-full rounded border px-3 py-2"
+                >
+                  {BOOK_CATEGORIES.map(
+                    (category) => (
+                      <option
+                        key={category}
+                        value={category}
+                      >
+                        {category}
+                      </option>
+                    )
+                  )}
+                </Field>
+
+                <p className="mt-1 text-sm text-gray-500">
+                  Hold Ctrl (Windows/Linux)
+                  or Command (macOS) to select
+                  multiple categories.
+                </p>
+
+                {touched.categories &&
+                  errors.categories && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {typeof errors.categories ===
+                      "string"
+                        ? errors.categories
+                        : "Invalid categories."}
+                    </p>
+                  )}
+              </div>
+
+              {/* Page count */}
+              <div>
+                <label
+                  htmlFor="manual-pageCount"
+                  className="mb-1 block font-medium"
+                >
+                  Page Count
+                </label>
+
+                <Field name="pageCount">
+                  {({
+                    field
+                  }: {
+                    field: {
+                      name: string;
+                      value:
+                        | number
+                        | undefined;
+                    };
+                  }) => (
+                    <input
+                      id="manual-pageCount"
+                      name={field.name}
+                      type="number"
+                      min="1"
+                      value={
+                        field.value ?? ""
+                      }
+                      placeholder="Number of pages"
+                      onChange={(event) => {
+                        const value =
+                          event.target.value;
+
+                        setFieldValue(
+                          "pageCount",
+                          value === ""
+                            ? undefined
+                            : Number(value)
+                        );
+                      }}
+                      className="w-full rounded border px-3 py-2"
+                    />
+                  )}
+                </Field>
+
+                {touched.pageCount &&
+                  errors.pageCount && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.pageCount}
+                    </p>
+                  )}
+              </div>
+
+              {/* Average rating */}
+              <div>
+                <label
+                  htmlFor="manual-averageRating"
+                  className="mb-1 block font-medium"
+                >
+                  Average Rating
+                </label>
+
+                <Field name="averageRating">
+                  {({
+                    field
+                  }: {
+                    field: {
+                      name: string;
+                      value:
+                        | number
+                        | undefined;
+                    };
+                  }) => (
+                    <input
+                      id="manual-averageRating"
+                      name={field.name}
+                      type="number"
+                      min="0"
+                      max="5"
+                      step="0.1"
+                      value={
+                        field.value ?? ""
+                      }
+                      placeholder="0–5"
+                      onChange={(event) => {
+                        const value =
+                          event.target.value;
+
+                        setFieldValue(
+                          "averageRating",
+                          value === ""
+                            ? undefined
+                            : Number(value)
+                        );
+                      }}
+                      className="w-full rounded border px-3 py-2"
+                    />
+                  )}
+                </Field>
+
+                {touched.averageRating &&
+                  errors.averageRating && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {
+                        errors.averageRating
+                      }
+                    </p>
+                  )}
+              </div>
+
+              {/* Ratings count */}
+              <div>
+                <label
+                  htmlFor="manual-ratingsCount"
+                  className="mb-1 block font-medium"
+                >
+                  Ratings Count
+                </label>
+
+                <Field name="ratingsCount">
+                  {({
+                    field
+                  }: {
+                    field: {
+                      name: string;
+                      value:
+                        | number
+                        | undefined;
+                    };
+                  }) => (
+                    <input
+                      id="manual-ratingsCount"
+                      name={field.name}
+                      type="number"
+                      min="0"
+                      value={
+                        field.value ?? ""
+                      }
+                      placeholder="Number of ratings"
+                      onChange={(event) => {
+                        const value =
+                          event.target.value;
+
+                        setFieldValue(
+                          "ratingsCount",
+                          value === ""
+                            ? undefined
+                            : Number(value)
+                        );
+                      }}
+                      className="w-full rounded border px-3 py-2"
+                    />
+                  )}
+                </Field>
+
+                {touched.ratingsCount &&
+                  errors.ratingsCount && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {
+                        errors.ratingsCount
+                      }
+                    </p>
+                  )}
+              </div>
+
+              {/* Thumbnail */}
+              <div>
+                <label
+                  htmlFor="manual-thumbnail"
+                  className="mb-1 block font-medium"
+                >
+                  Thumbnail URL
+                </label>
+
+                <Field
+                  id="manual-thumbnail"
+                  name="thumbnail"
+                  type="url"
+                  placeholder="https://..."
+                  className="w-full rounded border px-3 py-2"
+                />
+
+                {touched.thumbnail &&
+                  errors.thumbnail && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.thumbnail}
+                    </p>
+                  )}
+              </div>
+
+              {/* Small thumbnail */}
+              <div>
+                <label
+                  htmlFor="manual-smallThumbnail"
+                  className="mb-1 block font-medium"
+                >
+                  Small Thumbnail URL
+                </label>
+
+                <Field
+                  id="manual-smallThumbnail"
+                  name="smallThumbnail"
+                  type="url"
+                  placeholder="https://..."
+                  className="w-full rounded border px-3 py-2"
+                />
+
+                {touched.smallThumbnail &&
+                  errors.smallThumbnail && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {
+                        errors.smallThumbnail
+                      }
+                    </p>
+                  )}
+              </div>
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="rounded bg-green-600 px-4 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isSubmitting
+                  ? "Adding Book..."
+                  : "Add Book"}
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </section>
     </div>
   );
 }
