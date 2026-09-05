@@ -1,11 +1,22 @@
+// Copyright (c) 2026 Osman Zakir
+// Licensed under the GPL v3
+
 import { z } from "zod";
+
+const optionalSearchString = z.preprocess(
+  (value) =>
+    typeof value === "string"
+      ? value
+      : "",
+  z.string()
+);
 
 export const BookSearchSchema = z
   .object({
-    title: z.string(),
-    author: z.string(),
-    isbn: z.string(),
-    subject: z.string()
+    title: optionalSearchString,
+    author: optionalSearchString,
+    isbn: optionalSearchString,
+    subject: optionalSearchString
   })
   .refine(
     (values) =>
@@ -14,7 +25,8 @@ export const BookSearchSchema = z
       values.isbn.trim() !== "" ||
       values.subject.trim() !== "",
     {
-      message: "Please enter at least one search criterion.",
+      message:
+        "Please enter at least one search criterion.",
       path: ["title"]
     }
   );
