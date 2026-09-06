@@ -164,15 +164,10 @@ const getIsbn = (
 
 export default function AddBookContent() {
   const { books, setBooks } = useContext<IBookContext>(BookContext);
-
   const [searchResults, setSearchResults] = useState<GoogleApiBookItem[]>([]);
-
   const [searchCriteria, setSearchCriteria] = useState<SearchFormValues | null>(null);
-
   const [searchMode, setSearchMode] = useState<SearchMode>("pages");
-
   const [currentPage, setCurrentPage] = useState(1);
-
   const [searchMeta, setSearchMeta] = useState<SearchResponse>({
       totalItems: 0,
       items: [],
@@ -180,14 +175,12 @@ export default function AddBookContent() {
       endIndex: null,
       maxResults: SEARCH_PAGE_SIZE,
       hasMore: false
-    });
-
+    })
+  ;
+  const [showManualForm, setShowManualForm] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
-
   const loadingMoreRef = useRef(false);
 
   const buildSearchParams = useCallback(
@@ -663,144 +656,146 @@ export default function AddBookContent() {
   return (
     <div className="space-y-8">
       {/* Google Books search */}
-      <section>
-        <h2 className="mb-4 text-xl font-semibold">
-          Search Google Books
-        </h2>
+      {!showManualForm && (
+        <section>
+          <h2 className="mb-4 text-xl font-semibold">
+            Search Google Books
+          </h2>
 
-        <Formik<SearchFormValues>
-          initialValues={searchInitialValues}
-          onSubmit={async (values) => {
-            await searchBooks(values);
-          }}
-          validationSchema={toFormikValidationSchema(
-            BookSearchSchema
-          )}
-        >
-          {({
-            errors,
-            touched,
-            isSubmitting
-          }) => (
-            <Form className="space-y-4">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {/* Title */}
-                <div>
-                  <label
-                    htmlFor="title"
-                    className="mb-1 block font-medium"
-                  >
-                    Title
-                  </label>
+          <Formik<SearchFormValues>
+            initialValues={searchInitialValues}
+            onSubmit={async (values) => {
+              await searchBooks(values);
+            }}
+            validationSchema={toFormikValidationSchema(
+              BookSearchSchema
+            )}
+          >
+            {({
+              errors,
+              touched,
+              isSubmitting
+            }) => (
+              <Form className="space-y-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  {/* Title */}
+                  <div>
+                    <label
+                      htmlFor="title"
+                      className="mb-1 block font-medium"
+                    >
+                      Title
+                    </label>
 
-                  <Field
-                    id="title"
-                    name="title"
-                    type="text"
-                    placeholder="Book title"
-                    className="w-full rounded border px-3 py-2"
-                  />
+                    <Field
+                      id="title"
+                      name="title"
+                      type="text"
+                      placeholder="Book title"
+                      className="w-full rounded border px-3 py-2"
+                    />
 
-                  {touched.title &&
-                    errors.title && (
-                      <p className="mt-1 text-sm text-red-600">
-                        {errors.title}
-                      </p>
-                    )}
+                    {touched.title &&
+                      errors.title && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {errors.title}
+                        </p>
+                      )}
+                  </div>
+
+                  {/* Author */}
+                  <div>
+                    <label
+                      htmlFor="author"
+                      className="mb-1 block font-medium"
+                    >
+                      Author
+                    </label>
+
+                    <Field
+                      id="author"
+                      name="author"
+                      type="text"
+                      placeholder="Author name"
+                      className="w-full rounded border px-3 py-2"
+                    />
+
+                    {touched.author &&
+                      errors.author && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {errors.author}
+                        </p>
+                      )}
+                  </div>
+
+                  {/* ISBN */}
+                  <div>
+                    <label
+                      htmlFor="isbn"
+                      className="mb-1 block font-medium"
+                    >
+                      ISBN
+                    </label>
+
+                    <Field
+                      id="isbn"
+                      name="isbn"
+                      type="text"
+                      placeholder="ISBN-10 or ISBN-13"
+                      className="w-full rounded border px-3 py-2"
+                    />
+
+                    {touched.isbn &&
+                      errors.isbn && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {errors.isbn}
+                        </p>
+                      )}
+                  </div>
+
+                  {/* Subject */}
+                  <div>
+                    <label
+                      htmlFor="subject"
+                      className="mb-1 block font-medium"
+                    >
+                      Subject
+                    </label>
+
+                    <Field
+                      id="subject"
+                      name="subject"
+                      type="text"
+                      placeholder="Subject"
+                      className="w-full rounded border px-3 py-2"
+                    />
+
+                    {touched.subject &&
+                      errors.subject && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {errors.subject}
+                        </p>
+                      )}
+                  </div>
                 </div>
 
-                {/* Author */}
-                <div>
-                  <label
-                    htmlFor="author"
-                    className="mb-1 block font-medium"
-                  >
-                    Author
-                  </label>
-
-                  <Field
-                    id="author"
-                    name="author"
-                    type="text"
-                    placeholder="Author name"
-                    className="w-full rounded border px-3 py-2"
-                  />
-
-                  {touched.author &&
-                    errors.author && (
-                      <p className="mt-1 text-sm text-red-600">
-                        {errors.author}
-                      </p>
-                    )}
-                </div>
-
-                {/* ISBN */}
-                <div>
-                  <label
-                    htmlFor="isbn"
-                    className="mb-1 block font-medium"
-                  >
-                    ISBN
-                  </label>
-
-                  <Field
-                    id="isbn"
-                    name="isbn"
-                    type="text"
-                    placeholder="ISBN-10 or ISBN-13"
-                    className="w-full rounded border px-3 py-2"
-                  />
-
-                  {touched.isbn &&
-                    errors.isbn && (
-                      <p className="mt-1 text-sm text-red-600">
-                        {errors.isbn}
-                      </p>
-                    )}
-                </div>
-
-                {/* Subject */}
-                <div>
-                  <label
-                    htmlFor="subject"
-                    className="mb-1 block font-medium"
-                  >
-                    Subject
-                  </label>
-
-                  <Field
-                    id="subject"
-                    name="subject"
-                    type="text"
-                    placeholder="Subject"
-                    className="w-full rounded border px-3 py-2"
-                  />
-
-                  {touched.subject &&
-                    errors.subject && (
-                      <p className="mt-1 text-sm text-red-600">
-                        {errors.subject}
-                      </p>
-                    )}
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={
-                  isSubmitting ||
-                  isSearching
-                }
-                className="rounded bg-blue-600 px-4 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {isSearching
-                  ? "Searching..."
-                  : "Search Books"}
-              </button>
-            </Form>
-          )}
-        </Formik>
-      </section>
+                <button
+                  type="submit"
+                  disabled={
+                    isSubmitting ||
+                    isSearching
+                  }
+                  className="rounded bg-blue-600 px-4 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {isSearching
+                    ? "Searching..."
+                    : "Search Books"}
+                </button>
+              </Form>
+            )}
+          </Formik>
+        </section>
+      )}
 
       {/* Search results */}
       {searchCriteria && (
@@ -977,6 +972,13 @@ export default function AddBookContent() {
                         >
                           Add Book
                         </button>
+                        <button
+                          type="button"
+                          onClick={() => setShowManualForm(true)}
+                          className="btn btn-primary"
+                        >
+                          Add Book Manually
+                        </button>
                       </div>
                     </article>
                   );
@@ -1066,7 +1068,7 @@ export default function AddBookContent() {
       )}
 
       {/* Manual book entry */}
-      <section className="mt-8">
+      {showManualForm && (<section className="mt-8">
         <h2 className="mb-4 text-xl font-semibold">
           Add Book Manually
         </h2>
@@ -1600,10 +1602,17 @@ export default function AddBookContent() {
                   ? "Adding Book..."
                   : "Add Book"}
               </button>
+              <button
+                type="button"
+                onClick={() => setShowManualForm(false)}
+                className="btn btn-outline"
+              >
+                Search Google Books Instead
+              </button>
             </Form>
           )}
         </Formik>
-      </section>
+      </section>)}
     </div>
   );
 }
