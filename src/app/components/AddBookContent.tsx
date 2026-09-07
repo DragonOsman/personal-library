@@ -664,10 +664,12 @@ export default function AddBookContent() {
 
           <button
             type="button"
-            onClick={() => setShowManualForm(true)}
+            onClick={() => ((previous: boolean) => !previous)}
             className="btn btn-primary"
           >
-            Add Book Manually
+            {showManualForm
+              ? "Search Google Books"
+              : "Add Book Manually"}
           </button>
 
           <Formik<SearchFormValues>
@@ -1602,13 +1604,6 @@ export default function AddBookContent() {
                 {isSubmitting
                   ? "Adding Book..."
                   : "Add Book"}
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowManualForm(false)}
-                className="btn btn-outline"
-              >
-                Search Google Books Instead
               </button>
             </Form>
           )}
