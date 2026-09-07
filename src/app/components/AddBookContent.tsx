@@ -662,6 +662,14 @@ export default function AddBookContent() {
             Search Google Books
           </h2>
 
+          <button
+            type="button"
+            onClick={() => setShowManualForm(true)}
+            className="btn btn-primary"
+          >
+            Add Book Manually
+          </button>
+
           <Formik<SearchFormValues>
             initialValues={searchInitialValues}
             onSubmit={async (values) => {
@@ -971,13 +979,6 @@ export default function AddBookContent() {
                           className="mt-3 rounded bg-green-600 px-3 py-2 text-sm font-medium text-white"
                         >
                           Add Book
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setShowManualForm(true)}
-                          className="btn btn-primary"
-                        >
-                          Add Book Manually
                         </button>
                       </div>
                     </article>
