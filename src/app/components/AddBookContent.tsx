@@ -664,7 +664,7 @@ export default function AddBookContent() {
 
           <button
             type="button"
-            onClick={() => ((previous: boolean) => !previous)}
+            onClick={() => setShowManualForm((previous: boolean) => !previous)}
             className="btn btn-primary"
           >
             {showManualForm
