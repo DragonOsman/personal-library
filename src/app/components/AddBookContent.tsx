@@ -658,8 +658,8 @@ export default function AddBookContent() {
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-xl font-semibold">
           {showManualForm
-            ? "Add Book Manually"
-            : "Search Google Books"}
+            ? "Search Google Books"
+            : "Add Book Manually"}
         </h2>
 
         <button
