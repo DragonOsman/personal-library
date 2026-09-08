@@ -1077,95 +1077,64 @@ export default function AddBookContent() {
       )}
 
       {/* Manual book entry */}
-      {showManualForm && (<section className="mt-8">
-        <h2 className="mb-4 text-xl font-semibold">
-          Add Book Manually
-        </h2>
+      {showManualForm && (
+        <section className="mt-8">
+          <Formik<BookFormValues>
+            initialValues={{
+              title: "",
+              authors: "",
+              description: "",
+              isbn: "",
+              publishedDate: "",
+              categories: [],
+              pageCount: undefined,
+              averageRating: undefined,
+              ratingsCount: undefined,
+              thumbnail: "",
+              smallThumbnail: ""
+            }}
+            validationSchema={toFormikValidationSchema(
+              BaseBookSchema
+            )}
+            onSubmit={async (
+              values,
+              {
+                resetForm,
+                setSubmitting
+              }
+            ) => {
+              try {
+                const authors =
+                  normalizeAuthors(
+                    values.authors
+                  );
 
-        <Formik<BookFormValues>
-          initialValues={{
-            title: "",
-            authors: "",
-            description: "",
-            isbn: "",
-            publishedDate: "",
-            categories: [],
-            pageCount: undefined,
-            averageRating: undefined,
-            ratingsCount: undefined,
-            thumbnail: "",
-            smallThumbnail: ""
-          }}
-          validationSchema={toFormikValidationSchema(
-            BaseBookSchema
-          )}
-          onSubmit={async (
-            values,
-            {
-              resetForm,
-              setSubmitting
-            }
-          ) => {
-            try {
-              const authors =
-                normalizeAuthors(
-                  values.authors
-                );
-
-              const response =
-                await fetch(
-                  "/api/books/add-book",
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type":
+                const response =
+                  await fetch(
+                    "/api/books/add-book",
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type":
                         "application/json"
-                    },
-                    body: JSON.stringify({
-                      title:
-                        values.title.trim(),
+                      },
+                      body: JSON.stringify({
+                        title: values.title.trim(),
+                        authors,
+                        description: values.description.trim() || undefined,
+                        isbn: values.isbn.trim() || undefined,
+                        publishedDate: values.publishedDate.trim() || undefined,
+                        categories: values.categories,
+                        pageCount: values.pageCount,
+                        averageRating: values.averageRating,
+                        ratingsCount: values.ratingsCount,
+                        thumbnail: values.thumbnail?.trim() || undefined,
+                        smallThumbnail: values.smallThumbnail?.trim() || undefined
+                      })
+                    }
+                  );
 
-                      authors,
-
-                      description:
-                        values.description.trim() ||
-                        undefined,
-
-                      isbn:
-                        values.isbn.trim() ||
-                        undefined,
-
-                      publishedDate:
-                        values.publishedDate.trim() ||
-                        undefined,
-
-                      categories:
-                        values.categories,
-
-                      pageCount:
-                        values.pageCount,
-
-                      averageRating:
-                        values.averageRating,
-
-                      ratingsCount:
-                        values.ratingsCount,
-
-                      thumbnail:
-                        values.thumbnail
-                          ?.trim() ||
-                        undefined,
-
-                      smallThumbnail:
-                        values.smallThumbnail
-                          ?.trim() ||
-                        undefined
-                    })
-                  }
-                );
-
-              const data =
-                await response.json();
+              const data = await response.json();
 
               if (!response.ok) {
                 throw new Error(
