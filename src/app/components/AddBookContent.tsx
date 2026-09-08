@@ -658,8 +658,8 @@ export default function AddBookContent() {
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-xl font-semibold">
           {showManualForm
-            ? "Search Google Books"
-            : "Add Book Manually"}
+            ? "Add Book Manually"
+            : "Search Google Books"}
         </h2>
 
         <button
@@ -667,7 +667,7 @@ export default function AddBookContent() {
             onClick={() =>
               setShowManualForm((previous) => !previous)
             }
-            className="btn btn-primary"
+            className="btn btn-primary inline-block"
           >
             {showManualForm
               ? "Search Google Books"
