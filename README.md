@@ -1,6 +1,23 @@
-# Personal Library Project
+## Deployment
 
-This is a Next.js project, using Typescript, that implements a personal library where users log in and manage a list of books they've read and/or that they have.
+The application is deployed on **Vercel** using Vercel's default project URL.
 
-## License
-This project is licensed under the GPL-3.0 License.
+**Live application:**
+https://personal-library-wmjc.vercel.app
+
+Production deployments require the appropriate:
+
+* PostgreSQL connection
+* Better Auth configuration
+* OAuth credentials
+* SMTP/email configuration
+* Production application URL
+* Authentication secrets
+
+Production environment variables should be configured through Vercel rather than committed to the repository.
+
+### Production URL
+
+```text
+https://personal-library-wmjc.vercel.app
+```
